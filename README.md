@@ -1,2 +1,2 @@
-# quantum-audio
+# Quantum Audio
 Quantum representations of digital audio for artistic and research purposes
