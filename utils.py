@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import ipywidgets
+import scipy
 
 def plot(samples):
 	if type(samples) != list: samples = [samples]
@@ -36,3 +37,14 @@ def tune(obj,function,max_value=2048,step=10,name='Shots',ref=None):
 		plt.show()
 	variable_slider = ipywidgets.IntSlider(value=1, min=1, max=max_value, step=step, description=name)
 	return ipywidgets.interact(plot_function, shots=variable_slider)
+
+def interpolate(samples,step_size=0.01,kind='linear'):
+    num_samples = len(samples)
+    x = np.arange(0,num_samples)
+    y = samples
+    f = scipy.interpolate.interp1d(x,y,kind=kind)
+    print(num_samples)
+    x_new = np.arange(0,num_samples-1,step_size)
+    y_new = f(x_new)
+    print(f'Interpolated number of samples from: {num_samples} to {len(y_new)}')
+    return y_new
