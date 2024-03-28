@@ -3,6 +3,25 @@ import matplotlib.pyplot as plt
 import ipywidgets
 import scipy
 
+# Create synthetic data
+def simulate_data(num_samples,num_channels=1,seed=42):
+	np.random.seed(seed)
+	data = np.random.rand(num_samples,num_channels)
+	if num_channels == 1: data = data.squeeze()
+	return data
+
+def convert_to_probability_amplitudes(array):
+	array = (array+1)/2
+	norm = np.linalg.norm(array)
+	probability_amplitudes = array/norm
+	return norm, probability_amplitudes
+
+def pad_counts(counts):
+	num_qubits = len(next(iter(counts)))
+	all_states = [format(i, '0' + str(num_qubits) + 'b') for i in range(2**num_qubits)]
+	complete_counts = {state: counts.get(state, 0) for state in all_states}
+	return complete_counts
+
 def plot(samples):
 	if type(samples) != list: samples = [samples]
 	
@@ -16,13 +35,6 @@ def plot(samples):
 	plt.ylabel("Values")
 	#plt.legend()
 	plt.show()
-
-# Create synthetic data
-def simulate_data(num_samples,num_channels=1,seed=42):
-	np.random.seed(seed)
-	data = np.random.rand(num_samples,num_channels)
-	if num_channels == 1: data = data.squeeze()
-	return data
 
 def tune(obj,function,max_value=2048,step=10,name='Shots',ref=None):
 	def plot_function(shots):
