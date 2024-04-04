@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import ipywidgets
 import scipy
+import qiskit_aer
+import qiskit
 
 # Create synthetic data
 def simulate_data(num_samples,num_channels=1,seed=42):
@@ -21,6 +23,13 @@ def pad_counts(counts):
 	all_states = [format(i, '0' + str(num_qubits) + 'b') for i in range(2**num_qubits)]
 	complete_counts = {state: counts.get(state, 0) for state in all_states}
 	return complete_counts
+
+def get_counts(circuit,backend,shots):
+	if not backend: backend = qiskit_aer.AerSimulator()
+	job = qiskit.execute(circuit,backend=backend,shots=shots)
+	result = job.result()
+	counts = pad_counts(result.get_counts())
+	return counts
 
 def plot(samples):
 	if type(samples) != list: samples = [samples]

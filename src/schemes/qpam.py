@@ -15,10 +15,8 @@ class QPAM:
 		qc.measure_all()
 		return qc
 
-	def decode(self,qc,backend,shots):
-		job = qiskit.execute(qc,backend=backend,shots=shots)
-		result = job.result()
-		counts = utils.pad_counts(result.get_counts())
+	def decode(self,qc,backend=None,shots=4000):
+		counts = utils.get_counts(circuit=qc,backend=backend,shots=shots)
 		probabilities = np.array(list(counts.values()))
 		norm = qc.metadata['norm_factor']
 		return 2*norm*np.sqrt(probabilities/shots)-1
