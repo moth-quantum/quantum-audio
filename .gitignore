@@ -3,3 +3,4 @@
 *.ipynb_checkpoints
 *.ipynb
 .DS_Store
+/notebooks/.ipynb_checkpoints/*
