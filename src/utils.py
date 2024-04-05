@@ -18,6 +18,11 @@ def convert_to_probability_amplitudes(array):
 	probability_amplitudes = array/norm
 	return norm, probability_amplitudes
 
+def get_time_resolution(array):
+	time_resolution = int(np.ceil(np.log2(len(array))))
+	pad_length = 2**time_resolution-len(array)
+	return time_resolution, pad_length
+
 def pad_counts(counts):
 	num_qubits = len(next(iter(counts)))
 	all_states = [format(i, '0' + str(num_qubits) + 'b') for i in range(2**num_qubits)]

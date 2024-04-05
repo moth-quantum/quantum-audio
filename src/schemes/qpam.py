@@ -7,10 +7,11 @@ class QPAM:
 		self.name = 'Quantum Probability Amplitude Modulation'
 
 	def encode(self,array):
+		time_resolution,pad_length = utils.get_time_resolution(array)
+		if pad_length: array = np.pad(array,(0,pad_length))
 		norm,amplitudes = utils.convert_to_probability_amplitudes(array)
-		time_register_size = int(np.log2(len(array)))
-		time_register = qiskit.QuantumRegister(time_register_size,'t')
-		qc = qiskit.QuantumCircuit(time_register,metadata={'norm_factor':norm})
+		time_register = qiskit.QuantumRegister(time_resolution,'t')
+		qc = qiskit.QuantumCircuit(time_register,metadata={'norm_factor':norm,'pad_length':pad_length})
 		qc.initialize(amplitudes)
 		qc.measure_all()
 		return qc
@@ -19,6 +20,6 @@ class QPAM:
 		counts = utils.get_counts(circuit=qc,backend=backend,shots=shots)
 		probabilities = np.array(list(counts.values()))
 		norm = qc.metadata['norm_factor']
-		return 2*norm*np.sqrt(probabilities/shots)-1
+		return (2*norm*np.sqrt(probabilities/shots)-1)[:-qc.metadata['pad_length']]
 
 
