@@ -18,6 +18,9 @@ def convert_to_probability_amplitudes(array):
 	probability_amplitudes = array/norm
 	return norm, probability_amplitudes
 
+def convert_to_angles(array):
+	return np.arcsin(np.sqrt((array+1)/2))
+
 def get_time_resolution(array):
 	time_resolution = int(np.ceil(np.log2(len(array))))
 	pad_length = 2**time_resolution-len(array)
