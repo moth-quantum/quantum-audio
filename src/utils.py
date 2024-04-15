@@ -32,11 +32,11 @@ def pad_counts(counts):
 	complete_counts = {state: counts.get(state, 0) for state in all_states}
 	return complete_counts
 
-def get_counts(circuit,backend,shots):
+def get_counts(circuit,backend,shots,pad=False):
 	if not backend: backend = qiskit_aer.AerSimulator()
 	job = qiskit.execute(circuit,backend=backend,shots=shots)
 	result = job.result()
-	counts = pad_counts(result.get_counts())
+	counts = pad_counts(result.get_counts()) if pad else result.get_counts()
 	return counts
 
 def plot(samples):
