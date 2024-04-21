@@ -26,6 +26,12 @@ def get_time_resolution(array):
 	pad_length = 2**time_resolution-len(array)
 	return time_resolution, pad_length
 
+def get_bit_depth(signal):
+    unique_values = set(signal)
+    num_levels = len(unique_values)
+    bit_depth = np.ceil(np.log2(num_levels))
+    return int(bit_depth)
+
 def pad_counts(counts):
 	num_qubits = len(next(iter(counts)))
 	all_states = [format(i, '0' + str(num_qubits) + 'b') for i in range(2**num_qubits)]
