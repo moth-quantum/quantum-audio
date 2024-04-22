@@ -27,6 +27,6 @@ class QPAM:
 		counts = utils.get_counts(circuit=qc,backend=backend,shots=shots,pad=True)
 		probabilities = np.array(list(counts.values()))
 		norm = qc.metadata['norm_factor']
-		return (2*norm*np.sqrt(probabilities/shots)-1)[:-qc.metadata['pad_length']]
+		return (2*norm*np.sqrt(probabilities/shots)-1)
 
 
