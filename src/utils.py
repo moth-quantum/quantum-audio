@@ -91,11 +91,12 @@ def plot(samples):
 	#plt.legend()
 	plt.show()
 
-def tune(obj,function,max_value=2048,step=10,name='Shots',ref=None):
+def tune(obj,function,max_value=2048,step=10,name='Shots',ref=None,limit=None):
 	def plot_function(shots):
 		y = function(qc=obj,backend=None,shots=shots)
 		x = np.arange(0,len(y))
-		plt.plot(x,y,label=f'Shots = {shots}')
+		if isinstance(limit,int): x = x[:limit]
+		plt.plot(x,y[:len(x)],label=f'Shots = {shots}')
 		if isinstance(ref,np.ndarray): plt.plot(x,ref[:len(x)],label='Original')
 		plt.xlabel('Shots')
 		plt.ylabel('Values')
