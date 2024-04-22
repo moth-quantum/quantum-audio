@@ -12,6 +12,7 @@ class QSM:
 		time_resolution,pad_length = utils.get_time_resolution(array)
 		if pad_length: array = np.pad(array,(0,pad_length))
 		bit_depth = utils.get_bit_depth(array)
+		print(f'Bit Depth: {bit_depth}')
 		array = array*(2**(bit_depth-1))
 
 		# prepare circuit
