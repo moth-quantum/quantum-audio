@@ -93,7 +93,7 @@ def plot(samples):
 
 def tune(obj,function,max_value=2048,step=10,name='Shots',ref=None):
 	def plot_function(shots):
-		y = function(obj,shots)
+		y = function(qc=obj,backend=None,shots=shots)
 		x = np.arange(0,len(y))
 		plt.plot(x,y,label=f'Shots = {shots}')
 		if isinstance(ref,np.ndarray): plt.plot(x,ref[:len(x)],label='Original')
