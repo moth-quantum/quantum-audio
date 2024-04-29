@@ -11,16 +11,17 @@ class SQPAM:
 		input_length = len(array)
 		time_resolution,pad_length = utils.get_time_resolution(array)
 		if pad_length: array = np.pad(array,(0,pad_length))
-		angles = utils.convert_to_angles(array)
+		amplitudes = utils.convert_to_angles(array)
+		metadata = {'input_length':input_length}
 
 		# prepare circuit 
 		time_register      = qiskit.QuantumRegister(time_resolution,'t')
 		amplitude_register = qiskit.QuantumRegister(1,'a')
-		qc = qiskit.QuantumCircuit(amplitude_register,time_register,metadata={'input_length':input_length})
+		qc = qiskit.QuantumCircuit(amplitude_register,time_register,metadata=metadata)
 		qc.h(time_register)
 
 		# encode information
-		for t, theta in enumerate(angles):        
+		for t, theta in enumerate(amplitudes):        
 			self.value_setting(qc=qc, t=t, a=theta, treg=time_register, areg=amplitude_register)
 		
 		# measure

@@ -11,10 +11,11 @@ class QPAM:
 		time_resolution,pad_length = utils.get_time_resolution(array)
 		if pad_length: array = np.pad(array,(0,pad_length))
 		norm,amplitudes = utils.convert_to_probability_amplitudes(array)
+		metadata={'norm_factor':norm,'pad_length':pad_length}
 		
 		# prepare circuit
 		time_register = qiskit.QuantumRegister(time_resolution,'t')
-		qc = qiskit.QuantumCircuit(time_register,metadata={'norm_factor':norm,'pad_length':pad_length})
+		qc = qiskit.QuantumCircuit(time_register,metadata=metadata)
 		
 		# encode information
 		qc.initialize(amplitudes)
