@@ -6,6 +6,7 @@ import qiskit_aer
 import qiskit
 from PIL import Image
 from IPython.display import display, Audio, clear_output
+import pyaudio
 
 # Create synthetic data
 def simulate_data(num_samples,num_channels=1,seed=42):
@@ -115,20 +116,19 @@ def tune_img(obj,function,max_value=2048,step=10,name='Shots',size=25,upscale=2,
 		y = y[:int(size*size)]
 		clear_output(wait=True)
 		display(array_to_image(y,size=size,upscale=upscale))
-		#play(interpolate(y),autoplay=True)
+		play(interpolate(y),autoplay=True)
 	variable_slider = ipywidgets.IntSlider(value=1, min=1, max=max_value, step=step, description=name)
 	return ipywidgets.interact(plot_function, shots=variable_slider)
 
-def interpolate(samples,step_size=0.01,kind='linear'):
+def interpolate(samples,step_size=0.025,kind='linear'):
     num_samples = len(samples)
     x = np.arange(0,num_samples)
     y = samples
     f = scipy.interpolate.interp1d(x,y,kind=kind)
-    print(num_samples)
     x_new = np.arange(0,num_samples-1,step_size)
     y_new = f(x_new)
-    print(f'Interpolated number of samples from: {num_samples} to {len(y_new)}')
-    return y_new
+    #print(f'Interpolated number of samples from: {num_samples} to {len(y_new)}')
+    return y_new/2
 
 def image_to_array(image_path,size=100,mode='L'):
 	img = Image.open(image_path).resize((size, size))
