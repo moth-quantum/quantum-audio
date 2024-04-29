@@ -18,7 +18,7 @@ class QSM:
 		# prepare circuit
 		time_register = qiskit.QuantumRegister(time_resolution,'t')
 		amplitude_register = qiskit.QuantumRegister(bit_depth,'a')
-		qc = qiskit.QuantumCircuit(amplitude_register,time_register)
+		qc = qiskit.QuantumCircuit(amplitude_register,time_register,metadata=metadata)
 		qc.h(time_register)
 		
 		# encode information
