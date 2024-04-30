@@ -16,7 +16,7 @@ def simulate_data(num_samples,num_channels=1,seed=42):
 	return data
 
 def convert_to_probability_amplitudes(array):
-	array = (array+1)/2
+	array = (array.astype(float)+1)/2
 	norm = np.linalg.norm(array)
 	probability_amplitudes = array/norm
 	return norm, probability_amplitudes
