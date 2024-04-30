@@ -39,7 +39,7 @@ class SQPAM:
 
 	def decode(self, qc, backend=None, shots=1024):
 		counts = utils.get_counts(circuit=qc,backend=backend,shots=shots)
-		N = 2**qc.metadata['input_length']
+		N = qc.metadata['input_length']
 		cosine_amps = np.zeros(N)
 		sine_amps = np.zeros(N)
 		for state in counts:
@@ -50,4 +50,4 @@ class SQPAM:
 				cosine_amps[t] = a
 			elif (a_bit =='1'):
 				sine_amps[t] = a
-		return (2*(sine_amps/(cosine_amps+sine_amps))-1)[:qc.metadata['input_length']]
+		return (2*(sine_amps/(cosine_amps+sine_amps))-1)[:N]
