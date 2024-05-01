@@ -12,7 +12,7 @@ class SQPAM:
 		time_resolution,pad_length = utils.get_time_resolution(array)
 		if pad_length: array = np.pad(array,(0,pad_length))
 		amplitudes = utils.convert_to_angles(array)
-		metadata = {'input_length':input_length}
+		metadata = {'input_length':input_length,'time_resolution':time_resolution}
 
 		# prepare circuit 
 		time_register      = qiskit.QuantumRegister(time_resolution,'t')
@@ -39,7 +39,7 @@ class SQPAM:
 
 	def decode(self, qc, backend=None, shots=1024):
 		counts = utils.get_counts(circuit=qc,backend=backend,shots=shots)
-		N = qc.metadata['input_length']
+		N = 2 ** qc.metadata['time_resolution']
 		cosine_amps = np.zeros(N)
 		sine_amps = np.zeros(N)
 		for state in counts:
@@ -50,4 +50,4 @@ class SQPAM:
 				cosine_amps[t] = a
 			elif (a_bit =='1'):
 				sine_amps[t] = a
-		return (2*(sine_amps/(cosine_amps+sine_amps))-1)[:N]
+		return (2*(sine_amps/(cosine_amps+sine_amps))-1)[:qc.metadata['input_length']]
