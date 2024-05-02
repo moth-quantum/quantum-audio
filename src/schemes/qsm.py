@@ -23,19 +23,20 @@ class QSM:
 		qc.h(time_register)
 		
 		# encode information
-		for t, sample in enumerate(amplitudes):
-			self.value_setting(qc=qc, t=t, a=int(sample), treg=time_register, areg=amplitude_register)
+		for i, sample in enumerate(amplitudes):
+			self.value_setting(qc=qc, index=i, value=int(sample))
 
 		# measure
 		utils.measure(qc)
 		return qc
 
 	@utils.with_time_indexing
-	def value_setting(self, qc, t, a, treg, areg):
-		#astr = []
+	def value_setting(self,qc, index, value):
+		a_bitstring = []
+		areg, treg = qc.qregs
 		for i, areg_qubit in enumerate(areg):
-			a_bit = (a >> i) & 1
-			#astr.append(a_bit)
+			a_bit = (value >> i) & 1
+			a_bitstring.append(a_bit)
 			if a_bit:
 				qc.mct(treg, areg_qubit)
 

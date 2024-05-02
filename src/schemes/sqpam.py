@@ -21,20 +21,21 @@ class SQPAM:
 		qc.h(time_register)
 
 		# encode information
-		for t, theta in enumerate(amplitudes):        
-			self.value_setting(qc=qc, t=t, a=theta, treg=time_register, areg=amplitude_register)
+		for i, sample in enumerate(amplitudes):        
+			self.value_setting(qc=qc, index=i, value=sample)
 		
 		# measure
 		utils.measure(qc)
 		return qc
 
 	@utils.with_time_indexing
-	def value_setting(self,qc, t, a, treg, areg):
+	def value_setting(self,qc, index, value):
+		areg, treg = qc.qregs
 		mc_ry = qiskit.QuantumCircuit()
 		mc_ry.add_register(areg)
-		mc_ry.ry(2*a, 0)
+		mc_ry.ry(2*value, 0)
 		mc_ry = mc_ry.control(treg.size)
-		qc.append(mc_ry, [i for i in range(treg.size + areg.size - 1, -1, -1)]);
+		qc.append(mc_ry, [i for i in range(qc.num_qubits-1, -1, -1)])
 
 	def decode(self, qc, backend=None, shots=1024):
 		counts = utils.get_counts(circuit=qc,backend=backend,shots=shots)

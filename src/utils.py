@@ -48,22 +48,22 @@ def get_counts(circuit,backend,shots,pad=False):
 	counts = pad_counts(result.get_counts()) if pad else result.get_counts()
 	return counts
 
-def apply_x_at_index(qc,t,treg):
-	#t_bitstring = []
-	for i, treg_qubit in enumerate(treg):
-		t_bit = (t >> i) & 1
-		#t_bitstring.append(t_bit)
+def apply_x_at_index(qc,i):
+	t_bitstring = []
+	_,treg = qc.qregs
+	for treg_index, treg_qubit in enumerate(treg):
+		t_bit = (i >> treg_index) & 1
+		t_bitstring.append(t_bit)
 		if not t_bit:
 			qc.x(treg_qubit)
 
 def with_time_indexing(func):
     def wrapper(*args, **kwargs):
         qc = kwargs.get('qc')
-        t = kwargs.get('t')
-        treg = kwargs.get('treg')
-        apply_x_at_index(qc,t,treg)
+        i = kwargs.get('index')
+        apply_x_at_index(qc,i)
         func(*args, **kwargs)
-        apply_x_at_index(qc,t,treg)
+        apply_x_at_index(qc,i)
     return wrapper
 
 def measure(qc,treg_pos = 1,areg_pos = 0):
