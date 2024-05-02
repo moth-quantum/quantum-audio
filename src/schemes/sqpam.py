@@ -28,14 +28,13 @@ class SQPAM:
 		utils.measure(qc)
 		return qc
 
+	@utils.with_time_indexing
 	def value_setting(self,qc, t, a, treg, areg):
-		utils.apply_x_at_index(qc,t,treg)
 		mc_ry = qiskit.QuantumCircuit()
 		mc_ry.add_register(areg)
 		mc_ry.ry(2*a, 0)
 		mc_ry = mc_ry.control(treg.size)
-		qc.append(mc_ry, [i for i in range(treg.size + areg.size - 1, -1, -1)])
-		utils.apply_x_at_index(qc,t,treg)
+		qc.append(mc_ry, [i for i in range(treg.size + areg.size - 1, -1, -1)]);
 
 	def decode(self, qc, backend=None, shots=1024):
 		counts = utils.get_counts(circuit=qc,backend=backend,shots=shots)

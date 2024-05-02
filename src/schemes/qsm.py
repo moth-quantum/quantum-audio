@@ -30,15 +30,14 @@ class QSM:
 		utils.measure(qc)
 		return qc
 
+	@utils.with_time_indexing
 	def value_setting(self, qc, t, a, treg, areg):
-		utils.apply_x_at_index(qc, t, treg)
 		#astr = []
 		for i, areg_qubit in enumerate(areg):
 			a_bit = (a >> i) & 1
 			#astr.append(a_bit)
 			if a_bit:
 				qc.mct(treg, areg_qubit)
-		utils.apply_x_at_index(qc, t, treg)
 
 
 	def decode(self,qc,backend=None,shots=4000):

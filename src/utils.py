@@ -61,11 +61,9 @@ def with_time_indexing(func):
         qc = kwargs.get('qc')
         t = kwargs.get('t')
         treg = kwargs.get('treg')
-        print(qc,t,treg)
         apply_x_at_index(qc,t,treg)
-        result = func(*args, **kwargs)
+        func(*args, **kwargs)
         apply_x_at_index(qc,t,treg)
-        return result
     return wrapper
 
 def measure(qc,treg_pos = 1,areg_pos = 0):
