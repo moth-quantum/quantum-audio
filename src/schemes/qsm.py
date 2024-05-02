@@ -21,10 +21,12 @@ class QSM:
 		amplitude_register = qiskit.QuantumRegister(bit_depth,'a')
 		qc = qiskit.QuantumCircuit(amplitude_register,time_register,metadata=metadata)
 		qc.h(time_register)
+		qc.barrier(amplitude_register,time_register)
 		
 		# encode information
 		for i, sample in enumerate(amplitudes):
 			self.value_setting(qc=qc, index=i, value=int(sample))
+			qc.barrier(amplitude_register,time_register)
 
 		# measure
 		utils.measure(qc)
