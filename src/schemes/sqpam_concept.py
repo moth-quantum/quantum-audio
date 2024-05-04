@@ -7,26 +7,42 @@ class SQPAM:
 		self.name 		 = 'Single-Qubit Probability Amplitude Modulation'
 		self.qubit_depth = 1
 		self.conversion  = utils.convert_to_angles
-		self.labels 	 = ('t','a')
+		self.dimension   = self.get_qubit_dimensions((buffer_size,num_channels)) if buffer_size and num_channels else None
 
-	def encode(self,data):
+	def get_qubit_dimension(self,shape):
 		# x-axis
-		num_samples      = data.shape[0]
+		num_samples      = shape[0]
 		num_index_qubits = utils.get_qubit_count()
 		
 		# y-axis
-		num_channels     = data.shape[1]
+		num_channels     = shape[1]
 		num_value_qubits = (self.qubit_depth,)*num_channels
 
+		return (num_index_qubits,num_value_qubits)
+
+	def prepare_circuit(self,dimension,labels=('t','a')):
+		# x-axis
+		index_register  = qiskit.QuantumRegister(dimension[0],labels[0])
+		
+		# y-axis
+		value_registers = [qiskit.QuantumRegister(channel,f'{labels[1]}{c+1}') for c,channel in enumerate(dimension[1])]
+		
+		# initialize circuit
+		circuit = qiskit.QuantumCircuit(*value_registers,index_register)
+		circuit.h(index_register)
+
+		return circuit
+
+	def encode(self,data):
+		# use pre-set or data-dependent qubit dimension
+		dimension = self.dimension if self.dimension else self.get_qubit_dimension(data.shape)
+
 		# prepare data
-		data   = utils.apply_padding(data,num_index_qubits)
+		data   = utils.apply_padding(data,dimension[0])
 		values = self.conversion(data)
 
 		# prepare circuit
-		index_register  = qiskit.QuantumRegister(num_index_qubits,self.labels[0])
-		value_registers = [qiskit.QuantumRegister(channel,f'{labels[1]}{c+1}') for c,channel in enumerate(num_value_qubits)]
-		circuit = qiskit.QuantumCircuit(*value_registers,index_register)
-		circuit.h(index_register)
+		circuit = prepare_circuit(dimension)
 
 		# encode values
 		for i, value in enumerate(values):        
@@ -37,7 +53,7 @@ class SQPAM:
 
 		return qc
 
-	@utils.with_indexing
+	@utils.with_time_indexing
 	def value_setting(self,qc,index,value):
 		areg, treg = qc.qregs
 		mc_ry = qiskit.QuantumCircuit()
