@@ -1,33 +1,45 @@
 import utils
-import qiskit
 import numpy as np
 
 class QPAM:
 	def __init__(self):
-		self.name = 'Quantum Probability Amplitude Modulation'
+		self.name 		 = 'Quantum Probability Amplitude Modulation'
 
-	def encode(self,array):
-		# extract information
-		time_resolution,pad_length = utils.get_time_resolution(array)
-		if pad_length: array = np.pad(array,(0,pad_length))
-		norm,amplitudes = utils.convert_to_probability_amplitudes(array)
-		metadata={'norm_factor':norm,'pad_length':pad_length}
+	def encode(self,data):
+		# x-axis
+		num_samples 	 = len(data)
+		num_index_qubits = utils.get_qubit_count(num_samples)
+		data 			 = utils.apply_padding(data,num_index_qubits)
+		
+		# y-axis
+		norm,values 	 = utils.convert_to_probability_amplitudes(data)
+		num_value_qubits = (0,)  #(channel_1,)
+		
+		# decoding info
+		metadata = {'num_samples':num_samples, 'norm_factor':norm}
 		
 		# prepare circuit
-		time_register = qiskit.QuantumRegister(time_resolution,'t')
-		qc = qiskit.QuantumCircuit(time_register,metadata=metadata)
+		circuit  = utils.create_circuit(dimensions=(num_index_qubits,num_value_qubits),metadata=metadata)
 		
 		# encode information
-		qc.initialize(amplitudes)
+		circuit.initialize(values)
 
-		# measure
-		qc.measure_all()
-		return qc
+		return circuit
 
-	def decode(self,qc,backend=None,shots=4000):
-		counts = utils.get_counts(circuit=qc,backend=backend,shots=shots,pad=True)
+	def decode(self,circuit,backend=None,shots=4000):
+		# measure 
+		circuit.measure_all()
+
+		# execute
+		counts = utils.get_counts(circuit=circuit,backend=backend,shots=shots,pad=True)
+
+		# reconstruct
 		probabilities = np.array(list(counts.values()))
-		norm = qc.metadata['norm_factor']
-		return (2*norm*np.sqrt(probabilities/shots)-1)
+		norm = circuit.metadata['norm_factor']
+		data = (2*norm*np.sqrt(probabilities/shots)-1)
 
-
+		# undo padding
+		original_length = circuit.metadata['num_samples']
+		data = data[:original_length]
+		
+		return data

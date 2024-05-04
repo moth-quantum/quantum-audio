@@ -15,6 +15,14 @@ def simulate_data(num_samples,num_channels=1,seed=42):
 	if num_channels == 1: data = data.squeeze()
 	return data
 
+def create_circuit(dimensions,metadata,name=('t','a')): #adapt to L and R
+	index_register = qiskit.QuantumRegister(dimensions[0],name[0])
+	value_registers = []
+	for channel in dimensions[1]:
+		value_registers.append(qiskit.QuantumRegister(channel,name[1]))
+	qc = qiskit.QuantumCircuit(*value_registers,index_register,metadata=metadata)
+	return qc
+
 def convert_to_probability_amplitudes(array):
 	array = (array.astype(float)+1)/2
 	norm = np.linalg.norm(array)
@@ -24,15 +32,20 @@ def convert_to_probability_amplitudes(array):
 def convert_to_angles(array):
 	return np.arcsin(np.sqrt((array.astype(float)+1)/2))
 
-def get_time_resolution(array):
-	time_resolution = int(np.ceil(np.log2(len(array))))
+def get_qubit_count(data_length):
+	num_qubits = int(np.ceil(np.log2(data_length)))
+	return num_qubits
+
+def apply_padding(array,time_resolution):
 	pad_length = 2**time_resolution-len(array)
-	return time_resolution, pad_length
+	if pad_length: array = np.pad(array,(0,pad_length))
+	return array  
 
 def get_bit_depth(signal):
     unique_values = set(signal)
     num_levels = len(unique_values)
     bit_depth = np.ceil(np.log2(num_levels))
+    if not bit_depth: bit_depth = 1
     return int(bit_depth)
 
 def pad_counts(counts):
