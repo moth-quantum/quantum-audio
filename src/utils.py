@@ -72,14 +72,14 @@ def apply_x_at_index(qc,i):
 
 def with_indexing(func):
     def wrapper(*args, **kwargs):
-        qc = kwargs.get('qc')
+        qc = kwargs.get('circuit')
         i = kwargs.get('index')
         apply_x_at_index(qc,i)
         func(*args, **kwargs)
         apply_x_at_index(qc,i)
     return wrapper
 
-def measure(qc,treg_pos = 1,areg_pos = 0,labels=('t','a')):
+def measure(qc,treg_pos = 1,areg_pos = 0,labels=('ct','ca')):
 	areg = qc.qregs[areg_pos]
 	treg = qc.qregs[treg_pos]
 
