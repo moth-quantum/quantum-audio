@@ -4,16 +4,18 @@ import numpy as np
 class QPAM:
 	def __init__(self):
 		self.name 		 = 'Quantum Probability Amplitude Modulation'
+		self.qubit_depth = 0
 
 	def encode(self,data):
 		# x-axis
-		num_samples 	 = len(data)
+		num_samples 	 = data.shape[0]
 		num_index_qubits = utils.get_qubit_count(num_samples)
 		data 			 = utils.apply_padding(data,num_index_qubits)
 		
 		# y-axis
+		num_channels	 = 1
+		num_value_qubits = (self.qubit_depth,)*num_channels
 		norm,values 	 = utils.convert_to_probability_amplitudes(data)
-		num_value_qubits = (0,)  #(channel_1,)
 		
 		# decoding info
 		metadata = {'num_samples':num_samples, 'norm_factor':norm}

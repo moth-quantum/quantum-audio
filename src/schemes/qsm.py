@@ -4,29 +4,37 @@ import numpy as np
 from bitstring import BitArray
 
 class QSM:
-	def __init__(self):
+	def __init__(self,qubit_depth=None):
 		self.name = 'Quantum State Modulation'
+		self.qubit_depth = [qubit_depth] if isinstance(qubit_depth) == int else qubit_depth
+		self.labels = ('t','a')
 
-	def encode(self,array):
-		# extract information
-		time_resolution,pad_length = utils.get_time_resolution(array)
-		if pad_length: array = np.pad(array,(0,pad_length))
-		bit_depth = utils.get_bit_depth(array)
-		if not bit_depth: bit_depth = 1
-		amplitudes = array*(2**(bit_depth-1))
-		metadata = {}
+	def encode(self,data):
+		# x-axis
+		num_samples      = data.shape[0]
+		num_index_qubits = utils.get_qubit_count()
+		
+		# y-axis
+		num_channels = data.shape[1]
+		if not self.qubit_depth:
+			qubit_depth = [utils.get_bit_depth(data[:, channel]) for channel in range(num_channels)]
+		else:
+			qubit_depth = self.qubit_depth
+		num_value_qubits = [qubit_depth]*num_channels if len(qubit_depth) == 1 else qubit_depth
+
+		# prepare data
+		data   = utils.apply_padding(data,num_index_qubits)
+		values = data * (2**(num_value_qubits-1).reshape(1, -1))
 
 		# prepare circuit
 		time_register = qiskit.QuantumRegister(time_resolution,'t')
 		amplitude_register = qiskit.QuantumRegister(bit_depth,'a')
 		qc = qiskit.QuantumCircuit(amplitude_register,time_register,metadata=metadata)
 		qc.h(time_register)
-		qc.barrier(amplitude_register,time_register)
 		
 		# encode information
 		for i, sample in enumerate(amplitudes):
 			self.value_setting(qc=qc, index=i, value=int(sample))
-			qc.barrier(amplitude_register,time_register)
 
 		# measure
 		utils.measure(qc)
