@@ -3,26 +3,46 @@ import qiskit
 import numpy as np
 
 class SQPAM:
-	def __init__(self):
+	def __init__(self,buffer_size=None,num_channels=None):
 		self.name 		 = 'Single-Qubit Probability Amplitude Modulation'
 		self.qubit_depth = 1
+		self.conversion  = utils.convert_to_angles
+		self.dimension   = self.get_qubit_requirements((buffer_size,num_channels)) if buffer_size and num_channels else None
 
-	def encode(self,data):
+	def get_qubit_requirements(self,shape):
 		# x-axis
-		num_samples 	 = data.shape[0]
+		num_samples 	 = shape[0]
 		num_index_qubits = utils.get_qubit_count(num_samples)
-		data 			 = utils.apply_padding(data,num_index_qubits)
 		
 		# y-axis
-		num_channels 	 = data.shape[1]
+		num_channels 	 = shape[1]
 		num_value_qubits = (self.qubit_depth,)*num_channels
-		values = utils.convert_to_angles(data)
+
+		return (num_index_qubits,num_value_qubits)
+
+	def prepare_circuit(self,dimension,labels=('t','a')):
+		# x-axis
+		index_register  = qiskit.QuantumRegister(dimension[0],labels[0])
+		
+		# y-axis
+		value_registers = [qiskit.QuantumRegister(channel,f'{labels[1]}{c+1}') for c,channel in enumerate(dimension[1])]
+		
+		# initialize circuit
+		circuit = qiskit.QuantumCircuit(*value_registers,index_register)
+		circuit.h(index_register)
+
+		return circuit
+
+	def encode(self,data):
+		# use pre-set or data-dependent qubit dimension
+		dimension = self.dimension if self.dimension else self.get_qubit_requirements(data.shape)
+
+		# prepare data
+		data   = utils.apply_padding(data,dimension[0])
+		values = self.conversion(data)
 
 		# prepare circuit
-		index_register  = qiskit.QuantumRegister(num_index_qubits,'t')
-		value_registers = [qiskit.QuantumRegister(channel,f'a{c+1}') for c,channel in enumerate(num_value_qubits)]
-		circuit 		= qiskit.QuantumCircuit(*value_registers,index_register,metadata=metadata)
-		circuit.h(index_register)
+		circuit = prepare_circuit(dimension)
 
 		# encode values
 		for i, value in enumerate(values):        
