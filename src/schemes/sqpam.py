@@ -4,30 +4,34 @@ import numpy as np
 
 class SQPAM:
 	def __init__(self):
-		self.name = 'Single-Qubit Probability Amplitude Modulation'
+		self.name 		 = 'Single-Qubit Probability Amplitude Modulation'
+		self.qubit_depth = 1
 
-	def encode(self,array):
-		# extract information
-		input_length = len(array)
-		time_resolution,pad_length = utils.get_time_resolution(array)
-		if pad_length: array = np.pad(array,(0,pad_length))
-		amplitudes = utils.convert_to_angles(array)
-		metadata = {'input_length':input_length,'time_resolution':time_resolution}
-
-		# prepare circuit 
-		time_register      = qiskit.QuantumRegister(time_resolution,'t')
-		amplitude_register = qiskit.QuantumRegister(1,'a')
-		qc = qiskit.QuantumCircuit(amplitude_register,time_register,metadata=metadata)
-		qc.h(time_register)
-		qc.barrier(amplitude_register,time_register)
-
-		# encode information
-		for i, sample in enumerate(amplitudes):        
-			self.value_setting(qc=qc, index=i, value=sample)
-			qc.barrier(amplitude_register,time_register)
+	def encode(self,data):
+		# x-axis
+		num_samples 	 = data.shape[0]
+		num_index_qubits = utils.get_qubit_count(num_samples)
+		data 			 = utils.apply_padding(data,num_index_qubits)
 		
-		# measure
-		utils.measure(qc)
+		# y-axis
+		num_channels 	 = data.shape[1]
+		num_value_qubits = (self.qubit_depth,)*num_channels
+		values = utils.convert_to_angles(data)
+
+		# prepare circuit
+		index_register  = qiskit.QuantumRegister(num_index_qubits,'t')
+		value_registers = [qiskit.QuantumRegister(channel,f'a{c+1}') for c,channel in enumerate(num_value_qubits)]
+		circuit 		= qiskit.QuantumCircuit(*value_registers,index_register,metadata=metadata)
+		circuit.h(index_register)
+
+		# encode values
+		for i, value in enumerate(values):        
+			self.value_setting(qc=circuit, index=i, value=value)
+		
+		# additional information for decoding
+		decode_info = {'num_samples':num_samples}
+		qc.metadata = decode_info
+
 		return qc
 
 	@utils.with_time_indexing
