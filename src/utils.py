@@ -17,9 +17,12 @@ def simulate_data(num_samples,num_channels=1,seed=42):
 	if num_channels == 1: data = data.squeeze()
 	return data
 
-def apply_padding(array,time_resolution):
-	pad_length = 2**time_resolution-len(array)
-	if pad_length: array = np.pad(array,(0,pad_length))
+def apply_padding(array,num_index_qubits):
+	pad_length = (2**num_index_qubits)-array.shape[-1]
+	if pad_length: 
+		padding = [(0, 0) for _ in range(array.ndim)]
+		padding[-1] = (0, pad_length)
+		array = np.pad(array, padding, mode='constant')
 	return array
 
 def get_bit_depth(signal):
@@ -32,8 +35,10 @@ def get_bit_depth(signal):
 # Conversions
 
 def convert_to_probability_amplitudes(array):
-	array = (array.astype(float)+1)/2
+	array = array.squeeze().astype(float)
+	array = (array + 1) / 2
 	norm = np.linalg.norm(array)
+	if not norm: norm = 1
 	probability_amplitudes = array/norm
 	return norm, probability_amplitudes
 
@@ -75,6 +80,16 @@ def with_indexing(func):
         apply_x_at_index(qc,i)
         func(*args, **kwargs)
         apply_x_at_index(qc,i)
+    return wrapper
+
+def channels_first(func):
+    def wrapper(*args, **kwargs):
+        data = kwargs.get('data')
+        if not isinstance(data) == np.ndarray:
+        	data = np.array(data).reshape(1,-1)
+        elif data.ndim == 1: 
+        	data = data.reshape(1,-1)
+        func(*args, **kwargs)
     return wrapper
 
 def measure(qc,treg_pos = 1,areg_pos = 0,labels=('ca','ct')):

@@ -10,15 +10,15 @@ class QPAM:
 
 	def encode(self,data):
 		# x-axis
-		num_samples      = data.shape[0]
+		num_samples      = data.shape[-1]
 		num_index_qubits = utils.get_qubit_count(num_samples)
 		
 		# y-axis
-		num_channels     = 1 #data.shape[1]
-		num_value_qubits = self.qubit_depth*num_channels
+		assert data.ndim == 1 or data.shape[0] == 1, "Multi-channel not supported in QPAM"
+		num_value_qubits  = self.qubit_depth
 
 		# prepare data
-		data   = utils.apply_padding(data.squeeze(),num_index_qubits)
+		data = utils.apply_padding(data,num_index_qubits)
 		norm,values = utils.convert_to_probability_amplitudes(data)
 
 		# prepare circuit
@@ -30,7 +30,7 @@ class QPAM:
 		circuit.initialize(values)
 
 		# additional information for decoding
-		circuit.metadata = {'num_samples':num_samples, 'norm_factor':norm}
+		circuit.metadata = {'original_length':num_samples, 'norm_factor':norm}
 
 		return circuit
 
@@ -47,7 +47,6 @@ class QPAM:
 		data = (2*norm*np.sqrt(probabilities/shots)-1)
 
 		# undo padding
-		original_length = circuit.metadata['num_samples']
-		data = data[:original_length]
+		data = data[:circuit.metadata['original_length']]
 		
-		return data.reshape(-1,1)
+		return data
