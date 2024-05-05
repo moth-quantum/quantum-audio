@@ -32,6 +32,9 @@ def get_bit_depth(signal):
     if not bit_depth: bit_depth = 1
     return int(bit_depth)
 
+def is_within_range(arr, min_val, max_val):
+    return np.all((arr >= min_val) & (arr <= max_val))
+
 # Conversions
 
 def convert_to_probability_amplitudes(array):
@@ -43,6 +46,7 @@ def convert_to_probability_amplitudes(array):
 	return norm, probability_amplitudes
 
 def convert_to_angles(array):
+	assert is_within_range(array,min_val=-1,max_val=1), 'Data not in range'
 	return np.arcsin(np.sqrt((array.astype(float)+1)/2))
 
 # Quantum Utils
