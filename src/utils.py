@@ -79,7 +79,7 @@ def with_indexing(func):
         apply_x_at_index(qc,i)
     return wrapper
 
-def measure(qc,treg_pos = 1,areg_pos = 0,labels=('ct','ca')):
+def measure(qc,treg_pos = 1,areg_pos = 0,labels=('ca','ct')):
 	areg = qc.qregs[areg_pos]
 	treg = qc.qregs[treg_pos]
 
