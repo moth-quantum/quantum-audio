@@ -10,11 +10,11 @@ class SQPAM:
 
 	def encode(self,data):
 		# x-axis
-		num_samples      = data.shape[0]
+		num_samples      = data.shape[-1]
 		num_index_qubits = utils.get_qubit_count(num_samples)
 		
 		# y-axis
-		num_channels     = 1 #data.shape[1]
+		num_channels     = 1 if data.ndim == 1 else data.shape[0]
 		num_value_qubits = self.qubit_depth*num_channels
 
 		# prepare data
@@ -54,7 +54,7 @@ class SQPAM:
 		# attach sub-circuit
 		circuit.append(sub_circuit, [i for i in range(circuit.num_qubits-1,-1,-1)])
 
-	def decode(self,circuit,backend=None,shots=1024):
+	def decode(self,circuit,backend=None,shots=1024,inverted=False):
 		# measure
 		utils.measure(circuit)
 
@@ -77,14 +77,15 @@ class SQPAM:
 			(index_bits, value_bits) = state.split()
 			i = int(index_bits, 2)
 			a = counts[state]
-			decoded_data = []
-			for channel in value_bits:
-				if (channel == '0'):
-					cosine_amps[i] = a
-				elif (channel =='1'):
-					sine_amps[i] = a
-				data = (2*(sine_amps/(cosine_amps+sine_amps))-1)
-				decoded_data.append(data[:original_num_samples])
+			if (value_bits == '0'):
+				cosine_amps[i] = a
+			elif (value_bits =='1'):
+				sine_amps[i] = a
 
-		return np.array(decoded_data).transpose()
+		total_amps = cosine_amps+sine_amps
+		amps = sine_amps if not inverted else cosine_amps
+		#ratio = np.divide(amps, total_amps, out=np.zeros_like(amps), where=total_amps!=0)
+		data = 2 * (amps/total_amps) - 1
+
+		return data[:original_num_samples]
 
