@@ -15,8 +15,7 @@ class QSM:
 		num_index_qubits = utils.get_qubit_count(num_samples)
 		
 		# y-axis
-		num_channels = data.shape[1]
-		num_channel_qubits = utils.get_qubit_count(num_channels)
+		num_channels = 1 #data.shape[1]
 		
 		if not self.qubit_depth:
 			num_value_qubits = utils.get_bit_depth(data.squeeze())

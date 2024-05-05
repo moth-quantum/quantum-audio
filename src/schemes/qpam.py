@@ -14,7 +14,7 @@ class QPAM:
 		num_index_qubits = utils.get_qubit_count(num_samples)
 		
 		# y-axis
-		num_channels     = data.shape[1]
+		num_channels     = 1 #data.shape[1]
 		num_value_qubits = self.qubit_depth*num_channels
 
 		# prepare data
