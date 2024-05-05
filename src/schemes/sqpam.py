@@ -6,7 +6,7 @@ class SQPAM:
 	def __init__(self):
 		self.name 		 = 'Single-Qubit Probability Amplitude Modulation'
 		self.qubit_depth = 1
-		self.labels 	 = ('t','a')
+		self.labels      = ('t','a')
 
 	def encode(self,data):
 		# x-axis
@@ -15,7 +15,7 @@ class SQPAM:
 		
 		# y-axis
 		num_channels     = data.shape[1]
-		num_value_qubits = self.qubit_depth*num_channels
+		num_value_qubits = self.qubit_depth
 
 		# prepare data
 		data   = utils.apply_padding(data,num_index_qubits)
@@ -60,10 +60,9 @@ class SQPAM:
 
 		# execute
 		counts = utils.get_counts(circuit=circuit,backend=backend,shots=shots)
-		print(counts)
 		
 		# decoding x-axis
-		num_index_qubits = circuit.qregs[0].size
+		num_index_qubits = circuit.qregs[1].size
 		num_samples = 2 ** num_index_qubits
 		original_num_samples = circuit.metadata['num_samples']
 
@@ -74,7 +73,7 @@ class SQPAM:
 		sine_amps   = np.zeros(num_samples)
 
 		# getting components from counts
-		'''for state in counts:
+		for state in counts:
 			(index_bits, value_bits) = state.split()
 			i = int(index_bits, 2)
 			a = counts[state]
@@ -85,21 +84,7 @@ class SQPAM:
 				elif (channel =='1'):
 					sine_amps[i] = a
 				data = (2*(sine_amps/(cosine_amps+sine_amps))-1)
-				decoded_data.append(data[:original_num_samples])'''
+				decoded_data.append(data[:original_num_samples])
 
-		for state in counts:
-			(t_bits, a_bits) = state.split()
-			print(state)
-			print(t_bits,a_bits)
-			t = int(t_bits, 2)
-			a = counts[state]
-			channel = []
-			for a_bit in a_bits:
-				if (a_bit == '0'):
-					cosine_amps[t] = a
-				elif (a_bit =='1'):
-					sine_amps[t] = a
-				channel.append((2*(sine_amps/(cosine_amps+sine_amps))-1)[:original_num_samples])
-
-		return channel
+		return np.array(decoded_data).transpose()
 
