@@ -32,12 +32,10 @@ class QPAM:
 		# additional information for decoding
 		circuit.metadata = {'original_length':num_samples, 'norm_factor':norm}
 
+		circuit.measure_all()
 		return circuit
 
 	def decode(self,circuit,backend=None,shots=4000):
-		# measure 
-		circuit.measure_all()
-
 		# execute
 		counts = utils.get_counts(circuit=circuit,backend=backend,shots=shots,pad=True)
 

@@ -35,6 +35,9 @@ class SQPAM:
 		# additional information for decoding
 		circuit.metadata = {'num_samples':num_samples}
 
+		# measure
+		utils.measure(circuit)
+
 		return circuit
 
 	@utils.with_indexing
@@ -56,9 +59,6 @@ class SQPAM:
 		circuit.append(sub_circuit, [i for i in range(circuit.num_qubits-1,-1,-1)])
 
 	def decode(self,circuit,backend=None,shots=1024,inverted=False):
-		# measure
-		utils.measure(circuit)
-
 		# execute
 		counts = utils.get_counts(circuit=circuit,backend=backend,shots=shots)
 		
@@ -85,8 +85,8 @@ class SQPAM:
 
 		total_amps = cosine_amps+sine_amps
 		amps = sine_amps if not inverted else cosine_amps
-		#ratio = np.divide(amps, total_amps, out=np.zeros_like(amps), where=total_amps!=0)
-		data = 2 * (amps/total_amps) - 1
+		ratio = np.divide(amps, total_amps, out=np.zeros_like(amps), where=total_amps!=0)
+		data = 2 * (ratio) - 1
 
 		return data[:original_num_samples]
 

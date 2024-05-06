@@ -33,6 +33,9 @@ class QSM:
 		for i, sample in enumerate(values):
 			self.value_setting(circuit=circuit, index=i, value=sample)
 
+		# measure
+		utils.measure(circuit)
+
 		return circuit
 
 	@utils.with_indexing
@@ -47,8 +50,6 @@ class QSM:
 
 
 	def decode(self,circuit,backend=None,shots=4000):
-		# measure
-		utils.measure(circuit)
 
 		# execute
 		counts = utils.get_counts(circuit=circuit,backend=backend,shots=shots,pad=False)
