@@ -11,20 +11,17 @@ class QSM:
 
 	def encode(self,data):
 		# x-axis
-		num_samples      = data.shape[0]
+		num_samples      = data.shape[-1]
 		num_index_qubits = utils.get_qubit_count(num_samples)
 		
 		# y-axis
-		num_channels = 1 #data.shape[1]
-		
-		if not self.qubit_depth:
-			num_value_qubits = utils.get_bit_depth(data.squeeze())
-		else:
-			num_value_qubits = self.qubit_depth
+		num_channels     = 1 if data.ndim == 1 else data.shape[0]
+		num_value_qubits = utils.get_bit_depth(data) if not self.qubit_depth else self.qubit_depth
 		
 		# prepare data
 		data   = utils.apply_padding(data,num_index_qubits)
 		values = data * (2**(num_value_qubits-1))
+		values = values.squeeze().astype(int)
 
 		# prepare circuit
 		index_register 		= qiskit.QuantumRegister(num_index_qubits,'t')
@@ -34,10 +31,8 @@ class QSM:
 		
 		# encode information
 		for i, sample in enumerate(values):
-			self.value_setting(circuit=circuit, index=i, value=int(sample))
+			self.value_setting(circuit=circuit, index=i, value=sample)
 
-		# measure
-		utils.measure(circuit)
 		return circuit
 
 	@utils.with_indexing
@@ -51,12 +46,22 @@ class QSM:
 				circuit.mct(treg, areg_qubit)
 
 
-	def decode(self,qc,backend=None,shots=4000):
-		counts = utils.get_counts(circuit=qc,backend=backend,shots=shots,pad=False)
-		time_resolution = [q.size for q in qc.qregs if q.name == 't'][0]
-		bit_depth = [q.size for q in qc.qregs if q.name == 'a'][0]
-		N = 2**time_resolution
-		data = np.zeros(N, int)
+	def decode(self,circuit,backend=None,shots=4000):
+		# measure
+		utils.measure(circuit)
+
+		# execute
+		counts = utils.get_counts(circuit=circuit,backend=backend,shots=shots,pad=False)
+
+		# decoding x-axis
+		num_index_qubits = circuit.qregs[1].size
+		num_samples = 2 ** num_index_qubits
+		
+		# decoding y-axis
+		bit_depth = circuit.qregs[0].size
+
+		# decoding data
+		data = np.zeros(num_samples, int)
 
 		for state in counts:
 			(t_bits, a_bits) = state.split()
@@ -65,7 +70,7 @@ class QSM:
 			data[t] = a
 
 		data = data/(2**(bit_depth-1))
-		return data.reshape(-1,1)
+		return data
 
 
 

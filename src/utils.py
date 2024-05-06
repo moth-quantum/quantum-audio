@@ -26,7 +26,7 @@ def apply_padding(array,num_index_qubits):
 	return array
 
 def get_bit_depth(signal):
-    unique_values = set(signal)
+    unique_values = np.unique(signal)
     num_levels = len(unique_values)
     bit_depth = np.ceil(np.log2(num_levels))
     if not bit_depth: bit_depth = 1
