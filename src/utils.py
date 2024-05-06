@@ -49,6 +49,10 @@ def convert_to_angles(array):
 	assert is_within_range(array,min_val=-1,max_val=1), 'Data not in range'
 	return np.arcsin(np.sqrt((array.astype(float)+1)/2))
 
+def quantize(array,qubit_depth):
+	values = array * (2**(qubit_depth-1))
+	return values.astype(int)
+
 # Quantum Utils
 
 def get_qubit_count(data_length):
@@ -81,6 +85,7 @@ def with_indexing(func):
     def wrapper(*args, **kwargs):
         qc = kwargs.get('circuit')
         i = kwargs.get('index')
+        qc.barrier()
         apply_x_at_index(qc,i)
         func(*args, **kwargs)
         apply_x_at_index(qc,i)

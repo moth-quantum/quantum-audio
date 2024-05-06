@@ -20,16 +20,16 @@ class QSM:
 		
 		# prepare data
 		data   = utils.apply_padding(data,num_index_qubits)
-		values = data * (2**(num_value_qubits-1))
-		values = values.squeeze().astype(int)
+		values = utils.quantize(data,num_value_qubits)
 
 		# prepare circuit
 		index_register 		= qiskit.QuantumRegister(num_index_qubits,'t')
 		amplitude_register 	= qiskit.QuantumRegister(num_value_qubits,'a')
 		circuit = qiskit.QuantumCircuit(amplitude_register,index_register)
 		circuit.h(index_register)
-		
+
 		# encode information
+		values = values.squeeze()
 		for i, sample in enumerate(values):
 			self.value_setting(circuit=circuit, index=i, value=sample)
 
