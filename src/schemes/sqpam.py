@@ -26,8 +26,9 @@ class SQPAM:
 		value_register  = qiskit.QuantumRegister(num_value_qubits,self.labels[1])
 		circuit = qiskit.QuantumCircuit(value_register,index_register)
 		circuit.h(index_register)
-
+		
 		# encode values
+		values = values.squeeze()
 		for i, value in enumerate(values):        
 			self.value_setting(circuit=circuit, index=i, value=value)
 		
