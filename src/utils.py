@@ -8,9 +8,10 @@ from PIL import Image
 from IPython.display import display, Audio, clear_output
 import pyaudio
 
+# ======================
 # Data processing utils
+# ======================
 
-# Create synthetic data
 def simulate_data(num_samples,num_channels=1,seed=42):
 	np.random.seed(seed)
 	data = np.random.rand(num_samples,num_channels)
@@ -32,10 +33,17 @@ def get_bit_depth(signal):
     if not bit_depth: bit_depth = 1
     return int(bit_depth)
 
+def get_qubit_count(data_length):
+	num_qubits = int(np.ceil(np.log2(data_length)))
+	return num_qubits
+
 def is_within_range(arr, min_val, max_val):
     return np.all((arr >= min_val) & (arr <= max_val))
 
+
+# ======================
 # Conversions
+# ======================
 
 def convert_to_probability_amplitudes(array):
 	array = array.squeeze().astype(float)
@@ -53,11 +61,9 @@ def quantize(array,qubit_depth):
 	values = array * (2**(qubit_depth-1))
 	return values.astype(int)
 
-# Quantum Utils
-
-def get_qubit_count(data_length):
-	num_qubits = int(np.ceil(np.log2(data_length)))
-	return num_qubits
+# ======================
+# Quantum Computing Utils
+# ======================
 
 def pad_counts(counts):
 	num_qubits = len(next(iter(counts)))
@@ -91,16 +97,6 @@ def with_indexing(func):
         apply_x_at_index(qc,i)
     return wrapper
 
-def channels_first(func):
-    def wrapper(*args, **kwargs):
-        data = kwargs.get('data')
-        if not isinstance(data) == np.ndarray:
-        	data = np.array(data).reshape(1,-1)
-        elif data.ndim == 1: 
-        	data = data.reshape(1,-1)
-        func(*args, **kwargs)
-    return wrapper
-
 def measure(qc,treg_pos = 1,areg_pos = 0,labels=('ca','ct')):
 	areg = qc.qregs[areg_pos]
 	treg = qc.qregs[treg_pos]
@@ -114,9 +110,11 @@ def measure(qc,treg_pos = 1,areg_pos = 0,labels=('ca','ct')):
 	qc.measure(treg, ctreg)
 	qc.measure(areg, careg)
 
-# Plotting utils
+# ======================
+# Plotting Utils
+# ======================
 
-def plot(samples):
+def plot(samples): #update for multi-channel
 	if type(samples) != list: samples = [samples]
 	
 	num_samples = len(samples[0])
@@ -131,7 +129,7 @@ def plot(samples):
 
 def tune(obj,function,max_value=2048,step=10,name='Shots',ref=None,limit=None):
 	def plot_function(shots):
-		y = function(qc=obj,backend=None,shots=shots)
+		y = function(circuit=obj,backend=None,shots=shots)
 		x = np.arange(0,len(y))
 		if isinstance(limit,int): x = x[:limit]
 		plt.plot(x,y[:len(x)],label=f'Shots = {shots}')
