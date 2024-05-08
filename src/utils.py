@@ -29,9 +29,9 @@ def apply_padding(array,num_index_qubits):
 def get_bit_depth(signal):
     unique_values = np.unique(signal)
     num_levels = len(unique_values)
-    bit_depth = np.ceil(np.log2(num_levels))
+    bit_depth = get_qubit_count(num_levels)
     if not bit_depth: bit_depth = 1
-    return int(bit_depth)
+    return bit_depth
 
 def get_qubit_count(data_length):
 	num_qubits = int(np.ceil(np.log2(data_length)))
@@ -98,6 +98,8 @@ def with_indexing(func):
     return wrapper
 
 def measure(qc,treg_pos = 1,areg_pos = 0,labels=('ca','ct')):
+	qc.barrier()
+
 	areg = qc.qregs[areg_pos]
 	treg = qc.qregs[treg_pos]
 
@@ -114,17 +116,20 @@ def measure(qc,treg_pos = 1,areg_pos = 0,labels=('ca','ct')):
 # Plotting Utils
 # ======================
 
-def plot(samples): #update for multi-channel
+def plot(samples,title=None,label=None): #update for multi-channel
 	if type(samples) != list: samples = [samples]
+	if label and type(label) != tuple: label = (label,)
 	
 	num_samples = len(samples[0])
 	x_axis = np.arange(0,num_samples)
 
 	for i, y_axis in enumerate(samples):
-		plt.plot(x_axis, y_axis, label=None) 
+		plt.plot(x_axis, y_axis, label=None if not label else label[i]) 
 
 	plt.xlabel("Index")
 	plt.ylabel("Values")
+	if label: plt.legend()
+	if title: plt.title(title)
 	plt.show()
 
 def tune(obj,function,max_value=2048,step=10,name='Shots',ref=None,limit=None):
