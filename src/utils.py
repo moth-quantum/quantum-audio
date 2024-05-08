@@ -40,6 +40,11 @@ def get_qubit_count(data_length):
 def is_within_range(arr, min_val, max_val):
     return np.all((arr >= min_val) & (arr <= max_val))
 
+def interleave_channels(array):
+	return np.dstack(array).flatten()
+
+def restore_channels(array,num_channels):
+	return np.vstack([array[i::num_channels] for i in range(num_channels)])
 
 # ======================
 # Conversions
@@ -78,39 +83,49 @@ def get_counts(circuit,backend,shots,pad=False):
 	counts = pad_counts(result.get_counts()) if pad else result.get_counts()
 	return counts
 
-def apply_x_at_index(qc,i):
-	t_bitstring = []
-	_,treg = qc.qregs
-	for treg_index, treg_qubit in enumerate(treg):
-		t_bit = (i >> treg_index) & 1
-		t_bitstring.append(t_bit)
-		if not t_bit:
-			qc.x(treg_qubit)
+def apply_x_at_index(qc,i,reg,disp=False):
+	bitstring = []
+	for reg_index, reg_qubit in enumerate(reg):
+		bit = (i >> reg_index) & 1
+		bitstring.append(bit)
+		if not bit:
+			qc.x(reg_qubit)
+		if disp: print(bitstring)
+
+def set_index(qc,i):
+	_,creg,treg = qc.qregs
+
+	if creg.size: apply_x_at_index(qc,i,reg=creg)
+	apply_x_at_index(qc,i,reg=treg)
 
 def with_indexing(func):
     def wrapper(*args, **kwargs):
         qc = kwargs.get('circuit')
         i = kwargs.get('index')
         qc.barrier()
-        apply_x_at_index(qc,i)
+        set_index(qc,i)
         func(*args, **kwargs)
-        apply_x_at_index(qc,i)
+        set_index(qc,i)
     return wrapper
 
-def measure(qc,treg_pos = 1,areg_pos = 0,labels=('ca','ct')):
+def measure(qc,treg_pos = 2,creg_pos=1,areg_pos = 0,labels=('ca','cc','ct')):
 	qc.barrier()
 
 	areg = qc.qregs[areg_pos]
+	creg = qc.qregs[creg_pos]
 	treg = qc.qregs[treg_pos]
 
-	careg = qiskit.ClassicalRegister(areg.size, labels[0]) 
-	ctreg = qiskit.ClassicalRegister(treg.size, labels[1])
+	careg = qiskit.ClassicalRegister(areg.size, labels[0])
+	ccreg = qiskit.ClassicalRegister(creg.size, labels[1]) 
+	ctreg = qiskit.ClassicalRegister(treg.size, labels[2])
 	       
 	qc.add_register(careg)
+	qc.add_register(ccreg)
 	qc.add_register(ctreg)
-        
-	qc.measure(treg, ctreg)
+      
 	qc.measure(areg, careg)
+	qc.measure(creg, ccreg)
+	qc.measure(treg, ctreg)
 
 # ======================
 # Plotting Utils
