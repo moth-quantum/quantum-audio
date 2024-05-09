@@ -90,13 +90,21 @@ def apply_x_at_index(qc,i,reg,disp=False):
 		bitstring.append(bit)
 		if not bit:
 			qc.x(reg_qubit)
-		if disp: print(bitstring)
+	if disp: 
+		print(f'{bitstring}')
 
 def set_index(qc,i):
 	_,creg,treg = qc.qregs
+	bitstring = []
+	for reg_index, reg_qubit in enumerate(creg[:] + treg[:]):
+		bit = (i >> reg_index) & 1
+		bitstring.append(bit)
+		if not bit:
+			qc.x(reg_qubit)
 
-	if creg.size: apply_x_at_index(qc,i,reg=creg)
-	apply_x_at_index(qc,i,reg=treg)
+	'''if creg.size: 
+		apply_x_at_index(qc,i,reg=creg,disp=False)
+	apply_x_at_index(qc,i,reg=treg,disp=False)'''
 
 def with_indexing(func):
     def wrapper(*args, **kwargs):
