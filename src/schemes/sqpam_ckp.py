@@ -19,9 +19,8 @@ class SQPAM:
 		num_value_qubits = self.qubit_depth
 
 		# prepare data
+		data = utils.apply_padding(data,(num_channel_qubits,num_index_qubits))
 		data = data.squeeze() if num_channels == 1 else utils.interleave_channels(data)
-		#data = utils.apply_padding(data,num_index_qubits+num_channel_qubits)
-		print(data.shape)
 		values = utils.convert_to_angles(data)
 
 		# prepare circuit
@@ -39,7 +38,7 @@ class SQPAM:
 			self.value_setting(circuit=circuit, index=i, value=value)
 		
 		# additional information for decoding
-		circuit.metadata = {'num_samples':num_samples}
+		circuit.metadata = {'num_samples':num_samples,'num_channels':num_channels}
 
 		# measure
 		utils.measure(circuit)
@@ -76,6 +75,7 @@ class SQPAM:
 
 		total_samples = num_samples*num_channels
 		original_num_samples = circuit.metadata['num_samples']*num_channels
+		original_num_channels = circuit.metadata['num_channels']
 
 		# decoding y-axis
 		
@@ -85,7 +85,12 @@ class SQPAM:
 
 		# getting components from counts
 		for state in counts:
-			(index_bits, channel_bits, value_bits) = state.split()
+			bits = state.split()
+			if len(bits) != 2:
+				(index_bits, channel_bits, value_bits) = bits
+			else:
+				(index_bits, value_bits) = bits
+				channel_bits = '0'
 			i = int(index_bits, 2)
 			j = int(channel_bits, 2)
 			a = counts[state]
@@ -94,16 +99,21 @@ class SQPAM:
 			elif (value_bits =='1'):
 				sine_amps[j][i] = a
 
+		# decoding
 		total_amps = cosine_amps+sine_amps
 		amps = sine_amps if not inverted else cosine_amps
 		ratio = np.divide(amps, total_amps, out=np.zeros_like(amps), where=total_amps!=0)
 		data = 2 * (ratio) - 1
 
-		#print(data.shape)
-		#data = data[:original_num_samples]
-		#print(data.shape)
-		#if num_channels > 1: data = utils.restore_channels(data,num_channels)
-		#print(data.shape)
+		# post-processing
+		data = data[:original_num_samples]
+		
+		if num_channels > 1: 
+			data = utils.restore_channels(data,num_channels)
+			data = data[:original_num_channels]
+		else:
+			data = data.squeeze()
+			data = data[:original_num_samples]
 
 		return data
 
