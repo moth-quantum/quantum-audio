@@ -23,8 +23,8 @@ class QSM:
 		values = utils.quantize(data,num_value_qubits)
 
 		# prepare circuit
-		index_register 		= qiskit.QuantumRegister(num_index_qubits,'t')
-		amplitude_register 	= qiskit.QuantumRegister(num_value_qubits,'a')
+		index_register 		= qiskit.QuantumRegister(num_index_qubits,self.labels[0])
+		amplitude_register 	= qiskit.QuantumRegister(num_value_qubits,self.labels[-1])
 		circuit = qiskit.QuantumCircuit(amplitude_register,index_register)
 		circuit.h(index_register)
 
