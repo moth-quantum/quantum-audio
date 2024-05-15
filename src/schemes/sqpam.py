@@ -33,7 +33,6 @@ class SQPAM:
 		circuit.h(index_register)
 		
 		# encode values
-		
 		for i, value in enumerate(values):        
 			self.value_setting(circuit=circuit, index=i, value=value)
 		
@@ -113,7 +112,6 @@ class SQPAM:
 			data = data[:original_num_channels]
 		else:
 			data = data.squeeze()
-			data = data[:original_num_samples]
 
 		return data
 

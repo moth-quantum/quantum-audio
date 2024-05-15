@@ -162,7 +162,7 @@ def plot(samples,title=None,label=('original','reconstructed')):
 		fig, axs = plt.subplots(num_channels, 1, figsize=(8, 8))
 		for i, y_axis in enumerate(samples):
 			for c in range(num_channels):
-				axs[c].plot(x_axis, y_axis[c], label=None if not label else label[i])
+				axs[c].plot(x_axis, y_axis[c][:num_samples], label=None if not label else label[i])
 				axs[c].set_xlabel("Index")
 				axs[c].set_ylabel("Values")
 				axs[c].set_title(f"channel {c+1}")
