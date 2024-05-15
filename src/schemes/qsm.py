@@ -50,7 +50,6 @@ class QSM:
 
 
 	def decode(self,circuit,backend=None,shots=4000):
-
 		# execute
 		counts = utils.get_counts(circuit=circuit,backend=backend,shots=shots,pad=False)
 
