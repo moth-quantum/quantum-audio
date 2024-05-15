@@ -99,7 +99,11 @@ def get_counts(circuit,backend,shots,pad=False):
 	return counts
 
 def apply_x_at_index(qc,i):
-	_,creg,treg = qc.qregs
+	if len(qc.qregs) != 2:
+		_,creg,treg = qc.qregs
+	else:
+		_,treg = qc.qregs
+		creg = []
 	bitstring = []
 	for reg_index, reg_qubit in enumerate(creg[:] + treg[:]):
 		bit = (i >> reg_index) & 1
