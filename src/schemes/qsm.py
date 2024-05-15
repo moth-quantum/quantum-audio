@@ -19,7 +19,7 @@ class QSM:
 		num_value_qubits = utils.get_bit_depth(data) if not self.qubit_depth else self.qubit_depth
 		
 		# prepare data
-		data   = utils.apply_padding(data,num_index_qubits)
+		data   = utils.apply_index_padding(data,num_index_qubits)
 		values = utils.quantize(data,num_value_qubits)
 
 		# prepare circuit

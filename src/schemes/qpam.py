@@ -18,7 +18,7 @@ class QPAM:
 		num_value_qubits  = self.qubit_depth
 
 		# prepare data
-		data = utils.apply_padding(data,num_index_qubits)
+		data = utils.apply_index_padding(data,num_index_qubits)
 		norm,values = utils.convert_to_probability_amplitudes(data)
 
 		# prepare circuit
