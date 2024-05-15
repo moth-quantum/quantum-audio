@@ -18,13 +18,26 @@ def simulate_data(num_samples,num_channels=1,seed=42):
 	if num_channels == 1: data = data.squeeze()
 	return data
 
-def apply_padding(array,num_index_qubits):
+def apply_padding_(array,num_index_qubits):
 	pad_length = (2**num_index_qubits)-array.shape[-1]
 	if pad_length: 
 		padding = [(0, 0) for _ in range(array.ndim)]
 		padding[-1] = (0, pad_length)
 		array = np.pad(array, padding, mode='constant')
 	return array
+
+def apply_padding(array, num_bits):
+    padding = []
+    for i, n_bits in enumerate(num_bits):
+        pad_length = (2 ** n_bits) - array.shape[i]
+        if pad_length > 0:
+            padding.append((0, pad_length))
+        else:
+            padding.append((0, 0))
+    
+    array = np.pad(array, padding, mode='constant', constant_values=0)
+    print(array)
+    return array
 
 def get_bit_depth(signal):
     unique_values = np.unique(signal)
