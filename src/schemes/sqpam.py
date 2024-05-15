@@ -26,7 +26,7 @@ class SQPAM:
 		# prepare circuit
 		index_register   = qiskit.QuantumRegister(num_index_qubits,self.labels[0])
 		channel_register = qiskit.QuantumRegister(num_channel_qubits,self.labels[1])
-		value_register   = qiskit.QuantumRegister(num_value_qubits,self.labels[2])
+		value_register   = qiskit.QuantumRegister(num_value_qubits,self.labels[-1])
 
 		circuit = qiskit.QuantumCircuit(value_register,channel_register,index_register)
 		if num_channel_qubits: circuit.h(channel_register)
