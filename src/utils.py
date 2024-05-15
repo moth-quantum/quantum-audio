@@ -18,7 +18,7 @@ def simulate_data(num_samples,num_channels=1,seed=42):
 	if num_channels == 1: data = data.squeeze()
 	return data
 
-def apply_padding_(array,num_index_qubits):
+def apply_index_padding(array,num_index_qubits):
 	pad_length = (2**num_index_qubits)-array.shape[-1]
 	if pad_length: 
 		padding = [(0, 0) for _ in range(array.ndim)]
@@ -28,15 +28,17 @@ def apply_padding_(array,num_index_qubits):
 
 def apply_padding(array, num_bits):
     padding = []
-    for i, n_bits in enumerate(num_bits):
-        pad_length = (2 ** n_bits) - array.shape[i]
+    array_shape = array.shape
+    for i in range(len(array_shape)):
+        n_bits = num_bits[i] if len(num_bits) > i else num_bits[0]
+        pad_length = (2 ** n_bits) - array_shape[i]
         if pad_length > 0:
             padding.append((0, pad_length))
         else:
             padding.append((0, 0))
-    
-    array = np.pad(array, padding, mode='constant', constant_values=0)
-    print(array)
+    while len(padding) < array.ndim:
+        padding.append((0, 0))
+    array = np.pad(array, padding, mode='constant')
     return array
 
 def get_bit_depth(signal):
@@ -96,17 +98,7 @@ def get_counts(circuit,backend,shots,pad=False):
 	counts = pad_counts(result.get_counts()) if pad else result.get_counts()
 	return counts
 
-def apply_x_at_index(qc,i,reg,disp=False):
-	bitstring = []
-	for reg_index, reg_qubit in enumerate(reg):
-		bit = (i >> reg_index) & 1
-		bitstring.append(bit)
-		if not bit:
-			qc.x(reg_qubit)
-	if disp: 
-		print(f'{bitstring}')
-
-def set_index(qc,i):
+def apply_x_at_index(qc,i):
 	_,creg,treg = qc.qregs
 	bitstring = []
 	for reg_index, reg_qubit in enumerate(creg[:] + treg[:]):
@@ -115,56 +107,72 @@ def set_index(qc,i):
 		if not bit:
 			qc.x(reg_qubit)
 
-	'''if creg.size: 
-		apply_x_at_index(qc,i,reg=creg,disp=False)
-	apply_x_at_index(qc,i,reg=treg,disp=False)'''
-
 def with_indexing(func):
     def wrapper(*args, **kwargs):
         qc = kwargs.get('circuit')
         i = kwargs.get('index')
         qc.barrier()
-        set_index(qc,i)
+        apply_x_at_index(qc,i)
         func(*args, **kwargs)
-        set_index(qc,i)
+        apply_x_at_index(qc,i)
     return wrapper
 
-def measure(qc,treg_pos = 2,creg_pos=1,areg_pos = 0,labels=('ca','cc','ct')):
-	qc.barrier()
-
-	areg = qc.qregs[areg_pos]
-	creg = qc.qregs[creg_pos]
-	treg = qc.qregs[treg_pos]
-
-	careg = qiskit.ClassicalRegister(areg.size, labels[0])
-	ccreg = qiskit.ClassicalRegister(creg.size, labels[1]) 
-	ctreg = qiskit.ClassicalRegister(treg.size, labels[2])
-	       
-	qc.add_register(careg)
-	qc.add_register(ccreg)
-	qc.add_register(ctreg)
-      
-	qc.measure(areg, careg)
-	qc.measure(creg, ccreg)
-	qc.measure(treg, ctreg)
+def measure(qc,labels=('ca','cc','ct'),positions=None):
+    qc.barrier()
+    positions = range(len(qc.qregs)) if not positions else positions
+    for pos, label in zip(positions, labels):
+        qreg = qc.qregs[pos]
+        creg = qiskit.ClassicalRegister(qreg.size, label)
+        qc.add_register(creg)
+        qc.measure(qreg, creg)
 
 # ======================
 # Plotting Utils
 # ======================
 
-def plot(samples,title=None,label=None): #update for multi-channel
+def plot_1d(samples,title=None,label=('original','reconstructed')):
 	if type(samples) != list: samples = [samples]
 	if label and type(label) != tuple: label = (label,)
 	
-	num_samples = len(samples[0])
+	num_samples = samples[0].shape[-1]
 	x_axis = np.arange(0,num_samples)
 
 	for i, y_axis in enumerate(samples):
-		plt.plot(x_axis, y_axis, label=None if not label else label[i]) 
+		plt.plot(x_axis, y_axis.squeeze(), label=None if not label else label[i])
 
 	plt.xlabel("Index")
 	plt.ylabel("Values")
 	if label: plt.legend()
+	if title: plt.title(title)
+	plt.show()
+
+def plot(samples,title=None,label=('original','reconstructed')):
+	if type(samples) != list: samples = [samples]
+	if label and type(label) != tuple: label = (label,)
+	
+	num_samples = samples[0].shape[-1]
+	num_channels = 1 if samples[0].ndim == 1 else samples[0].shape[-2]
+	x_axis = np.arange(0,num_samples)
+	
+	if num_channels > 1:
+		fig, axs = plt.subplots(num_channels, 1, figsize=(8, 8))
+		for i, y_axis in enumerate(samples):
+			for c in range(num_channels):
+				axs[c].plot(x_axis, y_axis[c], label=None if not label else label[i])
+				axs[c].set_xlabel("Index")
+				axs[c].set_ylabel("Values")
+				axs[c].set_title(f"channel {c+1}")
+				if label: axs[c].legend(loc='upper right')
+				axs[c].grid(True)
+		plt.tight_layout()
+	
+	else:
+		for i, y_axis in enumerate(samples):
+			plt.plot(x_axis, y_axis.squeeze(), label=None if not label else label[i])
+			plt.xlabel("Index")
+			plt.ylabel("Values")
+			if label: plt.legend()
+	
 	if title: plt.title(title)
 	plt.show()
 
