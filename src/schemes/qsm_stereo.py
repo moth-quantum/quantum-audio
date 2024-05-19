@@ -38,6 +38,7 @@ class QSM:
 			self.value_setting(circuit=circuit, index=i, value=sample)
 
 		# measure
+		#circuit.x(channel_register)
 		utils.measure(circuit)
 
 		# additional information for decoding
