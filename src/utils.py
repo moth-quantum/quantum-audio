@@ -7,6 +7,8 @@ import qiskit
 from PIL import Image
 from IPython.display import display, Audio, clear_output
 import pyaudio
+import librosa
+from tqdm import tqdm
 
 # ======================
 # Data processing utils
@@ -195,6 +197,15 @@ def tune(obj,function,max_value=2048,step=10,name='Shots',ref=None,limit=None):
 		plt.show()
 	variable_slider = ipywidgets.IntSlider(value=1, min=1, max=max_value, step=step, description=name)
 	return ipywidgets.interact(plot_function, shots=variable_slider)
+	
+def tune_audio(obj,scheme,function,max_value=8000,step=10,name='Shots',limit=None,sr=22050):
+	def plot_function(shots):
+		y = function(chunks=obj[:limit],scheme=scheme,shots=shots)
+		y = np.concatenate(y)
+		clear_output(wait=True)
+		play(y,rate=sr,autoplay=True)
+	variable_slider = ipywidgets.IntSlider(value=1, min=1, max=max_value, step=step, description=name)
+	return ipywidgets.interact(plot_function, shots=variable_slider)
 
 def interpolate(samples,step_size=0.025,kind='linear'):
     num_samples = len(samples)
@@ -209,3 +220,31 @@ def interpolate(samples,step_size=0.025,kind='linear'):
 def play(array,rate=44100,autoplay=False):
 	audio = Audio(data=array,rate=rate,autoplay=autoplay)
 	display(audio)
+
+# ======================
+# Audio
+# ======================
+
+def get_chunks(file_path,sr=22050,chunk_size=256,mono=True):
+    y,sr = librosa.load(file_path,sr=sr,mono=mono)
+    print(y.shape)
+    if y.ndim == 1: y = y.reshape(1,-1) 
+    print(f'Num samples: {y.shape[-1]}, Num channels: {y.shape[0]}, Sample rate: {sr}, Buffer size: {chunk_size}')
+    y_chunks = []
+    for i in range(0, y.shape[-1], chunk_size):
+        chunk = y[:,i : i+chunk_size]
+        y_chunks.append(chunk)
+    print(f'Number of chunks: {len(y_chunks)}')
+    print(y_chunks[0].shape)
+    return y_chunks,sr
+
+def process(chunk,scheme,shots):
+    chunk = scheme.decode(scheme.encode(chunk),shots=shots)
+    return chunk
+
+def process_chunks(chunks,scheme,shots):
+    processed_chunks = []
+    for chunk in chunks:
+        processed_chunk = process(chunk,scheme,shots)
+        processed_chunks.append(processed_chunk)
+    return processed_chunks
