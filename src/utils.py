@@ -198,13 +198,13 @@ def tune(obj,function,max_value=2048,step=10,name='Shots',ref=None,limit=None):
 	variable_slider = ipywidgets.IntSlider(value=1, min=1, max=max_value, step=step, description=name)
 	return ipywidgets.interact(plot_function, shots=variable_slider)
 	
-def tune_audio(obj,scheme,function,max_value=8000,step=10,name='Shots',limit=None,sr=22050):
+def tune_audio(obj,scheme,function,max_value=8000,step=10,name='Shots',limit=None,sr=22050,offset=0):
 	def plot_function(shots):
-		y = function(chunks=obj[:limit],scheme=scheme,shots=shots)
-		y = np.concatenate(y)
+		y = function(chunks=obj[offset:limit],scheme=scheme,shots=shots)
+		if y: y = np.concatenate(y)
 		clear_output(wait=True)
 		play(y,rate=sr,autoplay=True)
-	variable_slider = ipywidgets.IntSlider(value=1, min=1, max=max_value, step=step, description=name)
+	variable_slider = ipywidgets.IntSlider(value=1, min=1, max=max_value, step=step, description=name, continuous_update=False)
 	return ipywidgets.interact(plot_function, shots=variable_slider)
 
 def interpolate(samples,step_size=0.025,kind='linear'):
@@ -225,9 +225,11 @@ def play(array,rate=44100,autoplay=False):
 # Audio
 # ======================
 
-def get_chunks(file_path,sr=22050,chunk_size=256,mono=True):
+def get_chunks(file_path,sr=22050,chunk_size=256,mono=True,preview=False):
     y,sr = librosa.load(file_path,sr=sr,mono=mono)
-    print(y.shape)
+    if preview:
+    	play(array=y,rate=sr)
+    print(f'Shape: {y.shape}')
     if y.ndim == 1: y = y.reshape(1,-1) 
     print(f'Num samples: {y.shape[-1]}, Num channels: {y.shape[0]}, Sample rate: {sr}, Buffer size: {chunk_size}')
     y_chunks = []
@@ -235,7 +237,7 @@ def get_chunks(file_path,sr=22050,chunk_size=256,mono=True):
         chunk = y[:,i : i+chunk_size]
         y_chunks.append(chunk)
     print(f'Number of chunks: {len(y_chunks)}')
-    print(y_chunks[0].shape)
+    print(f'Shape per buffer: {y_chunks[0].shape}')
     return y_chunks,sr
 
 def process(chunk,scheme,shots):
