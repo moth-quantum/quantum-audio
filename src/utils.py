@@ -199,15 +199,6 @@ def tune(obj,function,max_value=2048,step=10,name='Shots',ref=None,limit=None):
 		plt.show()
 	variable_slider = ipywidgets.IntSlider(value=1, min=1, max=max_value, step=step, description=name)
 	return ipywidgets.interact(plot_function, shots=variable_slider)
-	
-def tune_audio(obj,scheme,function,max_value=8000,step=10,name='Shots',limit=None,sr=22050,offset=0):
-	def plot_function(shots):
-		y = function(chunks=obj[offset:limit],scheme=scheme,shots=shots)
-		if y: y = np.concatenate(y)
-		clear_output(wait=True)
-		play(y,rate=sr,autoplay=True)
-	variable_slider = ipywidgets.IntSlider(value=1, min=1, max=max_value, step=step, description=name, continuous_update=False)
-	return ipywidgets.interact(plot_function, shots=variable_slider)
 
 def interpolate(samples,step_size=0.025,kind='linear'):
     num_samples = len(samples)
@@ -252,3 +243,12 @@ def process_chunks(chunks,scheme,shots):
         processed_chunk = process(chunk,scheme,shots)
         processed_chunks.append(processed_chunk)
     return processed_chunks
+
+def tune_audio(obj,scheme,function,max_value=8000,step=10,name='Shots',limit=None,sr=22050,offset=0):
+	def plot_function(shots):
+		y = function(chunks=obj[offset:limit],scheme=scheme,shots=shots)
+		if y: y = np.concatenate(y)
+		clear_output(wait=True)
+		play(y,rate=sr,autoplay=True)
+	variable_slider = ipywidgets.IntSlider(value=1, min=1, max=max_value, step=step, description=name, continuous_update=False)
+	return ipywidgets.interact(plot_function, shots=variable_slider)
