@@ -40,7 +40,7 @@ class SQPAM:
 		circuit.metadata = {'num_samples':num_samples,'num_channels':num_channels}
 
 		# measure
-		utils.measure(circuit) # kept in encode for demo but will be moved independent of encode
+		utils.measure(circuit) # Note: kept in encode for demo but will be moved independent of encode
 
 		return circuit
 

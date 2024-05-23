@@ -34,7 +34,7 @@ class QSM:
 			self.value_setting(circuit=circuit, index=i, value=sample)
 
 		# measure
-		utils.measure(circuit) # kept in encode for demo but will be moved independent of encode
+		utils.measure(circuit) # Note: kept in encode for demo but will be moved independent of encode
 
 		return circuit
 
