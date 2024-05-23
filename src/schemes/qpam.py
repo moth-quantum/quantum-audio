@@ -32,7 +32,7 @@ class QPAM:
 		# additional information for decoding
 		circuit.metadata = {'original_length':num_samples, 'norm_factor':norm}
 
-		circuit.measure_all()
+		circuit.measure_all() # kept in encode for demo but will be moved independent of encode
 		return circuit
 
 	def decode(self,circuit,backend=None,shots=4000):
