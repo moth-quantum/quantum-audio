@@ -4,7 +4,7 @@ import numpy as np
 
 class QPAM:
 	def __init__(self):
-		self.name 		 = 'Quantum Probability Amplitude Modulation'
+		self.name = 'Quantum Probability Amplitude Modulation'
 		self.qubit_depth = 0
 		self.labels      = ('t','a')
 

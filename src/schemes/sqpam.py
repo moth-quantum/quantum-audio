@@ -72,7 +72,6 @@ class SQPAM:
 		num_samples = 2 ** num_index_qubits
 		num_channels = 2 ** num_channel_qubits
 
-		total_samples = num_samples*num_channels
 		original_num_samples = circuit.metadata['num_samples']*num_channels
 		original_num_channels = circuit.metadata['num_channels']
 

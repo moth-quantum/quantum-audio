@@ -37,8 +37,8 @@ class QSM:
 		for i, sample in enumerate(values):
 			self.value_setting(circuit=circuit, index=i, value=sample)
 
+		#circuit.x(channel_register) #applies channel inversion
 		# measure
-		#circuit.x(channel_register)
 		utils.measure(circuit)
 
 		# additional information for decoding
@@ -68,7 +68,6 @@ class QSM:
 		num_samples = 2 ** num_index_qubits
 		num_channels = 2 ** num_channel_qubits
 
-		total_samples = num_samples*num_channels
 		original_num_samples = circuit.metadata['num_samples']*num_channels
 		original_num_channels = circuit.metadata['num_channels']
 		
@@ -94,6 +93,5 @@ class QSM:
 			data = data.squeeze()
 		
 		return data
-
 
 
