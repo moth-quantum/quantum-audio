@@ -3,9 +3,9 @@ import qiskit
 import numpy as np
 from bitstring import BitArray
 
-class QSM:
+class MQSM:
 	def __init__(self,qubit_depth=None):
-		self.name = 'Quantum State Modulation'
+		self.name = 'Multi-channel Quantum State Modulation'
 		self.qubit_depth = qubit_depth
 		self.labels = ('t','c','a')
 
@@ -93,5 +93,3 @@ class QSM:
 			data = data.squeeze()
 		
 		return data
-
-

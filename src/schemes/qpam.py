@@ -2,10 +2,6 @@ import utils
 import qiskit
 import numpy as np
 
-''' Note: anything independent of data is placed inside init.
-Anything dependent of data (i.e. runtime requirements) is in the functions like encode decode, 
-this allows efficient buffering '''
-
 class QPAM:
 	def __init__(self):
 		self.name = 'Quantum Probability Amplitude Modulation'

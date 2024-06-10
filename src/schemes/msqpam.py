@@ -2,9 +2,9 @@ import utils
 import qiskit
 import numpy as np
 
-class SQPAM:
+class MSQPAM:
 	def __init__(self):
-		self.name = 'Single-Qubit Probability Amplitude Modulation'
+		self.name = 'Multi-channel Single-Qubit Probability Amplitude Modulation'
 		self.qubit_depth = 1
 		self.labels      = ('t','c','a')
 
@@ -113,4 +113,3 @@ class SQPAM:
 			data = data.squeeze()
 
 		return data
-

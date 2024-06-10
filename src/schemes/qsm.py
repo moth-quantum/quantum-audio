@@ -71,6 +71,3 @@ class QSM:
 
 		data = data/(2**(bit_depth-1))
 		return data
-
-
-

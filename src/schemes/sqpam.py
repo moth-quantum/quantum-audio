@@ -19,7 +19,7 @@ class SQPAM:
 		num_value_qubits = self.qubit_depth
 
 		# prepare data
-		data   = utils.apply_padding(data,num_index_qubits)
+		data   = utils.apply_index_padding(data,num_index_qubits)
 		values = utils.convert_to_angles(data)
 
 		# prepare circuit
@@ -83,8 +83,8 @@ class SQPAM:
 
 		# getting components from counts
 		for state in counts:
-			(index_bits, channel_bits, value_bits) = state.split()
-			i = int(index_bits+channel_bits, 2)
+			(index_bits, value_bits) = state.split()
+			i = int(index_bits, 2)
 			a = counts[state]
 			if (value_bits == '0'):
 				cosine_amps[i] = a
