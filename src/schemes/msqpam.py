@@ -19,27 +19,28 @@ class SQPAM:
 		num_value_qubits = self.qubit_depth
 
 		# prepare data
-		data   = utils.apply_padding(data,num_index_qubits)
+		data = utils.apply_padding(data,(num_channel_qubits,num_index_qubits))
+		data = data.squeeze() if num_channels == 1 else utils.interleave_channels(data)
 		values = utils.convert_to_angles(data)
 
 		# prepare circuit
 		index_register   = qiskit.QuantumRegister(num_index_qubits,self.labels[0])
 		channel_register = qiskit.QuantumRegister(num_channel_qubits,self.labels[1])
-		value_register   = qiskit.QuantumRegister(num_value_qubits,self.labels[2])
+		value_register   = qiskit.QuantumRegister(num_value_qubits,self.labels[-1])
 
 		circuit = qiskit.QuantumCircuit(value_register,channel_register,index_register)
+		if num_channel_qubits: circuit.h(channel_register)
 		circuit.h(index_register)
 		
 		# encode values
-		values = values.squeeze() if num_channels == 1 else utils.interleave_channels(values)
 		for i, value in enumerate(values):        
 			self.value_setting(circuit=circuit, index=i, value=value)
 		
 		# additional information for decoding
-		circuit.metadata = {'num_samples':num_samples}
+		circuit.metadata = {'num_samples':num_samples,'num_channels':num_channels}
 
 		# measure
-		utils.measure(circuit)
+		utils.measure(circuit) # Note: kept in encode for demo but will be moved independent of encode
 
 		return circuit
 
@@ -48,12 +49,11 @@ class SQPAM:
 		value_register, channel_register, index_register = circuit.qregs
 		
 		# initialise sub-circuit
-		sub_circuit = qiskit.QuantumCircuit()
+		sub_circuit = qiskit.QuantumCircuit(name=f'Sample {index} (CH {index%(2**channel_register.size)})')
 		sub_circuit.add_register(value_register)
 		
 		# rotate qubits with values
-		for i in range(value_register.size):
-			sub_circuit.ry(2*value, i)
+		sub_circuit.ry(2*value, 0)
 
 		# entangle with index qubits
 		sub_circuit = sub_circuit.control(channel_register.size + index_register.size)
@@ -72,32 +72,45 @@ class SQPAM:
 		num_samples = 2 ** num_index_qubits
 		num_channels = 2 ** num_channel_qubits
 
-		total_samples = num_samples*num_channels
 		original_num_samples = circuit.metadata['num_samples']*num_channels
+		original_num_channels = circuit.metadata['num_channels']
 
 		# decoding y-axis
 		
 		# initialising components
-		cosine_amps = np.zeros(total_samples)
-		sine_amps   = np.zeros(total_samples)
+		cosine_amps = np.zeros((num_channels,num_samples))
+		sine_amps   = np.zeros((num_channels,num_samples))
 
 		# getting components from counts
 		for state in counts:
-			(index_bits, channel_bits, value_bits) = state.split()
-			i = int(index_bits+channel_bits, 2)
+			bits = state.split()
+			if len(bits) != 2:
+				(index_bits, channel_bits, value_bits) = bits
+			else:
+				(index_bits, value_bits) = bits
+				channel_bits = '0'
+			i = int(index_bits, 2)
+			j = int(channel_bits, 2)
 			a = counts[state]
 			if (value_bits == '0'):
-				cosine_amps[i] = a
+				cosine_amps[j][i] = a
 			elif (value_bits =='1'):
-				sine_amps[i] = a
+				sine_amps[j][i] = a
 
+		# decoding
 		total_amps = cosine_amps+sine_amps
 		amps = sine_amps if not inverted else cosine_amps
 		ratio = np.divide(amps, total_amps, out=np.zeros_like(amps), where=total_amps!=0)
 		data = 2 * (ratio) - 1
 
+		# post-processing
 		data = data[:original_num_samples]
-		if num_channels > 1: data = utils.restore_channels(data,num_channels)
+		
+		if num_channels > 1: 
+			data = utils.restore_channels(data,num_channels)
+			data = data[:original_num_channels]
+		else:
+			data = data.squeeze()
 
 		return data
 
