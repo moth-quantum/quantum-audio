@@ -1,4 +1,4 @@
-import utils
+import quantumaudio.utils as utils
 import qiskit
 import numpy as np
 
