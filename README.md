@@ -1,4 +1,4 @@
-# Quantum audio
+# Quantum Audio
 Quantum Audio is a Python module for building quantum circuits that encode and decode audio signals as quantum states. This is primarily aimed for quantum computing simulators, but it might also run on real quantum hardware. The main objective is to have a readily available tools for using quantum representations of audio in artistic contexts and for studying future Quantum Signal Processing algorithms for audio.
 
 This package contains class implementations for generating quantum circuits from audio signals, as well as necessary pre and post processing functions.
