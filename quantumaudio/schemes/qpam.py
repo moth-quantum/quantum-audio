@@ -6,7 +6,7 @@ class QPAM:
 	def __init__(self):
 		self.name = 'Quantum Probability Amplitude Modulation'
 		self.qubit_depth = 0
-		self.labels      = ('t','a')
+		self.labels      = ('time','amplitude')
 
 	def encode(self,data):
 		# x-axis
@@ -32,7 +32,7 @@ class QPAM:
 		# additional information for decoding
 		circuit.metadata = {'original_length':num_samples, 'norm_factor':norm}
 
-		circuit.measure_all() # Note: kept in encode for demo but will be moved independent of encode
+		circuit.measure_all()
 		return circuit
 
 	def decode(self,circuit,backend=None,shots=4000):

@@ -6,7 +6,7 @@ class SQPAM:
 	def __init__(self):
 		self.name = 'Single-Qubit Probability Amplitude Modulation'
 		self.qubit_depth = 1
-		self.labels      = ('t','c','a')
+		self.labels      = ('time','channel','amplitude')
 
 	def encode(self,data):
 		# x-axis

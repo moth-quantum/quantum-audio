@@ -10,8 +10,6 @@ import pyaudio
 import librosa
 from tqdm import tqdm
 
-# Note: Each section of this file will be splitted to several files based on a standard structure 
-
 # ======================
 # Data processing utils
 # ======================

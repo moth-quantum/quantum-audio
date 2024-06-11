@@ -7,7 +7,7 @@ class MQSM:
 	def __init__(self,qubit_depth=None):
 		self.name = 'Multi-channel Quantum State Modulation'
 		self.qubit_depth = qubit_depth
-		self.labels = ('t','c','a')
+		self.labels = ('time','channel','amplitude')
 
 	def encode(self,data):
 		# x-axis

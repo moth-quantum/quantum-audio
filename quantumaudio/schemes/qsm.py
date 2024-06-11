@@ -7,7 +7,7 @@ class QSM:
 	def __init__(self,qubit_depth=None):
 		self.name = 'Quantum State Modulation'
 		self.qubit_depth = qubit_depth
-		self.labels = ('t','a')
+		self.labels = ('time','amplitude')
 
 	def encode(self,data):
 		# x-axis
@@ -34,7 +34,7 @@ class QSM:
 			self.value_setting(circuit=circuit, index=i, value=sample)
 
 		# measure
-		utils.measure(circuit) # Note: kept in encode for demo but will be moved independent of encode
+		utils.measure(circuit)
 
 		return circuit
 

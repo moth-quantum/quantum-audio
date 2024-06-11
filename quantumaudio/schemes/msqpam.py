@@ -6,7 +6,7 @@ class MSQPAM:
 	def __init__(self):
 		self.name = 'Multi-channel Single-Qubit Probability Amplitude Modulation'
 		self.qubit_depth = 1
-		self.labels      = ('t','c','a')
+		self.labels      = ('time','channel','amplitude')
 
 	def encode(self,data):
 		# x-axis
@@ -40,7 +40,7 @@ class MSQPAM:
 		circuit.metadata = {'num_samples':num_samples,'num_channels':num_channels}
 
 		# measure
-		utils.measure(circuit) # Note: kept in encode for demo but will be moved independent of encode
+		utils.measure(circuit)
 
 		return circuit
 
