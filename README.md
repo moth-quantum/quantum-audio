@@ -5,8 +5,8 @@ This package contains class implementations for generating quantum circuits from
 
 It contatins implementations for five representation algorithms cited on the publication above, namely:
 
-- QPAM - Quantum Probability Amplitude Modulation (Simple quantum superposition or "Amplitude Encoding")
-- SQPAM - Single-Qubit Probability Amplitude Modulation (similar to FRQI quantum image representations)
-- QSM - Quantum State Modulation (also known as FRQA in the literature)
-- MSQPAM - Multi-Channel Single-Qubit Probability Amplitude Modulation
-- MQSM - Multi-Channel Quantum State Modulation
+- <b>QPAM<b> - Quantum Probability Amplitude Modulation (Simple quantum superposition or "Amplitude Encoding")
+- <b>SQPAM<b> - Single-Qubit Probability Amplitude Modulation (similar to FRQI quantum image representations)
+- <b>QSM<b> - Quantum State Modulation (also known as FRQA in the literature)
+- <b>MSQPAM<b> - Multi-Channel Single-Qubit Probability Amplitude Modulation
+- <b>MQSM<b> - Multi-Channel Quantum State Modulation
