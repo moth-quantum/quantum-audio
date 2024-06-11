@@ -4,7 +4,6 @@ import ipywidgets
 import scipy
 import qiskit_aer
 import qiskit
-from PIL import Image
 from IPython.display import display, Audio, clear_output
 import pyaudio
 import librosa
