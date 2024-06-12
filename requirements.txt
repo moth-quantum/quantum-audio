@@ -1,0 +1,16 @@
+bitstring==4.2.3
+ipython==8.12.3
+ipywidgets==8.1.2
+librosa==0.10.2.post1
+matplotlib==3.8.4
+numpy==1.26.4
+PyAudio==0.2.14
+qiskit==0.46.0
+qiskit_aer==0.13.3
+qiskit_terra==0.46.0
+Requests==2.32.3
+scipy==1.13.1
+sounddevice==0.4.7
+soundfile==0.12.1
+spotipy==2.24.0
+tqdm==4.66.2
