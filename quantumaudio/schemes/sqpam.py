@@ -48,7 +48,7 @@ class SQPAM:
 		value_register, channel_register, index_register = circuit.qregs
 		
 		# initialise sub-circuit
-		sub_circuit = qiskit.QuantumCircuit()
+		sub_circuit = qiskit.QuantumCircuit(name=f'Sample {index}')
 		sub_circuit.add_register(value_register)
 		
 		# rotate qubits with values
