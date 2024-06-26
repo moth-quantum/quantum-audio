@@ -135,6 +135,11 @@ def measure(qc,labels=('ca','cc','ct'),positions=None):
 # Plotting Utils
 # ======================
 
+def draw_circuit(circuit,decompose=0):
+	for i in range(decompose):
+		circuit = circuit.decompose()
+	display(circuit.draw('mpl',style='clifford'))
+
 def plot_1d(samples,title=None,label=('original','reconstructed')):
 	if type(samples) != list: samples = [samples]
 	if label and type(label) != tuple: label = (label,)
