@@ -99,6 +99,12 @@ def get_counts(circuit,backend,shots,pad=False):
 	counts = pad_counts(result.get_counts()) if pad else result.get_counts()
 	return counts
 
+def execute(circuit,backend=None,shots=4000):
+	if not backend: backend = qiskit_aer.AerSimulator()
+	job = qiskit.execute(circuit,backend=backend,shots=shots)
+	result = job.result()
+	return result
+
 def apply_x_at_index(qc,i):
 	if len(qc.qregs) != 2:
 		_,creg,treg = qc.qregs
