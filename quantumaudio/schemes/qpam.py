@@ -6,9 +6,9 @@ class QPAM:
 	def __init__(self):
 		self.name = 'Quantum Probability Amplitude Modulation'
 		self.qubit_depth = 0
-		self.labels      = ('time','amplitude')
+		self.labels = ('time','amplitude')
 
-	def encode(self,data):
+	def encode(self,data,measure=True,verbose=2):
 		# x-axis
 		num_samples      = data.shape[-1]
 		num_index_qubits = utils.get_qubit_count(num_samples)
@@ -16,6 +16,12 @@ class QPAM:
 		# y-axis
 		assert data.ndim == 1 or data.shape[0] == 1, "Multi-channel not supported in QPAM"
 		num_value_qubits  = self.qubit_depth
+
+		# print
+		if verbose:
+			print(f'Number of qubits required: {num_index_qubits+num_value_qubits}\n')
+			print(f'{num_index_qubits} for {self.labels[0]}')
+			print(f'{num_value_qubits} for {self.labels[1]}\n')
 
 		# prepare data
 		data = utils.apply_index_padding(data,num_index_qubits)
@@ -32,11 +38,17 @@ class QPAM:
 		# additional information for decoding
 		circuit.metadata = {'original_length':num_samples, 'norm_factor':norm}
 
-		circuit.measure_all()
+		# measure, print and return
+		if measure: self.measure(circuit)
+		if verbose == 2: utils.draw_circuit(circuit)
 		return circuit
 
-	def decode(self,circuit,backend=None,shots=4000):
+	def measure(self,circuit):
+		if not circuit.cregs: circuit.measure_all()
+
+	def decode(self,circuit,backend=None,shots=4000,keep_padding=False):
 		# execute
+		self.measure(circuit)
 		counts = utils.get_counts(circuit=circuit,backend=backend,shots=shots,pad=True)
 
 		# reconstruct
@@ -45,6 +57,7 @@ class QPAM:
 		data = (2*norm*np.sqrt(probabilities/shots)-1)
 
 		# undo padding
-		data = data[:circuit.metadata['original_length']]
+		if not keep_padding:
+			data = data[:circuit.metadata['original_length']]
 		
 		return data
