@@ -9,8 +9,10 @@ class QPAM:
 		"""
 	def __init__(self):
 		self.name = 'Quantum Probability Amplitude Modulation'
-		self.labels = ('time','amplitude')
 		self.qubit_depth = 0
+		self.labels = ('time','amplitude')
+		self.n_fold = 1
+		self.positions = tuple(range(self.n_fold-1,-1,-1))
 
 	def encode(self, data: np.ndarray, measure: bool = True, verbose: int = 2):
 		# x-axis

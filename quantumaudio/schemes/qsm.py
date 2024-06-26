@@ -8,6 +8,8 @@ class QSM:
 		self.name = 'Quantum State Modulation'
 		self.qubit_depth = qubit_depth
 		self.labels = ('time','amplitude')
+		self.n_fold = 2
+		self.positions = tuple(range(self.n_fold-1,-1,-1))
 
 	def encode(self,data,measure=True,verbose=2):
 		# x-axis
@@ -60,22 +62,22 @@ class QSM:
 	def measure(self,circuit):
 		if not circuit.cregs: utils.measure(circuit)
 
-	def decode(self,circuit,backend=None,shots=4000,keep_padding=False):
-		# execute
-		counts = utils.get_counts(circuit=circuit,backend=backend,shots=shots,pad=False)
+	def decode_result(self,result,keep_padding=False):
+		counts = result.get_counts()
+		header = result.results[0].header
 
-		# decoding x-axis
-		num_index_qubits = circuit.qregs[1].size
-		num_samples = 2 ** num_index_qubits
-		original_num_samples = circuit.metadata['num_samples']
+		index_position, amplitude_position = self.positions
 		
-		# decoding y-axis
-		bit_depth = circuit.qregs[0].size
+		# decoding x-axis
+		num_index_qubits = header.qreg_sizes[index_position][-1]
+		num_samples = 2 ** num_index_qubits
+		original_num_samples = header.metadata['num_samples']
 
-		# initialising data
-		data = np.zeros(num_samples, int)
+		# decoding y-axis
+		bit_depth = header.qreg_sizes[amplitude_position][-1]
 
 		# decoding data
+		data = np.zeros(num_samples, int)
 		for state in counts:
 			(t_bits, a_bits) = state.split()
 			t = int(t_bits, 2)
@@ -88,4 +90,10 @@ class QSM:
 		# undo padding
 		if not keep_padding: 
 			data = data[:original_num_samples]
+		return data
+
+	def decode(self,circuit,backend=None,shots=4000,keep_padding=False):
+		self.measure(circuit)
+		result = utils.execute(circuit=circuit,backend=backend,shots=shots)
+		data = self.decode_result(result=result,keep_padding=keep_padding)
 		return data

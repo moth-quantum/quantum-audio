@@ -9,6 +9,8 @@ class MQSM:
 		self.qubit_depth = qubit_depth
 		self.num_channels = num_channels 
 		self.labels = ('time','channel','amplitude')
+		self.n_fold = 3
+		self.positions = tuple(range(self.n_fold-1,-1,-1))
 
 	def encode(self,data,measure=True,verbose=2):
 		# x-axis
@@ -62,23 +64,24 @@ class MQSM:
 	def measure(self,circuit):
 		if not circuit.cregs: utils.measure(circuit)
 
-	def decode(self,circuit,backend=None,shots=4000,keep_padding=(False,False)):
-		# execute
-		self.measure(circuit)
-		counts = utils.get_counts(circuit=circuit,backend=backend,shots=shots,pad=False)
+	def decode_result(self,result,keep_padding=(False,False)):
+		counts = result.get_counts()
+		header = result.results[0].header
+
+		index_position,channel_position,amplitude_position = self.positions
 
 		# decoding x-axis
-		num_channel_qubits = circuit.qregs[1].size
-		num_index_qubits   = circuit.qregs[2].size
+		num_index_qubits   = header.qreg_sizes[index_position][1]
+		num_channel_qubits = header.qreg_sizes[channel_position][1]
 
 		num_samples = 2 ** num_index_qubits
 		num_channels = 2 ** num_channel_qubits
 
-		original_num_samples = circuit.metadata['num_samples']*num_channels
-		original_num_channels = circuit.metadata['num_channels']
-		
+		original_num_samples = header.metadata['num_samples']*num_channels #verify this
+		original_num_channels = header.metadata['num_channels']
+
 		# decoding y-axis
-		bit_depth = circuit.qregs[0].size
+		bit_depth = header.qreg_sizes[amplitude_position][-1]
 
 		# decoding data
 		data = np.zeros((num_channels,num_samples), int)
@@ -97,6 +100,12 @@ class MQSM:
 			data = data[:original_num_channels]
 		
 		if not keep_padding[1]:
-			data = data[:, :num_samples]
+			data = data[:, :original_num_samples]
 		
+		return data
+
+	def decode(self,circuit,backend=None,shots=4000,keep_padding=(False,False)):
+		self.measure(circuit)
+		result = utils.execute(circuit=circuit,backend=backend,shots=shots)
+		data = self.decode_result(result=result,keep_padding=keep_padding)
 		return data

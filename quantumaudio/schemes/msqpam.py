@@ -7,7 +7,9 @@ class MSQPAM:
 		self.name = 'Multi-channel Single-Qubit Probability Amplitude Modulation'
 		self.qubit_depth = 1
 		self.num_channels = num_channels
-		self.labels = ('time','channel','amplitude')
+		self.labels = ('time','channel','amplitude') #encoding order: bottom to top 
+		self.n_fold = 3
+		self.positions = tuple(range(self.n_fold-1,-1,-1)) #decoding order: top to bottom 
 
 	def encode(self,data,measure=True,verbose=2):
 		# x-axis
@@ -45,7 +47,7 @@ class MSQPAM:
 
 		# measure
 		if measure: self.measure(circuit)
-		if verbose == 2: utils.draw_circuit(circuit)
+		if verbose == 2: utils.draw_circuit(circuit,decompose=1)
 		return circuit
 
 	@utils.with_indexing
@@ -68,20 +70,20 @@ class MSQPAM:
 	def measure(self,circuit):
 		if not circuit.cregs: utils.measure(circuit)
 
-	def decode(self,circuit,backend=None,shots=1024,inverted=False,keep_padding=(False,False)):
-		# execute
-		self.measure(circuit)
-		counts = utils.get_counts(circuit=circuit,backend=backend,shots=shots)
-		
+	def decode_result(self,result,inverted=False,keep_padding=(False,False)):
+		counts = result.get_counts()
+		header = result.results[0].header
+
 		# decoding x-axis
-		num_channel_qubits = circuit.qregs[1].size
-		num_index_qubits = circuit.qregs[2].size
+		index_position,channel_position,_ = self.positions
+		num_index_qubits   = header.qreg_sizes[index_position][1]
+		num_channel_qubits = header.qreg_sizes[channel_position][1]
 
 		num_samples = 2 ** num_index_qubits
 		num_channels = 2 ** num_channel_qubits
 
-		original_num_samples = circuit.metadata['num_samples']*num_channels
-		original_num_channels = circuit.metadata['num_channels']
+		original_num_samples = header.metadata['num_samples']*num_channels #verify this
+		original_num_channels = header.metadata['num_channels']
 
 		# decoding y-axis
 		
@@ -112,6 +114,13 @@ class MSQPAM:
 			data = data[:original_num_channels]
 		
 		if not keep_padding[1]:
-			data = data[:, :num_samples]
+			data = data[:, :original_num_samples]
 
+		return data
+
+	def decode(self,circuit,backend=None,shots=1024,inverted=False,keep_padding=(False,False)):
+		# execute
+		self.measure(circuit)
+		result = utils.execute(circuit=circuit,backend=backend,shots=shots)
+		data = self.decode_result(result=result,inverted=inverted,keep_padding=keep_padding)
 		return data

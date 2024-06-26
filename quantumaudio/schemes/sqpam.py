@@ -7,6 +7,8 @@ class SQPAM:
 		self.name = 'Single-Qubit Probability Amplitude Modulation'
 		self.qubit_depth = 1
 		self.labels = ('time','amplitude')
+		self.n_fold = 2
+		self.positions = tuple(range(self.n_fold-1,-1,-1))
 
 	def encode(self,data,measure=True,verbose=2):
 		# x-axis
@@ -72,7 +74,7 @@ class SQPAM:
 		header = result.results[0].header
 
 		# decoding x-axis
-		index_position = 1
+		index_position,_ = self.positions
 		num_index_qubits = header.qreg_sizes[index_position][1]
 		num_samples = 2 ** num_index_qubits
 		original_num_samples = header.metadata['num_samples']
