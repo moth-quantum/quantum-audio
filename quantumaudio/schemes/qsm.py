@@ -26,11 +26,12 @@ class QSM:
 		
 		# prepare data
 		data = utils.apply_index_padding(data,num_index_qubits)
-		values = utils.quantize(data,num_value_qubits).squeeze()
+		data = data.squeeze()
+		values = utils.quantize(data,num_value_qubits)
 
 		# prepare circuit
-		index_register 		= qiskit.QuantumRegister(num_index_qubits,self.labels[0])
-		amplitude_register 	= qiskit.QuantumRegister(num_value_qubits,self.labels[1])
+		index_register = qiskit.QuantumRegister(num_index_qubits,self.labels[0])
+		amplitude_register = qiskit.QuantumRegister(num_value_qubits,self.labels[1])
 		circuit = qiskit.QuantumCircuit(amplitude_register,index_register)
 		circuit.h(index_register)
 

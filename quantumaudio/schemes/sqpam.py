@@ -25,7 +25,8 @@ class SQPAM:
 
 		# prepare data
 		data = utils.apply_index_padding(data,num_index_qubits)
-		values = utils.convert_to_angles(data).squeeze()
+		data = data.squeeze()
+		values = utils.convert_to_angles(data)
 
 		# prepare circuit
 		index_register = qiskit.QuantumRegister(num_index_qubits,self.labels[0])

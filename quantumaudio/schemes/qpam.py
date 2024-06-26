@@ -25,6 +25,7 @@ class QPAM:
 
 		# prepare data
 		data = utils.apply_index_padding(data,num_index_qubits)
+		data = data.squeeze()
 		norm,values = utils.convert_to_probability_amplitudes(data)
 
 		# prepare circuit
