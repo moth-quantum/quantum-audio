@@ -36,7 +36,7 @@ class QPAM:
 		circuit.initialize(values)
 
 		# additional information for decoding
-		circuit.metadata = {'original_length':num_samples, 'norm_factor':norm}
+		circuit.metadata = {'num_samples':num_samples, 'norm_factor':norm}
 
 		# measure, print and return
 		if measure: self.measure(circuit)
@@ -58,6 +58,6 @@ class QPAM:
 
 		# undo padding
 		if not keep_padding:
-			data = data[:circuit.metadata['original_length']]
+			data = data[:circuit.metadata['num_samples']]
 		
 		return data
