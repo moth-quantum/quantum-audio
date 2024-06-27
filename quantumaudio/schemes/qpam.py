@@ -43,8 +43,7 @@ class QPAM:
 		# prepare circuit
 		index_register  = qiskit.QuantumRegister(num_index_qubits,self.labels[0])
 		value_register  = qiskit.QuantumRegister(num_value_qubits,self.labels[1])
-		circuit = qiskit.QuantumCircuit(value_register,index_register)
-		circuit.name = self.name
+		circuit = qiskit.QuantumCircuit(value_register,index_register,name=self.name)
 		return circuit
 
 	def value_setting(self,circuit,values):
@@ -61,7 +60,7 @@ class QPAM:
 		norm,values = self.convert(data)
 		# initialise circuit
 		circuit = self.initialize_circuit(num_index_qubits,num_value_qubits)
-		# prepare circuit
+		# encode values
 		self.value_setting(circuit=circuit,values=values)
 		# additional information for decoding
 		self.add_metadata(circuit=circuit,num_samples=num_samples,norm_factor=norm)

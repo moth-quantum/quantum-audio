@@ -13,14 +13,14 @@ class SQPAM:
 
 		self.convert = utils.convert_to_angles
 
-	def encode(self,data,measure=True,verbose=2):
+	def get_num_qubits(self, data, verbose=True):
 		# x-axis
 		num_samples      = data.shape[-1]
 		num_index_qubits = utils.get_qubit_count(num_samples)
 		
 		# y-axis
 		assert data.ndim == 1 or data.shape[0] == 1, "Multi-channel not supported in SQPAM"
-		num_value_qubits = self.qubit_depth
+		num_value_qubits  = self.qubit_depth
 
 		# print
 		if verbose:
@@ -28,27 +28,41 @@ class SQPAM:
 			print(f'{num_index_qubits} for {self.labels[0]}')
 			print(f'{num_value_qubits} for {self.labels[1]}\n')
 
-		# prepare data
+		return num_samples,(num_index_qubits,num_value_qubits)
+
+	def prepare_data(self, data, num_index_qubits):
 		data = utils.apply_index_padding(data,num_index_qubits)
 		data = data.squeeze()
-		values = self.convert(data)
+		return data
 
-		# prepare circuit
+	def initialize_circuit(self, num_index_qubits, num_value_qubits):
 		index_register = qiskit.QuantumRegister(num_index_qubits,self.labels[0])
 		value_register = qiskit.QuantumRegister(num_value_qubits,self.labels[1])
-		circuit = qiskit.QuantumCircuit(value_register,index_register)
+		circuit = qiskit.QuantumCircuit(value_register,index_register,name=self.name)
 		circuit.h(index_register)
-		
+		return circuit
+
+	def add_metadata(self,circuit,num_samples):
+		circuit.metadata = {'num_samples':num_samples}
+
+	def encode(self,data,measure=True,verbose=2):
+		num_samples,(num_index_qubits,num_value_qubits) = self.get_num_qubits(data,verbose=bool(verbose))
+		# prepare data
+		data = self.prepare_data(data, num_index_qubits)
+		# convert data
+		values = self.convert(data)
+		# initialise circuit
+		circuit = self.initialize_circuit(num_index_qubits,num_value_qubits)
 		# encode values
 		for i, value in enumerate(values):        
 			self.value_setting(circuit=circuit, index=i, value=value)
-		
 		# additional information for decoding
-		circuit.metadata = {'num_samples':num_samples}
-
+		self.add_metadata(circuit=circuit,num_samples=num_samples)
 		# measure, print and return
-		if measure: self.measure(circuit)
-		if verbose == 2: utils.draw_circuit(circuit,decompose=1)
+		if measure: 
+			self.measure(circuit)
+		if verbose == 2: 
+			utils.draw_circuit(circuit,decompose=1)
 		return circuit
 
 	@utils.with_indexing
@@ -70,7 +84,7 @@ class SQPAM:
 		circuit.append(sub_circuit, [i for i in range(circuit.num_qubits-1,-1,-1)])
 
 	def measure(self,circuit):
-		if not circuit.cregs: utils.measure(circuit)
+		if not circuit.cregs: utils.measure_(circuit)
 
 	def decode_components(self,counts,num_samples):
 		# initialising components
