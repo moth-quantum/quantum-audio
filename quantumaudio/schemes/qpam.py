@@ -84,14 +84,14 @@ class QPAM:
 		shots  = result.results[0].shots
 		header = result.results[0].header
 		norm   = header.metadata['norm_factor']
-		org_num_samples = header.metadata['num_samples']
+		num_samples = header.metadata['num_samples']
 
 		# reconstruct
 		data = self.decode_counts(counts=counts,shots=shots,norm=norm)
 
 		# undo padding
 		if not keep_padding:
-			data = data[:org_num_samples]
+			data = data[:num_samples]
 		
 		return data
 
