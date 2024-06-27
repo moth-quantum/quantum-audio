@@ -6,9 +6,12 @@ class SQPAM:
 	def __init__(self):
 		self.name = 'Single-Qubit Probability Amplitude Modulation'
 		self.qubit_depth = 1
-		self.labels = ('time','amplitude')
+		
 		self.n_fold = 2
+		self.labels = ('time','amplitude')
 		self.positions = tuple(range(self.n_fold-1,-1,-1))
+
+		self.convert = utils.convert_to_angles
 
 	def encode(self,data,measure=True,verbose=2):
 		# x-axis
@@ -28,7 +31,7 @@ class SQPAM:
 		# prepare data
 		data = utils.apply_index_padding(data,num_index_qubits)
 		data = data.squeeze()
-		values = utils.convert_to_angles(data)
+		values = self.convert(data)
 
 		# prepare circuit
 		index_register = qiskit.QuantumRegister(num_index_qubits,self.labels[0])
@@ -69,18 +72,7 @@ class SQPAM:
 	def measure(self,circuit):
 		if not circuit.cregs: utils.measure(circuit)
 
-	def decode_result(self,result,inverted=False,keep_padding=False):
-		counts = result.get_counts()
-		header = result.results[0].header
-
-		# decoding x-axis
-		index_position,_ = self.positions
-		num_index_qubits = header.qreg_sizes[index_position][1]
-		num_samples = 2 ** num_index_qubits
-		original_num_samples = header.metadata['num_samples']
-
-		# decoding y-axis
-
+	def decode_components(self,counts,num_samples):
 		# initialising components
 		cosine_amps = np.zeros(num_samples)
 		sine_amps   = np.zeros(num_samples)
@@ -95,12 +87,25 @@ class SQPAM:
 			elif (value_bits =='1'):
 				sine_amps[i] = a
 
-		total_amps = cosine_amps+sine_amps
-		amps = sine_amps if not inverted else cosine_amps
+		return cosine_amps,sine_amps
+
+	def reconstruct(self,counts,num_samples,inverted=False):
+		cosine_amps,sine_amps = self.decode_components(counts,num_samples)
+		data = utils.convert_from_angles(cosine_amps,sine_amps)
+		return data
+
+	def decode_result(self,result,inverted=False,keep_padding=False):
+		counts = result.get_counts()
+		header = result.results[0].header
+		original_num_samples = header.metadata['num_samples']
+
+		# decoding x-axis
+		index_position,_ = self.positions
+		num_index_qubits = header.qreg_sizes[index_position][1]
+		num_samples = 2 ** num_index_qubits
 		
-		# reconstruct
-		ratio = np.divide(amps, total_amps, out=np.zeros_like(amps), where=total_amps!=0)
-		data = 2 * (ratio) - 1
+		# decoding y-axis
+		data = self.reconstruct(counts=counts,num_samples=num_samples,inverted=False)
 
 		# undo padding
 		if not keep_padding: 

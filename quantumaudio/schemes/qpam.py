@@ -10,11 +10,12 @@ class QPAM:
 	def __init__(self):
 		self.name = 'Quantum Probability Amplitude Modulation'
 		self.qubit_depth = 0
-		self.labels = ('time','amplitude')
+		
 		self.n_fold = 1
+		self.labels = ('time','amplitude')
 		self.positions = tuple(range(self.n_fold-1,-1,-1))
-		self.convert_data = utils.convert_to_probability_amplitudes
-		self.reconstruct_data = utils.convert_from_probability_amplitudes
+		
+		self.convert = utils.convert_to_probability_amplitudes
 
 	def get_num_qubits(self, data, verbose=True):
 		# x-axis
@@ -57,7 +58,7 @@ class QPAM:
 		# prepare data
 		data = self.prepare_data(data, num_index_qubits)
 		# convert data
-		norm,values = self.convert_data(data)
+		norm,values = self.convert(data)
 		# initialise circuit
 		circuit = self.initialize_circuit(num_index_qubits,num_value_qubits)
 		# prepare circuit
@@ -73,10 +74,13 @@ class QPAM:
 	def measure(self,circuit):
 		if not circuit.cregs: circuit.measure_all()
 
-	def decode_counts(self,counts,shots,norm):
+	def decode_components(self,counts):
 		counts = utils.pad_counts(counts)
-		probabilities = np.array(list(counts.values()))
-		data = self.reconstruct_data(probabilities,norm,shots)
+		return np.array(list(counts.values()))
+
+	def reconstruct(self,counts,shots,norm):
+		probabilities = self.decode_components(counts)
+		data = utils.convert_from_probability_amplitudes(probabilities,norm,shots)
 		return data
 
 	def decode_result(self,result,keep_padding=False):
@@ -84,14 +88,14 @@ class QPAM:
 		shots  = result.results[0].shots
 		header = result.results[0].header
 		norm   = header.metadata['norm_factor']
-		num_samples = header.metadata['num_samples']
+		original_num_samples = header.metadata['num_samples']
 
 		# reconstruct
-		data = self.decode_counts(counts=counts,shots=shots,norm=norm)
+		data = self.reconstruct(counts=counts,shots=shots,norm=norm)
 
 		# undo padding
 		if not keep_padding:
-			data = data[:num_samples]
+			data = data[:original_num_samples]
 		
 		return data
 

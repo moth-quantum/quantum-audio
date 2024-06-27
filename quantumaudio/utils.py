@@ -85,6 +85,17 @@ def quantize(array,qubit_depth):
 def convert_from_probability_amplitudes(probabilities,norm,shots):
 	return (2*norm*np.sqrt(probabilities/shots)-1)
 
+def convert_from_angles(cosine_amps,sine_amps,inverted=False):
+	total_amps = cosine_amps+sine_amps
+	amps = sine_amps if not inverted else cosine_amps
+	ratio = np.divide(amps, total_amps, out=np.zeros_like(amps), where=total_amps!=0)
+	data = 2 * (ratio) - 1
+	return data
+
+def de_quantize(array,bit_depth):
+	data = data/(2**(bit_depth-1))
+	return data
+
 # ======================
 # Quantum Computing Utils
 # ======================
