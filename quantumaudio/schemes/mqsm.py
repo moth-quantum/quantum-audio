@@ -9,8 +9,8 @@ class MQSM:
 		self.qubit_depth = qubit_depth
 		self.num_channels = num_channels
 
-		self.labels = ('time','channel','amplitude')
 		self.n_fold = 3
+		self.labels = ('time','channel','amplitude')
 		self.positions = tuple(range(self.n_fold-1,-1,-1))
 
 		self.convert = utils.quantize
