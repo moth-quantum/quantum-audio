@@ -1,22 +1,37 @@
 import quantumaudio.utils as utils
 import qiskit
 import numpy as np
+from typing import Union
 
 class QPAM:
-	"""Quantum Probability Amplitude Modulation (QPAM).
-			
-		Class that implements QPAM ciruit preparation
-		"""
+	"""
+	Quantum Probability Amplitude Modulation (QPAM).
+	
+	QPAM class implements encoding and decoding of Digital Audio as Quantum Probability Amplitudes.
+
+	"""
 	def __init__(self):
+		"""
+		Initialize the QPAM instance.
+
+		name: 		 Displays the full name of the representation
+		qubit_depth: Number of qubits to represent the amplitude of an audio signal
+	
+		n_fold:		 Fixed number of registers used in the representation
+		labels:		 Name of the registers in the Qiskit Circuit (Order is from Bottom to Top)
+		positions: 	 Positions of the registers in the list circuit.qregs (Order is from Top to Bottom)
+
+		convert:	 Function that applies conversion of input at Encoding
+		restore:	 Function that restores the input at Decoding
+		
+		"""
 		self.name = 'Quantum Probability Amplitude Modulation'
 		self.qubit_depth = 0
 		
-		# Information on Registers
 		self.n_fold = 1
-		self.labels = ('time','amplitude') #order in circuit bottom -> top
-		self.positions = tuple(range(self.n_fold-1,-1,-1)) #register indexing top -> bottom
+		self.labels = ('time','amplitude')
+		self.positions = tuple(range(self.n_fold-1,-1,-1))
 		
-		# Basic operations used
 		self.convert = utils.convert_to_probability_amplitudes
 		self.restore = utils.convert_from_probability_amplitudes
 
@@ -24,7 +39,19 @@ class QPAM:
 
 	# ----- Data Preparation -----
 
-	def get_num_qubits(self, data, verbose=True):
+	def calculate(self, data: np.ndarray, verbose: Union[int,bool] = True) -> Tuple[int, Tuple[int, int]]:
+		"""
+		Calculates and returns the number of qubits required for encoding
+		along with the original sample length required for decoding.
+
+        Args:
+            data: Array representing Digital Audio Samples
+            verbose: Prints the Qubit information if True or Number greater than 0
+
+        Returns: 
+            A tuple with (original_sample_length,number_qubits_required)
+        """
+
 		# x-axis
 		num_samples      = data.shape[-1]
 		num_index_qubits = utils.get_qubit_count(num_samples)
@@ -91,11 +118,11 @@ class QPAM:
 		data = self.restore(probabilities,norm,shots)
 		return data
 
-	def decode_result(self,result,keep_padding=False):
+	def decode_result(self,result,norm=None,keep_padding=False):
 		counts = result.get_counts()
 		shots  = result.results[0].shots
 		header = result.results[0].header
-		norm   = header.metadata['norm_factor']
+		norm   = norm if norm else header.metadata['norm_factor']
 		original_num_samples = header.metadata['num_samples']
 
 		# reconstruct
@@ -109,7 +136,7 @@ class QPAM:
 
 	# ------------------- Default Decode Function ------------------------- 
 
-	def decode(self,circuit,backend=None,shots=4000,keep_padding=False):
+	def decode(self,circuit,backend=None,shots=4000,norm=None,keep_padding=False):
 		self.measure(circuit)
 		result = utils.execute(circuit=circuit,backend=backend,shots=shots)
 		data = self.decode_result(result=result,keep_padding=keep_padding)
