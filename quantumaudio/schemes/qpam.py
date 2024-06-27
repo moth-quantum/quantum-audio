@@ -13,8 +13,10 @@ class QPAM:
 		self.labels = ('time','amplitude')
 		self.n_fold = 1
 		self.positions = tuple(range(self.n_fold-1,-1,-1))
+		self.convert_data = utils.convert_to_probability_amplitudes
+		self.reconstruct_data = utils.convert_from_probability_amplitudes
 
-	def encode(self, data: np.ndarray, measure: bool = True, verbose: int = 2):
+	def get_num_qubits(self, data, verbose=True):
 		# x-axis
 		num_samples      = data.shape[-1]
 		num_index_qubits = utils.get_qubit_count(num_samples)
@@ -29,44 +31,67 @@ class QPAM:
 			print(f'{num_index_qubits} for {self.labels[0]}')
 			print(f'{num_value_qubits} for {self.labels[1]}\n')
 
-		# prepare data
+		return num_samples,(num_index_qubits,num_value_qubits)
+
+	def prepare_data(self, data, num_index_qubits):
 		data = utils.apply_index_padding(data,num_index_qubits)
 		data = data.squeeze()
-		norm,values = utils.convert_to_probability_amplitudes(data)
+		return data
 
+	def initialize_circuit(self, num_index_qubits, num_value_qubits):
 		# prepare circuit
 		index_register  = qiskit.QuantumRegister(num_index_qubits,self.labels[0])
 		value_register  = qiskit.QuantumRegister(num_value_qubits,self.labels[1])
 		circuit = qiskit.QuantumCircuit(value_register,index_register)
-		
-		# encode values
+		circuit.name = self.name
+		return circuit
+
+	def value_setting(self,circuit,values):
 		circuit.initialize(values)
 
-		# additional information for decoding
-		circuit.metadata = {'num_samples':num_samples, 'norm_factor':norm}
+	def add_metadata(self,circuit,num_samples,norm_factor):
+		circuit.metadata = {'num_samples':num_samples, 'norm_factor':norm_factor}
 
-		# measure, print and return
-		if measure: self.measure(circuit)
-		if verbose == 2: utils.draw_circuit(circuit)
+	def encode(self, data, measure = True, verbose=2):
+		num_samples,(num_index_qubits,num_value_qubits) = self.get_num_qubits(data,verbose=bool(verbose))
+		# prepare data
+		data = self.prepare_data(data, num_index_qubits)
+		# convert data
+		norm,values = self.convert_data(data)
+		# initialise circuit
+		circuit = self.initialize_circuit(num_index_qubits,num_value_qubits)
+		# prepare circuit
+		self.value_setting(circuit=circuit,values=values)
+		# additional information for decoding
+		self.add_metadata(circuit=circuit,num_samples=num_samples,norm_factor=norm)
+		if measure: 
+			self.measure(circuit)
+		if verbose == 2: 
+			utils.draw_circuit(circuit)
 		return circuit
 
 	def measure(self,circuit):
 		if not circuit.cregs: circuit.measure_all()
 
+	def decode_counts(self,counts,shots,norm):
+		counts = utils.pad_counts(counts)
+		probabilities = np.array(list(counts.values()))
+		data = self.reconstruct_data(probabilities,norm,shots)
+		return data
+
 	def decode_result(self,result,keep_padding=False):
 		counts = result.get_counts()
 		shots  = result.results[0].shots
 		header = result.results[0].header
+		norm   = header.metadata['norm_factor']
+		org_num_samples = header.metadata['num_samples']
 
 		# reconstruct
-		counts = utils.pad_counts(counts)
-		probabilities = np.array(list(counts.values()))
-		norm = header.metadata['norm_factor']
-		data = (2*norm*np.sqrt(probabilities/shots)-1)
+		data = self.decode_counts(counts=counts,shots=shots,norm=norm)
 
 		# undo padding
 		if not keep_padding:
-			data = data[:header.metadata['num_samples']]
+			data = data[:org_num_samples]
 		
 		return data
 
