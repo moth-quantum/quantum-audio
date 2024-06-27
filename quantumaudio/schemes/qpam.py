@@ -11,14 +11,18 @@ class QPAM:
 		self.name = 'Quantum Probability Amplitude Modulation'
 		self.qubit_depth = 0
 		
+		# Information on Registers
 		self.n_fold = 1
-		self.labels = ('time','amplitude')
-		self.positions = tuple(range(self.n_fold-1,-1,-1))
+		self.labels = ('time','amplitude') #order in circuit bottom -> top
+		self.positions = tuple(range(self.n_fold-1,-1,-1)) #register indexing bottom -> top
 		
+		# Basic operations used
 		self.convert = utils.convert_to_probability_amplitudes
 		self.extract = utils.convert_from_probability_amplitudes
 
 	# ------------------- Encoding Helpers --------------------------- 
+
+	# ----- Data Preparation -----
 
 	def get_num_qubits(self, data, verbose=True):
 		# x-axis
@@ -41,9 +45,10 @@ class QPAM:
 		data = utils.apply_index_padding(data,num_index_qubits)
 		data = data.squeeze()
 		return data
+		
+	# ------ Circuit Preparation -----
 
 	def initialize_circuit(self, num_index_qubits, num_value_qubits):
-		# prepare circuit
 		index_register  = qiskit.QuantumRegister(num_index_qubits,self.labels[0])
 		value_register  = qiskit.QuantumRegister(num_value_qubits,self.labels[1])
 		circuit = qiskit.QuantumCircuit(value_register,index_register,name=self.name)
@@ -55,7 +60,7 @@ class QPAM:
 	def measure(self,circuit):
 		if not circuit.cregs: circuit.measure_all()
 
-	# ------------------- Encode Function ---------------------------
+	# ------------------- Default Encode Function ---------------------------
 
 	def encode(self, data, measure = True, verbose=2):
 		num_samples,(num_index_qubits,num_value_qubits) = self.get_num_qubits(data,verbose=bool(verbose))
@@ -102,7 +107,7 @@ class QPAM:
 		
 		return data
 
-	# ------------------- Decode Function ------------------------- 
+	# ------------------- Default Decode Function ------------------------- 
 
 	def decode(self,circuit,backend=None,shots=4000,keep_padding=False):
 		self.measure(circuit)
