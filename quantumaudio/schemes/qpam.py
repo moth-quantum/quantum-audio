@@ -49,9 +49,6 @@ class QPAM:
 	def value_setting(self,circuit,values):
 		circuit.initialize(values)
 
-	def add_metadata(self,circuit,num_samples,norm_factor):
-		circuit.metadata = {'num_samples':num_samples, 'norm_factor':norm_factor}
-
 	def encode(self, data, measure = True, verbose=2):
 		num_samples,(num_index_qubits,num_value_qubits) = self.get_num_qubits(data,verbose=bool(verbose))
 		# prepare data
@@ -63,7 +60,8 @@ class QPAM:
 		# encode values
 		self.value_setting(circuit=circuit,values=values)
 		# additional information for decoding
-		self.add_metadata(circuit=circuit,num_samples=num_samples,norm_factor=norm)
+		circuit.metadata = {'num_samples':num_samples, 'norm_factor':norm}
+		
 		if measure: 
 			self.measure(circuit)
 		if verbose == 2: 

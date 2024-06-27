@@ -41,10 +41,7 @@ class SQPAM:
 		circuit = qiskit.QuantumCircuit(value_register,index_register,name=self.name)
 		circuit.h(index_register)
 		return circuit
-
-	def add_metadata(self,circuit,num_samples):
-		circuit.metadata = {'num_samples':num_samples}
-
+		
 	def encode(self,data,measure=True,verbose=2):
 		num_samples,(num_index_qubits,num_value_qubits) = self.get_num_qubits(data,verbose=bool(verbose))
 		# prepare data
@@ -57,7 +54,7 @@ class SQPAM:
 		for i, value in enumerate(values):        
 			self.value_setting(circuit=circuit, index=i, value=value)
 		# additional information for decoding
-		self.add_metadata(circuit=circuit,num_samples=num_samples)
+		circuit.metadata = {'num_samples':num_samples}
 		# measure, print and return
 		if measure: 
 			self.measure(circuit)
@@ -86,10 +83,10 @@ class SQPAM:
 	def measure(self,circuit):
 		if not circuit.cregs: utils.measure_(circuit)
 
-	def decode_components(self,counts,num_samples):
+	def decode_components(self,counts,num_components):
 		# initialising components
-		cosine_amps = np.zeros(num_samples)
-		sine_amps   = np.zeros(num_samples)
+		cosine_amps = np.zeros(num_components)
+		sine_amps   = np.zeros(num_components)
 
 		# getting components from counts
 		for state in counts:
@@ -103,7 +100,7 @@ class SQPAM:
 
 		return cosine_amps,sine_amps
 
-	def reconstruct(self,counts,num_samples,inverted=False):
+	def reconstruct_data(self,counts,num_samples,inverted=False):
 		cosine_amps,sine_amps = self.decode_components(counts,num_samples)
 		data = utils.convert_from_angles(cosine_amps,sine_amps)
 		return data
@@ -111,15 +108,15 @@ class SQPAM:
 	def decode_result(self,result,inverted=False,keep_padding=False):
 		counts = result.get_counts()
 		header = result.results[0].header
-		original_num_samples = header.metadata['num_samples']
 
 		# decoding x-axis
 		index_position,_ = self.positions
 		num_index_qubits = header.qreg_sizes[index_position][1]
 		num_samples = 2 ** num_index_qubits
+		original_num_samples = header.metadata['num_samples']
 		
 		# decoding y-axis
-		data = self.reconstruct(counts=counts,num_samples=num_samples,inverted=False)
+		data = self.reconstruct_data(counts=counts,num_samples=num_samples,inverted=False)
 
 		# undo padding
 		if not keep_padding: 

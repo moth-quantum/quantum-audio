@@ -93,7 +93,7 @@ def convert_from_angles(cosine_amps,sine_amps,inverted=False):
 	return data
 
 def de_quantize(array,bit_depth):
-	data = data/(2**(bit_depth-1))
+	data = array/(2**(bit_depth-1))
 	return data
 
 # ======================

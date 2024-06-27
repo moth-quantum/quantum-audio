@@ -7,13 +7,17 @@ class QSM:
 	def __init__(self,qubit_depth=None):
 		self.name = 'Quantum State Modulation'
 		self.qubit_depth = qubit_depth
-		self.labels = ('time','amplitude')
+		
+		
 		self.n_fold = 2
+		self.labels = ('time','amplitude')
 		self.positions = tuple(range(self.n_fold-1,-1,-1))
 
-	def encode(self,data,measure=True,verbose=2):
+		self.convert = utils.quantize
+
+	def get_num_qubits(self, data, verbose=True):
 		# x-axis
-		num_samples = data.shape[-1]
+		num_samples      = data.shape[-1]
 		num_index_qubits = utils.get_qubit_count(num_samples)
 		
 		# y-axis
@@ -25,18 +29,29 @@ class QSM:
 			print(f'Number of qubits required: {num_index_qubits+num_value_qubits}\n')
 			print(f'{num_index_qubits} for {self.labels[0]}')
 			print(f'{num_value_qubits} for {self.labels[1]}\n')
-		
-		# prepare data
+
+		return num_samples,(num_index_qubits,num_value_qubits)
+
+	def prepare_data(self, data, num_index_qubits):
 		data = utils.apply_index_padding(data,num_index_qubits)
 		data = data.squeeze()
-		values = utils.quantize(data,num_value_qubits)
+		return data
 
-		# prepare circuit
+	def initialize_circuit(self, num_index_qubits, num_value_qubits):
 		index_register = qiskit.QuantumRegister(num_index_qubits,self.labels[0])
-		amplitude_register = qiskit.QuantumRegister(num_value_qubits,self.labels[1])
-		circuit = qiskit.QuantumCircuit(amplitude_register,index_register)
+		value_register = qiskit.QuantumRegister(num_value_qubits,self.labels[1])
+		circuit = qiskit.QuantumCircuit(value_register,index_register,name=self.name)
 		circuit.h(index_register)
+		return circuit
 
+	def encode(self,data,measure=True,verbose=2):
+		num_samples,(num_index_qubits,num_value_qubits) = self.get_num_qubits(data,verbose=bool(verbose))
+		# prepare data
+		data = self.prepare_data(data, num_index_qubits)
+		# convert data
+		values = self.convert(data,num_value_qubits)
+		# initialise circuit
+		circuit = self.initialize_circuit(num_index_qubits,num_value_qubits)
 		# encode values
 		for i, sample in enumerate(values):
 			self.value_setting(circuit=circuit, index=i, value=sample)
@@ -60,7 +75,21 @@ class QSM:
 				circuit.mct(treg, areg_qubit)
 
 	def measure(self,circuit):
-		if not circuit.cregs: utils.measure(circuit)
+		if not circuit.cregs: utils.measure_(circuit)
+
+	def decode_components(self,counts,num_components):
+		data = np.zeros(num_components, int)
+		for state in counts:
+			(t_bits, a_bits) = state.split()
+			t = int(t_bits, 2)
+			a = BitArray(bin=a_bits).int
+			data[t] = a
+		return data
+
+	def reconstruct_data(self,counts,num_samples,bit_depth):
+		data = self.decode_components(counts,num_samples)
+		data = utils.de_quantize(data,bit_depth)
+		return data
 
 	def decode_result(self,result,keep_padding=False):
 		counts = result.get_counts()
@@ -75,17 +104,7 @@ class QSM:
 
 		# decoding y-axis
 		bit_depth = header.qreg_sizes[amplitude_position][-1]
-
-		# decoding data
-		data = np.zeros(num_samples, int)
-		for state in counts:
-			(t_bits, a_bits) = state.split()
-			t = int(t_bits, 2)
-			a = BitArray(bin=a_bits).int
-			data[t] = a
-
-		# reconstruct
-		data = data/(2**(bit_depth-1))
+		data = self.reconstruct_data(counts,num_samples,bit_depth)
 
 		# undo padding
 		if not keep_padding: 
