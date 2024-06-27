@@ -7,11 +7,17 @@ class MSQPAM:
 		self.name = 'Multi-channel Single-Qubit Probability Amplitude Modulation'
 		self.qubit_depth = 1
 		self.num_channels = num_channels
-		self.labels = ('time','channel','amplitude') #encoding order: bottom to top 
+		
 		self.n_fold = 3
-		self.positions = tuple(range(self.n_fold-1,-1,-1)) #decoding order: top to bottom 
+		self.labels = ('time','channel','amplitude')
+		self.positions = tuple(range(self.n_fold-1,-1,-1))
 
-	def encode(self,data,measure=True,verbose=2):
+		self.convert = utils.convert_to_angles
+		self.restore = utils.convert_from_angles
+
+	# ------------------- Encoding Helpers ---------------------------
+	
+	def calculate(self,data,verbose=True):
 		# x-axis
 		num_samples = data.shape[-1]
 		num_index_qubits = utils.get_qubit_count(num_samples)
@@ -20,34 +26,29 @@ class MSQPAM:
 		num_channels = 1 if data.ndim == 1 else data.shape[0]  # data-dependent channels
 		if self.num_channels: num_channels = self.num_channels # override with pre-set channels
 		num_channels = max(2,num_channels) 					   # apply constraint of minimum 2 channels
-
+		
 		num_channel_qubits = utils.get_qubit_count(num_channels)
 		num_value_qubits = self.qubit_depth
+		
+		num_qubits = (num_index_qubits,num_channel_qubits,num_value_qubits)
 
-		# prepare data
+		# print
+		if verbose: utils.print_num_qubits(num_qubits,labels=self.labels)
+		return (num_channels, num_samples), num_qubits
+
+	def prepare_data(self, data, num_index_qubits, num_channel_qubits):
 		data = utils.apply_padding(data,(num_channel_qubits,num_index_qubits))
 		data = utils.interleave_channels(data)
-		values = utils.convert_to_angles(data)
+		return data
 
-		# prepare circuit
+	def initialize_circuit(self, num_index_qubits, num_channel_qubits, num_value_qubits):
 		index_register   = qiskit.QuantumRegister(num_index_qubits,self.labels[0])
 		channel_register = qiskit.QuantumRegister(num_channel_qubits,self.labels[1])
 		value_register   = qiskit.QuantumRegister(num_value_qubits,self.labels[2])
 
-		circuit = qiskit.QuantumCircuit(value_register,channel_register,index_register)
+		circuit = qiskit.QuantumCircuit(value_register,channel_register,index_register,name=self.name)
 		circuit.h(channel_register)
 		circuit.h(index_register)
-		
-		# encode values
-		for i, value in enumerate(values):        
-			self.value_setting(circuit=circuit, index=i, value=value)
-		
-		# additional information for decoding
-		circuit.metadata = {'num_samples':num_samples,'num_channels':num_channels}
-
-		# measure
-		if measure: self.measure(circuit)
-		if verbose == 2: utils.draw_circuit(circuit,decompose=1)
 		return circuit
 
 	@utils.with_indexing
@@ -70,6 +71,57 @@ class MSQPAM:
 	def measure(self,circuit):
 		if not circuit.cregs: utils.measure(circuit)
 
+	# ------------------- Encode Function ---------------------------
+
+	def encode(self,data,measure=True,verbose=2):
+		(num_channels,num_samples), num_qubits = self.calculate(data,verbose=verbose)
+		num_index_qubits, num_channel_qubits, num_value_qubits = num_qubits
+
+		# prepare data
+		data = self.prepare_data(data,num_index_qubits,num_channel_qubits)
+		values = self.convert(data)
+
+		# prepare circuit
+		circuit = self.initialize_circuit(num_index_qubits,num_channel_qubits,num_value_qubits)
+		
+		# encode values
+		for i, value in enumerate(values):        
+			self.value_setting(circuit=circuit, index=i, value=value)
+		
+		# additional information for decoding
+		circuit.metadata = {'num_channels':num_channels,'num_samples':num_samples,}
+
+		# measure
+		if measure: self.measure(circuit)
+		if verbose == 2: utils.draw_circuit(circuit,decompose=1)
+		return circuit
+
+	# ------------------- Decoding Helpers --------------------------- 
+
+	def decode_components(self,counts,num_channels,num_samples):
+
+		# initialising components
+		cosine_amps = np.zeros((num_channels,num_samples))
+		sine_amps   = np.zeros((num_channels,num_samples))
+
+		# getting components from counts
+		for state in counts:
+			(index_bits, channel_bits, value_bits) = state.split()
+			i = int(index_bits, 2)
+			j = int(channel_bits, 2)
+			a = counts[state]
+			if (value_bits == '0'):
+				cosine_amps[j][i] = a
+			elif (value_bits =='1'):
+				sine_amps[j][i] = a
+
+		return cosine_amps,sine_amps
+
+	def reconstruct_data(self,counts,num_channels,num_samples,inverted=False):
+		cosine_amps,sine_amps = self.decode_components(counts,num_channels,num_samples)
+		data = self.restore(cosine_amps,sine_amps)
+		return data
+
 	def decode_result(self,result,inverted=False,keep_padding=(False,False)):
 		counts = result.get_counts()
 		header = result.results[0].header
@@ -86,28 +138,7 @@ class MSQPAM:
 		original_num_channels = header.metadata['num_channels']
 
 		# decoding y-axis
-		
-		# initialising components
-		cosine_amps = np.zeros((num_channels,num_samples))
-		sine_amps   = np.zeros((num_channels,num_samples))
-
-		# getting components from counts
-		for state in counts:
-			(index_bits, channel_bits, value_bits) = state.split()
-			i = int(index_bits, 2)
-			j = int(channel_bits, 2)
-			a = counts[state]
-			if (value_bits == '0'):
-				cosine_amps[j][i] = a
-			elif (value_bits =='1'):
-				sine_amps[j][i] = a
-
-		total_amps = cosine_amps+sine_amps
-		amps = sine_amps if not inverted else cosine_amps
-
-		# reconstruct
-		ratio = np.divide(amps, total_amps, out=np.zeros_like(amps), where=total_amps!=0)
-		data = 2 * (ratio) - 1
+		data = self.reconstruct_data(counts=counts,num_channels=num_channels,num_samples=num_samples,inverted=False)
 
 		# post-processing
 		if not keep_padding[0]:

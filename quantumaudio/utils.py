@@ -161,6 +161,11 @@ def measure(qc,labels=('ca','cc','ct'),position=None):
 # Plotting Utils
 # ======================
 
+def print_num_qubits(num_qubits,labels):
+	print(f'Number of qubits required: {sum(num_qubits)}\n')
+	for i,qubits in enumerate(num_qubits): print(f'{qubits} for {labels[i]}')
+	print('\n')
+
 def draw_circuit(circuit,decompose=0):
 	for i in range(decompose):
 		circuit = circuit.decompose()

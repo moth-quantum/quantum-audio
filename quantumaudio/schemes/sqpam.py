@@ -24,14 +24,10 @@ class SQPAM:
 		# y-axis
 		assert data.ndim == 1 or data.shape[0] == 1, "Multi-channel not supported in SQPAM"
 		num_value_qubits  = self.qubit_depth
-
-		# print
-		if verbose:
-			print(f'Number of qubits required: {num_index_qubits+num_value_qubits}\n')
-			print(f'{num_index_qubits} for {self.labels[0]}')
-			print(f'{num_value_qubits} for {self.labels[1]}\n')
-
-		return num_samples,(num_index_qubits,num_value_qubits)
+		
+		num_qubits = (num_index_qubits,num_value_qubits)
+		if verbose: utils.print_num_qubits(num_qubits,labels=self.labels)
+		return num_samples, num_qubits
 
 	def prepare_data(self, data, num_index_qubits):
 		data = utils.apply_index_padding(data,num_index_qubits)

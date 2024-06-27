@@ -14,7 +14,7 @@ class QPAM:
 		# Information on Registers
 		self.n_fold = 1
 		self.labels = ('time','amplitude') #order in circuit bottom -> top
-		self.positions = tuple(range(self.n_fold-1,-1,-1)) #register indexing bottom -> top
+		self.positions = tuple(range(self.n_fold-1,-1,-1)) #register indexing top -> bottom
 		
 		# Basic operations used
 		self.convert = utils.convert_to_probability_amplitudes
