@@ -14,6 +14,7 @@ class QSM:
 		self.positions = tuple(range(self.n_fold-1,-1,-1))
 
 		self.convert = utils.quantize
+		self.restore = utils.de_quantize
 
 	def get_num_qubits(self, data, verbose=True):
 		# x-axis
@@ -88,7 +89,7 @@ class QSM:
 
 	def reconstruct_data(self,counts,num_samples,bit_depth):
 		data = self.decode_components(counts,num_samples)
-		data = utils.de_quantize(data,bit_depth)
+		data = self.restore(data,bit_depth)
 		return data
 
 	def decode_result(self,result,keep_padding=False):

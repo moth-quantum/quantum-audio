@@ -18,7 +18,7 @@ class QPAM:
 		
 		# Basic operations used
 		self.convert = utils.convert_to_probability_amplitudes
-		self.extract = utils.convert_from_probability_amplitudes
+		self.restore = utils.convert_from_probability_amplitudes
 
 	# ------------------- Encoding Helpers --------------------------- 
 
@@ -88,7 +88,7 @@ class QPAM:
 
 	def reconstruct_data(self,counts,shots,norm):
 		probabilities = self.decode_components(counts)
-		data = self.extract(probabilities,norm,shots)
+		data = self.restore(probabilities,norm,shots)
 		return data
 
 	def decode_result(self,result,keep_padding=False):

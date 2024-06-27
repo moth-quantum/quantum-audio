@@ -12,7 +12,7 @@ class SQPAM:
 		self.positions = tuple(range(self.n_fold-1,-1,-1))
 
 		self.convert = utils.convert_to_angles
-		self.extract = utils.convert_from_angles
+		self.restore = utils.convert_from_angles
 
 	# ------------------- Encoding Helpers --------------------------- 
 
@@ -109,7 +109,7 @@ class SQPAM:
 
 	def reconstruct_data(self,counts,num_samples,inverted=False):
 		cosine_amps,sine_amps = self.decode_components(counts,num_samples)
-		data = utils.convert_from_angles(cosine_amps,sine_amps)
+		data = self.restore(cosine_amps,sine_amps)
 		return data
 
 	def decode_result(self,result,inverted=False,keep_padding=False):
