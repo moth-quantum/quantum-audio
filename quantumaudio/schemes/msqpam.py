@@ -141,6 +141,8 @@ class MSQPAM:
 		data = self.reconstruct_data(counts=counts,num_channels=num_channels,num_samples=num_samples,inverted=False)
 
 		# post-processing
+		data = utils.restore_channels(data,num_channels)
+		
 		if not keep_padding[0]:
 			data = data[:original_num_channels]
 		

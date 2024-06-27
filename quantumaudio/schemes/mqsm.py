@@ -7,12 +7,18 @@ class MQSM:
 	def __init__(self,qubit_depth=None,num_channels=None):
 		self.name = 'Multi-channel Quantum State Modulation'
 		self.qubit_depth = qubit_depth
-		self.num_channels = num_channels 
+		self.num_channels = num_channels
+
 		self.labels = ('time','channel','amplitude')
 		self.n_fold = 3
 		self.positions = tuple(range(self.n_fold-1,-1,-1))
 
-	def encode(self,data,measure=True,verbose=2):
+		self.convert = utils.quantize
+		self.restore = utils.de_quantize
+
+	# ------------------- Encoding Helpers ---------------------------
+
+	def calculate(self,data,verbose=True):
 		# x-axis
 		num_samples = data.shape[-1]
 		num_index_qubits = utils.get_qubit_count(num_samples)
@@ -24,31 +30,25 @@ class MQSM:
 
 		num_channel_qubits = utils.get_qubit_count(num_channels)
 		num_value_qubits = utils.get_bit_depth(data) if not self.qubit_depth else self.qubit_depth
-		
-		# prepare data
+
+		num_qubits = (num_index_qubits,num_channel_qubits,num_value_qubits)
+		# print
+		if verbose: utils.print_num_qubits(num_qubits,labels=self.labels)
+		return (num_channels, num_samples), num_qubits
+
+	def prepare_data(self, data, num_index_qubits, num_channel_qubits):
 		data = utils.apply_padding(data,(num_channel_qubits,num_index_qubits))
 		data = utils.interleave_channels(data)
-		values = utils.quantize(data,num_value_qubits)
+		return data
 
-		# prepare circuit
+	def initialize_circuit(self, num_index_qubits, num_channel_qubits, num_value_qubits):
 		index_register   = qiskit.QuantumRegister(num_index_qubits,self.labels[0])
 		channel_register = qiskit.QuantumRegister(num_channel_qubits,self.labels[1])
-		amplitude_register = qiskit.QuantumRegister(num_value_qubits,self.labels[2])
-		
-		circuit = qiskit.QuantumCircuit(amplitude_register,channel_register,index_register)
+		value_register   = qiskit.QuantumRegister(num_value_qubits,self.labels[2])
+
+		circuit = qiskit.QuantumCircuit(value_register,channel_register,index_register,name=self.name)
 		circuit.h(channel_register)
 		circuit.h(index_register)
-
-		# encode information
-		for i, sample in enumerate(values):
-			self.value_setting(circuit=circuit, index=i, value=sample)
-
-		# additional information for decoding
-		circuit.metadata = {'num_samples':num_samples,'num_channels':num_channels}
-
-		# measure
-		if measure: self.measure(circuit)
-		if verbose == 2: utils.draw_circuit(circuit)
 		return circuit
 
 	@utils.with_indexing
@@ -63,6 +63,48 @@ class MQSM:
 
 	def measure(self,circuit):
 		if not circuit.cregs: utils.measure(circuit)
+
+	# ------------------- Encode Function ---------------------------
+
+	def encode(self,data,measure=True,verbose=2):
+		(num_channels, num_samples), num_qubits = self.calculate(data,verbose=verbose)
+		num_index_qubits, num_channel_qubits, num_value_qubits = num_qubits
+
+		# prepare data
+		data = self.prepare_data(data,num_index_qubits,num_channel_qubits)
+		values = self.convert(data,num_value_qubits)
+
+		# prepare circuit
+		circuit = self.initialize_circuit(num_index_qubits,num_channel_qubits,num_value_qubits)
+
+		# encode information
+		for i, sample in enumerate(values):
+			self.value_setting(circuit=circuit, index=i, value=sample)
+
+		# additional information for decoding
+		circuit.metadata = {'num_samples':num_samples,'num_channels':num_channels}
+
+		# measure
+		if measure: self.measure(circuit)
+		if verbose == 2: utils.draw_circuit(circuit)
+		return circuit
+
+	# ------------------- Decoding Helpers --------------------------- 
+
+	def decode_components(self,counts,num_channels,num_samples):
+		data = np.zeros((num_channels,num_samples), int)
+		for state in counts:
+			(t_bits, c_bits, a_bits) = state.split()
+			t = int(t_bits, 2)
+			c = int(c_bits, 2)
+			a = BitArray(bin=a_bits).int
+			data[c][t] = a
+		return data
+
+	def reconstruct_data(self,counts,num_channels,num_samples,bit_depth):
+		data = self.decode_components(counts,num_channels,num_samples)
+		data = self.restore(data,bit_depth)
+		return data
 
 	def decode_result(self,result,keep_padding=(False,False)):
 		counts = result.get_counts()
@@ -84,16 +126,9 @@ class MQSM:
 		bit_depth = header.qreg_sizes[amplitude_position][-1]
 
 		# decoding data
-		data = np.zeros((num_channels,num_samples), int)
-		for state in counts:
-			(t_bits, c_bits, a_bits) = state.split()
-			t = int(t_bits, 2)
-			c = int(c_bits, 2)
-			a = BitArray(bin=a_bits).int
-			data[c][t] = a
+		data = self.reconstruct_data(counts=counts,num_channels=num_channels,num_samples=num_samples,bit_depth=bit_depth)
 
 		# reconstruct
-		data = data/(2**(bit_depth-1))
 		data = utils.restore_channels(data,num_channels)
 
 		if not keep_padding[0]:
