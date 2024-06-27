@@ -12,6 +12,9 @@ class SQPAM:
 		self.positions = tuple(range(self.n_fold-1,-1,-1))
 
 		self.convert = utils.convert_to_angles
+		self.extract = utils.convert_from_angles
+
+	# ------------------- Encoding Helpers --------------------------- 
 
 	def get_num_qubits(self, data, verbose=True):
 		# x-axis
@@ -41,6 +44,29 @@ class SQPAM:
 		circuit = qiskit.QuantumCircuit(value_register,index_register,name=self.name)
 		circuit.h(index_register)
 		return circuit
+
+	@utils.with_indexing
+	def value_setting(self,circuit,index,value):
+		value_register, index_register = circuit.qregs
+		
+		# initialise sub-circuit
+		sub_circuit = qiskit.QuantumCircuit(name=f'Sample {index}')
+		sub_circuit.add_register(value_register)
+		
+		# rotate qubits with values
+		for i in range(value_register.size):
+			sub_circuit.ry(2*value, i)
+
+		# entangle with index qubits
+		sub_circuit = sub_circuit.control(index_register.size)
+		
+		# attach sub-circuit
+		circuit.append(sub_circuit, [i for i in range(circuit.num_qubits-1,-1,-1)])
+
+	def measure(self,circuit):
+		if not circuit.cregs: utils.measure(circuit)
+
+	# ------------------- Encode Function ---------------------------
 		
 	def encode(self,data,measure=True,verbose=2):
 		num_samples,(num_index_qubits,num_value_qubits) = self.get_num_qubits(data,verbose=bool(verbose))
@@ -62,26 +88,7 @@ class SQPAM:
 			utils.draw_circuit(circuit,decompose=1)
 		return circuit
 
-	@utils.with_indexing
-	def value_setting(self,circuit,index,value):
-		value_register, index_register = circuit.qregs
-		
-		# initialise sub-circuit
-		sub_circuit = qiskit.QuantumCircuit(name=f'Sample {index}')
-		sub_circuit.add_register(value_register)
-		
-		# rotate qubits with values
-		for i in range(value_register.size):
-			sub_circuit.ry(2*value, i)
-
-		# entangle with index qubits
-		sub_circuit = sub_circuit.control(index_register.size)
-		
-		# attach sub-circuit
-		circuit.append(sub_circuit, [i for i in range(circuit.num_qubits-1,-1,-1)])
-
-	def measure(self,circuit):
-		if not circuit.cregs: utils.measure_(circuit)
+	# ------------------- Decoding Helpers --------------------------- 
 
 	def decode_components(self,counts,num_components):
 		# initialising components
@@ -123,6 +130,8 @@ class SQPAM:
 			data = data[:original_num_samples]
 
 		return data
+
+	# ------------------- Decode Function ------------------------- 
 
 	def decode(self,circuit,backend=None,shots=1024,inverted=False,keep_padding=False):
 		self.measure(circuit)

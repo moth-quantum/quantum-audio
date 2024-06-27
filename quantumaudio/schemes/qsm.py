@@ -75,7 +75,7 @@ class QSM:
 				circuit.mct(treg, areg_qubit)
 
 	def measure(self,circuit):
-		if not circuit.cregs: utils.measure_(circuit)
+		if not circuit.cregs: utils.measure(circuit)
 
 	def decode_components(self,counts,num_components):
 		data = np.zeros(num_components, int)

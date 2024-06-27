@@ -16,6 +16,9 @@ class QPAM:
 		self.positions = tuple(range(self.n_fold-1,-1,-1))
 		
 		self.convert = utils.convert_to_probability_amplitudes
+		self.extract = utils.convert_from_probability_amplitudes
+
+	# ------------------- Encoding Helpers --------------------------- 
 
 	def get_num_qubits(self, data, verbose=True):
 		# x-axis
@@ -49,35 +52,38 @@ class QPAM:
 	def value_setting(self,circuit,values):
 		circuit.initialize(values)
 
+	def measure(self,circuit):
+		if not circuit.cregs: circuit.measure_all()
+
+	# ------------------- Encode Function ---------------------------
+
 	def encode(self, data, measure = True, verbose=2):
 		num_samples,(num_index_qubits,num_value_qubits) = self.get_num_qubits(data,verbose=bool(verbose))
 		# prepare data
 		data = self.prepare_data(data, num_index_qubits)
 		# convert data
-		norm,values = self.convert(data)
+		norm,values = self.pre_process(data)
 		# initialise circuit
 		circuit = self.initialize_circuit(num_index_qubits,num_value_qubits)
 		# encode values
 		self.value_setting(circuit=circuit,values=values)
 		# additional information for decoding
 		circuit.metadata = {'num_samples':num_samples, 'norm_factor':norm}
-		
 		if measure: 
 			self.measure(circuit)
 		if verbose == 2: 
 			utils.draw_circuit(circuit)
 		return circuit
 
-	def measure(self,circuit):
-		if not circuit.cregs: circuit.measure_all()
+	# ------------------- Decoding Helpers --------------------------- 
 
 	def decode_components(self,counts):
 		counts = utils.pad_counts(counts)
 		return np.array(list(counts.values()))
 
-	def reconstruct(self,counts,shots,norm):
+	def reconstruct_data(self,counts,shots,norm):
 		probabilities = self.decode_components(counts)
-		data = utils.convert_from_probability_amplitudes(probabilities,norm,shots)
+		data = self.extract(probabilities,norm,shots)
 		return data
 
 	def decode_result(self,result,keep_padding=False):
@@ -88,13 +94,15 @@ class QPAM:
 		original_num_samples = header.metadata['num_samples']
 
 		# reconstruct
-		data = self.reconstruct(counts=counts,shots=shots,norm=norm)
+		data = self.reconstruct_data(counts=counts,shots=shots,norm=norm)
 
 		# undo padding
 		if not keep_padding:
 			data = data[:original_num_samples]
 		
 		return data
+
+	# ------------------- Decode Function ------------------------- 
 
 	def decode(self,circuit,backend=None,shots=4000,keep_padding=False):
 		self.measure(circuit)

@@ -142,32 +142,20 @@ def with_indexing(func):
         apply_x_at_index(qc,i)
     return wrapper
 
-def measure(qc,labels=('ca','cc','ct'),positions=None):
-    qc.barrier()
-    positions = range(len(qc.qregs)) if not positions else positions
-    for pos, label in zip(positions, labels):
-        qreg = qc.qregs[pos]
-        creg = qiskit.ClassicalRegister(qreg.size, label)
-        qc.add_register(creg)
-        qc.measure(qreg, creg)
-
 def add_classical_register(qc,position,label):
     qreg = qc.qregs[position]
     creg = qiskit.ClassicalRegister(qreg.size, label)
     qc.add_register(creg)
     qc.measure(qreg, creg)	
 
-def measure_(qc,labels=('ca','cc','ct'),position=None):
+def measure(qc,labels=('ca','cc','ct'),position=None):
     qc.barrier()
     value_pos, *index_pos = range(len(qc.qregs)) if not position else reversed(position)
-    if index_pos:
-        value_label, *index_labels = labels
-        index_labels = index_labels[len(index_labels) - len(index_pos):]
-        add_classical_register(qc,value_pos,value_label)
-        for i,pos in enumerate(index_pos):
-           add_classical_register(qc,pos,index_labels[i])
-    else:
-        add_classical_register(qc,value_pos,labels[-1])
+    value_label, *index_labels = labels
+    index_labels = index_labels[len(index_labels) - len(index_pos):]
+    add_classical_register(qc,value_pos,value_label)
+    for i,pos in enumerate(index_pos):
+        add_classical_register(qc,pos,index_labels[i])
 
 # ======================
 # Plotting Utils
