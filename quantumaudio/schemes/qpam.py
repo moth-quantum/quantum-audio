@@ -14,14 +14,15 @@ class QPAM:
 		"""
 		Initialize the QPAM instance.
 
-		name: 		 Displays the full name of the representation
-		qubit_depth: Number of qubits to represent the amplitude of an audio signal
+		name: 		 Holds the full name of the representation
+		qubit_depth: Number of qubits to represent the amplitude of an audio signal.
+					 (Note: In QPAM, no additional qubit is required to represent amplitude.)
 	
-		n_fold:		 Fixed number of registers used in the representation
-		labels:		 Name of the registers in the Qiskit Circuit (Order is from Bottom to Top)
-		positions: 	 Positions of the registers in the list circuit.qregs (Order is from Top to Bottom)
+		n_fold:		 Term for fixed number of registers used in a representation
+		labels:		 Name of the Quantum registers (Arranged from Bottom to Top in a Qiskit Circuit)
+		positions: 	 Index position of Quantum registers (Arranged from Top to Bottom in circuit.qregs)
 
-		convert:	 Function that applies conversion of input at Encoding
+		convert:	 Function that applies a mathematical conversion of input at Encoding
 		restore:	 Function that restores the input at Decoding
 		
 		"""
@@ -41,15 +42,19 @@ class QPAM:
 
 	def calculate(self, data: np.ndarray, verbose: Union[int,bool] = True) -> Tuple[int, Tuple[int, int]]:
 		"""
-		Calculates and returns the number of qubits required for encoding
-		along with the original sample length required for decoding.
+		Returns necessary information required for Encoding and Decoding:
+		 * Number of qubits required to encode both Time and Amplitude information.
+		 * Original number of samples required for decoding.
 
         Args:
             data: Array representing Digital Audio Samples
-            verbose: Prints the Qubit information if True or Number greater than 0
+            verbose: Prints the Qubit information if True or int > 0
 
         Returns: 
-            A tuple with (original_sample_length,number_qubits_required)
+            A tuple with (original_sample_length, number_qubits_required)
+            number_qubits_required is a tuple (int, int) consisting of
+            num_index_qubits to encode Time Information (x-axis) and
+            num_value_qubits to encode Amplitude Information (y-axis)
         """
 
 		# x-axis
@@ -69,6 +74,18 @@ class QPAM:
 		return num_samples,(num_index_qubits,num_value_qubits)
 
 	def prepare_data(self, data, num_index_qubits):
+		"""
+		Prepares the data with appropriate dimensions for encoding:
+		* It pads the length of data with zeros to fit the number of index qubits.
+		* It also removes redundant dimension if the shape is (1,num_samples).
+
+        Args:
+            data: Array representing Digital Audio Samples
+            num_index_qubits: Number of qubits used to encode the sample indices.
+
+        Returns: 
+            data: Array
+        """
 		data = utils.apply_index_padding(data,num_index_qubits)
 		data = data.squeeze()
 		return data
@@ -76,12 +93,32 @@ class QPAM:
 	# ------ Circuit Preparation -----
 
 	def initialize_circuit(self, num_index_qubits, num_value_qubits):
+		"""
+		Initializes the circuit with Index and Value Registers
+
+        Args:
+            num_index_qubits: Number of qubits used to encode the sample indices.
+            num_value_qubits: Number of qubits used to encode the sample values.
+
+        Returns: 
+            circuit: Qiskit Circuit with the registers
+        """
 		index_register  = qiskit.QuantumRegister(num_index_qubits,self.labels[0])
 		value_register  = qiskit.QuantumRegister(num_value_qubits,self.labels[1])
 		circuit = qiskit.QuantumCircuit(value_register,index_register,name=self.name)
 		return circuit
 
 	def value_setting(self,circuit,values):
+		"""
+		Encodes the prepared, converted values to the initialised circuit.
+
+        Args:
+            circuit: Array representing Digital Audio Samples
+            num_index_qubits: Number of qubits used to encode sampling.
+
+        Returns: 
+            circuit: Qiskit Circuit
+        """
 		circuit.initialize(values)
 
 	def measure(self,circuit):
