@@ -33,7 +33,7 @@ class BaseScheme(ABC):
                          
     - value setting     : Encodes / Sets the converted values to the circuit.
     
-    - measure(optional) : Measures the circuit with appropriate classical registers.
+    - measure(optional): Measures the circuit with appropriate classical registers.
     
     - encode            : combines all the above steps 
 
@@ -41,17 +41,18 @@ class BaseScheme(ABC):
                           internally using aer simulator which is 
                           included in scheme.decode() method by default
 
-    - decoding stages   :
-
-        1) decode components : extract required components directly from the 
-                               counts. i.e. a dictionary with the outcome of 
-                               measurements performed on the quantum circuit.
+    - decode components : First stage of decoding.
+    				      Extracts required components directly from the 
+                          counts. i.e. a dictionary with the outcome of 
+                          measurements performed on the quantum circuit.
                                   
-        2) restore data       : undo the data conversion done at encoding
+    - restore data      : Second stage of decosing.
+                          undo the data conversion done at encoding
 
-        3) undo preparation   : undo the data preparation such as padding 
-                                done at encoding
-
+    - undo preparation  : Third stage of decoding.
+    					  Undo the data preparation such as padding 
+                          done at encoding. Can be done manually
+                          using numpy slicing and reshape methods.
 
     - reconstruct data  : Takes in a counts dictionary for decoding.
                               
