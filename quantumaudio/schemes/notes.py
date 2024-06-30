@@ -20,20 +20,22 @@ class BaseScheme(ABC):
     The stages are listed below:
 
     - calculate         : Calculates the necessary number of qubits
-        				   with respect to the data, type of scheme
-                          and any user defined values valid for some schemes. 
+    					  for each quantum register with respect 
+                          to the data shape, type of scheme and any 
+                          user defined values valid for some schemes. 
                         
     - prepare data      : Prepares the data by padding and reshaping.
     
     - convert data      : Converts the data to values suitable for encoding.
     
     - initalize circuit : Initalises circuit with the calculated no. of qubits
-        				   for each quantum registers representing a different aspect
-                          of the Audio data. e.g. time register, value register etc.
+        				  for each quantum registers representing a different 
+                          aspect of the Audio data. e.g. time register, 
+                          value register, channel register etc.
                          
     - value setting     : Encodes / Sets the converted values to the circuit.
     
-    - measure(optional) : Measures the circuit with appropriate classical registers.
+    - measure(optional) : Adds appropriate classical registers for measurement.
     
     - encode            : combines all the above steps 
 
