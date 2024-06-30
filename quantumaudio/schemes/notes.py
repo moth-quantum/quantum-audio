@@ -19,55 +19,50 @@ class BaseScheme(ABC):
     involves several stages which can be manually implemented. 
     The stages are listed below:
 
-    - Encoding
+    - calculate         : Calculates the necessary number of qubits
+        				  with respect to the data, type of scheme
+                          and any user defined values valid for some schemes. 
+    - prepare data      : Prepares the data by padding and reshaping.
+    - convert data      : Converts the data to values suitable for encoding.
+    - initalize circuit : Initalises circuit with the calculated no. of qubits
+        				  for each quantum registers representing a different aspect
+                         of the Audio data. e.g. time register, value register etc. 
+    - value setting     : Encodes / Sets the converted values to the circuit.
+    - measure(optional) : Measures the circuit with appropriate classical registers.
+    - encode            : combines all the above steps 
 
-        - calculate         : Calculates the necessary number of qubits
-        				      with respect to the data, type of scheme
-                              and any user defined values valid for some schemes. 
-        - prepare data      : Prepares the data by padding and reshaping.
-        - convert data      : Converts the data to values suitable for encoding.
-        - initalize circuit : Initalises circuit with the calculated no. of qubits
-        				      for each quantum registers representing a different aspect
-                             of the Audio data. e.g. time register, value register etc. 
-        - value setting     : Encodes / Sets the converted values to the circuit.
-        - measure(optional) : Measures the circuit with appropriate classical registers.
-        - encode            : combines all the above steps 
-
-    - Decoding
-
-        - execute(optional) : The circuit be executed externally or 
+    - execute(optional) : The circuit be executed externally or 
                               internally using aer simulator which is 
                               included in scheme.decode() method by default
 
-        - decoding stages   :
+    - decoding stages   :
 
-            1) decode components : extract required components directly from the 
+        1) decode components : extract required components directly from the 
                                     counts. i.e. a dictionary with the outcome of 
                                     measurements performed on the quantum circuit.
                                   
-            2) restore data       : undo the data conversion done at encoding
+        2) restore data       : undo the data conversion done at encoding
 
-            3) undo preparation   : undo the data preparation such as padding 
+        3) undo preparation   : undo the data preparation such as padding 
                                    done at encoding
 
 
-        - reconstruct data  : Takes in a counts dictionary for decoding.
+    - reconstruct data  : Takes in a counts dictionary for decoding.
                               
-                              Combines decoding stages 1 and 2.
+                          Combines decoding stages 1 and 2.
         
-        - decode result     : Takes in a qiskit.result object for decoding. 
+    - decode result     : Takes in a qiskit.result object for decoding. 
                               
-                              Combines decoding stages 1, 2 and 3.
+                          Combines decoding stages 1, 2 and 3.
                               
-                              It considers additional metadata such as 
-                              original sample length to undo the padding 
-                              done at data preparation stage.
+                          It considers additional metadata such as 
+                          original sample length to undo the padding 
+                          done at data preparation stage.
 
-        - decode            : Takes in a qiskit.circuit object for decoding.
+    - decode            : Takes in a qiskit.circuit object for decoding.
                               
-                              Performs measurement (if needed) and default
-                              execution, followed by all stages of decoding.
-
+                          Performs measurement (if needed) and default
+                          execution, followed by all stages of decoding.
     """
 
     def __init__(self):
