@@ -14,7 +14,7 @@ class BaseScheme(ABC):
                 does necessary post-processing and reconstructs back
                 the original Digital Audio.
 
-    The simplest form of interaction with a Scheme Class is to use 
+    The simplest form of interaction with a Scheme Object is to use 
     scheme.encode() and scheme.decode() methods. However, it
     involves several stages which can be manually implemented. 
     The stages are listed below:
