@@ -49,7 +49,8 @@ class BaseScheme(ABC):
                                counts. i.e. a dictionary with the outcome of 
                                measurements performed on the quantum circuit.
                                       
-        2) restore data      : Undo the data conversion done at encoding
+        2) Undo conversion   : Undo the data conversion done at encoding. 
+        					   Can be done using scheme.restore_data() method.
                                
         3) undo preparation  : Undo the data preparation such as padding 
                                done at encoding. Can be done manually
