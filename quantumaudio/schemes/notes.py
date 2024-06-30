@@ -20,7 +20,7 @@ class BaseScheme(ABC):
     The stages are listed below:
 
     - calculate         : Calculates the necessary number of qubits
-        				  with respect to the data, type of scheme
+        				   with respect to the data, type of scheme
                           and any user defined values valid for some schemes. 
                         
     - prepare data      : Prepares the data by padding and reshaping.
@@ -28,12 +28,12 @@ class BaseScheme(ABC):
     - convert data      : Converts the data to values suitable for encoding.
     
     - initalize circuit : Initalises circuit with the calculated no. of qubits
-        				  for each quantum registers representing a different aspect
-                         of the Audio data. e.g. time register, value register etc.
+        				   for each quantum registers representing a different aspect
+                          of the Audio data. e.g. time register, value register etc.
                          
     - value setting     : Encodes / Sets the converted values to the circuit.
     
-    - measure(optional): Measures the circuit with appropriate classical registers.
+    - measure(optional) : Measures the circuit with appropriate classical registers.
     
     - encode            : combines all the above steps 
 
@@ -42,34 +42,34 @@ class BaseScheme(ABC):
                           included in scheme.decode() method by default
 
     - decode components : First stage of decoding.
-    				      Extracts required components directly from the 
+    				       Extracts required components directly from the 
                           counts. i.e. a dictionary with the outcome of 
                           measurements performed on the quantum circuit.
                                   
-    - restore data      : Second stage of decosing.
-                          undo the data conversion done at encoding
+    - restore data       : Second stage of decosing.
+                           undo the data conversion done at encoding
 
-    - undo preparation  : Third stage of decoding.
-    					  Undo the data preparation such as padding 
-                          done at encoding. Can be done manually
-                          using numpy slicing and reshape methods.
+    - undo preparation   : Third stage of decoding.
+    					   Undo the data preparation such as padding 
+                           done at encoding. Can be done manually
+                           using numpy slicing and reshape methods.
 
-    - reconstruct data  : Takes in a counts dictionary for decoding.
+    - reconstruct data   : Takes in a counts dictionary for decoding.
                               
-                          Combines decoding stages 1 and 2.
+                           Combines decoding stages 1 and 2.
         
-    - decode result     : Takes in a qiskit.result object for decoding. 
+    - decode result      : Takes in a qiskit.result object for decoding. 
                               
-                          Combines decoding stages 1, 2 and 3.
+                           Combines decoding stages 1, 2 and 3.
                               
-                          It considers additional metadata such as 
-                          original sample length to undo the padding 
-                          done at data preparation stage.
+                           It considers additional metadata such as 
+                           original sample length to undo the padding 
+                           done at data preparation stage.
 
-    - decode            : Takes in a qiskit.circuit object for decoding.
+    - decode             : Takes in a qiskit.circuit object for decoding.
                               
-                          Performs measurement (if needed) and default
-                          execution, followed by all stages of decoding.
+                           Performs measurement (if needed) and default
+                           execution, followed by all stages of decoding.
     """
 
     def __init__(self):
