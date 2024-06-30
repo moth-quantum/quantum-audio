@@ -40,19 +40,18 @@ class BaseScheme(ABC):
     - execute(optional) : The circuit be executed externally or 
                           internally using aer simulator which is 
                           included in scheme.decode() method by default
+                        
+    - decoding stages   :
 
-    - decode components : First stage of decoding.
-    				       Extracts required components directly from the 
-                          counts. i.e. a dictionary with the outcome of 
-                          measurements performed on the quantum circuit.
-                                  
-    - restore data       : Second stage of decosing.
-                           undo the data conversion done at encoding
-
-    - undo preparation   : Third stage of decoding.
-    					   Undo the data preparation such as padding 
-                           done at encoding. Can be done manually
-                           using numpy slicing and reshape methods.
+        1) decode components : Extracts required components directly from the 
+                               counts. i.e. a dictionary with the outcome of 
+                               measurements performed on the quantum circuit.
+                                      
+        2) restore data      : Undo the data conversion done at encoding
+                               
+        3) undo preparation  : Undo the data preparation such as padding 
+                               done at encoding. Can be done manually
+                               using numpy slicing and reshape methods.
 
     - reconstruct data   : Takes in a counts dictionary for decoding.
                               
