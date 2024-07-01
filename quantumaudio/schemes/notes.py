@@ -89,6 +89,8 @@ class BaseScheme(ABC):
     These attributes gives a brief view of how each Scheme differs 
     from one another.
 
+    Attributes:
+    
 		name: 		 Holds the full name of the Quantum Audio Representation
 		qubit_depth: Number of qubits to represent the amplitude of an audio signal.
 	
@@ -98,6 +100,7 @@ class BaseScheme(ABC):
 
 		convert:	 Function that applies a mathematical conversion of input at Encoding
 		restore:	 Function that restores the input at Decoding
+  
     """ 
         self.name        = 'Quantum Audio Representation Scheme'
         self.qubit_depth = None
