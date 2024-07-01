@@ -26,9 +26,9 @@ class BaseScheme(ABC):
                         
     - Data Pre-Processing
                         
-        - prepare data     : Prepares the data by padding and reshaping.
+        - prepare data   : Prepares the data by padding and reshaping.
         
-        - convert data      : Converts the data to values suitable for encoding.
+        - convert data   : Converts the data to values suitable for encoding.
         
     - Circuit Preparation
     
@@ -47,7 +47,7 @@ class BaseScheme(ABC):
                               in scheme.encode() method.
     
         - measure(optional): Adds appropriate classical registers 
-                               for measurement.
+                             for measurement.
     
     - encode            : Combines all the above steps. 
 
@@ -56,7 +56,7 @@ class BaseScheme(ABC):
                           method included in scheme.decode() method
                           which uses aer simulator by default.
                         
-    - decoding stages   :
+    - Decoding Stages
 
         1) decode components : Extracts required components directly from the 
                                counts. i.e. a dictionary with the outcome of 
