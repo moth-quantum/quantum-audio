@@ -14,16 +14,18 @@ class QPAM:
 		"""
 		Initialize the QPAM instance.
 
-		name: 		 Holds the full name of the representation
-		qubit_depth: Number of qubits to represent the amplitude of an audio signal.
-					 (Note: In QPAM, no additional qubit is required to represent amplitude.)
-	
-		n_fold:		 Term for fixed number of registers used in a representation
-		labels:		 Name of the Quantum registers (Arranged from Bottom to Top in a Qiskit Circuit)
-		positions: 	 Index position of Quantum registers (Arranged from Top to Bottom in circuit.qregs)
+		Attributes:
 
-		convert:	 Function that applies a mathematical conversion of input at Encoding
-		restore:	 Function that restores the input at Decoding
+			name: 		 Holds the full name of the representation
+			qubit_depth: Number of qubits to represent the amplitude of an audio signal.
+						 (Note: In QPAM, no additional qubit is required to represent amplitude.)
+		
+			n_fold:		 Term for fixed number of registers used in a representation
+			labels:		 Name of the Quantum registers (Arranged from Bottom to Top in a Qiskit Circuit)
+			positions: 	 Index position of Quantum registers (Arranged from Top to Bottom in circuit.qregs)
+
+			convert:	 Function that applies a mathematical conversion of input at Encoding
+			restore:	 Function that restores the input at Decoding
 		
 		"""
 		self.name = 'Quantum Probability Amplitude Modulation'
@@ -40,11 +42,11 @@ class QPAM:
 
 	# ----- Data Preparation -----
 
-	def calculate(self, data: np.ndarray, verbose: Union[int,bool] = True) -> Tuple[int, Tuple[int, int]]:
+	def calculate(self, data: np.ndarray, verbose: Union[int,bool] = True) -> tuple[int, tuple[int, int]]:
 		"""
 		Returns necessary information required for Encoding and Decoding:
-		 * Number of qubits required to encode both Time and Amplitude information.
-		 * Original number of samples required for decoding.
+		 - Number of qubits required to encode both Time and Amplitude information.
+		 - Original number of samples required for decoding.
 
         Args:
             data: Array representing Digital Audio Samples
@@ -76,8 +78,8 @@ class QPAM:
 	def prepare_data(self, data, num_index_qubits):
 		"""
 		Prepares the data with appropriate dimensions for encoding:
-		* It pads the length of data with zeros to fit the number of index qubits.
-		* It also removes redundant dimension if the shape is (1,num_samples).
+		- It pads the length of data with zeros to fit the number of index qubits.
+		- It also removes redundant dimension if the shape is (1,num_samples).
 
         Args:
             data: Array representing Digital Audio Samples
@@ -113,7 +115,7 @@ class QPAM:
 		Encodes the prepared, converted values to the initialised circuit.
 
         Args:
-            circuit: Array representing Digital Audio Samples
+            circuit: Initialized Qiskit Circuit
             num_index_qubits: Number of qubits used to encode sampling.
 
         Returns: 
@@ -122,11 +124,29 @@ class QPAM:
 		circuit.initialize(values)
 
 	def measure(self,circuit):
+		"""
+		Adds classical measurements to all qubits of the Quantum Circuit
+
+		Args:
+			circuit: Encoded Qiskit Circuit
+
+		"""
 		if not circuit.cregs: circuit.measure_all()
 
 	# ------------------- Default Encode Function ---------------------------
 
 	def encode(self, data, measure = True, verbose=2):
+		"""
+		Given an audio data, prepares a Qiskit Circuit representing it.
+
+		Args:
+			data: Array representing Digital Audio Samples
+			measure: Adds measurement to the circuit if set True or int > 0
+
+		Returns:
+			A Qiskit Circuit representing the Digital Audio.
+
+		"""
 		num_samples,(num_index_qubits,num_value_qubits) = self.get_num_qubits(data,verbose=bool(verbose))
 		# prepare data
 		data = self.prepare_data(data, num_index_qubits)
@@ -147,15 +167,53 @@ class QPAM:
 	# ------------------- Decoding Helpers --------------------------- 
 
 	def decode_components(self,counts):
+		"""
+		The first stage of decoding is extracting required components
+		from counts.
+
+		Args:
+			counts: a dictionary with the outcome of measurements 
+					performed on the quantum circuit.
+
+		Returns:
+			Array of components.
+
+		"""
 		counts = utils.pad_counts(counts)
 		return np.array(list(counts.values()))
 
-	def reconstruct_data(self,counts,shots,norm):
+	def reconstruct_data(self, counts, shots, norm):
+		"""
+		Extract components and restore the conversion did
+		in encoding stage.
+
+		Args:
+			counts: a dictionary with the outcome of measurements 
+					performed on the quantum circuit.
+			shots:  total number of times the quantum circuit is measured.
+			norm :  the norm factor used to normalize the decoding
+
+		Return:
+			data: Array of restored values
+		"""
 		probabilities = self.decode_components(counts)
 		data = self.restore(probabilities,norm,shots)
 		return data
 
 	def decode_result(self,result,norm=None,keep_padding=False):
+		"""
+		Given a result object. Extract components and restore the conversion did
+		in encoding stage.
+
+		Args:
+			counts: a dictionary with the outcome of measurements 
+					performed on the quantum circuit.
+			shots:  total number of times the quantum circuit is measured.
+			norm :  the norm factor used to normalize the decoding
+
+		Return:
+			data: Array of restored values
+		"""
 		counts = result.get_counts()
 		shots  = result.results[0].shots
 		header = result.results[0].header
@@ -177,6 +235,17 @@ class QPAM:
 	# ------------------- Default Decode Function ------------------------- 
 
 	def decode(self,circuit,backend=None,shots=4000,norm=None,keep_padding=False):
+		"""
+		Given a qiskit circuit, decodes and returns back the Original Audio.
+		Args:
+			circuit: A Qiskit Circuit representing the Digital Audio.
+			backend: A backend string compatible with qiskit.execute method
+			shots  : Total number of times the quantum circuit is measured.
+			norm   : The norm factor used to normalize the decoding
+			keep_padding: Undos the padding set at Encoding stage if set False.
+		Return:
+			data: Array of decoded values
+		"""
 		self.measure(circuit)
 		result = utils.execute(circuit=circuit,backend=backend,shots=shots)
 		data = self.decode_result(result=result,keep_padding=keep_padding)
