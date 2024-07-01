@@ -89,24 +89,24 @@ class BaseScheme(ABC):
 
     def __init__(self):
     """
-    Initialize the Scheme instance. The attributes of __init__ method are 
-    specific to a Scheme which remains fixed and independent of the Data.
-    These attributes gives an overview of how each Scheme differs 
-    from one another.
+        Initialize the Scheme instance. The attributes of __init__ method are 
+        specific to a Scheme which remains fixed and independent of the Data.
+        These attributes gives an overview of how each Scheme differs 
+        from one another.
 
-    Attributes:
-    
-		name: 		 Holds the full name of the Quantum Audio Representation
-		qubit_depth:  	 Number of qubits to represent the amplitude of an audio signal.
-	
-		n_fold:		 Term for fixed number of registers used in a representation
-		labels:		 Name of the Quantum registers 
-  				 (Arranged from Bottom to Top in a Qiskit Circuit)
-		positions: 	 Index position of Quantum registers 
-  				 (Arranged from Top to Bottom in circuit.qregs)
+        Attributes:
+        
+    		name: 		 Holds the full name of the Quantum Audio Representation
+    		qubit_depth:  	 Number of qubits to represent the amplitude of an audio signal.
+    	
+    		n_fold:		 Term for fixed number of registers used in a representation
+    		labels:		 Name of the Quantum registers 
+      				 (Arranged from Bottom to Top in a Qiskit Circuit)
+    		positions: 	 Index position of Quantum registers 
+      				 (Arranged from Top to Bottom in circuit.qregs)
 
-		convert:	 Function that applies a mathematical conversion of input at Encoding
-		restore:	 Function that restores the input at Decoding
+    		convert:	 Function that applies a mathematical conversion of input at Encoding
+    		restore:	 Function that restores the input at Decoding
   
     """ 
         self.name        = 'Quantum Audio Representation Scheme'
