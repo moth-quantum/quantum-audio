@@ -26,9 +26,9 @@ class BaseScheme(ABC):
                         
     - Data Pre-Processing
                         
-        - prepare data     : Prepares the data by padding and reshaping.
+        - prepare data   : Prepares the data by padding and reshaping.
         
-        - convert data      : Converts the data to values suitable for encoding.
+        - convert data   : Converts the data to values suitable for encoding.
         
     - Circuit Preparation
     
@@ -47,7 +47,7 @@ class BaseScheme(ABC):
                               in scheme.encode() method.
     
         - measure(optional): Adds appropriate classical registers 
-                               for measurement.
+                             for measurement.
     
     - encode            : Combines all the above steps. 
 
@@ -56,7 +56,7 @@ class BaseScheme(ABC):
                           method included in scheme.decode() method
                           which uses aer simulator by default.
                         
-    - decoding stages   :
+    - Decoding Stages
 
         1) decode components : Extracts required components directly from the 
                                counts. i.e. a dictionary with the outcome of 
@@ -91,7 +91,7 @@ class BaseScheme(ABC):
     """
     Initialize the Scheme instance. The attributes of __init__ method are 
     specific to a Scheme which remains fixed and independent of the Data.
-    These attributes gives a brief view of how each Scheme differs 
+    These attributes gives an overview of how each Scheme differs 
     from one another.
 
     Attributes:
@@ -138,8 +138,8 @@ class BaseScheme(ABC):
     def prepare_data(self):
         """
         Prepares the data with appropriate dimensions for encoding:
-        * It pads the length of data with zeros to fit the number of index qubits.
-        * It also removes redundant dimension if the shape is (1,num_samples).
+        - It pads the length of data with zeros to fit the number of index qubits.
+        - It also removes redundant dimension if the shape is (1,num_samples).
 
         Args:
             data: Array representing Digital Audio Samples
