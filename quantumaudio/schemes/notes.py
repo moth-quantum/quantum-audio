@@ -35,12 +35,11 @@ class BaseScheme(ABC):
                          
     - value setting     : Encodes / Sets the converted values to the circuit.
 
-    - add metadata      : To keep Encode and Decode functions independent,
-                          Some key information that gets lost during encoding,
-                          such as the the original sample length (after padding),
-                          can be preserved by attaching metadata. This can be 
-                          done manually by setting circuit.metadata to a
-                          dictionary with valid keys.
+    - add metadata      : To keep Encode and Decode functions independent, 
+                          the key information lost during encoding 
+                          (e.g., original sample length) can be preserved 
+                          by attaching metadata as dictionary to qiskit's
+                          circuit.metadata.
     
     - measure(optional) : Adds appropriate classical registers for measurement.
     
