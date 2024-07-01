@@ -160,13 +160,16 @@ class QPAM:
 		shots  = result.results[0].shots
 		header = result.results[0].header
 		norm   = norm if norm else header.metadata['norm_factor']
-		original_num_samples = header.metadata['num_samples']
+		if 'num_samples' in header.metadata:
+			original_num_samples = header.metadata['num_samples']
+		else:
+			original_num_samples = None
 
 		# reconstruct
 		data = self.reconstruct_data(counts=counts,shots=shots,norm=norm)
 
 		# undo padding
-		if not keep_padding:
+		if not keep_padding and original_num_samples:
 			data = data[:original_num_samples]
 		
 		return data
