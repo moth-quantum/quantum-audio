@@ -28,8 +28,8 @@ class BaseScheme(ABC):
     
     - convert data      : Converts the data to values suitable for encoding.
     
-    - initalize circuit : Initalises circuit with the calculated no. of qubits
-        				  for each quantum registers representing a different 
+    - initalize circuit : Initalises circuit with the calculated number of qubits
+                          for each quantum registers representing a different 
                           aspect of the Audio data. e.g. time register, 
                           value register, channel register etc.
                          
