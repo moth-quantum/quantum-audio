@@ -24,25 +24,30 @@ class BaseScheme(ABC):
                           to the data shape, type of scheme and any 
                           user defined values valid for some schemes. 
                         
-    - prepare data      : Prepares the data by padding and reshaping.
+    - Data Pre-Processing
+                        
+        - prepare data     : Prepares the data by padding and reshaping.
+        
+        - convert data      : Converts the data to values suitable for encoding.
+        
+    - Circuit Preparation
     
-    - convert data      : Converts the data to values suitable for encoding.
+        - initalize circuit : Initalises circuit with the calculated number of qubits
+                              for each quantum registers representing a different 
+                              aspect of the Audio data. e.g. time register, 
+                              value register, channel register etc.
+                             
+        - value setting     : Encodes / Sets the converted values to the circuit.
     
-    - initalize circuit : Initalises circuit with the calculated number of qubits
-                          for each quantum registers representing a different 
-                          aspect of the Audio data. e.g. time register, 
-                          value register, channel register etc.
-                         
-    - value setting     : Encodes / Sets the converted values to the circuit.
-
-    - add metadata      : To keep Encode and Decode functions independent, 
-                          the key information lost during encoding 
-                          (e.g., original sample length) can be preserved 
-                          by manually attaching them as dictionary to 
-                          qiskit's circuit.metadata. This is done by default
-                          in scheme.encode() method.
+        - add metadata      : To keep Encode and Decode functions independent, 
+                              the key information lost during encoding 
+                              (e.g., original sample length) can be preserved 
+                              by manually attaching them as dictionary to 
+                              qiskit's circuit.metadata. This is done by default
+                              in scheme.encode() method.
     
-    - measure(optional) : Adds appropriate classical registers for measurement.
+        - measure(optional): Adds appropriate classical registers 
+                               for measurement.
     
     - encode            : Combines all the above steps. 
 
