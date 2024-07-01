@@ -38,12 +38,13 @@ class BaseScheme(ABC):
     - add metadata      : To keep Encode and Decode functions independent, 
                           the key information lost during encoding 
                           (e.g., original sample length) can be preserved 
-                          by attaching metadata as dictionary to qiskit's
-                          circuit.metadata.
+                          by manually attaching them as dictionary to 
+                          qiskit's circuit.metadata. This is done by default
+                          in scheme.encode() method.
     
     - measure(optional) : Adds appropriate classical registers for measurement.
     
-    - encode            : combines all the above steps 
+    - encode            : Combines all the above steps. 
 
     - execute(optional) : The circuit can be executed externally with 
                           any provider or internally using qiskit.execute 
