@@ -11,8 +11,8 @@ class BaseScheme(ABC):
                 that represents the Original Digital Audio.
     
     - Decoding: takes in the Quantum Circuit measurements,
-                does necessary post-processing and reconstructs back
-                the original Digital Audio.
+                does necessary post-processing and reconstructs the
+                the original Digital Audio back.
 
     The simplest form of interaction with a Scheme Object is to use 
     scheme.encode() and scheme.decode() methods. However, it
