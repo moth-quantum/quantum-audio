@@ -34,14 +34,21 @@ class BaseScheme(ABC):
                           value register, channel register etc.
                          
     - value setting     : Encodes / Sets the converted values to the circuit.
+
+    - add metadata      : To keep Encode and Decode functions independent,
+                          Some key information that gets lost during encoding,
+                          such as the the original sample length (after padding),
+                          can be preserved by attaching metadata. This can be 
+                          done manually by setting circuit.metadata.
     
     - measure(optional) : Adds appropriate classical registers for measurement.
     
     - encode            : combines all the above steps 
 
-    - execute(optional) : The circuit be executed externally or 
-                          internally using aer simulator which is 
-                          included in scheme.decode() method by default
+    - execute(optional) : The circuit can be executed externally with 
+                          any provider or internally using qiskit.execute 
+                          method included in scheme.decode() method
+                          which uses aer simulator by default.
                         
     - decoding stages   :
 
