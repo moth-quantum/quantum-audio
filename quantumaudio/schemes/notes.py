@@ -95,8 +95,10 @@ class BaseScheme(ABC):
 		qubit_depth:  	 Number of qubits to represent the amplitude of an audio signal.
 	
 		n_fold:		 Term for fixed number of registers used in a representation
-		labels:		 Name of the Quantum registers (Arranged from Bottom to Top in a Qiskit Circuit)
-		positions: 	 Index position of Quantum registers (Arranged from Top to Bottom in circuit.qregs)
+		labels:		 Name of the Quantum registers 
+  				 (Arranged from Bottom to Top in a Qiskit Circuit)
+		positions: 	 Index position of Quantum registers 
+  				 (Arranged from Top to Bottom in circuit.qregs)
 
 		convert:	 Function that applies a mathematical conversion of input at Encoding
 		restore:	 Function that restores the input at Decoding
