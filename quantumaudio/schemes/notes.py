@@ -20,7 +20,7 @@ class BaseScheme(ABC):
     The stages are listed below:
 
     - calculate         : Calculates the necessary number of qubits
-    					  for each quantum register with respect 
+    				      for each quantum register with respect 
                           to the data shape, type of scheme and any 
                           user defined values valid for some schemes. 
                         
