@@ -92,7 +92,7 @@ class BaseScheme(ABC):
     Attributes:
     
 		name: 		 Holds the full name of the Quantum Audio Representation
-		qubit_depth: Number of qubits to represent the amplitude of an audio signal.
+		qubit_depth:  	 Number of qubits to represent the amplitude of an audio signal.
 	
 		n_fold:		 Term for fixed number of registers used in a representation
 		labels:		 Name of the Quantum registers (Arranged from Bottom to Top in a Qiskit Circuit)
