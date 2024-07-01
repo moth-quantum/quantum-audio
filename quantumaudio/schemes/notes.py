@@ -39,7 +39,8 @@ class BaseScheme(ABC):
                           Some key information that gets lost during encoding,
                           such as the the original sample length (after padding),
                           can be preserved by attaching metadata. This can be 
-                          done manually by setting circuit.metadata.
+                          done manually by setting circuit.metadata to a
+                          dictionary with valid keys.
     
     - measure(optional) : Adds appropriate classical registers for measurement.
     
