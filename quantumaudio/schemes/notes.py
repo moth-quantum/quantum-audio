@@ -112,10 +112,37 @@ class BaseScheme(ABC):
 
     @abstractmethod
     def calculate(self):
+        """
+        Returns necessary information required for Encoding and Decoding:
+         - Number of qubits required to encode both Time and Amplitude information.
+         - Original number of samples required for decoding.
+
+        Args:
+            data: Array representing Digital Audio Samples
+            verbose: Prints the Qubit information if True or int > 0
+
+        Returns: 
+            A tuple with (original_sample_length, number_qubits_required)
+            number_qubits_required is a tuple (int, int) consisting of
+            num_index_qubits to encode Time Information (x-axis) and
+            num_value_qubits to encode Amplitude Information (y-axis)
+        """
         pass
 
     @abstractmethod
     def prepare_data(self):
+        """
+        Prepares the data with appropriate dimensions for encoding:
+        * It pads the length of data with zeros to fit the number of index qubits.
+        * It also removes redundant dimension if the shape is (1,num_samples).
+
+        Args:
+            data: Array representing Digital Audio Samples
+            num_index_qubits: Number of qubits used to encode the sample indices.
+
+        Returns: 
+            data: Array
+        """
         pass
 
     @abstractmethod
@@ -124,10 +151,30 @@ class BaseScheme(ABC):
 
     @abstractmethod
     def initalize_circuit(self):
+        """
+        Initializes the circuit with Index and Value Registers
+
+        Args:
+            num_index_qubits: Number of qubits used to encode the sample indices.
+            num_value_qubits: Number of qubits used to encode the sample values.
+
+        Returns: 
+            circuit: Qiskit Circuit with the registers
+        """
         pass
 
     @abstractmethod
     def value_setting(self):
+        """
+        Encodes the prepared, converted values to the initialised circuit.
+
+        Args:
+            circuit: Array representing Digital Audio Samples
+            num_index_qubits: Number of qubits used to encode sampling.
+
+        Returns: 
+            circuit: Qiskit Circuit
+        """
         pass
 
     @abstractmethod
