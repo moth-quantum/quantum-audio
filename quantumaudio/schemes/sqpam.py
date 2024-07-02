@@ -3,7 +3,35 @@ import qiskit
 import numpy as np
 
 class SQPAM:
+	"""
+	Single-Qubit Probability Amplitude Modulation (SQPAM).
+	
+	SQPAM class implements encoding and decoding of Digital Audio where
+	the amplitude is encoded through controlled rotation gates acting 
+	on a single-qubit.
+
+	"""
 	def __init__(self):
+		"""
+		Initialize the SQPAM instance. The attributes of __init__ method are 
+        specific to this Scheme which remains fixed and independent of the Data.
+        These attributes gives an overview of the Scheme.
+
+		Attributes:
+
+			name:		  Holds the full name of the representation
+			qubit_depth:  Number of qubits to represent the amplitude of an audio signal.
+					 	  (Note: In SQPAM, the qubit depth is 1 denoting the "Single-Qubit".)
+		
+			n_fold:		  Term for fixed number of registers used in a representation
+			labels:		  Name of the Quantum registers (Arranged from Bottom to Top in a Qiskit Circuit)
+			positions: 	  Index position of Quantum registers (Arranged from Top to Bottom in the circuit attribute .qregs)
+
+			convert:	  Function that applies a mathematical conversion of input at Encoding
+			restore:	  Function that restores the conversion at Decoding
+		
+		"""
+
 		self.name = 'Single-Qubit Probability Amplitude Modulation'
 		self.qubit_depth = 1
 		
@@ -16,7 +44,9 @@ class SQPAM:
 
 	# ------------------- Encoding Helpers --------------------------- 
 
-	def get_num_qubits(self, data, verbose=True):
+	# Data Preparation 
+
+	def calculate(self, data: np.ndarray, verbose: Union[int,bool] = True) -> tuple[int, tuple[int, int]]:
 		# x-axis
 		num_samples      = data.shape[-1]
 		num_index_qubits = utils.get_qubit_count(num_samples)
@@ -29,12 +59,34 @@ class SQPAM:
 		if verbose: utils.print_num_qubits(num_qubits,labels=self.labels)
 		return num_samples, num_qubits
 
-	def prepare_data(self, data, num_index_qubits):
+	def prepare_data(self, data: np.ndarray, num_index_qubits: int) -> np.ndarray:
+		"""
+		Prepares the data with appropriate dimensions for encoding:
+		- It pads the length of data with zeros to fit the number of index qubits.
+		- It also removes redundant dimension if the shape is (1,num_samples).
+
+	    Args:
+	        data: Array representing Digital Audio Samples
+	        num_index_qubits: Number of qubits used to encode the sample indices.
+	
+	    Returns: 
+	        data: Array
+	    """
 		data = utils.apply_index_padding(data,num_index_qubits)
 		data = data.squeeze()
 		return data
 
 	def initialize_circuit(self, num_index_qubits, num_value_qubits):
+		"""
+		Initializes the circuit with Index and Value Registers
+
+	    Args:
+	        num_index_qubits: Number of qubits used to encode the sample indices.
+	        num_value_qubits: Number of qubits used to encode the sample values.
+	
+	    Returns: 
+	        circuit: Qiskit Circuit with the registers
+	    """
 		index_register = qiskit.QuantumRegister(num_index_qubits,self.labels[0])
 		value_register = qiskit.QuantumRegister(num_value_qubits,self.labels[1])
 		circuit = qiskit.QuantumCircuit(value_register,index_register,name=self.name)
@@ -43,6 +95,16 @@ class SQPAM:
 
 	@utils.with_indexing
 	def value_setting(self,circuit,index,value):
+		"""
+		Encodes the prepared, converted values to the initialised circuit.
+
+	    Args:
+	        circuit: Initialized Qiskit Circuit
+	        num_index_qubits: Number of qubits used to encode sampling.
+	
+	    Returns: 
+	        circuit: Qiskit Circuit
+	    """
 		value_register, index_register = circuit.qregs
 		
 		# initialise sub-circuit
