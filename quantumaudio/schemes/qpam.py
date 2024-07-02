@@ -43,7 +43,7 @@ class QPAM:
 
 	# ------------------- Encoding Helpers --------------------------- 
 
-	# ----- Data Preparation -----
+	# Data Preparation
 
 	def calculate(self, data: np.ndarray, verbose: Union[int,bool] = True) -> tuple[int, tuple[int, int]]:
 		"""
