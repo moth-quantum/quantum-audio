@@ -1,7 +1,4 @@
 """
-This subpackage provides different Schemes for encoding and decoding
-Quantum Audio using Qiskit Circuits.
-
 A Scheme denotes one of the Quantum Audio Representation Methods.
 The core functions of a Scheme is Encoding and Decoding.
 
