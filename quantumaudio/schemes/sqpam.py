@@ -15,22 +15,25 @@ class SQPAM:
 
     def __init__(self):
         """
-        Initialize the SQPAM instance. The attributes of __init__ method are
+        Initialize the QPAM instance. The attributes of __init__ method are
         specific to this Scheme which remains fixed and independent of the Data.
         These attributes gives an overview of the Scheme.
 
         Attributes:
             name:         Holds the full name of the representation.
-            qubit_depth:  Number of qubits to represent the amplitude of an audio signal.
-                          (Note: In SQPAM, the qubit depth is 1 denoting the "Single-Qubit".)
+            qubit_depth:  Number of qubits to represent the amplitude of 
+                          an audio signal.(Note: In SQPAM, the qubit depth 
+                          is 1 denoting the "Single-Qubit".)
 
-            n_fold:       Term for fixed number of registers used in a representation.
+            n_fold:       Term for fixed number of registers required.
             labels:       Name of the Quantum registers 
                           (Arranged from Bottom to Top in a Qiskit Circuit)
             positions:    Index position of Quantum registers 
-                          (Arranged from Top to Bottom in a Qiskit circuit's attribute .qregs)
+                          (Arranged from Top to Bottom in a 
+                           Qiskit circuit's attribute .qregs)
 
-            convert:      Function that applies a mathematical conversion of input at Encoding.
+            convert:      Function that applies a mathematical conversion of 
+                          input at Encoding.
             restore:      Function that restores the conversion at Decoding.
         """
 
