@@ -10,3 +10,6 @@ It contatins implementations for five representation algorithms cited on the pub
 - <b>QSM</b> - Quantum State Modulation (also known as FRQA in the literature)
 - <b>MSQPAM</b> - Multi-Channel Single-Qubit Probability Amplitude Modulation
 - <b>MQSM</b> - Multi-Channel Quantum State Modulation
+
+Example of Quantum Audio Representation:
+<img width="1392" alt="SQPAM" src="https://github.com/moth-quantum/quantum-audio/assets/161862817/76445dc1-3fed-4e1b-acc7-7fce6b459dad">
