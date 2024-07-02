@@ -131,7 +131,8 @@ class SQPAM:
 
         Args:
             circuit: Initialized Qiskit Circuit
-            num_index_qubits: Number of qubits used to encode the sample indices.
+            index: position to set the value
+            value: value to be set at the index
                 
         """
         value_register, index_register = circuit.qregs
@@ -148,7 +149,7 @@ class SQPAM:
         sub_circuit = sub_circuit.control(index_register.size)
 
         # attach sub-circuit
-        circuit.append(sub_circuit, [i for i in range(circuit.num_qubits - 1, -1, -1)])
+        circuit.append(sub_circuit, [i for i in range(circuit.num_qubits-1,-1,-1)])
 
     def measure(self, circuit: qiskit.QuantumCircuit) -> None:
         """
@@ -214,6 +215,7 @@ class SQPAM:
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
+            num_components: number of cosine and sine components to get.
 
         Returns:
             Array of components for further decoding.
@@ -244,14 +246,14 @@ class SQPAM:
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            shots : total number of times the quantum circuit is measured.
-            norm  : the norm factor used to normalize the decoding in QPAM.
+            num_components: number of cosine and sine components to get.
+            inverted : retrieves cosine components of the signal.
 
         Return:
             data: Array of restored values
         """
         cosine_amps, sine_amps = self.decode_components(counts, num_samples)
-        data = self.restore(cosine_amps, sine_amps)
+        data = self.restore(cosine_amps, sine_amps, inverted)
         return data
 
     def decode_result(
@@ -266,12 +268,12 @@ class SQPAM:
 
         Args:
                 counts: a dictionary with the outcome of measurements
-                                performed on the quantum circuit.
-                shots:  total number of times the quantum circuit is measured.
-                norm :  the norm factor used to normalize the decoding
+                        performed on the quantum circuit.
+                inverted: retrieves cosine components of the signal.
+                keep_padding: Undo the padding set at Encoding stage if set False.
 
         Return:
-                data: Array of restored values
+                data: Array of restored values with original dimensions
         """
         counts = result.get_counts()
         header = result.results[0].header
@@ -308,8 +310,8 @@ class SQPAM:
                 circuit: A Qiskit Circuit representing the Digital Audio.
                 backend: A backend string compatible with qiskit.execute method
                 shots  : Total number of times the quantum circuit is measured.
-                norm   : The norm factor used to normalize the decoding
-                keep_padding: Undos the padding set at Encoding stage if set False.
+                inverted: retrieves cosine components of the signal.
+                keep_padding: Undo the padding set at Encoding stage if set False.
         Return:
                 data: Array of decoded values
         """
