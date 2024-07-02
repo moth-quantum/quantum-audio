@@ -139,11 +139,31 @@ class SQPAM:
 		circuit.append(sub_circuit, [i for i in range(circuit.num_qubits-1,-1,-1)])
 
 	def measure(self,circuit):
+		"""
+		Adds classical measurements to all registers in the Quantum Circuit
+
+		Args:
+			circuit: Encoded Qiskit Circuit
+
+		"""
 		if not circuit.cregs: utils.measure(circuit)
 
-	# ------------------- Encode Function ---------------------------
+	# Default Encode Function
 		
 	def encode(self,data,measure=True,verbose=2):
+		"""
+		Given an audio data, prepares a Qiskit Circuit representing it.
+
+		Args:
+			data: Array representing Digital Audio Samples
+			measure: Adds measurement to the circuit if set True or int > 0
+			verbose: Level of information to print. 
+					 Prints number of qubits if 1 and Displays circuit if 2.
+
+		Returns:
+			A Qiskit Circuit representing the Digital Audio.
+
+		"""
 		num_samples,(num_index_qubits,num_value_qubits) = self.calculate(data,verbose=bool(verbose))
 		# prepare data
 		data = self.prepare_data(data, num_index_qubits)
@@ -166,6 +186,18 @@ class SQPAM:
 	# ------------------- Decoding Helpers --------------------------- 
 
 	def decode_components(self,counts,num_components):
+		"""
+		The first stage of decoding is extracting required components
+		from counts.
+
+		Args:
+			counts: a dictionary with the outcome of measurements 
+					performed on the quantum circuit.
+
+		Returns:
+			Array of components.
+
+		"""
 		# initialising components
 		cosine_amps = np.zeros(num_components)
 		sine_amps   = np.zeros(num_components)
@@ -183,11 +215,38 @@ class SQPAM:
 		return cosine_amps,sine_amps
 
 	def reconstruct_data(self,counts,num_samples,inverted=False):
+		"""
+		Extract components and restore the conversion did
+		in encoding stage.
+
+		Args:
+			counts: a dictionary with the outcome of measurements 
+					performed on the quantum circuit.
+			shots:  total number of times the quantum circuit is measured.
+			norm :  the norm factor used to normalize the decoding
+
+		Return:
+			data: Array of restored values
+
+		"""
 		cosine_amps,sine_amps = self.decode_components(counts,num_samples)
 		data = self.restore(cosine_amps,sine_amps)
 		return data
 
 	def decode_result(self,result,inverted=False,keep_padding=False):
+		"""
+		Given a result object. Extract components and restore the conversion did
+		in encoding stage.
+
+		Args:
+			counts: a dictionary with the outcome of measurements 
+					performed on the quantum circuit.
+			shots:  total number of times the quantum circuit is measured.
+			norm :  the norm factor used to normalize the decoding
+
+		Return:
+			data: Array of restored values
+		"""
 		counts = result.get_counts()
 		header = result.results[0].header
 
@@ -206,9 +265,20 @@ class SQPAM:
 
 		return data
 
-	# ------------------- Decode Function ------------------------- 
+	# Default Decode Function
 
 	def decode(self,circuit,backend=None,shots=1024,inverted=False,keep_padding=False):
+		"""
+		Given a qiskit circuit, decodes and returns back the Original Audio.
+		Args:
+			circuit: A Qiskit Circuit representing the Digital Audio.
+			backend: A backend string compatible with qiskit.execute method
+			shots  : Total number of times the quantum circuit is measured.
+			norm   : The norm factor used to normalize the decoding
+			keep_padding: Undos the padding set at Encoding stage if set False.
+		Return:
+			data: Array of decoded values
+		"""
 		self.measure(circuit)
 		result = utils.execute(circuit=circuit,backend=backend,shots=shots)
 		data = self.decode_result(result=result,inverted=inverted,keep_padding=keep_padding)
