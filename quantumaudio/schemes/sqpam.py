@@ -49,6 +49,21 @@ class SQPAM:
 	# Data Preparation 
 
 	def calculate(self, data: np.ndarray, verbose: Union[int,bool] = True) -> tuple[int, tuple[int, int]]:
+		"""
+		Returns necessary information required for Encoding and Decoding:
+		 - Number of qubits required to encode both Time and Amplitude information.
+		 - Original number of samples required for decoding.
+
+		Args:
+			data: Array representing Digital Audio Samples
+			verbose: Prints the Qubit information if True or int > 0
+	
+		Returns: 
+			A tuple with (original_sample_length, number_qubits_required)
+			number_qubits_required is a tuple (int, int) consisting of
+			num_index_qubits to encode Time Information (x-axis) and
+			num_value_qubits to encode Amplitude Information (y-axis)
+		"""
 		# x-axis
 		num_samples      = data.shape[-1]
 		num_index_qubits = utils.get_qubit_count(num_samples)
@@ -67,13 +82,13 @@ class SQPAM:
 		- It pads the length of data with zeros to fit the number of index qubits.
 		- It also removes redundant dimension if the shape is (1,num_samples).
 
-	    Args:
-	        data: Array representing Digital Audio Samples
-	        num_index_qubits: Number of qubits used to encode the sample indices.
+		Args:
+			data: Array representing Digital Audio Samples
+			num_index_qubits: Number of qubits used to encode the sample indices.
 	
-	    Returns: 
-	        data: Array
-	    """
+		Returns: 
+			data: Array
+		"""
 		data = utils.apply_index_padding(data,num_index_qubits)
 		data = data.squeeze()
 		return data
