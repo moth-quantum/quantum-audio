@@ -21,18 +21,18 @@ class QPAM:
         These attributes gives an overview of the Scheme.
 
         Attributes:
-            name:		  Holds the full name of the representation.
+            name:         Holds the full name of the representation.
             qubit_depth:  Number of qubits to represent the amplitude of an audio signal.
                           (Note: In QPAM, no additional qubit is required to represent amplitude.)
 
-            n_fold:		  Term for fixed number of registers used in a representation.
-            labels:		  Name of the Quantum registers 
+            n_fold:       Term for fixed number of registers used in a representation.
+            labels:       Name of the Quantum registers 
                           (Arranged from Bottom to Top in a Qiskit Circuit)
-            positions: 	  Index position of Quantum registers 
+            positions:    Index position of Quantum registers 
                           (Arranged from Top to Bottom in a Qiskit circuit's attribute .qregs)
 
-            convert:	  Function that applies a mathematical conversion of input at Encoding.
-            restore:	  Function that restores the conversion at Decoding.
+            convert:      Function that applies a mathematical conversion of input at Encoding.
+            restore:      Function that restores the conversion at Decoding.
         """
         
         self.name = "Quantum Probability Amplitude Modulation"
@@ -167,7 +167,7 @@ class QPAM:
         Returns:
             A Qiskit Circuit representing the Digital Audio
         """
-        
+
         num_samples, (num_index_qubits, num_value_qubits) = self.calculate(
             data, verbose=bool(verbose)
         )
