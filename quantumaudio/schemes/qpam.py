@@ -13,8 +13,8 @@ class QPAM:
 	def __init__(self):
 		"""
 		Initialize the QPAM instance. The attributes of __init__ method are 
-        specific to this Scheme which remains fixed and independent of the Data.
-        These attributes gives an overview of the Scheme.
+        	specific to this Scheme which remains fixed and independent of the Data.
+        	These attributes gives an overview of the Scheme.
 
 		Attributes:
 
