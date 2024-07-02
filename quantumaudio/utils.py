@@ -5,9 +5,7 @@ import scipy
 import qiskit_aer
 import qiskit
 from IPython.display import display, Audio, clear_output
-import pyaudio
 import librosa
-from tqdm import tqdm
 
 # ======================
 # Data processing utils
