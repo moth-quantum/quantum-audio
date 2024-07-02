@@ -1,5 +1,4 @@
 import importlib
-from . import schemes
   
 def load_scheme(name, *args, **kwargs):
     try:
