@@ -22,11 +22,13 @@ class QPAM:
 
                 name:		  Holds the full name of the representation
                 qubit_depth:  Number of qubits to represent the amplitude of an audio signal.
-                                          (Note: In QPAM, no additional qubit is required to represent amplitude.)
+                              (Note: In QPAM, no additional qubit is required to represent amplitude.)
 
                 n_fold:		  Term for fixed number of registers used in a representation
-                labels:		  Name of the Quantum registers (Arranged from Bottom to Top in a Qiskit Circuit)
-                positions: 	  Index position of Quantum registers (Arranged from Top to Bottom in the circuit attribute .qregs)
+                labels:		  Name of the Quantum registers 
+                              (Arranged from Bottom to Top in a Qiskit Circuit)
+                positions: 	  Index position of Quantum registers 
+                              (Arranged from Top to Bottom in the circuit attribute .qregs)
 
                 convert:	  Function that applies a mathematical conversion of input at Encoding
                 restore:	  Function that restores the conversion at Decoding
