@@ -73,7 +73,8 @@ class SQPAM:
 		num_value_qubits  = self.qubit_depth
 		
 		num_qubits = (num_index_qubits,num_value_qubits)
-		if verbose: utils.print_num_qubits(num_qubits,labels=self.labels)
+		if verbose: 
+			utils.print_num_qubits(num_qubits,labels=self.labels)
 		return num_samples, num_qubits
 
 	def prepare_data(self, data: np.ndarray, num_index_qubits: int) -> np.ndarray:
@@ -146,7 +147,8 @@ class SQPAM:
 			circuit: Encoded Qiskit Circuit
 
 		"""
-		if not circuit.cregs: utils.measure(circuit)
+		if not circuit.cregs: 
+			utils.measure(circuit)
 
 	# Default Encode Function
 		

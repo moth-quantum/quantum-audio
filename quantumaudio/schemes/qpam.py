@@ -71,7 +71,8 @@ class QPAM:
 		num_qubits = (num_index_qubits,num_value_qubits)
 		
 		# print
-		if verbose: utils.print_num_qubits(num_qubits,labels=self.labels)
+		if verbose: 
+			utils.print_num_qubits(num_qubits,labels=self.labels)
 		return num_samples, num_qubits
 
 	def prepare_data(self, data: np.ndarray, num_index_qubits: int) -> np.ndarray:
@@ -130,7 +131,8 @@ class QPAM:
 			circuit: Encoded Qiskit Circuit
 
 		"""
-		if not circuit.cregs: circuit.measure_all()
+		if not circuit.cregs: 
+			circuit.measure_all()
 
 	# Default Encode Function
 

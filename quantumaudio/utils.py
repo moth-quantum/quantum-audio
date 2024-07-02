@@ -14,7 +14,8 @@ import librosa
 def simulate_data(num_samples,num_channels=1,seed=42):
 	np.random.seed(seed)
 	data = np.random.rand(num_samples,num_channels)
-	if num_channels == 1: data = data.squeeze()
+	if num_channels == 1: 
+		data = data.squeeze()
 	return data
 
 def apply_index_padding(array,num_index_qubits):
@@ -44,7 +45,8 @@ def get_bit_depth(signal):
     unique_values = np.unique(signal)
     num_levels = len(unique_values)
     bit_depth = get_qubit_count(num_levels)
-    if not bit_depth: bit_depth = 1
+    if not bit_depth: 
+    	bit_depth = 1
     return bit_depth
 
 def get_qubit_count(data_length):
@@ -68,7 +70,8 @@ def convert_to_probability_amplitudes(array):
 	array = array.squeeze().astype(float)
 	array = (array + 1) / 2
 	norm = np.linalg.norm(array)
-	if not norm: norm = 1
+	if not norm: 
+		norm = 1
 	probability_amplitudes = array/norm
 	return norm, probability_amplitudes
 
@@ -105,14 +108,16 @@ def pad_counts(counts):
 	return complete_counts
 
 def get_counts(circuit,backend,shots,pad=False):
-	if not backend: backend = qiskit_aer.AerSimulator()
+	if not backend: 
+		backend = qiskit_aer.AerSimulator()
 	job = qiskit.execute(circuit,backend=backend,shots=shots)
 	result = job.result()
 	counts = pad_counts(result.get_counts()) if pad else result.get_counts()
 	return counts
 
 def execute(circuit,backend=None,shots=4000):
-	if not backend: backend = qiskit_aer.AerSimulator()
+	if not backend: 
+		backend = qiskit_aer.AerSimulator()
 	job = qiskit.execute(circuit,backend=backend,shots=shots)
 	result = job.result()
 	return result
@@ -161,7 +166,8 @@ def measure(qc,labels=('ca','cc','ct'),position=None):
 
 def print_num_qubits(num_qubits,labels):
 	print(f'Number of qubits required: {sum(num_qubits)}\n')
-	for i,qubits in enumerate(num_qubits): print(f'{qubits} for {labels[i]}')
+	for i,qubits in enumerate(num_qubits): 
+		print(f'{qubits} for {labels[i]}')
 	print('\n')
 
 def draw_circuit(circuit,decompose=0):
@@ -170,8 +176,10 @@ def draw_circuit(circuit,decompose=0):
 	display(circuit.draw('mpl',style='clifford'))
 
 def plot_1d(samples,title=None,label=('original','reconstructed')):
-	if type(samples) != list: samples = [samples]
-	if label and type(label) != tuple: label = (label,)
+	if not isinstance(samples,list): 
+		samples = [samples]
+	if label and not isinstance(label,tuple): 
+		label = (label,)
 	
 	num_samples = samples[0].shape[-1]
 	x_axis = np.arange(0,num_samples)
@@ -181,13 +189,17 @@ def plot_1d(samples,title=None,label=('original','reconstructed')):
 
 	plt.xlabel("Index")
 	plt.ylabel("Values")
-	if label: plt.legend()
-	if title: plt.title(title)
+	if label: 
+		plt.legend()
+	if title: 
+		plt.title(title)
 	plt.show()
 
 def plot(samples,title=None,label=('original','reconstructed')):
-	if type(samples) != list: samples = [samples]
-	if label and type(label) != tuple: label = (label,)
+	if not isinstance(samples,list): 
+		samples = [samples]
+	if label and not isinstance(label,tuple): 
+		label = (label,)
 	
 	num_samples = samples[0].shape[-1]
 	num_channels = 1 if samples[0].ndim == 1 else samples[0].shape[-2]
@@ -201,7 +213,8 @@ def plot(samples,title=None,label=('original','reconstructed')):
 				axs[c].set_xlabel("Index")
 				axs[c].set_ylabel("Values")
 				axs[c].set_title(f"channel {c+1}")
-				if label: axs[c].legend(loc='upper right')
+				if label: 
+					axs[c].legend(loc='upper right')
 				axs[c].grid(True)
 		plt.tight_layout()
 	
@@ -210,18 +223,22 @@ def plot(samples,title=None,label=('original','reconstructed')):
 			plt.plot(x_axis, y_axis.squeeze(), label=None if not label else label[i])
 			plt.xlabel("Index")
 			plt.ylabel("Values")
-			if label: plt.legend()
+			if label: 
+				plt.legend()
 	
-	if title: plt.title(title)
+	if title: 
+		plt.title(title)
 	plt.show()
 
 def tune(obj,function,max_value=2048,step=10,name='Shots',ref=None,limit=None):
 	def plot_function(shots):
 		y = function(circuit=obj,backend=None,shots=shots)
 		x = np.arange(0,len(y))
-		if isinstance(limit,int): x = x[:limit]
+		if isinstance(limit,int): 
+			x = x[:limit]
 		plt.plot(x,y[:len(x)],label=f'Shots = {shots}')
-		if isinstance(ref,np.ndarray): plt.plot(x,ref[:len(x)],label='Original')
+		if isinstance(ref,np.ndarray): 
+			plt.plot(x,ref[:len(x)],label='Original')
 		plt.xlabel('Shots')
 		plt.ylabel('Values')
 		plt.ylim(0,1.5)
@@ -254,7 +271,8 @@ def get_chunks(file_path,sr=22050,chunk_size=256,mono=True,preview=False):
     if preview:
     	play(array=y,rate=sr)
     print(f'Shape: {y.shape}')
-    if y.ndim == 1: y = y.reshape(1,-1) 
+    if y.ndim == 1: 
+    	y = y.reshape(1,-1) 
     print(f'Num samples: {y.shape[-1]}, Num channels: {y.shape[0]}, Sample rate: {sr}, Buffer size: {chunk_size}')
     y_chunks = []
     for i in range(0, y.shape[-1], chunk_size):
@@ -278,7 +296,8 @@ def process_chunks(chunks,scheme,shots):
 def tune_audio(obj,scheme,function,max_value=8000,step=10,name='Shots',limit=None,sr=22050,offset=0):
 	def plot_function(shots):
 		y = function(chunks=obj[offset:limit],scheme=scheme,shots=shots)
-		if y: y = np.concatenate(y)
+		if y: 
+			y = np.concatenate(y)
 		clear_output(wait=True)
 		play(y,rate=sr,autoplay=True)
 	variable_slider = ipywidgets.IntSlider(value=1, min=1, max=max_value, step=step, description=name, continuous_update=False)
