@@ -1,38 +1,37 @@
-import quantumaudio.utils as utils
+from quantumaudio import utils
 import qiskit
 import numpy as np
-from typing import Union
-
+from typing import Union, Optional
 
 class SQPAM:
     """
     Single-Qubit Probability Amplitude Modulation (SQPAM).
 
-    SQPAM class implements encoding and decoding of Digital Audio where
-    the amplitude is encoded through controlled rotation gates acting
-    on a single-qubit.
+    SQPAM class implements an encoding and decoding scheme where the
+    amplitude of a Digital signal is encoded through controlled rotation 
+    gates acting on a single-qubit. 
 
     """
 
     def __init__(self):
         """
-                Initialize the SQPAM instance. The attributes of __init__ method are
+        Initialize the SQPAM instance. The attributes of __init__ method are
         specific to this Scheme which remains fixed and independent of the Data.
         These attributes gives an overview of the Scheme.
 
-                Attributes:
+        Attributes:
+            name:         Holds the full name of the representation.
+            qubit_depth:  Number of qubits to represent the amplitude of an audio signal.
+                          (Note: In SQPAM, the qubit depth is 1 denoting the "Single-Qubit".)
 
-                        name:		  Holds the full name of the representation
-                        qubit_depth:  Number of qubits to represent the amplitude of an audio signal.
-                                                  (Note: In SQPAM, the qubit depth is 1 denoting the "Single-Qubit".)
+            n_fold:       Term for fixed number of registers used in a representation.
+            labels:       Name of the Quantum registers 
+                          (Arranged from Bottom to Top in a Qiskit Circuit)
+            positions:    Index position of Quantum registers 
+                          (Arranged from Top to Bottom in a Qiskit circuit's attribute .qregs)
 
-                        n_fold:		  Term for fixed number of registers used in a representation
-                        labels:		  Name of the Quantum registers (Arranged from Bottom to Top in a Qiskit Circuit)
-                        positions: 	  Index position of Quantum registers (Arranged from Top to Bottom in the circuit attribute .qregs)
-
-                        convert:	  Function that applies a mathematical conversion of input at Encoding
-                        restore:	  Function that restores the conversion at Decoding
-
+            convert:      Function that applies a mathematical conversion of input at Encoding.
+            restore:      Function that restores the conversion at Decoding.
         """
 
         self.name = "Single-Qubit Probability Amplitude Modulation"
