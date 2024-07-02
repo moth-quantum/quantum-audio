@@ -1,4 +1,7 @@
 """
+This subpackage provides different Schemes for encoding and decoding
+Quantum Audio using Qiskit Circuits.
+
 A Scheme denotes one of the Quantum Audio Representation Methods.
 The core functions of a Scheme is Encoding and Decoding.
 
@@ -12,8 +15,9 @@ The core functions of a Scheme is Encoding and Decoding.
             the original Digital Audio back.
 
 The simplest form of interaction with a Scheme Object is to use
-scheme.encode() and scheme.decode() methods. However, it
-involves several stages which can be manually implemented.
+scheme.encode() and scheme.decode() methods. 
+
+However, it involves several stages which can be manually implemented.
 The stages are listed below:
 
 - calculate         : Calculates the necessary number of qubits
@@ -25,7 +29,7 @@ The stages are listed below:
 
     - prepare data   : Prepares the data by padding and reshaping.
 
-    - convert data   : Converts the data to values suitable for encoding.
+    - convert        : Converts the data to values suitable for encoding.
 
 - Circuit Preparation
 
@@ -60,7 +64,7 @@ The stages are listed below:
                            measurements performed on the quantum circuit.
 
     2) undo conversion   : Undo the data conversion done at encoding.
-                           Can be done using scheme.restore_data() method.
+                           Can be done using scheme.restore method.
 
     3) undo preparation  : Undo the data preparation such as padding
                            done at encoding. Can be done manually
