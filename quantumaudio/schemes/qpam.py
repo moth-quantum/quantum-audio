@@ -94,7 +94,7 @@ class QPAM:
 		data = data.squeeze()
 		return data
 		
-	# ------ Circuit Preparation -----
+	# Circuit Preparation
 
 	def initialize_circuit(self, num_index_qubits: int, num_value_qubits: int) -> qiskit.QuantumCircuit:
 		"""
@@ -135,7 +135,7 @@ class QPAM:
 		"""
 		if not circuit.cregs: circuit.measure_all()
 
-	# ------------------- Default Encode Function ---------------------------
+	# Default Encode Function
 
 	def encode(self, data: np.ndarray, measure: bool = True, verbose: Union[int,bool] = True) -> qiskit.QuantumCircuit:
 		"""
@@ -234,7 +234,7 @@ class QPAM:
 		
 		return data
 
-	# ------------------- Default Decode Function ------------------------- 
+	# Default Decode Function
 
 	def decode(self, circuit: qiskit.QuantumCircuit, backend: Optional[str] = None, shots: int = 4000, norm: Optional[float] = None, keep_padding: bool = False) -> np.ndarray:
 		"""
