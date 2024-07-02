@@ -25,11 +25,11 @@ class QSM:
 		assert data.ndim == 1 or data.shape[0] == 1, "Multi-channel not supported in QSM"
 		num_value_qubits = utils.get_bit_depth(data) if not self.qubit_depth else self.qubit_depth
 
+		num_qubits = (num_index_qubits,num_value_qubits)
+		
 		# print
-		if verbose:
-			print(f'Number of qubits required: {num_index_qubits+num_value_qubits}\n')
-			print(f'{num_index_qubits} for {self.labels[0]}')
-			print(f'{num_value_qubits} for {self.labels[1]}\n')
+		if verbose: 
+			utils.print_num_qubits(num_qubits,labels=self.labels)
 
 		return num_samples,(num_index_qubits,num_value_qubits)
 
@@ -61,8 +61,10 @@ class QSM:
 		circuit.metadata = {'num_samples':num_samples}
 
 		# measure, print and return
-		if measure: self.measure(circuit)
-		if verbose == 2: utils.draw_circuit(circuit)
+		if measure: 
+			self.measure(circuit)
+		if verbose == 2: 
+			utils.draw_circuit(circuit)
 		return circuit
 
 	@utils.with_indexing
@@ -76,7 +78,8 @@ class QSM:
 				circuit.mct(treg, areg_qubit)
 
 	def measure(self,circuit):
-		if not circuit.cregs: utils.measure(circuit)
+		if not circuit.cregs: 
+			utils.measure(circuit)
 
 	def decode_components(self,counts,num_components):
 		data = np.zeros(num_components, int)

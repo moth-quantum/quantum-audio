@@ -25,7 +25,8 @@ class MQSM:
 		
 		# y-axis
 		num_channels = 1 if data.ndim == 1 else data.shape[0]  # data-dependent channels
-		if self.num_channels: num_channels = self.num_channels # override with pre-set channels
+		if self.num_channels: 
+			num_channels = self.num_channels # override with pre-set channels
 		num_channels = max(2,num_channels) 					   # apply constraint of minimum 2 channels
 
 		num_channel_qubits = utils.get_qubit_count(num_channels)
@@ -33,7 +34,8 @@ class MQSM:
 
 		num_qubits = (num_index_qubits,num_channel_qubits,num_value_qubits)
 		# print
-		if verbose: utils.print_num_qubits(num_qubits,labels=self.labels)
+		if verbose: 
+			utils.print_num_qubits(num_qubits,labels=self.labels)
 		return (num_channels, num_samples), num_qubits
 
 	def prepare_data(self, data, num_index_qubits, num_channel_qubits):
@@ -62,7 +64,8 @@ class MQSM:
 				circuit.mct(creg[:] + treg[:], areg_qubit)
 
 	def measure(self,circuit):
-		if not circuit.cregs: utils.measure(circuit)
+		if not circuit.cregs: 
+			utils.measure(circuit)
 
 	# ------------------- Encode Function ---------------------------
 
@@ -85,8 +88,10 @@ class MQSM:
 		circuit.metadata = {'num_samples':num_samples,'num_channels':num_channels}
 
 		# measure
-		if measure: self.measure(circuit)
-		if verbose == 2: utils.draw_circuit(circuit)
+		if measure: 
+			self.measure(circuit)
+		if verbose == 2: 
+			utils.draw_circuit(circuit)
 		return circuit
 
 	# ------------------- Decoding Helpers --------------------------- 

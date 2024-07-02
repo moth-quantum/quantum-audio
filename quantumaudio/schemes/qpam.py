@@ -71,7 +71,8 @@ class QPAM:
 		num_qubits = (num_index_qubits,num_value_qubits)
 		
 		# print
-		if verbose: utils.print_num_qubits(num_qubits,labels=self.labels)
+		if verbose: 
+			utils.print_num_qubits(num_qubits,labels=self.labels)
 		return num_samples, num_qubits
 
 	def prepare_data(self, data: np.ndarray, num_index_qubits: int) -> np.ndarray:
@@ -130,7 +131,8 @@ class QPAM:
 			circuit: Encoded Qiskit Circuit
 
 		"""
-		if not circuit.cregs: circuit.measure_all()
+		if not circuit.cregs: 
+			circuit.measure_all()
 
 	# Default Encode Function
 
@@ -141,6 +143,8 @@ class QPAM:
 		Args:
 			data: Array representing Digital Audio Samples
 			measure: Adds measurement to the circuit if set True or int > 0
+			verbose: Level of information to print. 
+					 Prints number of qubits if 1 and Displays circuit if 2.
 
 		Returns:
 			A Qiskit Circuit representing the Digital Audio.
