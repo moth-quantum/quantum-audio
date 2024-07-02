@@ -113,7 +113,7 @@ class QPAM:
 		circuit = qiskit.QuantumCircuit(value_register,index_register,name=self.name)
 		return circuit
 
-	def value_setting(self, circuit: qiskit.QuantumCircuit, values: np.ndarray) -> None::
+	def value_setting(self, circuit: qiskit.QuantumCircuit, values: np.ndarray) -> None:
 		"""
 		Encodes the prepared, converted values to the initialised circuit.
 
