@@ -1,7 +1,7 @@
 import quantumaudio.utils as utils
 import qiskit
 import numpy as np
-from typing import Union
+from typing import Union, Optional
 
 class QPAM:
 	"""
@@ -150,11 +150,11 @@ class QPAM:
 			A Qiskit Circuit representing the Digital Audio.
 
 		"""
-		num_samples,(num_index_qubits,num_value_qubits) = self.get_num_qubits(data,verbose=bool(verbose))
+		num_samples,(num_index_qubits,num_value_qubits) = self.calculate(data,verbose=bool(verbose))
 		# prepare data
 		data = self.prepare_data(data, num_index_qubits)
 		# convert data
-		norm,values = self.pre_process(data)
+		norm,values = self.convert(data)
 		# initialise circuit
 		circuit = self.initialize_circuit(num_index_qubits,num_value_qubits)
 		# encode values
@@ -237,7 +237,7 @@ class QPAM:
 
 	# ------------------- Default Decode Function ------------------------- 
 
-	def decode(self, circuit: qiskit.QuantumCircuit:, backend: str = None, shots: int, norm: Optional[float] = None, keep_padding: bool = False) -> np.ndarray:
+	def decode(self, circuit: qiskit.QuantumCircuit, backend: Optional[str] = None, shots: int = 4000, norm: Optional[float] = None, keep_padding: bool = False) -> np.ndarray:
 		"""
 		Given a qiskit circuit, decodes and returns back the Original Audio.
 		Args:
