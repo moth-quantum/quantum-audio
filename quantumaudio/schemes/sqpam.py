@@ -1,6 +1,8 @@
 import quantumaudio.utils as utils
 import qiskit
 import numpy as np
+from typing import Union, Optional
+
 
 class SQPAM:
 	"""
