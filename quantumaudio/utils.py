@@ -142,7 +142,7 @@ def execute(circuit, backend=None, shots=4000):
     return result
 
 
-def apply_x_at_index(qc, i):
+def apply_x_at_index(qc: qiskit.QuantumCircuit, i: int):
     if len(qc.qregs) != 2:
         _, creg, treg = qc.qregs
     else:
