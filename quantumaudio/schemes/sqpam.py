@@ -129,7 +129,7 @@ class SQPAM:
 	# ------------------- Encode Function ---------------------------
 		
 	def encode(self,data,measure=True,verbose=2):
-		num_samples,(num_index_qubits,num_value_qubits) = self.get_num_qubits(data,verbose=bool(verbose))
+		num_samples,(num_index_qubits,num_value_qubits) = self.calculate(data,verbose=bool(verbose))
 		# prepare data
 		data = self.prepare_data(data, num_index_qubits)
 		# convert data
