@@ -50,16 +50,16 @@ class QPAM:
 		 - Number of qubits required to encode both Time and Amplitude information.
 		 - Original number of samples required for decoding.
 
-	    Args:
-	        data: Array representing Digital Audio Samples
-	        verbose: Prints the Qubit information if True or int > 0
+		Args:
+			data: Array representing Digital Audio Samples
+			verbose: Prints the Qubit information if True or int > 0
 	
-	    Returns: 
-	        A tuple with (original_sample_length, number_qubits_required)
-	        number_qubits_required is a tuple (int, int) consisting of
-	        num_index_qubits to encode Time Information (x-axis) and
-	        num_value_qubits to encode Amplitude Information (y-axis)
-        """
+		Returns: 
+			A tuple with (original_sample_length, number_qubits_required)
+			number_qubits_required is a tuple (int, int) consisting of
+			num_index_qubits to encode Time Information (x-axis) and
+			num_value_qubits to encode Amplitude Information (y-axis)
+		"""
 		# x-axis
 		num_samples      = data.shape[-1]
 		num_index_qubits = utils.get_qubit_count(num_samples)
@@ -80,13 +80,13 @@ class QPAM:
 		- It pads the length of data with zeros to fit the number of index qubits.
 		- It also removes redundant dimension if the shape is (1,num_samples).
 
-	    Args:
-	        data: Array representing Digital Audio Samples
-	        num_index_qubits: Number of qubits used to encode the sample indices.
+		Args:
+			data: Array representing Digital Audio Samples
+			num_index_qubits: Number of qubits used to encode the sample indices.
 	
-	    Returns: 
-	        data: Array
-	    """
+		Returns: 
+			data: Array
+		"""
 		data = utils.apply_index_padding(data,num_index_qubits)
 		data = data.squeeze()
 		return data
@@ -97,13 +97,13 @@ class QPAM:
 		"""
 		Initializes the circuit with Index and Value Registers
 
-	    Args:
-	        num_index_qubits: Number of qubits used to encode the sample indices.
-	        num_value_qubits: Number of qubits used to encode the sample values.
+		Args:
+			num_index_qubits: Number of qubits used to encode the sample indices.
+			num_value_qubits: Number of qubits used to encode the sample values.
 	
-	    Returns: 
-	        circuit: Qiskit Circuit with the registers
-	    """
+		Returns: 
+			circuit: Qiskit Circuit with the registers
+		"""
 		index_register  = qiskit.QuantumRegister(num_index_qubits,self.labels[0])
 		value_register  = qiskit.QuantumRegister(num_value_qubits,self.labels[1])
 		circuit = qiskit.QuantumCircuit(value_register,index_register,name=self.name)
@@ -113,13 +113,13 @@ class QPAM:
 		"""
 		Encodes the prepared, converted values to the initialised circuit.
 
-	    Args:
-	        circuit: Initialized Qiskit Circuit
-	        num_index_qubits: Number of qubits used to encode sampling.
+		Args:
+			circuit: Initialized Qiskit Circuit
+			num_index_qubits: Number of qubits used to encode sampling.
 	
-	    Returns: 
-	        circuit: Qiskit Circuit
-	    """
+		Returns: 
+			circuit: Qiskit Circuit
+		"""
 		circuit.initialize(values)
 
 	def measure(self, circuit: qiskit.QuantumCircuit) -> None:
