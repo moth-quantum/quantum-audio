@@ -5,14 +5,17 @@ from typing import Union
 
 class QPAM:
 	"""
-	Quantum Probability Amplitude Modulation (QPAM).
+	Quantum Probability Amplitude Modulation (QPAM) Scheme.
 	
 	QPAM class implements encoding and decoding of Digital Audio as Quantum Probability Amplitudes.
 
 	"""
 	def __init__(self):
 		"""
-		Initialize the QPAM instance.
+		Initialize the QPAM instance. The attributes of __init__ method are 
+        specific to this Scheme which remains fixed and independent of the Data.
+        These attributes gives an overview of how each Scheme differs 
+        from one another.
 
 		Attributes:
 
@@ -75,7 +78,7 @@ class QPAM:
 
 		return num_samples,(num_index_qubits,num_value_qubits)
 
-	def prepare_data(self, data, num_index_qubits):
+	def prepare_data(self, data: np.ndarray, num_index_qubits: int) -> np.ndarray:
 		"""
 		Prepares the data with appropriate dimensions for encoding:
 		- It pads the length of data with zeros to fit the number of index qubits.
@@ -94,7 +97,7 @@ class QPAM:
 		
 	# ------ Circuit Preparation -----
 
-	def initialize_circuit(self, num_index_qubits, num_value_qubits):
+	def initialize_circuit(self, num_index_qubits: int, num_value_qubits: int) -> qiskit.QuantumCircuit:
 		"""
 		Initializes the circuit with Index and Value Registers
 
@@ -110,7 +113,7 @@ class QPAM:
 		circuit = qiskit.QuantumCircuit(value_register,index_register,name=self.name)
 		return circuit
 
-	def value_setting(self,circuit,values):
+	def value_setting(self, circuit: qiskit.QuantumCircuit, values: np.ndarray) -> None::
 		"""
 		Encodes the prepared, converted values to the initialised circuit.
 
@@ -123,7 +126,7 @@ class QPAM:
         """
 		circuit.initialize(values)
 
-	def measure(self,circuit):
+	def measure(self, circuit: qiskit.QuantumCircuit) -> None:
 		"""
 		Adds classical measurements to all qubits of the Quantum Circuit
 
@@ -135,7 +138,7 @@ class QPAM:
 
 	# ------------------- Default Encode Function ---------------------------
 
-	def encode(self, data, measure = True, verbose=2):
+	def encode(self, data: np.ndarray, measure: bool = True, verbose: Union[int,bool] = True) -> qiskit.QuantumCircuit:
 		"""
 		Given an audio data, prepares a Qiskit Circuit representing it.
 
@@ -166,7 +169,7 @@ class QPAM:
 
 	# ------------------- Decoding Helpers --------------------------- 
 
-	def decode_components(self,counts):
+	def decode_components(self, counts: Union[dict, qiskit.result.Counts]) -> np.ndarray:
 		"""
 		The first stage of decoding is extracting required components
 		from counts.
@@ -182,7 +185,7 @@ class QPAM:
 		counts = utils.pad_counts(counts)
 		return np.array(list(counts.values()))
 
-	def reconstruct_data(self, counts, shots, norm):
+	def reconstruct_data(self, counts: Union[dict, qiskit.result.Counts], shots: int, norm: float) -> np.ndarray:
 		"""
 		Extract components and restore the conversion did
 		in encoding stage.
@@ -200,7 +203,7 @@ class QPAM:
 		data = self.restore(probabilities,norm,shots)
 		return data
 
-	def decode_result(self,result,norm=None,keep_padding=False):
+	def decode_result(self, result: qiskit.result.Result, norm: Optional[float] = None, keep_padding: bool = False) -> np.ndarray:
 		"""
 		Given a result object. Extract components and restore the conversion did
 		in encoding stage.
@@ -234,7 +237,7 @@ class QPAM:
 
 	# ------------------- Default Decode Function ------------------------- 
 
-	def decode(self,circuit,backend=None,shots=4000,norm=None,keep_padding=False):
+	def decode(self, circuit: qiskit.QuantumCircuit:, backend: str = None, shots: int, norm: Optional[float] = None, keep_padding: bool = False) -> np.ndarray:
 		"""
 		Given a qiskit circuit, decodes and returns back the Original Audio.
 		Args:
