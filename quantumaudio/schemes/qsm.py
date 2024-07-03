@@ -14,7 +14,7 @@ class QSM:
     """
     def __init__(self, qubit_depth=None):
         """
-        Initialize the QSM instance. The attributes of __init__ method are
+        Initialize the QSM instance. The attributes of `__init__` method are
         specific to this Scheme which remains fixed and independent of the
         Data. These attributes gives an overview of the Scheme.
 
@@ -136,7 +136,7 @@ class QSM:
         """
         Encodes the prepared, converted values to the initialised circuit.
         This function is used to set a single value at a single index. The
-        decorator with_indexing applies the necessary control qubits
+        decorator `with_indexing` applies the necessary control qubits
         corresponding to the given index.
 
         Args:
