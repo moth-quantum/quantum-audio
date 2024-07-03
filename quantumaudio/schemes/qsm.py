@@ -3,7 +3,6 @@ import qiskit
 import numpy as np
 from bitstring import BitArray
 
-
 class QSM:
     def __init__(self, qubit_depth=None):
         self.name = "Quantum State Modulation"
