@@ -3,8 +3,6 @@
 
 <img width="930" alt="Screenshot 2024-07-04 at 01 03 52" src="https://github.com/moth-quantum/quantum-audio/assets/161862817/d4fcb03d-1c48-4d4a-8f6f-6b8c285b58f1">
 
-The audio encoded as quantum states can be processed and played back through a quantum computer or a simulator. The objective is to enable new ways of exploring audio signal processing for artistic and research purposes. 
-
 This package provides the following schemes and necessary utilities.
 
 - <b>schemes</b>: Quantum Audio Encoding and Decoding Methods
@@ -17,6 +15,8 @@ This package provides the following schemes and necessary utilities.
 
 - <b>utils</b>: Utilary functions for data processing, circuit preparation along
          with plotting and audio playback functions for Jupyter Notebook.
+
+The audio encoded as quantum states can be processed and played back through a quantum computer or a simulator. The objective is to enable new ways of exploring audio signal processing for artistic and research purposes. 
 
 ### A Simple Example
 ```python
