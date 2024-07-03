@@ -262,8 +262,8 @@ class QSM:
         did in encoding stage.
 
         Args:
-                counts: a dictionary with the outcome of measurements
-                        performed on the quantum circuit.
+                result: a qiskit Result object that contains counts along
+                        with metadata that was held by the original circuit.
                 keep_padding: Undo the padding set at Encoding stage if set False.
 
         Return:

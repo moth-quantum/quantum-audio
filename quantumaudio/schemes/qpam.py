@@ -235,8 +235,8 @@ class QPAM:
         conversion did at encoding stage.
 
         Args:
-            counts: a dictionary with the outcome of measurements
-                    performed on the quantum circuit.
+            result: a qiskit Result object that contains counts along
+                    with metadata that was held by the original circuit.
             shots : total number of times the quantum circuit is measured.
             norm  : the norm factor used to normalize the decoding.
             keep_padding: Undos the padding set at Encoding stage if set False.

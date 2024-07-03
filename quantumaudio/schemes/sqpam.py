@@ -276,8 +276,8 @@ class SQPAM:
         did in encoding stage.
 
         Args:
-                counts: a dictionary with the outcome of measurements
-                        performed on the quantum circuit.
+                result: a qiskit Result object that contains counts along
+                        with metadata that was held by the original circuit.
                 inverted: retrieves cosine components of the signal.
                 keep_padding: Undo the padding set at Encoding stage if set False.
 
