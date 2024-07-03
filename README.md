@@ -26,15 +26,16 @@ from quantumaudio import schemes, utils
 # Example signal
 original_signal = utils.simulate_data(num_samples=8)
     
-# An instance of a scheme can be created either from schemes
-qpam = schemes.QPAM()
-
-# Or using quantumaudio
+# An instance of a scheme can be created either directly
 sqpam = quantumaudio.load_scheme('spqam')
+
+or from schemes
+qpam = schemes.QPAM()
 
 # Encoding and Decoding
 encoded_circuit = qpam.encode(original_audio)
-decoded_signal = qpam.decode(encoded_circuit,shots=4000)    
+# ... do some processing
+decoded_signal  = qpam.decode(encoded_circuit,shots=4000)    
 
 # Compare original vs reconstructed signal
 utils.plot([original_signal,decoded_signal])    
