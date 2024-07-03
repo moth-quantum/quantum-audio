@@ -29,7 +29,7 @@ original_signal = utils.simulate_data(num_samples=8)
 # An instance of a scheme can be created either directly
 sqpam = quantumaudio.load_scheme('spqam')
 
-or from schemes
+# or from schemes
 qpam = schemes.QPAM()
 
 # Encoding and Decoding
