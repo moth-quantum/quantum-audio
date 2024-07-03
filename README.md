@@ -18,7 +18,7 @@ This package provides the following schemes and necessary utilities.
 - <b>utils</b>: Utilary functions for data processing, circuit preparation along
          with plotting and audio playback functions for Jupyter Notebook.
 
-A Simple Example
+### A Simple Example
 ```python
 import quantumaudio
 from quantumaudio import schemes, utils
