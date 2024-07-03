@@ -1,7 +1,7 @@
 ## Quantum Audio
 <i>quantumaudio is a python package for building Quantum Representations of Digital Audio using qiskit circuits.</i> 
 
-
+<img width="1372" alt="Screenshot 2024-07-02 at 15 22 15" src="https://github.com/moth-quantum/quantum-audio/assets/161862817/607be886-d0c1-4a3e-b943-7fc4a507f876">
 
 The audio encoded as quantum states can be processed and played back through a quantum computer or a simulator. The objective is to enable new ways of exploring audio signal processing for artistic and research purposes. 
 
