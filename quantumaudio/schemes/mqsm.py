@@ -48,7 +48,7 @@ class MQSM:
                           real hardware limitations.
             
             num_channels: If None, the num_channels is adapted to the data.
-                          However, an user can specify `num_channel` to 
+                          However, the user can specify `num_channel` to 
                           override it. In any case, Minimum 2 channels 
                           is ensured by padding if required.
 
