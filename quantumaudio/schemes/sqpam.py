@@ -169,7 +169,7 @@ class SQPAM:
     # ----- Default Encode Function -----
 
     def encode(
-        self, data: np.ndarray, measure: bool = True, verbose: Union[int, bool] = True
+        self, data: np.ndarray, measure: bool = True, verbose: Union[int, bool] = 2
     ) -> qiskit.QuantumCircuit:
         """
         Given an audio data, prepares a Qiskit Circuit representing it.

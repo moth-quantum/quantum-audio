@@ -66,6 +66,8 @@ class MQSM:
 
     # ------------------- Encoding Helpers ---------------------------
 
+    # ----- Data Preparation -----
+
     def calculate(
         self, data: np.ndarray, verbose: Union[int, bool] = True
     ) -> tuple[tuple[int, int], tuple[int, int, int]]:
@@ -133,6 +135,8 @@ class MQSM:
         data = utils.interleave_channels(data)
         return data
 
+    # ----- Circuit Preparation -----
+
     def initialize_circuit(
         self, num_index_qubits: int, num_channel_qubits: int, num_value_qubits: int
     ) -> qiskit.QuantumCircuit:
@@ -197,7 +201,7 @@ class MQSM:
     # ----- Default Encode Function -----
 
     def encode(
-        self, data: np.ndarray, measure: bool = True, verbose: Union[int, bool] = True
+        self, data: np.ndarray, measure: bool = True, verbose: Union[int, bool] = 2
     ) -> qiskit.QuantumCircuit:
         """
         Given an audio data, prepares a Qiskit Circuit representing it.
@@ -350,6 +354,8 @@ class MQSM:
             data = data[:, :original_num_samples]
 
         return data
+
+    # ----- Default Decode Function -----
 
     def decode(
         self,

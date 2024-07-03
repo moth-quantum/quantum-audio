@@ -61,6 +61,8 @@ class MSQPAM:
 
     # ------------------- Encoding Helpers ---------------------------
 
+    # ----- Data Preparation -----
+
     def calculate(
         self, data: np.ndarray, verbose: Union[int, bool] = True
     ) -> tuple[tuple[int, int], tuple[int, int, int]]:
@@ -192,10 +194,10 @@ class MSQPAM:
         if not circuit.cregs:
             utils.measure(circuit)
 
-    # ------------------- Encode Function ---------------------------
+    # ----- Default Encode Function -----
 
     def encode(
-        self, data: np.ndarray, measure: bool = True, verbose: Union[int, bool] = True
+        self, data: np.ndarray, measure: bool = True, verbose: Union[int, bool] = 2
     ) -> qiskit.QuantumCircuit:
         """
         Given an audio data, prepares a Qiskit Circuit representing it.
@@ -356,6 +358,8 @@ class MSQPAM:
             data = data[:, :original_num_samples]
 
         return data
+
+    # ----- Default Decode Function -----
 
     def decode(
             self,
