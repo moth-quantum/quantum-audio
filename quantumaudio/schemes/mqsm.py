@@ -43,12 +43,12 @@ class MQSM:
 
         Args:
             qubit_depth:  If None, the qubit_depth is adapted to the data.
-                          However, an user can specify `qubit_depth` to 
+                          However, the user can specify `qubit_depth` to 
                           override it. This is useful in case of 
                           real hardware limitations.
             
             num_channels: If None, the num_channels is adapted to the data.
-                          However, an user can specify `num_channel` to 
+                          However, the user can specify `num_channel` to 
                           override it. In any case, Minimum 2 channels 
                           is ensured by padding if required.
 
@@ -170,6 +170,10 @@ class MQSM:
             circuit: Initialized Qiskit Circuit
             index: position to set the value
             value: value to be set at the index
+            
+        Note:
+        	This method is used in a loop where each value is iterated and set 
+            at its corresponding index.
         """
         a_bitstring = []
         value_register, channel_register, index_register = circuit.qregs

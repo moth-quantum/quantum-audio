@@ -37,7 +37,7 @@ class QSM:
 
         Args:
             qubit_depth:  If None, the qubit_depth is adapted to the data.
-                          However, an user can specify `qubit_depth` to 
+                          However, the user can specify `qubit_depth` to 
                           override it. This is useful in case of 
                           real hardware limitations.
         """
