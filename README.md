@@ -1,16 +1,39 @@
 # Quantum Audio
 Quantum Audio is a Python module for building quantum circuits that encode and decode audio signals as quantum states. This is primarily aimed for quantum computing simulators, but it might also run on real quantum hardware. The main objective is to have a readily available tools for using quantum representations of audio in artistic contexts and for studying future Quantum Signal Processing algorithms for audio.
 
-This package contains class implementations for generating quantum circuits from audio signals, as well as necessary pre and post processing functions.
+This package provides Quantum Audio Representations of Digital Audio and necessary utilities.
 
-It contatins implementations for five representation algorithms cited on the publication above, namely:
+Modules:
 
-- <b>QPAM</b> - Quantum Probability Amplitude Modulation (Simple quantum superposition or "Amplitude Encoding")
-- <b>SQPAM</b> - Single-Qubit Probability Amplitude Modulation (similar to FRQI quantum image representations)
-- <b>QSM</b> - Quantum State Modulation (also known as FRQA in the literature)
-- <b>MSQPAM</b> - Multi-Channel Single-Qubit Probability Amplitude Modulation
-- <b>MQSM</b> - Multi-Channel Quantum State Modulation
+- schemes: Quantum Audio Encoding and Decoding Methods
 
-Example of Quantum Audio Representation:
+    - QPAM   : Quantum Probability Amplitude Modulation
+    - SQPAM  : Single-Qubit Probability Amplitude Modulation
+    - MSQPAM : Multi-channel Single-Qubit Probability Amplitude Modulation
+    - QSM    : Quantum State Modulation
+    - MQSM   : Multi-channel Quantum State Modulation
 
-<img width="1392" alt="SQPAM" src="https://github.com/moth-quantum/quantum-audio/assets/161862817/76445dc1-3fed-4e1b-acc7-7fce6b459dad">
+- utils: Utilary functions for data processing, circuit preparation along
+         with plotting and audio playback functions for Jupyter Notebook.
+
+Usage:
+    import quantumaudio
+    from quantumaudio import schemes, utils
+
+
+    # Example usages
+    original_signal = utils.simulate_data(num_samples=8)
+    
+    # An instance of a scheme can be created either from schemes
+    qpam = schemes.QPAM()
+
+    # Or using quantumaudio
+    sqpam = quantumaudio.load_scheme('spqam')
+
+    # Encoding and Decoding
+    encoded_circuit = qpam.encode(original_audio)
+    decoded_signal = qpam.decode(encoded_circuit,shots=4000)    
+
+    # Compare original vs reconstructed signal
+    utils.plot([original_signal,decoded_signal])
+"""
