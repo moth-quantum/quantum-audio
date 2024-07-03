@@ -7,7 +7,7 @@ The audio encoded as quantum states can be processed and played back through a q
 
 This package provides the following schemes and necessary utilities.
 
-- schemes: Quantum Audio Encoding and Decoding Methods
+- <b>schemes</b>: Quantum Audio Encoding and Decoding Methods
 
     - QPAM   : Quantum Probability Amplitude Modulation
     - SQPAM  : Single-Qubit Probability Amplitude Modulation
@@ -15,7 +15,7 @@ This package provides the following schemes and necessary utilities.
     - QSM    : Quantum State Modulation
     - MQSM   : Multi-channel Quantum State Modulation
 
-- utils: Utilary functions for data processing, circuit preparation along
+- <b>utils</b>: Utilary functions for data processing, circuit preparation along
          with plotting and audio playback functions for Jupyter Notebook.
 
 A Simple Example
