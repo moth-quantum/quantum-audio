@@ -10,8 +10,7 @@ class SQPAM:
     SQPAM class implements an encoding and decoding scheme where the
     amplitude of a Digital signal is encoded through rotation gates
     acting on a single-qubit which is a target qubit controlled by
-    remaining qubits that represent the corresponding time index
-    information.
+    qubits of register that represent the corresponding time index.
     """
 
     def __init__(self):
@@ -31,7 +30,7 @@ class SQPAM:
             positions:    Index position of Quantum registers
                           (In Qiskit circuit the registers are arranged 
                           from Top to Bottom)
-                          
+
             convert:      Function that applies a mathematical conversion of input at Encoding.
             restore:      Function that restores the conversion at Decoding.
         """

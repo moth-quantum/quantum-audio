@@ -1,4 +1,4 @@
-import quantumaudio.utils as utils
+from quantumaudio import utils
 import qiskit
 import numpy as np
 from bitstring import BitArray
@@ -10,7 +10,7 @@ class QSM:
 
     QSM class implements an encoding and decoding scheme where the
     amplitude of a Digital signal is encoded as qubit states controlled 
-    by qubits that represent the corresponding time index information.
+    by qubits of register that represent the corresponding time index.
     """
     def __init__(self, qubit_depth=None):
         """
@@ -36,7 +36,7 @@ class QSM:
             restore:      Function that restores the conversion at Decoding.
 
         Args:
-            qubit_depth:  In QSM, the qubit_depth is dependent on data,
+            qubit_depth:  If None, the qubit_depth is adapted to the data.
                           However, an user can specify `qubit_depth` to 
                           override it. This is useful in case of 
                           real hardware limitations.
