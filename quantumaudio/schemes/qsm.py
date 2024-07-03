@@ -10,7 +10,7 @@ class QSM:
 
     QSM class implements an encoding and decoding scheme where the
     amplitude of a Digital signal is encoded as qubit states controlled 
-    by qubits of register that represent the corresponding time index.
+    by qubits of time register that represent the corresponding time index.
     """
     def __init__(self, qubit_depth=None):
         """
