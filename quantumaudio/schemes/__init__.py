@@ -92,5 +92,6 @@ from .qsm import QSM
 from .qpam import QPAM
 from .mqsm import MQSM
 from .sqpam import SQPAM
+from .msqpam import MSQPAM
 
-__all__ = ["QSM", "QPAM", "MQSM", "SQPAM"]
+__all__ = ["QSM", "QPAM", "MQSM", "SQPAM", "MSQPAM"]
