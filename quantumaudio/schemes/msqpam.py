@@ -9,9 +9,9 @@ class MSQPAM:
 
     MSQPAM class implements an encoding and decoding scheme where the
     amplitude of a Digital signal is encoded through rotation gates
-    acting on a single-qubit. It is controlled by qubits of register 
-    that represent the corresponding time index. Additionally another 
-    register is used to represent the channel information.  
+    acting on a single-qubit. This qubit is controlled by qubits of 
+    time register that encodes the corresponding time index information. 
+    Additionally another register is used to represent the channel information. 
     """
 
     def __init__(self, num_channels=None):
