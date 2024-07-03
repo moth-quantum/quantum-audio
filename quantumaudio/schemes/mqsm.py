@@ -11,8 +11,8 @@ class MQSM:
 
     MQSM class implements an encoding and decoding scheme where the
     amplitude of a Digital signal is encoded as qubit states. 
-    These states are controlled by qubits of register that represent the 
-    corresponding time index information. Additionally another register
+    These states are controlled by qubits of time register that encodes 
+    the corresponding time index information. Additionally another register
     is used to represent the channel information.  
     """
     def __init__(self, qubit_depth=None, num_channels=None):
