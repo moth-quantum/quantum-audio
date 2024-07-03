@@ -5,7 +5,7 @@
 
 <br>The audio encoded as quantum states can be processed and played back through a quantum computer or a simulator. The objective is to enable new ways of exploring audio signal processing for artistic and research purposes. 
 
-<br> This package provides the following schemes and necessary utilities.
+This package provides the following schemes and necessary utilities.
 
 - <b>schemes</b>: Quantum Audio Encoding and Decoding Methods
 
