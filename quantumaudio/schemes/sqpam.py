@@ -16,7 +16,7 @@ class SQPAM:
 
     def __init__(self):
         """
-        Initialize the SQPAM instance. The attributes of __init__ method are
+        Initialize the SQPAM instance. The attributes of `__init__` method are
         specific to this Scheme which remains fixed and independent of the
         Data. These attributes gives an overview of the Scheme.
 
@@ -28,12 +28,10 @@ class SQPAM:
 
             n_fold:       Term for fixed number of registers used in a representation.
             labels:       Name of the Quantum registers
-                          (This order is arranged from Bottom to Top
-                          in a Qiskit Circuit)
             positions:    Index position of Quantum registers
-                          (This order is arranged from Top to Bottom in
-                          a Qiskit circuit's attribute .qregs)
-
+                          (In Qiskit circuit the registers are arranged 
+                          from Top to Bottom)
+                          
             convert:      Function that applies a mathematical conversion of input at Encoding.
             restore:      Function that restores the conversion at Decoding.
         """
@@ -89,7 +87,7 @@ class SQPAM:
         """
         Prepares the data with appropriate dimensions for encoding:
         - It pads the length of data with zeros to fit the number of states 
-          that can be represented with num_index_qubits.
+          that can be represented with `num_index_qubits`.
         - It also removes redundant dimension if the shape is (1,num_samples).
 
         Args:
@@ -134,7 +132,7 @@ class SQPAM:
         """
         Encodes the prepared, converted values to the initialised circuit.
         This function is used to set a single value at a single index. The
-        decorator with_indexing applies the necessary control qubits
+        decorator `with_indexing` applies the necessary control qubits
         corresponding to the given index.
 
         Args:

@@ -27,10 +27,9 @@ class QSM:
 
             n_fold:       Term for fixed number of registers used.
             labels:       Name of the Quantum registers
-                          (Arranged from Bottom to Top in a Qiskit Circuit)
             positions:    Index position of Quantum registers
-                          (Arranged from Top to Bottom in a 
-                          Qiskit circuit's attribute .qregs)
+                          (In Qiskit circuit the registers are arranged 
+                          from Top to Bottom)
 
             convert:      Function that applies a mathematical conversion 
                           of input at Encoding.
@@ -38,7 +37,7 @@ class QSM:
 
         Args:
             qubit_depth:  In QSM, the qubit_depth is dependent on data,
-                          However user can specify a qubit_depth to 
+                          However, an user can specify `qubit_depth` to 
                           override it. This is useful in case of 
                           real hardware limitations.
         """
@@ -92,7 +91,7 @@ class QSM:
         """
         Prepares the data with appropriate dimensions for encoding:
         - It pads the length of data with zeros to fit the number of states 
-          that can be represented with num_index_qubits.
+          that can be represented with `num_index_qubits`.
         - It also removes redundant dimension if the shape is (1,num_samples).
 
         Args:
@@ -215,7 +214,7 @@ class QSM:
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_components: number of cosine and sine components to get.
+            num_components: number of components to get.
 
         Returns:
             Array of components for further decoding.
@@ -241,7 +240,7 @@ class QSM:
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_components: number of cosine and sine components to get.
+            num_components: number of components to get.
             qubit_depth : number of qubits in amplitude register.
 
         Return:
@@ -301,7 +300,6 @@ class QSM:
                 circuit: A Qiskit Circuit representing the Digital Audio.
                 backend: A backend string compatible with qiskit.execute method
                 shots  : Total number of times the quantum circuit is measured.
-                inverted: retrieves cosine components of the signal.
                 keep_padding: Undo the padding set at Encoding stage if set False.
         Return:
                 data: Array of decoded values
