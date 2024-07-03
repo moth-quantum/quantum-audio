@@ -173,7 +173,7 @@ class MQSM:
             
         Note:
         	This method is used in a loop where each value is iterated and set 
-            at it's corresponding index.
+            at its corresponding index.
         """
         a_bitstring = []
         value_register, channel_register, index_register = circuit.qregs
