@@ -4,7 +4,8 @@ import numpy as np
 from typing import Union, Optional
 
 class SQPAM:
-    """Single-Qubit Probability Amplitude Modulation (SQPAM).
+    """
+    Single-Qubit Probability Amplitude Modulation (SQPAM).
 
     SQPAM class implements an encoding and decoding scheme where the
     amplitude of a Digital signal is encoded through rotation gates
@@ -14,7 +15,8 @@ class SQPAM:
     """
 
     def __init__(self):
-        """Initialize the SQPAM instance. The attributes of __init__ method are
+        """
+        Initialize the SQPAM instance. The attributes of __init__ method are
         specific to this Scheme which remains fixed and independent of the
         Data. These attributes gives an overview of the Scheme.
 
@@ -110,7 +112,8 @@ class SQPAM:
     def initialize_circuit(
         self, num_index_qubits: int, num_value_qubits: int
     ) -> qiskit.QuantumCircuit:
-        """Initializes the circuit with Index and Value Registers.
+        """
+        Initializes the circuit with Index and Value Registers.
 
         Args:
             num_index_qubits: Number of qubits used to encode the sample indices.
@@ -121,7 +124,6 @@ class SQPAM:
         """
         index_register = qiskit.QuantumRegister(num_index_qubits, self.labels[0])
         value_register = qiskit.QuantumRegister(num_value_qubits, self.labels[1])
-
         # Arranging Registers from Top to Bottom
         circuit = qiskit.QuantumCircuit(value_register, index_register, name=self.name)
         circuit.h(index_register)
@@ -129,7 +131,8 @@ class SQPAM:
 
     @utils.with_indexing
     def value_setting(self, circuit: qiskit.QuantumCircuit, index: int, value: float) -> None:
-        """Encodes the prepared, converted values to the initialised circuit.
+        """
+        Encodes the prepared, converted values to the initialised circuit.
         This function is used to set a single value at a single index. The
         decorator with_indexing applies the necessary control qubits
         corresponding to the given index.
@@ -156,7 +159,8 @@ class SQPAM:
         circuit.append(sub_circuit, [i for i in range(circuit.num_qubits-1,-1,-1)])
 
     def measure(self, circuit: qiskit.QuantumCircuit) -> None:
-        """Adds classical measurements to all registers of the Quantum Circuit
+        """
+        Adds classical measurements to all registers of the Quantum Circuit
         if the circuit is not already measured.
 
         Args:
@@ -170,7 +174,8 @@ class SQPAM:
     def encode(
         self, data: np.ndarray, measure: bool = True, verbose: Union[int, bool] = True
     ) -> qiskit.QuantumCircuit:
-        """Given an audio data, prepares a Qiskit Circuit representing it.
+        """
+        Given an audio data, prepares a Qiskit Circuit representing it.
 
         Args:
             data: Array representing Digital Audio Samples
@@ -209,7 +214,8 @@ class SQPAM:
         self, counts: Union[dict, qiskit.result.Counts],
         num_components: int,
     ) -> np.ndarray:
-        """The first stage of decoding is extracting required components from
+        """
+        The first stage of decoding is extracting required components from
         counts.
 
         Args:
@@ -242,7 +248,8 @@ class SQPAM:
         num_samples: int, 
         inverted: bool = False
     ) -> np.ndarray:
-        """Given counts, Extract components and restore the conversion did at
+        """
+        Given counts, Extract components and restore the conversion did at
         encoding stage.
 
         Args:
@@ -264,7 +271,8 @@ class SQPAM:
         inverted: bool = False,
         keep_padding: bool = False,
     ) -> np.ndarray:
-        """Given a result object. Extract components and restore the conversion
+        """
+        Given a result object. Extract components and restore the conversion
         did in encoding stage.
 
         Args:
@@ -306,7 +314,8 @@ class SQPAM:
         inverted: bool = False,
         keep_padding: bool = False,
     ) -> np.ndarray:
-        """Given a qiskit circuit, decodes and returns back the Original Audio.
+        """
+        Given a qiskit circuit, decodes and returns back the Original Audio.
 
         Args:
                 circuit: A Qiskit Circuit representing the Digital Audio.
