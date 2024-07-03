@@ -9,8 +9,8 @@ class SQPAM:
 
     SQPAM class implements an encoding and decoding scheme where the
     amplitude of a Digital signal is encoded through rotation gates
-    acting on a single-qubit which is a target qubit controlled by
-    qubits of register that represent the corresponding time index.
+    acting on a single-qubit. It is controlled by qubits of register 
+    that represent the corresponding time index.
     """
 
     def __init__(self):

@@ -59,7 +59,7 @@ class MQSM:
 
         self.n_fold = 3
         self.labels = ("time", "channel", "amplitude")
-        self.positions = tuple(range(self.n_fold - 1, -1, -1))
+        self.positions = (2, 1, 0)
 
         self.convert = utils.quantize
         self.restore = utils.de_quantize

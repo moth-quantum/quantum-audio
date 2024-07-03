@@ -1,24 +1,86 @@
 import quantumaudio.utils as utils
 import qiskit
 import numpy as np
-
+from typing import Union, Optional
 
 class MSQPAM:
+    """
+    Multi-channel Single-Qubit Probability Amplitude Modulation (MSQPAM).
+
+    MSQPAM class implements an encoding and decoding scheme where the
+    amplitude of a Digital signal is encoded through rotation gates
+    acting on a single-qubit. It is controlled by qubits of register 
+    that represent the corresponding time index. Additionally another 
+    register is used to represent the channel information.  
+    """
+
     def __init__(self, num_channels=None):
+        """
+        Initialize the MQSM instance. The attributes of `__init__` method are
+        specific to this Scheme which remains fixed and independent of the
+        Data. These attributes gives an overview of the Scheme.
+
+        Attributes:
+            name:         Holds the full name of the representation.
+            qubit_depth:  Number of qubits to represent the amplitude of 
+                          an audio signal.
+                          (Note: In MSQPAM, the qubit depth
+                          is 1 denoting the "Single-Qubit".)
+            num_channels: Number of channels in a 2-dimensional data.
+                          For e.g. (2,8) denotes stereo audio of length 8.
+                          (Note: MSQPAM works with at-least 2 channels.)
+
+            n_fold:       Term for fixed number of registers used.
+            labels:       Name of the Quantum registers
+            positions:    Index position of Quantum registers
+                          (In Qiskit circuit the registers are arranged 
+                          from Top to Bottom)
+
+            convert:      Function that applies a mathematical conversion 
+                          of input at Encoding.
+            restore:      Function that restores the conversion at Decoding.
+
+        Args: 
+            num_channels: If None, the num_channels is adapted to the data.
+                          However, an user can specify `num_channel` to 
+                          override it. In any case, Minimum 2 channels 
+                          is ensured by padding if required.
+
+        """
+
         self.name = "Multi-channel Single-Qubit Probability Amplitude Modulation"
         self.qubit_depth = 1
         self.num_channels = num_channels
 
         self.n_fold = 3
         self.labels = ("time", "channel", "amplitude")
-        self.positions = tuple(range(self.n_fold - 1, -1, -1))
+        self.positions = (2, 1, 0)
 
         self.convert = utils.convert_to_angles
         self.restore = utils.convert_from_angles
 
     # ------------------- Encoding Helpers ---------------------------
 
-    def calculate(self, data, verbose=True):
+    def calculate(
+        self, data: np.ndarray, verbose: Union[int, bool] = True
+    ) -> tuple[tuple[int, int], tuple[int, int, int]]:
+        """
+        Returns necessary information required for Encoding and Decoding:
+         - Number of qubits required to encode Channel, Time and Amplitude information.
+         - Original shape of the data required for decoding.
+
+        Args:
+            data: Array representing Digital Audio Samples.
+            verbose: Prints the Qubit information if True or int > 0.
+
+        Returns:
+            A tuple of (data_shape, number_qubits)
+            data_shape is a tuple (int, int) consisting of num_samples
+            and updated num_channels.
+            number_qubits is a tuple (int, int) consisting of:
+            - num_index_qubits to encode Time Information (x-axis).
+            - num_value_qubits to encode Amplitude Information (y-axis).
+        """
         # x-axis
         num_samples = data.shape[-1]
         num_index_qubits = utils.get_qubit_count(num_samples)
@@ -29,24 +91,55 @@ class MSQPAM:
             num_channels = self.num_channels  # override with pre-set channels
         num_channels = max(2, num_channels)  # apply constraint of minimum 2 channels
 
+        data_shape = (num_channels, num_samples)
+
         num_channel_qubits = utils.get_qubit_count(num_channels)
         num_value_qubits = self.qubit_depth
 
         num_qubits = (num_index_qubits, num_channel_qubits, num_value_qubits)
-
         # print
         if verbose:
             utils.print_num_qubits(num_qubits, labels=self.labels)
-        return (num_channels, num_samples), num_qubits
+        return data_shape, num_qubits
 
-    def prepare_data(self, data, num_index_qubits, num_channel_qubits):
+    def prepare_data(self, data: np.ndarray, num_index_qubits: int, num_channel_qubits: int) -> np.ndarray:
+        """
+        Prepares the data with appropriate dimensions for encoding:
+        - It pads the length of data with zeros on both dimensions to fit the
+          number of states that can be represented with time and channel registers.
+        - It flattens the array for encoding. The default arrangement of samples is 
+          made in an alternating manner using `utils.interleave_channels`.
+
+        Args:
+            data: Array representing Digital Audio Samples
+            num_index_qubits: Number of qubits used to encode the sample indices.
+            num_channel_qubits: Number of qubits used to encode the channels.
+
+        Returns:
+            data: Array with dimensions suitable for encoding.
+
+        Note:
+            This method should be followed by scheme.convert()
+            to convert the values suitable for encoding.
+        """
         data = utils.apply_padding(data, (num_channel_qubits, num_index_qubits))
         data = utils.interleave_channels(data)
         return data
 
     def initialize_circuit(
-        self, num_index_qubits, num_channel_qubits, num_value_qubits
-    ):
+        self, num_index_qubits: int, num_channel_qubits: int, num_value_qubits: int
+    ) -> qiskit.QuantumCircuit:
+        """
+        Initializes the circuit with Index, Channel and Value Registers.
+
+        Args:
+            num_index_qubits: Number of qubits used to encode the sample indices.
+            num_channel_qubits: Number of qubits used to encode the channels.
+            num_value_qubits: Number of qubits used to encode the sample values.
+
+        Returns:
+            circuit: Qiskit Circuit with the registers
+        """
         index_register = qiskit.QuantumRegister(num_index_qubits, self.labels[0])
         channel_register = qiskit.QuantumRegister(num_channel_qubits, self.labels[1])
         value_register = qiskit.QuantumRegister(num_value_qubits, self.labels[2])
@@ -59,7 +152,18 @@ class MSQPAM:
         return circuit
 
     @utils.with_indexing
-    def value_setting(self, circuit, index, value):
+    def value_setting(self, circuit: qiskit.QuantumCircuit, index: int, value: float) -> None:
+        """
+        Encodes the prepared, converted values to the initialised circuit.
+        This function is used to set a single value at a single index. The
+        decorator `with_indexing` applies the necessary control qubits
+        corresponding to the given index.
+
+        Args:
+            circuit: Initialized Qiskit Circuit
+            index: position to set the value
+            value: value to be set at the index
+        """
         value_register, channel_register, index_register = circuit.qregs
 
         # initialise sub-circuit
@@ -77,13 +181,35 @@ class MSQPAM:
         # attach sub-circuit
         circuit.append(sub_circuit, [i for i in range(circuit.num_qubits - 1, -1, -1)])
 
-    def measure(self, circuit):
+    def measure(self, circuit: qiskit.QuantumCircuit) -> None:
+        """
+        Adds classical measurements to all registers of the Quantum Circuit
+        if the circuit is not already measured.
+
+        Args:
+            circuit: Encoded Qiskit Circuit
+        """
         if not circuit.cregs:
             utils.measure(circuit)
 
     # ------------------- Encode Function ---------------------------
 
-    def encode(self, data, measure=True, verbose=2):
+    def encode(
+        self, data: np.ndarray, measure: bool = True, verbose: Union[int, bool] = True
+    ) -> qiskit.QuantumCircuit:
+        """
+        Given an audio data, prepares a Qiskit Circuit representing it.
+
+        Args:
+            data: Array representing Digital Audio Samples
+            measure: Adds measurement to the circuit if set True or int > 0.
+            verbose: Level of information to print.
+                     - >1: Prints number of qubits required.
+                     - >2: Displays the encoded circuit.
+        Returns:
+            A Qiskit Circuit representing the Digital Audio
+        """
+
         (num_channels, num_samples), num_qubits = self.calculate(data, verbose=verbose)
         num_index_qubits, num_channel_qubits, num_value_qubits = num_qubits
 
@@ -96,51 +222,106 @@ class MSQPAM:
             num_index_qubits, num_channel_qubits, num_value_qubits
         )
 
-        # encode values
-        for i, value in enumerate(values):
-            self.value_setting(circuit=circuit, index=i, value=value)
+        # encode information
+        for i, sample in enumerate(values):
+            self.value_setting(circuit=circuit, index=i, value=sample)
 
         # additional information for decoding
-        circuit.metadata = {
-            "num_channels": num_channels,
-            "num_samples": num_samples,
-        }
+        circuit.metadata = {"num_samples": num_samples, "num_channels": num_channels}
 
         # measure
         if measure:
             self.measure(circuit)
         if verbose == 2:
-            utils.draw_circuit(circuit, decompose=1)
+            utils.draw_circuit(circuit)
         return circuit
 
     # ------------------- Decoding Helpers ---------------------------
 
-    def decode_components(self, counts, num_channels, num_samples):
-        # initialising components
-        cosine_amps = np.zeros((num_channels, num_samples))
-        sine_amps = np.zeros((num_channels, num_samples))
+    def decode_components(
+            self, counts: Union[dict, qiskit.result.Counts],
+            num_channels: int,
+            num_samples: int,
+        ) -> np.ndarray:
+            """
+            The first stage of decoding is extracting required components from
+            counts.
 
-        # getting components from counts
-        for state in counts:
-            (index_bits, channel_bits, value_bits) = state.split()
-            i = int(index_bits, 2)
-            j = int(channel_bits, 2)
-            a = counts[state]
-            if value_bits == "0":
-                cosine_amps[j][i] = a
-            elif value_bits == "1":
-                sine_amps[j][i] = a
+            Args:
+                counts: a dictionary with the outcome of measurements
+                        performed on the quantum circuit.
+                num_channels: number of channels to get.
+                num_samples: number of samples to get.
 
-        return cosine_amps, sine_amps
+            Returns:
+                2-D Array of shape (num_channels, num_samples) 
+                for further decoding.
+            """        
+            # initialising components
+            cosine_amps = np.zeros((num_channels, num_samples))
+            sine_amps = np.zeros((num_channels, num_samples))
 
-    def reconstruct_data(self, counts, num_channels, num_samples, inverted=False):
+            # getting components from counts
+            for state in counts:
+                (index_bits, channel_bits, value_bits) = state.split()
+                i = int(index_bits, 2)
+                j = int(channel_bits, 2)
+                a = counts[state]
+                if value_bits == "0":
+                    cosine_amps[j][i] = a
+                elif value_bits == "1":
+                    sine_amps[j][i] = a
+
+            return cosine_amps, sine_amps
+
+    def reconstruct_data(
+        self, 
+        counts: Union[dict, qiskit.result.Counts], 
+        num_samples: int, 
+        num_channels: int,
+        inverted: bool = False,
+    ) -> np.ndarray:
+        """
+        Given counts, Extract components and restore the conversion did at
+        encoding stage.
+
+        Args:
+            counts: a dictionary with the outcome of measurements
+                    performed on the quantum circuit.
+            num_channels: number of channels to get.
+            num_samples : number of samples to get.
+            inverted : retrieves cosine components of the signal.
+
+        Return:
+            data: Array of restored values
+        """
         cosine_amps, sine_amps = self.decode_components(
             counts, num_channels, num_samples
         )
-        data = self.restore(cosine_amps, sine_amps)
+        data = self.restore(cosine_amps, sine_amps, inverted)
         return data
 
-    def decode_result(self, result, inverted=False, keep_padding=(False, False)):
+    def decode_result(
+        self,
+        result: qiskit.result.Result,
+        inverted: bool = False,
+        keep_padding: tuple[int, int] = (False,False),
+    ) -> np.ndarray:
+        """
+        Given a result object. Extract components and restore the conversion
+        did in encoding stage.
+
+        Args:
+                result: a qiskit Result object that contains counts along
+                        with metadata that was held by the original circuit.
+                inverted : retrieves cosine components of the signal.
+                keep_padding: Undo the padding set at Encoding stage if set False.
+                              Dimension 0: for channels
+                              Dimension 1: for time
+
+        Return:
+                data: Array of restored values with original dimensions
+        """
         counts = result.get_counts()
         header = result.results[0].header
 
@@ -177,17 +358,28 @@ class MSQPAM:
         return data
 
     def decode(
-        self,
-        circuit,
-        backend=None,
-        shots=1024,
-        inverted=False,
-        keep_padding=(False, False),
-    ):
-        # execute
-        self.measure(circuit)
-        result = utils.execute(circuit=circuit, backend=backend, shots=shots)
-        data = self.decode_result(
-            result=result, inverted=inverted, keep_padding=keep_padding
-        )
-        return data
+            self,
+            circuit: qiskit.QuantumCircuit,
+            backend: Optional[str] = None,
+            shots: int = 4000,
+            inverted: bool = False,
+            keep_padding: tuple[int, int] = (False,False),
+        ) -> np.ndarray:
+            """
+            Given a qiskit circuit, decodes and returns back the Original Audio.
+
+            Args:
+                    circuit: A Qiskit Circuit representing the Digital Audio.
+                    backend: A backend string compatible with qiskit.execute method
+                    shots  : Total number of times the quantum circuit is measured.
+                    inverted: retrieves cosine components of the signal.
+                    keep_padding: Undo the padding set at Encoding stage if set False.
+                                  Dimension 0: for channels
+                                  Dimension 1: for time
+            Return:
+                    data: Array of decoded values
+            """
+            self.measure(circuit)
+            result = utils.execute(circuit=circuit, backend=backend, shots=shots)
+            data = self.decode_result(result=result, keep_padding=keep_padding)
+            return data
