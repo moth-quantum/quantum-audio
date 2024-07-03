@@ -1,8 +1,0 @@
-.ipynb_checkpoints/*
-*.pyc
-.DS_Store
-.ipynb_checkpoints
-*/.ipynb_checkpoints/*
-/notebooks/media
-/media
-notebooks/.ipynb_checkpoints/reference_test-checkpoint.ipynb
