@@ -170,6 +170,10 @@ class MQSM:
             circuit: Initialized Qiskit Circuit
             index: position to set the value
             value: value to be set at the index
+            
+        Note:
+        	This method is used in a loop where each value is iterated and set 
+            at it's corresponding index.
         """
         a_bitstring = []
         value_register, channel_register, index_register = circuit.qregs
