@@ -9,27 +9,28 @@ class QPAM:
 
     QPAM class implements encoding and decoding of Digital Audio as
     Quantum Probability Amplitudes. It's the simplest of Schemes and
-    uses qiskit's circuit.initialize() method to set the Quantum States
+    uses qiskit circuit's `initialize` method to set the Quantum States
     based on provided values. The values are normalized before encoding
-    using the .convert method.
+    using the `convert` method.
     """
 
     def __init__(self):
         """
-        Initialize the QPAM instance. The attributes of __init__ method are
+        Initialize the QPAM instance. The attributes of `__init__` method are
         specific to this Scheme which remains fixed and independent of the
         Data. These attributes gives an overview of the Scheme.
 
         Attributes:
             name:         Holds the full name of the representation.
             qubit_depth:  Number of qubits to represent the amplitude of an audio signal.
-                          (Note: In QPAM, no additional qubit is required to represent amplitude.)
+                          (Note: In QPAM, no additional qubit is 
+                          required to represent amplitude.)
 
             n_fold:       Term for fixed number of registers used in a representation.
             labels:       Name of the Quantum registers
-                          (Arranged from Bottom to Top in a Qiskit Circuit)
             positions:    Index position of Quantum registers
-                          (Arranged from Top to Bottom in a Qiskit circuit's attribute .qregs)
+                          (In Qiskit circuit the registers are arranged 
+                          from Top to Bottom)
 
             convert:      Function that applies a mathematical conversion of input at Encoding.
             restore:      Function that restores the conversion at Decoding.
@@ -88,7 +89,7 @@ class QPAM:
         """
         Prepares the data with appropriate dimensions for encoding:
         - It pads the length of data with zeros to fit the number of states 
-          that can be represented with num_index_qubits.
+          that can be represented with `num_index_qubits`.
         - It also removes redundant dimension if the shape is (1,num_samples).
 
         Args:
@@ -151,7 +152,7 @@ class QPAM:
     # ----- Default Encode Function -----
     
     def encode(
-        self, data: np.ndarray, measure: bool = True, verbose: Union[int, bool] = True
+        self, data: np.ndarray, measure: bool = True, verbose: Union[int, bool] = 2
     ) -> qiskit.QuantumCircuit:
         """
         Given an audio data, prepares a Qiskit Circuit representing it.
