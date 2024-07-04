@@ -13,10 +13,12 @@ from typing import Union, Callable, Optional, Any
 # ======================
 
 
-def simulate_data(num_samples: int, num_channels: int = 1, seed: int = 42) -> np.ndarray:
+def simulate_data(
+    num_samples: int, num_channels: int = 1, seed: int = 42
+) -> np.ndarray:
     """Simulates sythetic data for quick testing and plots. Typically, Audio data
-       contains several thousands of samples per second which is difficult to 
-       visualise as circuit and plot" 
+       contains several thousands of samples per second which is difficult to
+       visualise as circuit and plot"
 
     Args:
         num_samples (int): The number of samples to generate.
@@ -32,6 +34,7 @@ def simulate_data(num_samples: int, num_channels: int = 1, seed: int = 42) -> np
         data = data.squeeze()
     return data
 
+
 def apply_index_padding(array: np.ndarray, num_index_qubits: int) -> np.ndarray:
     """Applies zero-padding to 1-D array based on the specified number of index
     qubits.
@@ -43,14 +46,15 @@ def apply_index_padding(array: np.ndarray, num_index_qubits: int) -> np.ndarray:
     Returns:
         np.ndarray: The padded array.
     """
-    pad_length = (2 ** num_index_qubits) - array.shape[-1]
+    pad_length = (2**num_index_qubits) - array.shape[-1]
     if pad_length > 0:
         padding = [(0, 0) for _ in range(array.ndim)]
         padding[-1] = (0, pad_length)
         array = np.pad(array, padding, mode="constant")
     return array
 
-def apply_padding(array: np.ndarray, num_qubits: (int,int)) -> np.ndarray:
+
+def apply_padding(array: np.ndarray, num_qubits: (int, int)) -> np.ndarray:
     """Applies zero-padding to both dimensions of a 2-D array based on the
     specified number of index qubits.
 
@@ -122,6 +126,7 @@ def is_within_range(arr: np.ndarray, min_val: float, max_val: float) -> bool:
     """
     return np.all((arr >= min_val) & (arr <= max_val))
 
+
 def interleave_channels(array: np.ndarray) -> np.ndarray:
     """Interleaves the channels of a given array.
 
@@ -132,6 +137,7 @@ def interleave_channels(array: np.ndarray) -> np.ndarray:
         np.ndarray: A 1-dimensional array with interleaved channels.
     """
     return np.dstack(array).flatten()
+
 
 def restore_channels(array: np.ndarray, num_channels: int) -> np.ndarray:
     """Restores the interleaved channels into their original form.
@@ -168,6 +174,7 @@ def convert_to_probability_amplitudes(array: np.ndarray) -> tuple[float, np.ndar
     probability_amplitudes = array / norm
     return norm, probability_amplitudes
 
+
 def convert_to_angles(array: np.ndarray) -> np.ndarray:
     """Converts an array to angles using arcsin(sqrt((x + 1) / 2)).
 
@@ -179,6 +186,7 @@ def convert_to_angles(array: np.ndarray) -> np.ndarray:
     """
     assert is_within_range(array, min_val=-1, max_val=1), "Data not in range"
     return np.arcsin(np.sqrt((array.astype(float) + 1) / 2))
+
 
 def quantize(array: np.ndarray, qubit_depth: int) -> np.ndarray:
     """Quantizes the array to a given qubit depth.
@@ -193,7 +201,10 @@ def quantize(array: np.ndarray, qubit_depth: int) -> np.ndarray:
     values = array * (2 ** (qubit_depth - 1))
     return values.astype(int)
 
-def convert_from_probability_amplitudes(probabilities: np.ndarray, norm: float, shots: int) -> np.ndarray:
+
+def convert_from_probability_amplitudes(
+    probabilities: np.ndarray, norm: float, shots: int
+) -> np.ndarray:
     """Converts probability amplitudes to the original data range.
 
     Args:
@@ -206,7 +217,10 @@ def convert_from_probability_amplitudes(probabilities: np.ndarray, norm: float, 
     """
     return 2 * norm * np.sqrt(probabilities / shots) - 1
 
-def convert_from_angles(cosine_amps: np.ndarray, sine_amps: np.ndarray, inverted: bool = False) -> np.ndarray:
+
+def convert_from_angles(
+    cosine_amps: np.ndarray, sine_amps: np.ndarray, inverted: bool = False
+) -> np.ndarray:
     """Converts angles back to the original data range.
 
     Args:
@@ -222,6 +236,7 @@ def convert_from_angles(cosine_amps: np.ndarray, sine_amps: np.ndarray, inverted
     ratio = np.divide(amps, total_amps, out=np.zeros_like(amps), where=total_amps != 0)
     data = 2 * ratio - 1
     return data
+
 
 def de_quantize(array: np.ndarray, bit_depth: int) -> np.ndarray:
     """De-quantizes the array from a given bit depth.
@@ -257,8 +272,12 @@ def pad_counts(counts: Union[dict, qiskit.result.Counts]) -> dict:
     return complete_counts
 
 
-def get_counts(circuit: qiskit.QuantumCircuit, backend: Optional[str] = None, shots: int = 4000, 
-    pad: bool = False) -> dict:
+def get_counts(
+    circuit: qiskit.QuantumCircuit,
+    backend: Optional[str] = None,
+    shots: int = 4000,
+    pad: bool = False,
+) -> dict:
     """Given a qiskit circuit, executes and returns counts dictionary.
 
     Args:
@@ -277,7 +296,9 @@ def get_counts(circuit: qiskit.QuantumCircuit, backend: Optional[str] = None, sh
     return counts
 
 
-def execute(circuit: qiskit.QuantumCircuit, backend: Optional[str] = None, shots: int = 4000) -> qiskit.result.Result:
+def execute(
+    circuit: qiskit.QuantumCircuit, backend: Optional[str] = None, shots: int = 4000
+) -> qiskit.result.Result:
     """Executes a quantum circuit using qiskit.execute.
 
     Args:
@@ -323,6 +344,7 @@ def with_indexing(func: Callable) -> Callable:
     Returns:
         Callable: The wrapped function with time indexing applied.
     """
+
     def wrapper(*args, **kwargs):
         qc = kwargs.get("circuit")
         i = kwargs.get("index")
@@ -333,7 +355,10 @@ def with_indexing(func: Callable) -> Callable:
 
     return wrapper
 
-def add_classical_register(qc: qiskit.QuantumCircuit, position: int, label: str) -> None:
+
+def add_classical_register(
+    qc: qiskit.QuantumCircuit, position: int, label: str
+) -> None:
     """Adds a classical register to a quantum circuit and measures the
     corresponding quantum register.
 
@@ -351,19 +376,23 @@ def add_classical_register(qc: qiskit.QuantumCircuit, position: int, label: str)
     qc.measure(qreg, creg)
 
 
-def measure(qc: qiskit.QuantumCircuit, labels: tuple[str, str, str] = ("ca", "cc", "ct"), position: Optional[int] = None) -> None:
+def measure(
+    qc: qiskit.QuantumCircuit,
+    labels: tuple[str, str, str] = ("ca", "cc", "ct"),
+    position: Optional[int] = None,
+) -> None:
     """Adds a barrier to the quantum circuit and classical registers at the
     corresponding quantum registers.
 
     Args:
         qc (QuantumCircuit): The quantum circuit to which the barrier and measurements will be applied.
-        labels (tuple[str, str, str], optional): Labels for the classical registers corresponding to the measurements. 
+        labels (tuple[str, str, str], optional): Labels for the classical registers corresponding to the measurements.
                                                  Defaults to ("ca", "cc", "ct").
         position (int, optional): The position of the qubits to be measured. If None, all qubits are measured. Defaults to None.
 
     Returns:
         None
-    """    
+    """
     value_pos, *index_pos = range(len(qc.qregs)) if not position else reversed(position)
     value_label, *index_labels = labels
     index_labels = index_labels[len(index_labels) - len(index_pos) :]
@@ -402,14 +431,17 @@ def draw_circuit(circuit: qiskit.QuantumCircuit, decompose: int = 0) -> None:
 
     Returns:
         None
-    """    
+    """
     for i in range(decompose):
         circuit = circuit.decompose()
     display(circuit.draw("mpl", style="clifford"))
 
-def plot_1d(samples: np.ndarray,
-         title: Union[str, None] = None,
-         label: tuple[str, str] = ("original", "reconstructed")) -> None:
+
+def plot_1d(
+    samples: np.ndarray,
+    title: Union[str, None] = None,
+    label: tuple[str, str] = ("original", "reconstructed"),
+) -> None:
     """Plots the given samples.
 
     Args:
@@ -440,9 +472,11 @@ def plot_1d(samples: np.ndarray,
     plt.show()
 
 
-def plot(samples: Union[np.ndarray, list[np.ndarray]],
-         title: Union[str, None] = None,
-         label: tuple[str, str] = ("original", "reconstructed")) -> None:
+def plot(
+    samples: Union[np.ndarray, list[np.ndarray]],
+    title: Union[str, None] = None,
+    label: tuple[str, str] = ("original", "reconstructed"),
+) -> None:
     """Plots the given samples.
 
     Args:
@@ -492,13 +526,15 @@ def plot(samples: Union[np.ndarray, list[np.ndarray]],
     plt.show()
 
 
-def tune(obj: np.ndarray,
-         function: callable,
-         max_value: int = 2048,
-         step: int = 10,
-         name: str = "Shots",
-         ref: np.ndarray = None,
-         limit: int = None) -> None:
+def tune(
+    obj: np.ndarray,
+    function: callable,
+    max_value: int = 2048,
+    step: int = 10,
+    name: str = "Shots",
+    ref: np.ndarray = None,
+    limit: int = None,
+) -> None:
     """Sets up an interactive widget to tune parameters and visualize the
     function.
 
@@ -514,6 +550,7 @@ def tune(obj: np.ndarray,
     Returns:
         ipywidgets.interactive
     """
+
     def plot_function(shots):
         y = function(circuit=obj, backend=None, shots=shots)
         x = np.arange(0, len(y))
@@ -535,7 +572,9 @@ def tune(obj: np.ndarray,
     return ipywidgets.interact(plot_function, shots=variable_slider)
 
 
-def play(array: Union[list[float], list[int]], rate: int = 44100, autoplay: bool = False) -> None:
+def play(
+    array: Union[list[float], list[int]], rate: int = 44100, autoplay: bool = False
+) -> None:
     """Display audio from an array of audio data.
 
     Parameters:
@@ -555,7 +594,13 @@ def play(array: Union[list[float], list[int]], rate: int = 44100, autoplay: bool
 # ======================
 
 
-def get_chunks(file_path: str, sr: int = 22050, chunk_size: int = 256, mono: bool = True, preview: bool = False) -> None:
+def get_chunks(
+    file_path: str,
+    sr: int = 22050,
+    chunk_size: int = 256,
+    mono: bool = True,
+    preview: bool = False,
+) -> None:
     """Generate audio chunks from a file.
 
     Parameters:
@@ -586,7 +631,7 @@ def get_chunks(file_path: str, sr: int = 22050, chunk_size: int = 256, mono: boo
     return y_chunks, sr
 
 
-def process(chunk : np.ndarray, scheme: Any, shots: int) -> np.ndarray:
+def process(chunk: np.ndarray, scheme: Any, shots: int) -> np.ndarray:
     """Process a chunk of data according to a specified scheme.
 
     Parameters:
@@ -597,7 +642,7 @@ def process(chunk : np.ndarray, scheme: Any, shots: int) -> np.ndarray:
     Returns:
     None
     """
-    chunk = scheme.decode(scheme.encode(chunk,verbose=0), shots=shots)
+    chunk = scheme.decode(scheme.encode(chunk, verbose=0), shots=shots)
     return chunk
 
 
@@ -645,6 +690,7 @@ def tune_audio(
     Returns:
         ipywidgets.interactive
     """
+
     def plot_function(shots):
         y = function(chunks=obj[offset:limit], scheme=scheme, shots=shots)
         if y:
@@ -662,7 +708,12 @@ def tune_audio(
     )
     return ipywidgets.interact(plot_function, shots=variable_slider)
 
-def export_audio(processed_chunks: list[np.ndarray], sr: int, output_filepath: str = 'reconstructed_audio.wav') -> None:
+
+def export_audio(
+    processed_chunks: list[np.ndarray],
+    sr: int,
+    output_filepath: str = "reconstructed_audio.wav",
+) -> None:
     """
     Export processed audio chunks into a single WAV file.
 
@@ -675,5 +726,5 @@ def export_audio(processed_chunks: list[np.ndarray], sr: int, output_filepath: s
     None
     """
     output = np.concatenate(processed_chunks)
-    sf.write(output_filepath, output, sr, format='WAV')
+    sf.write(output_filepath, output, sr, format="WAV")
     print(output_filepath)

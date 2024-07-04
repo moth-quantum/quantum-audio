@@ -3,6 +3,7 @@ import qiskit
 import numpy as np
 from typing import Union, Optional
 
+
 class QPAM:
     """
     Quantum Probability Amplitude Modulation (QPAM).
@@ -23,19 +24,19 @@ class QPAM:
         Attributes:
             name:         Holds the full name of the representation.
             qubit_depth:  Number of qubits to represent the amplitude of an audio signal.
-                          (Note: In QPAM, no additional qubit is 
+                          (Note: In QPAM, no additional qubit is
                           required to represent amplitude.)
 
             n_fold:       Term for fixed number of registers used in a representation.
             labels:       Name of the Quantum registers
             positions:    Index position of Quantum registers
-                          (In Qiskit circuit the registers are arranged 
+                          (In Qiskit circuit the registers are arranged
                           from Top to Bottom)
 
             convert:      Function that applies a mathematical conversion of input at Encoding.
             restore:      Function that restores the conversion at Decoding.
         """
-        
+
         self.name = "Quantum Probability Amplitude Modulation"
         self.qubit_depth = 0
 
@@ -88,7 +89,7 @@ class QPAM:
     def prepare_data(self, data: np.ndarray, num_index_qubits: int) -> np.ndarray:
         """
         Prepares the data with appropriate dimensions for encoding:
-        - It pads the length of data with zeros to fit the number of states 
+        - It pads the length of data with zeros to fit the number of states
           that can be represented with `num_index_qubits`.
         - It also removes redundant dimension if the shape is (1,num_samples).
 
@@ -106,7 +107,6 @@ class QPAM:
         data = utils.apply_index_padding(data, num_index_qubits)
         data = data.squeeze()
         return data
-        
 
     # ----- Circuit Preparation -----
 
@@ -150,7 +150,7 @@ class QPAM:
             circuit.measure_all()
 
     # ----- Default Encode Function -----
-    
+
     def encode(
         self, data: np.ndarray, measure: bool = True, verbose: Union[int, bool] = 2
     ) -> qiskit.QuantumCircuit:

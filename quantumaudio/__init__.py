@@ -1,5 +1,5 @@
 """
-This package provides Quantum Audio Representations of Digital Audio and 
+This package provides Quantum Audio Representations of Digital Audio and
 necessary utilities.
 
 Modules:
@@ -21,7 +21,7 @@ Usage:
 
     # Example usages
     original_signal = utils.simulate_data(num_samples=8)
-    
+
     # An instance of a scheme can be created either from schemes
     qpam = schemes.QPAM()
 
@@ -30,7 +30,7 @@ Usage:
 
     # Encoding and Decoding
     encoded_circuit = qpam.encode(original_audio)
-    decoded_signal = qpam.decode(encoded_circuit,shots=4000)    
+    decoded_signal = qpam.decode(encoded_circuit,shots=4000)
 
     # Compare original vs reconstructed signal
     utils.plot([original_signal,decoded_signal])
@@ -38,6 +38,7 @@ Usage:
 
 import importlib
 # from . import schemes, utils
+
 
 def load_scheme(name, *args, **kwargs):
     try:
