@@ -84,8 +84,9 @@ class MQSM:
             A tuple of (data_shape, number_qubits)
             data_shape is a tuple (int, int) consisting of num_samples
             and updated num_channels.
-            number_qubits is a tuple (int, int) consisting of:
+            number_qubits is a tuple (int, int, int) consisting of:
             - num_index_qubits to encode Time Information (x-axis).
+            - num_channel_qubits to encode Channel Information (y-axis).
             - num_value_qubits to encode Amplitude Information (y-axis).
         """
         # x-axis
@@ -328,9 +329,7 @@ class MQSM:
         num_samples = 2**num_index_qubits
         num_channels = 2**num_channel_qubits
 
-        original_num_samples = (
-            header.metadata["num_samples"] * num_channels
-        )  # verify this
+        original_num_samples = header.metadata["num_samples"] * num_channels
         original_num_channels = header.metadata["num_channels"]
 
         # decoding y-axis
@@ -365,7 +364,7 @@ class MQSM:
         keep_padding: tuple[int, int] = (False,False),
     ) -> np.ndarray:
         """
-        Given a qiskit circuit, decodes and returns back the Original Audio.
+        Given a qiskit circuit, decodes and returns back the Original Audio Array.
 
         Args:
                 circuit: A Qiskit Circuit representing the Digital Audio.

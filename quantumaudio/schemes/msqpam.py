@@ -16,7 +16,7 @@ class MSQPAM:
 
     def __init__(self, num_channels=None):
         """
-        Initialize the MQSM instance. The attributes of `__init__` method are
+        Initialize the MSQPAM instance. The attributes of `__init__` method are
         specific to this Scheme which remains fixed and independent of the
         Data. These attributes gives an overview of the Scheme.
 
@@ -42,7 +42,7 @@ class MSQPAM:
 
         Args: 
             num_channels: If None, the num_channels is adapted to the data.
-                          However, an user can specify `num_channel` to 
+                          However, an user can specify `num_channels` to 
                           override it. In any case, Minimum 2 channels 
                           is ensured by padding if required.
 
@@ -79,8 +79,9 @@ class MSQPAM:
             A tuple of (data_shape, number_qubits)
             data_shape is a tuple (int, int) consisting of num_samples
             and updated num_channels.
-            number_qubits is a tuple (int, int) consisting of:
+            number_qubits is a tuple (int, int, int) consisting of:
             - num_index_qubits to encode Time Information (x-axis).
+            - num_channel_qubits to encode Channel Information (y-axis).
             - num_value_qubits to encode Amplitude Information (y-axis).
         """
         # x-axis
@@ -235,7 +236,7 @@ class MSQPAM:
         if measure:
             self.measure(circuit)
         if verbose == 2:
-            utils.draw_circuit(circuit)
+            utils.draw_circuit(circuit, decompose = 1)
         return circuit
 
     # ------------------- Decoding Helpers ---------------------------
@@ -335,9 +336,7 @@ class MSQPAM:
         num_samples = 2**num_index_qubits
         num_channels = 2**num_channel_qubits
 
-        original_num_samples = (
-            header.metadata["num_samples"] * num_channels
-        )  # verify this
+        original_num_samples = header.metadata["num_samples"] * num_channels
         original_num_channels = header.metadata["num_channels"]
 
         # decoding y-axis
@@ -370,7 +369,7 @@ class MSQPAM:
             keep_padding: tuple[int, int] = (False,False),
         ) -> np.ndarray:
             """
-            Given a qiskit circuit, decodes and returns back the Original Audio.
+            Given a qiskit circuit, decodes and returns back the Original Audio Array.
 
             Args:
                     circuit: A Qiskit Circuit representing the Digital Audio.
