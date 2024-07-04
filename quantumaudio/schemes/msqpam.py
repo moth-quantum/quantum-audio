@@ -369,7 +369,7 @@ class MSQPAM:
             keep_padding: tuple[int, int] = (False,False),
         ) -> np.ndarray:
             """
-            Given a qiskit circuit, decodes and returns back the Original Audio.
+            Given a qiskit circuit, decodes and returns back the Original Audio Array.
 
             Args:
                     circuit: A Qiskit Circuit representing the Digital Audio.
