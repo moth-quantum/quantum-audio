@@ -480,7 +480,7 @@ def plot(samples: Union[np.ndarray, list[np.ndarray]],
     plt.show()
 
 
-def tune(obj: any,
+def tune(obj: np.ndarray,
          function: callable,
          max_value: int = 2048,
          step: int = 10,
@@ -491,12 +491,12 @@ def tune(obj: any,
     function.
 
     Args:
-        obj (object): The object to be tuned.
-        function (callable): The function to be optimized.
+        obj (np.ndarray): Original Audio data array.
+        function (callable): The decode function.
         max_value (int, optional): The maximum value for the tuning parameter. Defaults to 2048.
         step (int, optional): The step size for the tuning parameter. Defaults to 10.
         name (str, optional): The name/description of the parameter. Defaults to "parameter".
-        ref (any, optional): Reference or comparison value. Defaults to None.
+        ref (np.ndarray, optional): Reference or comparison value. Defaults to None.
         limit (any, optional): Limit or constraint for the parameter. Defaults to None.
 
     Returns:
@@ -608,7 +608,7 @@ def process_chunks(chunks: list[np.ndarray], scheme: Any, shots: int) -> list:
 
 
 def tune_audio(
-    obj: Any,
+    obj: np.ndarray,
     scheme: Any,
     function: Callable,
     max_value: int = 8000,
@@ -621,9 +621,8 @@ def tune_audio(
     """Tune audio parameters according to a specified function and scheme.
 
     Args:
-        obj (any): Object to be tuned, such as audio data or settings.
-        scheme (any): Tuning scheme or strategy.
-        function (callable): Function to apply for tuning, which takes 'parameter' as an argument.
+        obj (np.ndarray): Original Audio data array.
+        function (callable): The decode function.
         max_value (int, optional): Maximum value for tuning (default is 8000).
         step (int, optional): Step size for tuning (default is 10).
         name (str, optional): Name of the parameter being tuned (default is 'parameter').
