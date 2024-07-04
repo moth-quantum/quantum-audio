@@ -16,7 +16,7 @@ class MSQPAM:
 
     def __init__(self, num_channels=None):
         """
-        Initialize the MQSM instance. The attributes of `__init__` method are
+        Initialize the MSQPAM instance. The attributes of `__init__` method are
         specific to this Scheme which remains fixed and independent of the
         Data. These attributes gives an overview of the Scheme.
 
