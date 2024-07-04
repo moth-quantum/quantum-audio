@@ -79,8 +79,9 @@ class MSQPAM:
             A tuple of (data_shape, number_qubits)
             data_shape is a tuple (int, int) consisting of num_samples
             and updated num_channels.
-            number_qubits is a tuple (int, int) consisting of:
+            number_qubits is a tuple (int, int, int) consisting of:
             - num_index_qubits to encode Time Information (x-axis).
+            - num_channel_qubits to encode Channel Information (y-axis).
             - num_value_qubits to encode Amplitude Information (y-axis).
         """
         # x-axis
