@@ -312,7 +312,7 @@ class SQPAM:
         keep_padding: bool = False,
     ) -> np.ndarray:
         """
-        Given a qiskit circuit, decodes and returns back the Original Audio.
+        Given a qiskit circuit, decodes and returns back the Original Audio Array.
 
         Args:
                 circuit: A Qiskit Circuit representing the Digital Audio.
