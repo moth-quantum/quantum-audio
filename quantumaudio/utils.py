@@ -6,6 +6,7 @@ import qiskit_aer
 import qiskit
 from IPython.display import display, Audio, clear_output
 import librosa
+import soundfile as sf
 from typing import Union, Callable, Optional, Any
 
 # ======================
@@ -597,7 +598,7 @@ def process(chunk : np.ndarray, scheme: Any, shots: int) -> np.ndarray:
     Returns:
     None
     """
-    chunk = scheme.decode(scheme.encode(chunk), shots=shots)
+    chunk = scheme.decode(scheme.encode(chunk,verbose=0), shots=shots)
     return chunk
 
 
@@ -661,3 +662,19 @@ def tune_audio(
         continuous_update=False,
     )
     return ipywidgets.interact(plot_function, shots=variable_slider)
+
+def export_audio(processed_chunks: list[np.ndarray], sr: int, output_filepath: str = 'reconstructed_audio.wav') -> None:
+    """
+    Export processed audio chunks into a single WAV file.
+
+    Parameters:
+    processed_chunks (list of np.ndarray): List containing arrays of processed audio chunks.
+    sr (int): Sampling rate of the audio data.
+    output_filepath (str, optional): Filepath to save the reconstructed audio.
+
+    Returns:
+    None
+    """
+    output = np.concatenate(processed_chunks)
+    sf.write(output_filepath, output, sr, format='WAV')
+    print(output_filepath)
