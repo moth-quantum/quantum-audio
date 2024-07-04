@@ -406,8 +406,19 @@ def draw_circuit(circuit: qiskit.QuantumCircuit, decompose: int = 0) -> None:
         circuit = circuit.decompose()
     display(circuit.draw("mpl", style="clifford"))
 
+def plot_1d(samples: np.ndarray,
+         title: Union[str, None] = None,
+         label: tuple[str, str] = ("original", "reconstructed")) -> None:
+    """Plots the given samples.
 
-def plot_1d(samples, title=None, label=("original", "reconstructed")):
+    Args:
+        samples: The samples to plot.
+        title: Title for the plot. Defaults to None.
+        label: Labels for the samples. Defaults to ("original", "reconstructed").
+
+    Returns:
+        None
+    """
     if not isinstance(samples, list):
         samples = [samples]
     if label and not isinstance(label, tuple):
