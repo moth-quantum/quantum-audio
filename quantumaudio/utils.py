@@ -357,7 +357,8 @@ def measure(qc: qiskit.QuantumCircuit, labels: tuple[str, str, str] = ("ca", "cc
 
     Args:
         qc (QuantumCircuit): The quantum circuit to which the barrier and measurements will be applied.
-        labels (tuple[str, str, str], optional): Labels for the classical registers corresponding to the measurements. Defaults to ("ca", "cc", "ct").
+        labels (tuple[str, str, str], optional): Labels for the classical registers corresponding to the measurements. 
+                                                 Defaults to ("ca", "cc", "ct").
         position (int, optional): The position of the qubits to be measured. If None, all qubits are measured. Defaults to None.
 
     Returns:
