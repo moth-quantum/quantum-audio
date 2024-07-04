@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import ipywidgets
-import scipy
 import qiskit_aer
 import qiskit
 from IPython.display import display, Audio, clear_output
