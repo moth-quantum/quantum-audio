@@ -236,7 +236,7 @@ class MSQPAM:
         if measure:
             self.measure(circuit)
         if verbose == 2:
-            utils.draw_circuit(circuit)
+            utils.draw_circuit(circuit, decompose = 1)
         return circuit
 
     # ------------------- Decoding Helpers ---------------------------
