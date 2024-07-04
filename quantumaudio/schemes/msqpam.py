@@ -42,7 +42,7 @@ class MSQPAM:
 
         Args: 
             num_channels: If None, the num_channels is adapted to the data.
-                          However, an user can specify `num_channel` to 
+                          However, an user can specify `num_channels` to 
                           override it. In any case, Minimum 2 channels 
                           is ensured by padding if required.
 
