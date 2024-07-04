@@ -4,14 +4,16 @@ import numpy as np
 from bitstring import BitArray
 from typing import Union, Optional
 
+
 class QSM:
     """
     Quantum State Modulation (QSM).
 
     QSM class implements an encoding and decoding scheme where the
-    amplitude of a Digital signal is encoded as qubit states controlled 
+    amplitude of a Digital signal is encoded as qubit states controlled
     by qubits of time register that represent the corresponding time index.
     """
+
     def __init__(self, qubit_depth=None):
         """
         Initialize the QSM instance. The attributes of `__init__` method are
@@ -20,7 +22,7 @@ class QSM:
 
         Attributes:
             name:         Holds the full name of the representation.
-            qubit_depth:  Number of qubits to represent the amplitude of 
+            qubit_depth:  Number of qubits to represent the amplitude of
                           an audio signal.
                           (Note: In QSM, this is a variable
                           that depends on the bit depth of audio)
@@ -28,17 +30,17 @@ class QSM:
             n_fold:       Term for fixed number of registers used.
             labels:       Name of the Quantum registers
             positions:    Index position of Quantum registers
-                          (In Qiskit circuit the registers are arranged 
+                          (In Qiskit circuit the registers are arranged
                           from Top to Bottom)
 
-            convert:      Function that applies a mathematical conversion 
+            convert:      Function that applies a mathematical conversion
                           of input at Encoding.
             restore:      Function that restores the conversion at Decoding.
 
         Args:
             qubit_depth:  If None, the qubit_depth is adapted to the data.
-                          However, the user can specify `qubit_depth` to 
-                          override it. This is useful in case of 
+                          However, the user can specify `qubit_depth` to
+                          override it. This is useful in case of
                           real hardware limitations.
         """
 
@@ -94,7 +96,7 @@ class QSM:
     def prepare_data(self, data: np.ndarray, num_index_qubits: int) -> np.ndarray:
         """
         Prepares the data with appropriate dimensions for encoding:
-        - It pads the length of data with zeros to fit the number of states 
+        - It pads the length of data with zeros to fit the number of states
           that can be represented with `num_index_qubits`.
         - It also removes redundant dimension if the shape is (1,num_samples).
 
@@ -135,9 +137,10 @@ class QSM:
         circuit.h(index_register)
         return circuit
 
-
     @utils.with_indexing
-    def value_setting(self, circuit: qiskit.QuantumCircuit, index: int, value: float) -> None:
+    def value_setting(
+        self, circuit: qiskit.QuantumCircuit, index: int, value: float
+    ) -> None:
         """
         Encodes the prepared, converted values to the initialised circuit.
         This function is used to set a single value at a single index. The
@@ -185,7 +188,7 @@ class QSM:
         Returns:
             A Qiskit Circuit representing the Digital Audio
         """
-        
+
         num_samples, (num_index_qubits, num_value_qubits) = self.calculate(
             data, verbose=bool(verbose)
         )
@@ -212,7 +215,8 @@ class QSM:
     # ------------------- Decoding Helpers ---------------------------
 
     def decode_components(
-        self, counts: Union[dict, qiskit.result.Counts],
+        self,
+        counts: Union[dict, qiskit.result.Counts],
         num_components: int,
     ) -> np.ndarray:
         """
@@ -236,9 +240,9 @@ class QSM:
         return data
 
     def reconstruct_data(
-        self, 
-        counts: Union[dict, qiskit.result.Counts], 
-        num_samples: int, 
+        self,
+        counts: Union[dict, qiskit.result.Counts],
+        num_samples: int,
         qubit_depth: int,
     ) -> np.ndarray:
         """

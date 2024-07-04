@@ -3,13 +3,14 @@ import qiskit
 import numpy as np
 from typing import Union, Optional
 
+
 class SQPAM:
     """
     Single-Qubit Probability Amplitude Modulation (SQPAM).
 
     SQPAM class implements an encoding and decoding scheme where the
     amplitude of a Digital signal is encoded through rotation gates
-    acting on a single-qubit. It is controlled by qubits of register 
+    acting on a single-qubit. It is controlled by qubits of register
     that represent the corresponding time index.
     """
 
@@ -28,7 +29,7 @@ class SQPAM:
             n_fold:       Term for fixed number of registers used in a representation.
             labels:       Name of the Quantum registers
             positions:    Index position of Quantum registers
-                          (In Qiskit circuit the registers are arranged 
+                          (In Qiskit circuit the registers are arranged
                           from Top to Bottom)
 
             convert:      Function that applies a mathematical conversion of input at Encoding.
@@ -85,7 +86,7 @@ class SQPAM:
     def prepare_data(self, data: np.ndarray, num_index_qubits: int) -> np.ndarray:
         """
         Prepares the data with appropriate dimensions for encoding:
-        - It pads the length of data with zeros to fit the number of states 
+        - It pads the length of data with zeros to fit the number of states
           that can be represented with `num_index_qubits`.
         - It also removes redundant dimension if the shape is (1,num_samples).
 
@@ -127,7 +128,9 @@ class SQPAM:
         return circuit
 
     @utils.with_indexing
-    def value_setting(self, circuit: qiskit.QuantumCircuit, index: int, value: float) -> None:
+    def value_setting(
+        self, circuit: qiskit.QuantumCircuit, index: int, value: float
+    ) -> None:
         """
         Encodes the prepared, converted values to the initialised circuit.
         This function is used to set a single value at a single index. The
@@ -153,7 +156,7 @@ class SQPAM:
         sub_circuit = sub_circuit.control(index_register.size)
 
         # attach sub-circuit
-        circuit.append(sub_circuit, [i for i in range(circuit.num_qubits-1,-1,-1)])
+        circuit.append(sub_circuit, [i for i in range(circuit.num_qubits - 1, -1, -1)])
 
     def measure(self, circuit: qiskit.QuantumCircuit) -> None:
         """
@@ -208,7 +211,8 @@ class SQPAM:
     # ------------------- Decoding Helpers ---------------------------
 
     def decode_components(
-        self, counts: Union[dict, qiskit.result.Counts],
+        self,
+        counts: Union[dict, qiskit.result.Counts],
         num_components: int,
     ) -> np.ndarray:
         """
@@ -240,10 +244,10 @@ class SQPAM:
         return cosine_amps, sine_amps
 
     def reconstruct_data(
-        self, 
-        counts: Union[dict, qiskit.result.Counts], 
-        num_samples: int, 
-        inverted: bool = False
+        self,
+        counts: Union[dict, qiskit.result.Counts],
+        num_samples: int,
+        inverted: bool = False,
     ) -> np.ndarray:
         """
         Given counts, Extract components and restore the conversion did at
