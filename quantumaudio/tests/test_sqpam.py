@@ -138,7 +138,7 @@ def test_decode_components(sqpam, counts, num_components):
     assert components[1].all() != None
     assert components[1].tolist() == [58, 51, 100, 114, 13, 0, 82, 60]
 
-def test_reconstruct_data(sqpam, counts, shots, num_components, prepared_data):
+def test_reconstruct_data(sqpam, counts, num_components, prepared_data):
     data = sqpam.reconstruct_data(counts, num_components)
     assert data.all() != None
     assert np.sum((data - prepared_data)**2) < 0.05

@@ -12,7 +12,7 @@ def qpam():
 
 def test_qpam_fixed_attributes(qpam):
     assert qpam.name == 'Quantum Probability Amplitude Modulation'
-    assert qpam.n_fold == 1
+    assert qpam.n_fold == 0
     assert qpam.labels == ("time", "amplitude")
 
 
