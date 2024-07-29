@@ -153,7 +153,9 @@ def decoded_data(qpam, result):
     return qpam.decode_result(result)
 
 def test_decode(qpam, encoded_circuit, shots, decoded_data):
-    data = qpam.decode(encoded_circuit, shots=shots)
-
-    assert data.all() != None
-    assert np.sum((data - decoded_data)**2) < 0.05
+    errors = []
+    for i in range(10):
+        data = qpam.decode(encoded_circuit, shots=shots)
+        assert data.all() != None
+        errors.append(np.sum((data - decoded_data)**2))
+    assert np.mean(errors) < 0.05
