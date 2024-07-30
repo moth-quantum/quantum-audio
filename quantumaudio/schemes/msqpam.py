@@ -341,7 +341,8 @@ class MSQPAM:
         num_samples = 2**num_index_qubits
         num_channels = 2**num_channel_qubits
 
-        original_num_samples = header.metadata["num_samples"] * num_channels
+        #original_num_samples = header.metadata["num_samples"] * num_channels
+        original_num_samples = header.metadata["num_samples"] 
         original_num_channels = header.metadata["num_channels"]
 
         # decoding y-axis
