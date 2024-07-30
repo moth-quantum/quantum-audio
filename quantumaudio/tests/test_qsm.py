@@ -156,7 +156,7 @@ def result(counts, shots, num_samples):
 def test_decode_result(qsm, result, input_audio):
     data = qsm.decode_result(result)
     assert data.all() != None
-    assert np.sum((data - input_audio)**2) < 0.05
+    assert np.sum((data - input_audio)**2) == 0
 
 @pytest.fixture
 def decoded_data(qsm, result):
@@ -170,4 +170,4 @@ def test_decode(qsm, encoded_circuit, shots, decoded_data):
         errors.append(np.sum((data - decoded_data)**2))
 
     print(f'errors: {errors}')
-    assert np.mean(errors) < 0.1
+    assert np.mean(errors) == 0
