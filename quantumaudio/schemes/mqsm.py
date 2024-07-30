@@ -58,7 +58,7 @@ class MQSM:
         self.qubit_depth = qubit_depth
         self.num_channels = num_channels
 
-        self.n_fold = 3
+        self.n_fold = 2
         self.labels = ("time", "channel", "amplitude")
         self.positions = (2, 1, 0)
 

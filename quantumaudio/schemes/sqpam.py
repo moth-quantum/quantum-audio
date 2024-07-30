@@ -39,7 +39,7 @@ class SQPAM:
         self.name = "Single-Qubit Probability Amplitude Modulation"
         self.qubit_depth = 1
 
-        self.n_fold = 2
+        self.n_fold = 1
         self.labels = ("time", "amplitude")
         self.positions = (1, 0)
 

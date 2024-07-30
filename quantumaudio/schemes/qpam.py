@@ -40,7 +40,7 @@ class QPAM:
         self.name = "Quantum Probability Amplitude Modulation"
         self.qubit_depth = 0
 
-        self.n_fold = 1
+        self.n_fold = 0
         self.labels = ("time", "amplitude")
         self.positions = (0,)
 

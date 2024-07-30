@@ -53,7 +53,7 @@ class MSQPAM:
         self.qubit_depth = 1
         self.num_channels = num_channels
 
-        self.n_fold = 3
+        self.n_fold = 2
         self.labels = ("time", "channel", "amplitude")
         self.positions = (2, 1, 0)
 

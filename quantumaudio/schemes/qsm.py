@@ -47,7 +47,7 @@ class QSM:
         self.name = "Quantum State Modulation"
         self.qubit_depth = qubit_depth
 
-        self.n_fold = 2
+        self.n_fold = 1
         self.labels = ("time", "amplitude")
         self.positions = (1, 0)
 
