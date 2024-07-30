@@ -93,11 +93,10 @@ class MSQPAM:
         num_channels = 1 if data.ndim == 1 else data.shape[0]  # data-dependent channels
         if self.num_channels:
             num_channels = self.num_channels  # override with pre-set channels
-        num_channels = max(2, num_channels)  # apply constraint of minimum 2 channels
 
         data_shape = (num_channels, num_samples)
 
-        num_channel_qubits = utils.get_qubit_count(num_channels)
+        num_channel_qubits = utils.get_qubit_count(max(2,num_channels))# apply constraint of minimum 2 channels
         num_value_qubits = self.qubit_depth
 
         num_qubits = (num_index_qubits, num_channel_qubits, num_value_qubits)
