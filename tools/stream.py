@@ -53,7 +53,7 @@ def process(chunk: np.ndarray, scheme: Any, shots: int) -> np.ndarray:
     return chunk
 
 
-def process_chunks(chunks: list[np.ndarray], scheme: Any, shots: int) -> list:
+def process_chunks(chunks: list[np.ndarray], scheme: Any, shots: int, show_progress: bool = True) -> list:
     """Process chunks of data in an iteration according to a specified scheme.
 
     Parameters:
@@ -65,7 +65,7 @@ def process_chunks(chunks: list[np.ndarray], scheme: Any, shots: int) -> list:
     None
     """
     processed_chunks = []
-    for chunk in tqdm(chunks):
+    for chunk in tqdm(chunks, disable = not show_progress):
         processed_chunk = process(chunk, scheme, shots)
         processed_chunks.append(processed_chunk)
     return processed_chunks

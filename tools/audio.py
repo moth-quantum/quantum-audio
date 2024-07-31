@@ -58,7 +58,7 @@ def get_quantumaudio(
     mono: bool = True,
     shots: int = 8000,
     chunk_size: int = 256,
-    play: bool = False,
+    verbose: bool = False,
 ) -> np.NDArray:
     
     digital_audio, sr = read(file_path=file_path,sr=sr,mono=mono)
