@@ -1,11 +1,7 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import ipywidgets
-import qiskit_aer
 import qiskit
-from IPython.display import display, Audio, clear_output
-import librosa
-import soundfile as sf
+import qiskit_aer
+import matplotlib.pyplot as plt
 from typing import Union, Callable, Optional, Any
 
 # ======================
@@ -436,7 +432,12 @@ def draw_circuit(circuit: qiskit.QuantumCircuit, decompose: int = 0) -> None:
     """
     for i in range(decompose):
         circuit = circuit.decompose()
-    display(circuit.draw("mpl", style="clifford"))
+
+    try: # Display the plot inline in Jupyter Notebook
+        display(circuit.draw("mpl", style="clifford"))
+    except: # Show the plot in a separate window (for terminal)
+        circuit.draw("mpl", style="clifford")
+        plt.show()
 
 
 def plot_1d(
@@ -526,207 +527,3 @@ def plot(
     if title:
         plt.title(title)
     plt.show()
-
-
-def tune(
-    obj: np.ndarray,
-    function: callable,
-    max_value: int = 2048,
-    step: int = 10,
-    name: str = "Shots",
-    ref: np.ndarray = None,
-    limit: int = None,
-) -> None:
-    """Sets up an interactive widget to tune parameters and visualize the
-    function.
-
-    Args:
-        obj (np.ndarray): Original Audio data array.
-        function (callable): The decode function.
-        max_value (int, optional): The maximum value for the tuning parameter. Defaults to 2048.
-        step (int, optional): The step size for the tuning parameter. Defaults to 10.
-        name (str, optional): The name/description of the parameter. Defaults to "parameter".
-        ref (np.ndarray, optional): Reference or comparison value. Defaults to None.
-        limit (any, optional): Limit or constraint for the parameter. Defaults to None.
-
-    Returns:
-        ipywidgets.interactive
-    """
-
-    def plot_function(shots):
-        y = function(circuit=obj, backend=None, shots=shots)
-        x = np.arange(0, len(y))
-        if isinstance(limit, int):
-            x = x[:limit]
-        plt.plot(x, y[: len(x)], label=f"Shots = {shots}")
-        if isinstance(ref, np.ndarray):
-            plt.plot(x, ref[: len(x)], label="Original")
-        plt.xlabel("Shots")
-        plt.ylabel("Values")
-        plt.ylim(0, 1.5)
-        plt.legend()
-        plt.grid(True)
-        plt.show()
-
-    variable_slider = ipywidgets.IntSlider(
-        value=1, min=1, max=max_value, step=step, description=name
-    )
-    return ipywidgets.interact(plot_function, shots=variable_slider)
-
-
-def play(
-    array: Union[list[float], list[int]], rate: int = 44100, autoplay: bool = False
-) -> None:
-    """Display audio from an array of audio data.
-
-    Parameters:
-    array (list of float or int): Array containing audio data.
-    rate (int, optional): Sampling rate of the audio data (default is 44100).
-    autoplay (bool, optional): Whether to autoplay the audio (default is False).
-
-    Returns:
-    None
-    """
-    audio = Audio(data=array, rate=rate, autoplay=autoplay)
-    display(audio)
-
-
-# ======================
-# Audio
-# ======================
-
-
-def get_chunks(
-    file_path: str,
-    sr: int = 22050,
-    chunk_size: int = 256,
-    mono: bool = True,
-    preview: bool = False,
-) -> None:
-    """Generate audio chunks from a file.
-
-    Parameters:
-    file_path (str): Path to the audio file.
-    sr (int, optional): Sampling rate (default is 22050).
-    chunk_size (int, optional): Size of each chunk (default is 256).
-    mono (bool, optional): Whether to load audio in mono (default is True).
-    preview (bool, optional): Whether to preview each chunk (default is False).
-
-    Returns:
-    None
-    """
-    y, sr = librosa.load(file_path, sr=sr, mono=mono)
-    if preview:
-        play(array=y, rate=sr)
-    print(f"Shape: {y.shape}")
-    if y.ndim == 1:
-        y = y.reshape(1, -1)
-    print(
-        f"Num samples: {y.shape[-1]}, Num channels: {y.shape[0]}, Sample rate: {sr}, Buffer size: {chunk_size}"
-    )
-    y_chunks = []
-    for i in range(0, y.shape[-1], chunk_size):
-        chunk = y[:, i : i + chunk_size]
-        y_chunks.append(chunk)
-    print(f"Number of chunks: {len(y_chunks)}")
-    print(f"Shape per buffer: {y_chunks[0].shape}")
-    return y_chunks, sr
-
-
-def process(chunk: np.ndarray, scheme: Any, shots: int) -> np.ndarray:
-    """Process a chunk of data according to a specified scheme.
-
-    Parameters:
-    chunk (np.ndarray): Data chunk to be processed.
-    scheme (any): Processing scheme.
-    shots (int): Number of shots.
-
-    Returns:
-    None
-    """
-    chunk = scheme.decode(scheme.encode(chunk, verbose=0), shots=shots)
-    return chunk
-
-
-def process_chunks(chunks: list[np.ndarray], scheme: Any, shots: int) -> list:
-    """Process chunks of data in an iteration according to a specified scheme.
-
-    Parameters:
-    chunks (np.ndarray): Data chunks to be processed.
-    scheme (any): Processing scheme.
-    shots (int): Number of shots.
-
-    Returns:
-    None
-    """
-    processed_chunks = []
-    for chunk in chunks:
-        processed_chunk = process(chunk, scheme, shots)
-        processed_chunks.append(processed_chunk)
-    return processed_chunks
-
-
-def tune_audio(
-    obj: np.ndarray,
-    scheme: Any,
-    function: Callable,
-    max_value: int = 8000,
-    step: int = 10,
-    name: str = "Shots",
-    limit: Optional[int] = None,
-    sr: int = 22050,
-    offset: int = 0,
-) -> None:
-    """Tune audio parameters according to a specified function and scheme.
-
-    Args:
-        obj (np.ndarray): Original Audio data array.
-        function (callable): The decode function.
-        max_value (int, optional): Maximum value for tuning (default is 8000).
-        step (int, optional): Step size for tuning (default is 10).
-        name (str, optional): Name of the parameter being tuned (default is 'parameter').
-        limit (int, optional): Limit for tuning, if any (default is None).
-        sr (int, optional): Sampling rate (default is 22050).
-        offset (int, optional): Offset for tuning (default is 0).
-
-    Returns:
-        ipywidgets.interactive
-    """
-
-    def plot_function(shots):
-        y = function(chunks=obj[offset:limit], scheme=scheme, shots=shots)
-        if y:
-            y = np.concatenate(y)
-        clear_output(wait=True)
-        play(y, rate=sr, autoplay=True)
-
-    variable_slider = ipywidgets.IntSlider(
-        value=1,
-        min=1,
-        max=max_value,
-        step=step,
-        description=name,
-        continuous_update=False,
-    )
-    return ipywidgets.interact(plot_function, shots=variable_slider)
-
-
-def export_audio(
-    processed_chunks: list[np.ndarray],
-    sr: int,
-    output_filepath: str = "reconstructed_audio.wav",
-) -> None:
-    """
-    Export processed audio chunks into a single WAV file.
-
-    Parameters:
-    processed_chunks (list of np.ndarray): List containing arrays of processed audio chunks.
-    sr (int): Sampling rate of the audio data.
-    output_filepath (str, optional): Filepath to save the reconstructed audio.
-
-    Returns:
-    None
-    """
-    output = np.concatenate(processed_chunks)
-    sf.write(output_filepath, output, sr, format="WAV")
-    print(output_filepath)
