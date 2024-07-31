@@ -41,7 +41,7 @@ def tune(
             x = x[:limit]
         plt.plot(x, y[: len(x)], label=f"Shots = {shots}")
         if isinstance(ref, np.ndarray):
-            plt.plot(x, ref[: len(x)], label="Original")
+            plt.plot(x, ref.squeeze()[: len(x)], label="Original")
         plt.xlabel("Shots")
         plt.ylabel("Values")
         plt.ylim(0, 1.5)
