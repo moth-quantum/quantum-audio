@@ -68,6 +68,8 @@ def apply_padding(array: np.ndarray, num_qubits: (int, int)) -> np.ndarray:
         np.ndarray: The padded array.
     """
     padding = []
+    if array.ndim == 1:
+        array = array.reshape(1, -1)
     array_shape = array.shape
     for i in range(len(array_shape)):
         n_bits = num_qubits[i] if len(num_qubits) > i else num_qubits[0]

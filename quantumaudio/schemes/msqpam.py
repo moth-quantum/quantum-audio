@@ -53,7 +53,7 @@ class MSQPAM:
         self.qubit_depth = 1
         self.num_channels = num_channels
 
-        self.n_fold = 3
+        self.n_fold = 2
         self.labels = ("time", "channel", "amplitude")
         self.positions = (2, 1, 0)
 
@@ -93,11 +93,10 @@ class MSQPAM:
         num_channels = 1 if data.ndim == 1 else data.shape[0]  # data-dependent channels
         if self.num_channels:
             num_channels = self.num_channels  # override with pre-set channels
-        num_channels = max(2, num_channels)  # apply constraint of minimum 2 channels
 
         data_shape = (num_channels, num_samples)
 
-        num_channel_qubits = utils.get_qubit_count(num_channels)
+        num_channel_qubits = utils.get_qubit_count(max(2,num_channels))# apply constraint of minimum 2 channels
         num_value_qubits = self.qubit_depth
 
         num_qubits = (num_index_qubits, num_channel_qubits, num_value_qubits)
@@ -249,8 +248,7 @@ class MSQPAM:
     def decode_components(
         self,
         counts: Union[dict, qiskit.result.Counts],
-        num_channels: int,
-        num_samples: int,
+        num_components: tuple[int, int],
     ) -> np.ndarray:
         """
         The first stage of decoding is extracting required components from
@@ -259,14 +257,14 @@ class MSQPAM:
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_channels: number of channels to get.
-            num_samples: number of samples to get.
+            num_components: number of (channels, samples) to get.
 
         Returns:
             2-D Array of shape (num_channels, num_samples)
             for further decoding.
         """
         # initialising components
+        num_channels, num_samples = num_components 
         cosine_amps = np.zeros((num_channels, num_samples))
         sine_amps = np.zeros((num_channels, num_samples))
 
@@ -286,8 +284,7 @@ class MSQPAM:
     def reconstruct_data(
         self,
         counts: Union[dict, qiskit.result.Counts],
-        num_samples: int,
-        num_channels: int,
+        num_components: tuple[int, int],
         inverted: bool = False,
     ) -> np.ndarray:
         """
@@ -297,15 +294,14 @@ class MSQPAM:
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_channels: number of channels to get.
-            num_samples : number of samples to get.
+            num_channels: number of (channels, samples) to get.
             inverted : retrieves cosine components of the signal.
 
         Return:
             data: Array of restored values
         """
         cosine_amps, sine_amps = self.decode_components(
-            counts, num_channels, num_samples
+            counts, num_components
         )
         data = self.restore(cosine_amps, sine_amps, inverted)
         return data
@@ -339,17 +335,19 @@ class MSQPAM:
         num_index_qubits = header.qreg_sizes[index_position][1]
         num_channel_qubits = header.qreg_sizes[channel_position][1]
 
+        
         num_samples = 2**num_index_qubits
         num_channels = 2**num_channel_qubits
+        num_components = (num_channels, num_samples)
 
-        original_num_samples = header.metadata["num_samples"] * num_channels
+        #original_num_samples = header.metadata["num_samples"] * num_channels
+        original_num_samples = header.metadata["num_samples"] 
         original_num_channels = header.metadata["num_channels"]
 
         # decoding y-axis
         data = self.reconstruct_data(
             counts=counts,
-            num_channels=num_channels,
-            num_samples=num_samples,
+            num_components=num_components,
             inverted=False,
         )
 
