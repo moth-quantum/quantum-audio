@@ -1,5 +1,6 @@
 import qiskit
 import qiskit_aer
+import matplotlib.pyplot as plt
 from typing import Union, Callable, Optional
 
 # ======================

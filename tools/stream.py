@@ -1,5 +1,6 @@
 import numpy as np
-from typing import Optional
+from tqdm import tqdm
+from typing import Optional, Any
 
 # ======================
 # Buffering Utils
@@ -64,7 +65,7 @@ def process_chunks(chunks: list[np.ndarray], scheme: Any, shots: int) -> list:
     None
     """
     processed_chunks = []
-    for chunk in chunks:
+    for chunk in tqdm(chunks):
         processed_chunk = process(chunk, scheme, shots)
         processed_chunks.append(processed_chunk)
     return processed_chunks
@@ -77,8 +78,8 @@ def stream_data(
     verbose: bool = False,
 ) -> np.ndarray:
     
-    assert chunk_size < data.shape[-1]. f'Chunk size ({chunk_size}) cant be smaller than number of samples ({data.shape[-1]})'
-    chunks, sr = get_chunks(data=data,chunk_size=chunk_size,verbose=verbose)
+    assert chunk_size < data.shape[-1], f'Chunk size ({chunk_size}) cant be smaller than number of samples ({data.shape[-1]})'
+    chunks = get_chunks(data=data,chunk_size=chunk_size,verbose=verbose)
     processed_chunks = process_chunks(chunks=chunks,scheme=scheme,shots=shots)
     output = np.concatenate(processed_chunks)
-    return np.ndarray
+    return output

@@ -1,6 +1,8 @@
 import librosa
 import soundfile as sf
-from stream import stream_data
+from . import stream
+import numpy.typing as np
+from typing import Any
 
 # ======================
 # Basic Audio Utils
@@ -27,7 +29,7 @@ def read(
     return y, sr
 
 def write(
-    data: np.ndarray,
+    data: np.NDArray,
     sr: int,
     output_filepath: str = "audio.wav",
 ) -> None:
@@ -42,7 +44,7 @@ def write(
     Returns:
     None
     """
-    sf.write(output_filepath, output, sr, format="WAV")
+    sf.write(output_filepath, data, sr, format="WAV")
     print(output_filepath)
 
 # ======================
@@ -56,12 +58,12 @@ def get_quantumaudio(
     mono: bool = True,
     shots: int = 8000,
     chunk_size: int = 256,
-    verbose: bool = False,
-) -> np.ndarray:
+    play: bool = False,
+) -> np.NDArray:
     
-    digital_audio = read(file_path=file_path,sr=sr,mono=mono)
-    quantum_audio = stream_data(data=digital_audio,scheme=scheme,shots=shots,chunk_size=chunk_size,verbose=verbose)
-    return quantum_audio
+    digital_audio, sr = read(file_path=file_path,sr=sr,mono=mono)
+    quantum_audio = stream.stream_data(data=digital_audio,scheme=scheme,shots=shots,chunk_size=chunk_size,verbose=verbose)
+    return quantum_audio, sr
 
 def save_quantumaudio(
     file_path: str,
@@ -74,5 +76,5 @@ def save_quantumaudio(
     output_filepath: str = "reconstructed_audio.wav",
 ) -> None:
     
-    quantum_audio = get_quantumaudio(file_path=file_path,sr=sr,mono=mono,scheme=scheme,shots=shots,chunk_size=chunk_size,verbose=verbose)
+    quantum_audio, sr = get_quantumaudio(file_path=file_path,sr=sr,mono=mono,scheme=scheme,shots=shots,chunk_size=chunk_size,verbose=verbose)
     write(data=quantum_audio,sr=sr,output_filepath=output_filepath)
