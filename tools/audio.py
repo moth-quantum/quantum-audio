@@ -46,7 +46,7 @@ def write(
     print(output_filepath)
 
 # ======================
-# Quantum Audio Buffering Utils
+# Quantum Audio Utils
 # ======================
 
 def get_quantumaudio(
