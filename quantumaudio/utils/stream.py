@@ -69,7 +69,7 @@ def process_chunks(chunks: list[np.ndarray], scheme: Any, shots: int) -> list:
         processed_chunks.append(processed_chunk)
     return processed_chunks
 
-def stream(
+def stream_data(
     data: np.ndarray,
     scheme: Any, 
     shots: int = 8000,
