@@ -73,10 +73,11 @@ def stream_data(
     data: np.ndarray,
     scheme: Any, 
     shots: int = 8000,
-    chunk_size: Optional[int] = None,
+    chunk_size: int = 64,
     verbose: bool = False,
 ) -> np.ndarray:
     
+    assert chunk_size < data.shape[-1]. f'Chunk size ({chunk_size}) cant be smaller than number of samples ({data.shape[-1]})'
     chunks, sr = get_chunks(data=data,chunk_size=chunk_size,verbose=verbose)
     processed_chunks = process_chunks(chunks=chunks,scheme=scheme,shots=shots)
     output = np.concatenate(processed_chunks)
