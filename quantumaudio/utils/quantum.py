@@ -4,66 +4,8 @@ import matplotlib.pyplot as plt
 from typing import Union, Callable, Optional
 
 # ======================
-# Quantum Computing Utils
+# Circuit Preparation Utils
 # ======================
-
-def pad_counts(counts: Union[dict, qiskit.result.Counts]) -> dict:
-    """Pads the counts to its full length covering all basis states.
-
-    Args:
-        counts (dict, qiskit.result.Counts): counts dictionary
-
-    Returns:
-        counts: Padded counts dictionary
-    """
-    num_qubits = len(next(iter(counts)))
-    all_states = [format(i, "0" + str(num_qubits) + "b") for i in range(2**num_qubits)]
-    complete_counts = {state: counts.get(state, 0) for state in all_states}
-    return complete_counts
-
-
-def get_counts(
-    circuit: qiskit.QuantumCircuit,
-    backend: Optional[str] = None,
-    shots: int = 4000,
-    pad: bool = False,
-) -> dict:
-    """Given a qiskit circuit, executes and returns counts dictionary.
-
-    Args:
-            circuit: A Qiskit Circuit.
-            backend: A backend string compatible with qiskit.execute method
-            shots  : Total number of times the quantum circuit is measured.
-            pad: If True, applies padding to the counts dictionary.
-    Return:
-            counts: Dictionary
-    """
-    if not backend:
-        backend = qiskit_aer.AerSimulator()
-    job = qiskit.execute(circuit, backend=backend, shots=shots)
-    result = job.result()
-    counts = pad_counts(result.get_counts()) if pad else result.get_counts()
-    return counts
-
-
-def execute(
-    circuit: qiskit.QuantumCircuit, backend: Optional[str] = None, shots: int = 4000
-) -> qiskit.result.Result:
-    """Executes a quantum circuit using qiskit.execute.
-
-    Args:
-            circuit: A Qiskit Circuit.
-            backend: A backend string compatible with qiskit.execute method
-            shots  : Total number of times the quantum circuit is measured.
-    Return:
-            qiskit.result.Result: Result object that contains metadata
-    """
-    if not backend:
-        backend = qiskit_aer.AerSimulator()
-    job = qiskit.execute(circuit, backend=backend, shots=shots)
-    result = job.result()
-    return result
-
 
 def apply_x_at_index(qc: qiskit.QuantumCircuit, i: int) -> None:
     """This function is used to encode an index as control qubits to a circuit.
@@ -150,6 +92,62 @@ def measure(
     for i, pos in enumerate(index_pos):
         add_classical_register(qc, pos, index_labels[i])
 
+# ------------------- Measurement ---------------------------
+
+def execute(
+    circuit: qiskit.QuantumCircuit, backend: Optional[str] = None, shots: int = 4000
+) -> qiskit.result.Result:
+    """Executes a quantum circuit using qiskit.execute.
+
+    Args:
+            circuit: A Qiskit Circuit.
+            backend: A backend string compatible with qiskit.execute method
+            shots  : Total number of times the quantum circuit is measured.
+    Return:
+            qiskit.result.Result: Result object that contains metadata
+    """
+    if not backend:
+        backend = qiskit_aer.AerSimulator()
+    job = qiskit.execute(circuit, backend=backend, shots=shots)
+    result = job.result()
+    return result
+
+def pad_counts(counts: Union[dict, qiskit.result.Counts]) -> dict:
+    """Pads the counts to its full length covering all basis states.
+
+    Args:
+        counts (dict, qiskit.result.Counts): counts dictionary
+
+    Returns:
+        counts: Padded counts dictionary
+    """
+    num_qubits = len(next(iter(counts)))
+    all_states = [format(i, "0" + str(num_qubits) + "b") for i in range(2**num_qubits)]
+    complete_counts = {state: counts.get(state, 0) for state in all_states}
+    return complete_counts
+
+def get_counts(
+    circuit: qiskit.QuantumCircuit,
+    backend: Optional[str] = None,
+    shots: int = 4000,
+    pad: bool = False,
+) -> dict:
+    """Given a qiskit circuit, executes and returns counts dictionary.
+
+    Args:
+            circuit: A Qiskit Circuit.
+            backend: A backend string compatible with qiskit.execute method
+            shots  : Total number of times the quantum circuit is measured.
+            pad: If True, applies padding to the counts dictionary.
+    Return:
+            counts: Dictionary
+    """
+    if not backend:
+        backend = qiskit_aer.AerSimulator()
+    job = qiskit.execute(circuit, backend=backend, shots=shots)
+    result = job.result()
+    counts = pad_counts(result.get_counts()) if pad else result.get_counts()
+    return counts
 
 # ------------------- Preview Functions ---------------------------
 
