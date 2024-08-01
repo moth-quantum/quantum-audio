@@ -5,7 +5,7 @@ encoding and decoding schemes
 - data.py    : Data preparation and calculation functions
 
 - convert.py : Data pre-processing functions required for encoding values 
-                into the quantum circuit
+               into the quantum circuit
 
 - circuit.py : Helper functions for quantum audio circuit preparations with qiskit
  
