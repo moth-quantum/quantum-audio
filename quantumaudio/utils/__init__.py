@@ -1,5 +1,5 @@
 """
-This subpackages contains the following utilary modules that support the 
+This subpackage contains the following utilary modules that support the 
 encoding and decoding schemes
 
 - data.py    : Data preparation and calculation functions
