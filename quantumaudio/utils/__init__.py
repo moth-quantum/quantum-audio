@@ -10,8 +10,8 @@ encoding and decoding schemes
 - circuit.py : Helper functions for quantum audio circuit preparations with qiskit
  
 - qiskit_helpers.py : Common helper functions for obtaining circuit results and 
-					   preview information on the circuit. It includes Aer Simulator
-                       as default backend if no backend is specified.
+		      preview information on the circuit. It includes Aer Simulator
+                      as default backend if no backend is specified.
 
 """
 
