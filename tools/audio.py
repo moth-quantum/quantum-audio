@@ -2,6 +2,7 @@ import librosa
 import soundfile as sf
 from . import stream
 import numpy.typing as np
+from typing import Any
 
 # ======================
 # I/O handling functions
@@ -60,7 +61,7 @@ def get_quantumaudio(
     verbose: bool = False,
 ) -> np.NDArray:
     
-    digital_audio, sr = audio.read(file_path=file_path,sr=sr,mono=mono)
+    digital_audio, sr = read(file_path=file_path,sr=sr,mono=mono)
     quantum_audio = stream.stream_data(data=digital_audio,scheme=scheme,shots=shots,chunk_size=chunk_size,verbose=verbose)
     return quantum_audio, sr
 

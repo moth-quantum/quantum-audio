@@ -67,7 +67,7 @@ def plot(
     title: Union[str, None] = None,
     label: tuple[str, str] = ("original", "reconstructed"),
 ) -> None:
-    """Plots the given samples.
+    """Plots the given samples. It accepts multi-dimensional array and also multiple plots for comparisons.
 
     Args:
         samples: The samples to plot. Can be a single numpy array or a list of numpy arrays.
