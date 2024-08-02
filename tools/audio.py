@@ -82,4 +82,4 @@ def save_quantumaudio(
 ) -> None:
     
     quantum_audio, sr = get_quantumaudio(file_path=file_path,sr=sr,mono=mono,scheme=scheme,shots=shots,chunk_size=chunk_size,verbose=verbose)
-    write(data=quantum_audio,sr=sr,output_filepath=output_filepath)
+    write(data=quantum_audio.T,sr=sr,output_filepath=output_filepath)
