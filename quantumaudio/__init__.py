@@ -36,9 +36,9 @@ Usage:
     utils.plot([original_signal,decoded_signal])
 """
 
-import importlib
-# from . import schemes, utils
+__version__ = '0.1.0'
 
+import importlib
 
 def load_scheme(name, *args, **kwargs):
     try:
