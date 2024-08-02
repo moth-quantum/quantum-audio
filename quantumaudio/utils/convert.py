@@ -104,6 +104,7 @@ def de_quantize(array: np.ndarray, bit_depth: int) -> np.ndarray:
 # Assertions
 # ======================
 
+
 def is_within_range(arr: np.ndarray, min_val: float, max_val: float) -> bool:
     """Checks if all elements in the array are within the specified range.
 

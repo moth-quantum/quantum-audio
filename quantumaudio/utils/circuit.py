@@ -5,6 +5,7 @@ from typing import Union, Callable, Optional
 # Circuit Preparation Utils
 # ======================
 
+
 def apply_x_at_index(qc: qiskit.QuantumCircuit, i: int) -> None:
     """This function is used to encode an index as control qubits to a circuit.
 

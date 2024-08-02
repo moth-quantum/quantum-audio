@@ -4,6 +4,7 @@ import numpy as np
 # Data processing utils
 # ======================
 
+
 def simulate_data(
     num_samples: int, num_channels: int = 1, seed: int = 42
 ) -> np.ndarray:

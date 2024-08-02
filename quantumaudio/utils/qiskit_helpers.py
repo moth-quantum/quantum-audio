@@ -5,6 +5,7 @@ from typing import Union, Callable, Optional
 
 # ------------------- Measurement ---------------------------
 
+
 def execute(
     circuit: qiskit.QuantumCircuit, backend: Optional[str] = None, shots: int = 4000
 ) -> qiskit.result.Result:
@@ -23,6 +24,7 @@ def execute(
     result = job.result()
     return result
 
+
 def pad_counts(counts: Union[dict, qiskit.result.Counts]) -> dict:
     """Pads the counts to its full length covering all basis states.
 
@@ -36,6 +38,7 @@ def pad_counts(counts: Union[dict, qiskit.result.Counts]) -> dict:
     all_states = [format(i, "0" + str(num_qubits) + "b") for i in range(2**num_qubits)]
     complete_counts = {state: counts.get(state, 0) for state in all_states}
     return complete_counts
+
 
 def get_counts(
     circuit: qiskit.QuantumCircuit,
@@ -60,7 +63,9 @@ def get_counts(
     counts = pad_counts(result.get_counts()) if pad else result.get_counts()
     return counts
 
+
 # ------------------- Preview Functions ---------------------------
+
 
 def print_num_qubits(num_qubits: tuple[int, ...], labels: tuple[str, ...]) -> None:
     """Prints the number of qubits required and their allocation per label.
@@ -91,8 +96,8 @@ def draw_circuit(circuit: qiskit.QuantumCircuit, decompose: int = 0) -> None:
     for i in range(decompose):
         circuit = circuit.decompose()
 
-    try: # Display the plot inline in Jupyter Notebook
+    try:  # Display the plot inline in Jupyter Notebook
         display(circuit.draw("mpl", style="clifford"))
-    except: # Show the plot in a separate window (for terminal)
+    except:  # Show the plot in a separate window (for terminal)
         circuit.draw("mpl", style="clifford")
         plt.show()

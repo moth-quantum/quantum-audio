@@ -12,7 +12,7 @@ Modules:
     - QSM    : Quantum State Modulation
     - MQSM   : Multi-channel Quantum State Modulation
 
-- utils: Utilary functions for data processing, circuit preparation 
+- utils: Utilary functions for data processing, circuit preparation
          and obtaining results.
 
 Usage:

@@ -96,7 +96,9 @@ class MSQPAM:
 
         data_shape = (num_channels, num_samples)
 
-        num_channel_qubits = utils.get_qubit_count(max(2,num_channels))# apply constraint of minimum 2 channels
+        num_channel_qubits = utils.get_qubit_count(
+            max(2, num_channels)
+        )  # apply constraint of minimum 2 channels
         num_value_qubits = self.qubit_depth
 
         num_qubits = (num_index_qubits, num_channel_qubits, num_value_qubits)
@@ -264,7 +266,7 @@ class MSQPAM:
             for further decoding.
         """
         # initialising components
-        num_channels, num_samples = num_components 
+        num_channels, num_samples = num_components
         cosine_amps = np.zeros((num_channels, num_samples))
         sine_amps = np.zeros((num_channels, num_samples))
 
@@ -300,9 +302,7 @@ class MSQPAM:
         Return:
             data: Array of restored values
         """
-        cosine_amps, sine_amps = self.decode_components(
-            counts, num_components
-        )
+        cosine_amps, sine_amps = self.decode_components(counts, num_components)
         data = self.restore(cosine_amps, sine_amps, inverted)
         return data
 
@@ -335,13 +335,12 @@ class MSQPAM:
         num_index_qubits = header.qreg_sizes[index_position][1]
         num_channel_qubits = header.qreg_sizes[channel_position][1]
 
-        
         num_samples = 2**num_index_qubits
         num_channels = 2**num_channel_qubits
         num_components = (num_channels, num_samples)
 
-        #original_num_samples = header.metadata["num_samples"] * num_channels
-        original_num_samples = header.metadata["num_samples"] 
+        # original_num_samples = header.metadata["num_samples"] * num_channels
+        original_num_samples = header.metadata["num_samples"]
         original_num_channels = header.metadata["num_channels"]
 
         # decoding y-axis
