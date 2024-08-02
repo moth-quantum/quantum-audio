@@ -16,7 +16,7 @@ def execute(
             backend: A backend string compatible with qiskit.execute method
             shots  : Total number of times the quantum circuit is measured.
     Return:
-            qiskit.result.Result: Result object that contains metadata
+            Qiskit Result object that contains metadata
     """
     if not backend:
         backend = qiskit_aer.AerSimulator()
@@ -29,7 +29,7 @@ def pad_counts(counts: Union[dict, qiskit.result.Counts]) -> dict:
     """Pads the counts to its full length covering all basis states.
 
     Args:
-        counts (dict, qiskit.result.Counts): counts dictionary
+        counts: Counts dictionary
 
     Returns:
         counts: Padded counts dictionary
@@ -54,7 +54,7 @@ def get_counts(
             shots  : Total number of times the quantum circuit is measured.
             pad: If True, applies padding to the counts dictionary.
     Return:
-            counts: Dictionary
+            Counts dictionary
     """
     if not backend:
         backend = qiskit_aer.AerSimulator()
@@ -71,11 +71,9 @@ def print_num_qubits(num_qubits: tuple[int, ...], labels: tuple[str, ...]) -> No
     """Prints the number of qubits required and their allocation per label.
 
     Args:
-        num_qubits (List[int]): List of integers representing the number of qubits.
-        labels (List[str]): List of strings representing labels for each qubit allocation.
+        num_qubits: List of integers representing the number of qubits.
+        labels: List of strings representing labels for each qubit allocation.
 
-    Returns:
-        None
     """
     print(f"Number of qubits required: {sum(num_qubits)}\n")
     for i, qubits in enumerate(num_qubits):
@@ -87,11 +85,9 @@ def draw_circuit(circuit: qiskit.QuantumCircuit, decompose: int = 0) -> None:
     """Draws a quantum circuit diagram.
 
     Args:
-        circuit (QuantumCircuit): The quantum circuit to draw.
-        decompose (int, optional): Number of times to decompose the circuit. Defaults to 0.
+        circuit: The quantum circuit to draw.
+        decompose: Number of times to decompose the circuit. Defaults to 0.
 
-    Returns:
-        None
     """
     for i in range(decompose):
         circuit = circuit.decompose()

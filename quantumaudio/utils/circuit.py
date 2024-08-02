@@ -10,8 +10,8 @@ def apply_x_at_index(qc: qiskit.QuantumCircuit, i: int) -> None:
     """This function is used to encode an index as control qubits to a circuit.
 
     Args:
-        circuit: Qiskit Circuit
-        index: Index position
+        qc: Qiskit Circuit
+        i: Index position
     """
     if len(qc.qregs) != 2:
         _, creg, treg = qc.qregs
@@ -30,10 +30,10 @@ def with_indexing(func: Callable) -> Callable:
     """Used as decorator with a value-setting operation.
 
     Args:
-        func (Callable): A value-setting function to be decorated.
+        func: A value-setting function to be decorated.
 
     Returns:
-        Callable: The wrapped function with time indexing applied.
+        The wrapped function with time indexing applied.
     """
 
     def wrapper(*args, **kwargs):
@@ -54,12 +54,9 @@ def add_classical_register(
     corresponding quantum register.
 
     Args:
-        qc (QuantumCircuit): The quantum circuit to which the classical register will be added.
-        position (int): The position of the quantum register in the quantum circuit.
-        label (str): The label for the new classical register.
-
-    Returns:
-        None
+        qc: The quantum circuit to which the classical register will be added.
+        position: The position of the quantum register in the quantum circuit.
+        label: The label for the new classical register.
     """
     qreg = qc.qregs[position]
     creg = qiskit.ClassicalRegister(qreg.size, label)
@@ -76,13 +73,10 @@ def measure(
     corresponding quantum registers.
 
     Args:
-        qc (QuantumCircuit): The quantum circuit to which the barrier and measurements will be applied.
-        labels (tuple[str, str, str], optional): Labels for the classical registers corresponding to the measurements.
+        qc: The quantum circuit to which the barrier and measurements will be applied.
+        labels: Labels for the classical registers corresponding to the measurements.
                                                  Defaults to ("ca", "cc", "ct").
-        position (int, optional): The position of the qubits to be measured. If None, all qubits are measured. Defaults to None.
-
-    Returns:
-        None
+        position: The position of the qubits to be measured. If None, all qubits are measured. Defaults to None.
     """
     value_pos, *index_pos = range(len(qc.qregs)) if not position else reversed(position)
     value_label, *index_labels = labels

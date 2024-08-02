@@ -13,12 +13,12 @@ def simulate_data(
        visualise as circuit and plot"
 
     Args:
-        num_samples (int): The number of samples to generate.
-        num_channels (int, optional): The number of channels for each sample. Defaults to 1.
-        seed (int, optional): The seed for the random number generator. Defaults to 42.
+        num_samples: The number of samples to generate.
+        num_channels: The number of channels for each sample. Defaults to 1.
+        seed: The seed for the random number generator. Defaults to 42.
 
     Returns:
-        np.ndarray: A numpy array of simulated data.
+        A numpy array of simulated data.
     """
     np.random.seed(seed)
     data = np.random.rand(num_samples, num_channels)
@@ -32,11 +32,11 @@ def apply_index_padding(array: np.ndarray, num_index_qubits: int) -> np.ndarray:
     qubits.
 
     Args:
-        array (np.ndarray): The input array to be padded.
-        num_index_qubits (int): The number of qubits to determine the padding length.
+        array: The input array to be padded.
+        num_index_qubits: The number of qubits to determine the padding length.
 
     Returns:
-        np.ndarray: The padded array.
+        The padded array.
     """
     pad_length = (2**num_index_qubits) - array.shape[-1]
     if pad_length > 0:
@@ -51,13 +51,13 @@ def apply_padding(array: np.ndarray, num_qubits: (int, int)) -> np.ndarray:
     specified number of index qubits.
 
     Args:
-        array (np.ndarray): The input array to be padded.
-        num_qubits (int,int): The padding length at each dimension is determined by
+        array: The input array to be padded.
+        num_qubits: The padding length at each dimension is determined by
                               number of channel qubits and number of index qubits
                               respectively.
 
     Returns:
-        np.ndarray: The padded array.
+        The padded array.
     """
     padding = []
     if array.ndim == 1:
@@ -80,10 +80,10 @@ def get_bit_depth(signal: np.ndarray) -> int:
     """Determines the bit depth of a given signal.
 
     Args:
-        signal (np.ndarray): The input signal.
+        signal: The input signal.
 
     Returns:
-        int: The bit depth of the signal.
+        The bit depth of the signal.
     """
     unique_values = np.unique(signal)
     num_levels = len(unique_values)
@@ -98,10 +98,10 @@ def get_qubit_count(data_length: int) -> int:
     length.
 
     Args:
-        data_length (int): The length of the data.
+        data_length: The length of the data.
 
     Returns:
-        int: The number of qubits needed to represent the data length.
+        The number of qubits needed to represent the data length.
     """
     num_qubits = int(np.ceil(np.log2(data_length)))
     return num_qubits
@@ -111,10 +111,10 @@ def interleave_channels(array: np.ndarray) -> np.ndarray:
     """Interleaves the channels of a given array.
 
     Args:
-        array (np.ndarray): The input array with shape (samples, channels).
+        array: The input array with shape (samples, channels).
 
     Returns:
-        np.ndarray: A 1-dimensional array with interleaved channels.
+        A 1-dimensional array with interleaved channels.
     """
     return np.dstack(array).flatten()
 
@@ -123,10 +123,10 @@ def restore_channels(array: np.ndarray, num_channels: int) -> np.ndarray:
     """Restores the interleaved channels into their original form.
 
     Args:
-        array (np.ndarray): The input array with interleaved channels.
-        num_channels (int): The number of channels.
+        array: The input array with interleaved channels.
+        num_channels: The number of channels.
 
     Returns:
-        np.ndarray: The array with shape (samples, channels).
+        The array with shape (samples, channels).
     """
     return np.vstack([array[i::num_channels] for i in range(num_channels)])
