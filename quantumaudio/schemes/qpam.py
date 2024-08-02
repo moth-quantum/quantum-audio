@@ -15,7 +15,7 @@ class QPAM:
     using the `convert` method.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initialize the QPAM instance. The attributes of `__init__` method are
         specific to this Scheme which remains fixed and independent of the

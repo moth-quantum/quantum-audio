@@ -14,7 +14,7 @@ class QSM:
     by qubits of time register that represent the corresponding time index.
     """
 
-    def __init__(self, qubit_depth=None):
+    def __init__(self, qubit_depth: Optional[int] = None) -> None:
         """
         Initialize the QSM instance. The attributes of `__init__` method are
         specific to this Scheme which remains fixed and independent of the
