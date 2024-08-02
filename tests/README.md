@@ -11,5 +11,5 @@ pip install pytest
 Then, run the command below:
 
 ```console
-python -m pytest --pyargs quantumaudio
+python -m pytest 
 ```
