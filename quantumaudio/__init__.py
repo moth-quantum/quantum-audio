@@ -12,8 +12,8 @@ Modules:
     - QSM    : Quantum State Modulation
     - MQSM   : Multi-channel Quantum State Modulation
 
-- utils: Utilary functions for data processing, circuit preparation along
-         with plotting and audio playback functions for Jupyter Notebook.
+- utils: Utilary functions for data processing, circuit preparation
+         and obtaining results.
 
 Usage:
     import quantumaudio

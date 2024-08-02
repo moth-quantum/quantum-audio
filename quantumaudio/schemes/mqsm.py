@@ -101,7 +101,9 @@ class MQSM:
 
         data_shape = (num_channels, num_samples)
 
-        num_channel_qubits = utils.get_qubit_count(max(2, num_channels)) # apply constraint of minimum 2 channels
+        num_channel_qubits = utils.get_qubit_count(
+            max(2, num_channels)
+        )  # apply constraint of minimum 2 channels
         num_value_qubits = (
             utils.get_bit_depth(data) if not self.qubit_depth else self.qubit_depth
         )
@@ -252,7 +254,7 @@ class MQSM:
     def decode_components(
         self,
         counts: Union[dict, qiskit.result.Counts],
-        num_components: tuple[int,int],
+        num_components: tuple[int, int],
     ) -> np.ndarray:
         """
         The first stage of decoding is extracting required components from
@@ -331,7 +333,7 @@ class MQSM:
         num_channels = 2**num_channel_qubits
         num_components = (num_channels, num_samples)
 
-        original_num_samples = header.metadata["num_samples"] 
+        original_num_samples = header.metadata["num_samples"]
         original_num_channels = header.metadata["num_channels"]
 
         # decoding y-axis

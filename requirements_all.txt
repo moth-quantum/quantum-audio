@@ -1,0 +1,11 @@
+bitstring==4.2.3
+librosa==0.10.2.post1
+matplotlib==3.8.4
+numpy
+pylatexenc
+tqdm
+qiskit_aer==0.13.3
+qiskit==0.46.0
+soundfile==0.12.1
+ipython==8.12.3
+ipywidgets==8.1.2
