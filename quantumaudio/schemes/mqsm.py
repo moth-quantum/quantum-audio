@@ -16,7 +16,9 @@ class MQSM:
     is used to represent the channel information.
     """
 
-    def __init__(self, qubit_depth: Optional[int] = None, num_channels: Optional[int] = None) -> None:
+    def __init__(
+        self, qubit_depth: Optional[int] = None, num_channels: Optional[int] = None
+    ) -> None:
         """
         Initialize the MQSM instance. The attributes of `__init__` method are
         specific to this Scheme which remains fixed and independent of the
