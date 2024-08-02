@@ -15,7 +15,7 @@ class MSQPAM:
     Additionally another register is used to represent the channel information.
     """
 
-    def __init__(self, num_channels=None):
+    def __init__(self, num_channels: Optional[int] = None) -> None:
         """
         Initialize the MSQPAM instance. The attributes of `__init__` method are
         specific to this Scheme which remains fixed and independent of the

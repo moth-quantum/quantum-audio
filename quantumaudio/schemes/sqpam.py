@@ -14,7 +14,7 @@ class SQPAM:
     that represent the corresponding time index.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initialize the SQPAM instance. The attributes of `__init__` method are
         specific to this Scheme which remains fixed and independent of the
