@@ -7,7 +7,9 @@ from typing import Union, Callable, Optional
 
 
 def execute(
-    circuit: qiskit.QuantumCircuit, backend: Optional[str] = None, shots: int = 4000
+    circuit: qiskit.QuantumCircuit,
+    backend: Optional[str] = None,
+    shots: int = 4000,
 ) -> qiskit.result.Result:
     """Executes a quantum circuit using qiskit.execute.
 
@@ -35,7 +37,9 @@ def pad_counts(counts: Union[dict, qiskit.result.Counts]) -> dict:
         counts: Padded counts dictionary
     """
     num_qubits = len(next(iter(counts)))
-    all_states = [format(i, "0" + str(num_qubits) + "b") for i in range(2**num_qubits)]
+    all_states = [
+        format(i, "0" + str(num_qubits) + "b") for i in range(2**num_qubits)
+    ]
     complete_counts = {state: counts.get(state, 0) for state in all_states}
     return complete_counts
 
@@ -67,7 +71,9 @@ def get_counts(
 # ------------------- Preview Functions ---------------------------
 
 
-def print_num_qubits(num_qubits: tuple[int, ...], labels: tuple[str, ...]) -> None:
+def print_num_qubits(
+    num_qubits: tuple[int, ...], labels: tuple[str, ...]
+) -> None:
     """Prints the number of qubits required and their allocation per label.
 
     Args:

@@ -86,7 +86,9 @@ class QPAM:
             utils.print_num_qubits(num_qubits, labels=self.labels)
         return num_samples, num_qubits
 
-    def prepare_data(self, data: np.ndarray, num_index_qubits: int) -> np.ndarray:
+    def prepare_data(
+        self, data: np.ndarray, num_index_qubits: int
+    ) -> np.ndarray:
         """
         Prepares the data with appropriate dimensions for encoding:
         - It pads the length of data with zeros to fit the number of states
@@ -122,13 +124,21 @@ class QPAM:
         Returns:
             circuit: Qiskit Circuit with the registers
         """
-        index_register = qiskit.QuantumRegister(num_index_qubits, self.labels[0])
-        value_register = qiskit.QuantumRegister(num_value_qubits, self.labels[1])
+        index_register = qiskit.QuantumRegister(
+            num_index_qubits, self.labels[0]
+        )
+        value_register = qiskit.QuantumRegister(
+            num_value_qubits, self.labels[1]
+        )
         # Arranging Registers from Top to Bottom
-        circuit = qiskit.QuantumCircuit(value_register, index_register, name=self.name)
+        circuit = qiskit.QuantumCircuit(
+            value_register, index_register, name=self.name
+        )
         return circuit
 
-    def value_setting(self, circuit: qiskit.QuantumCircuit, values: np.ndarray) -> None:
+    def value_setting(
+        self, circuit: qiskit.QuantumCircuit, values: np.ndarray
+    ) -> None:
         """
         Encodes the prepared, converted values to the initialised circuit.
 
@@ -152,7 +162,10 @@ class QPAM:
     # ----- Default Encode Function -----
 
     def encode(
-        self, data: np.ndarray, measure: bool = True, verbose: Union[int, bool] = 2
+        self,
+        data: np.ndarray,
+        measure: bool = True,
+        verbose: Union[int, bool] = 2,
     ) -> qiskit.QuantumCircuit:
         """
         Given an audio data, prepares a Qiskit Circuit representing it.
@@ -206,7 +219,10 @@ class QPAM:
         return np.array(list(counts.values()))
 
     def reconstruct_data(
-        self, counts: Union[dict, qiskit.result.Counts], shots: int, norm: float
+        self,
+        counts: Union[dict, qiskit.result.Counts],
+        shots: int,
+        norm: float,
     ) -> np.ndarray:
         """
         Given counts, Extract components and restore the conversion did at

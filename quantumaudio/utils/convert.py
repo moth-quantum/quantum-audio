@@ -5,7 +5,9 @@ import numpy as np
 # ======================
 
 
-def convert_to_probability_amplitudes(array: np.ndarray) -> tuple[float, np.ndarray]:
+def convert_to_probability_amplitudes(
+    array: np.ndarray,
+) -> tuple[float, np.ndarray]:
     """Converts an array to probability amplitudes.
 
     Args:
@@ -81,7 +83,9 @@ def convert_from_angles(
     """
     total_amps = cosine_amps + sine_amps
     amps = sine_amps if not inverted else cosine_amps
-    ratio = np.divide(amps, total_amps, out=np.zeros_like(amps), where=total_amps != 0)
+    ratio = np.divide(
+        amps, total_amps, out=np.zeros_like(amps), where=total_amps != 0
+    )
     data = 2 * ratio - 1
     return data
 

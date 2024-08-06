@@ -78,7 +78,9 @@ def measure(
                                                  Defaults to ("ca", "cc", "ct").
         position: The position of the qubits to be measured. If None, all qubits are measured. Defaults to None.
     """
-    value_pos, *index_pos = range(len(qc.qregs)) if not position else reversed(position)
+    value_pos, *index_pos = (
+        range(len(qc.qregs)) if not position else reversed(position)
+    )
     value_label, *index_labels = labels
     index_labels = index_labels[len(index_labels) - len(index_pos) :]
     add_classical_register(qc, value_pos, value_label)

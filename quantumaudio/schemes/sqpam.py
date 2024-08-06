@@ -83,7 +83,9 @@ class SQPAM:
             utils.print_num_qubits(num_qubits, labels=self.labels)
         return num_samples, num_qubits
 
-    def prepare_data(self, data: np.ndarray, num_index_qubits: int) -> np.ndarray:
+    def prepare_data(
+        self, data: np.ndarray, num_index_qubits: int
+    ) -> np.ndarray:
         """
         Prepares the data with appropriate dimensions for encoding:
         - It pads the length of data with zeros to fit the number of states
@@ -120,10 +122,16 @@ class SQPAM:
         Returns:
             circuit: Qiskit Circuit with the registers
         """
-        index_register = qiskit.QuantumRegister(num_index_qubits, self.labels[0])
-        value_register = qiskit.QuantumRegister(num_value_qubits, self.labels[1])
+        index_register = qiskit.QuantumRegister(
+            num_index_qubits, self.labels[0]
+        )
+        value_register = qiskit.QuantumRegister(
+            num_value_qubits, self.labels[1]
+        )
         # Arranging Registers from Top to Bottom
-        circuit = qiskit.QuantumCircuit(value_register, index_register, name=self.name)
+        circuit = qiskit.QuantumCircuit(
+            value_register, index_register, name=self.name
+        )
         circuit.h(index_register)
         return circuit
 
@@ -156,7 +164,9 @@ class SQPAM:
         sub_circuit = sub_circuit.control(index_register.size)
 
         # attach sub-circuit
-        circuit.append(sub_circuit, [i for i in range(circuit.num_qubits - 1, -1, -1)])
+        circuit.append(
+            sub_circuit, [i for i in range(circuit.num_qubits - 1, -1, -1)]
+        )
 
     def measure(self, circuit: qiskit.QuantumCircuit) -> None:
         """
@@ -172,7 +182,10 @@ class SQPAM:
     # ----- Default Encode Function -----
 
     def encode(
-        self, data: np.ndarray, measure: bool = True, verbose: Union[int, bool] = 2
+        self,
+        data: np.ndarray,
+        measure: bool = True,
+        verbose: Union[int, bool] = 2,
     ) -> qiskit.QuantumCircuit:
         """
         Given an audio data, prepares a Qiskit Circuit representing it.

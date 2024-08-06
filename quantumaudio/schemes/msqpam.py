@@ -49,7 +49,9 @@ class MSQPAM:
 
         """
 
-        self.name = "Multi-channel Single-Qubit Probability Amplitude Modulation"
+        self.name = (
+            "Multi-channel Single-Qubit Probability Amplitude Modulation"
+        )
         self.qubit_depth = 1
         self.num_channels = num_channels
 
@@ -90,7 +92,9 @@ class MSQPAM:
         num_index_qubits = utils.get_qubit_count(num_samples)
 
         # y-axis
-        num_channels = 1 if data.ndim == 1 else data.shape[0]  # data-dependent channels
+        num_channels = (
+            1 if data.ndim == 1 else data.shape[0]
+        )  # data-dependent channels
         if self.num_channels:
             num_channels = self.num_channels  # override with pre-set channels
 
@@ -129,12 +133,17 @@ class MSQPAM:
             This method should be followed by scheme.convert()
             to convert the values suitable for encoding.
         """
-        data = utils.apply_padding(data, (num_channel_qubits, num_index_qubits))
+        data = utils.apply_padding(
+            data, (num_channel_qubits, num_index_qubits)
+        )
         data = utils.interleave_channels(data)
         return data
 
     def initialize_circuit(
-        self, num_index_qubits: int, num_channel_qubits: int, num_value_qubits: int
+        self,
+        num_index_qubits: int,
+        num_channel_qubits: int,
+        num_value_qubits: int,
     ) -> qiskit.QuantumCircuit:
         """
         Initializes the circuit with Index, Channel and Value Registers.
@@ -147,9 +156,15 @@ class MSQPAM:
         Returns:
             circuit: Qiskit Circuit with the registers
         """
-        index_register = qiskit.QuantumRegister(num_index_qubits, self.labels[0])
-        channel_register = qiskit.QuantumRegister(num_channel_qubits, self.labels[1])
-        value_register = qiskit.QuantumRegister(num_value_qubits, self.labels[2])
+        index_register = qiskit.QuantumRegister(
+            num_index_qubits, self.labels[0]
+        )
+        channel_register = qiskit.QuantumRegister(
+            num_channel_qubits, self.labels[1]
+        )
+        value_register = qiskit.QuantumRegister(
+            num_value_qubits, self.labels[2]
+        )
 
         circuit = qiskit.QuantumCircuit(
             value_register, channel_register, index_register, name=self.name
@@ -185,10 +200,14 @@ class MSQPAM:
         sub_circuit.ry(2 * value, 0)
 
         # entangle with index qubits
-        sub_circuit = sub_circuit.control(channel_register.size + index_register.size)
+        sub_circuit = sub_circuit.control(
+            channel_register.size + index_register.size
+        )
 
         # attach sub-circuit
-        circuit.append(sub_circuit, [i for i in range(circuit.num_qubits - 1, -1, -1)])
+        circuit.append(
+            sub_circuit, [i for i in range(circuit.num_qubits - 1, -1, -1)]
+        )
 
     def measure(self, circuit: qiskit.QuantumCircuit) -> None:
         """
@@ -204,7 +223,10 @@ class MSQPAM:
     # ----- Default Encode Function -----
 
     def encode(
-        self, data: np.ndarray, measure: bool = True, verbose: Union[int, bool] = 2
+        self,
+        data: np.ndarray,
+        measure: bool = True,
+        verbose: Union[int, bool] = 2,
     ) -> qiskit.QuantumCircuit:
         """
         Given an audio data, prepares a Qiskit Circuit representing it.
@@ -219,7 +241,9 @@ class MSQPAM:
             A Qiskit Circuit representing the Digital Audio
         """
 
-        (num_channels, num_samples), num_qubits = self.calculate(data, verbose=verbose)
+        (num_channels, num_samples), num_qubits = self.calculate(
+            data, verbose=verbose
+        )
         num_index_qubits, num_channel_qubits, num_value_qubits = num_qubits
 
         # prepare data
@@ -236,7 +260,10 @@ class MSQPAM:
             self.value_setting(circuit=circuit, index=i, value=sample)
 
         # additional information for decoding
-        circuit.metadata = {"num_samples": num_samples, "num_channels": num_channels}
+        circuit.metadata = {
+            "num_samples": num_samples,
+            "num_channels": num_channels,
+        }
 
         # measure
         if measure:

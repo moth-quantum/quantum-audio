@@ -17,7 +17,9 @@ class MQSM:
     """
 
     def __init__(
-        self, qubit_depth: Optional[int] = None, num_channels: Optional[int] = None
+        self,
+        qubit_depth: Optional[int] = None,
+        num_channels: Optional[int] = None,
     ) -> None:
         """
         Initialize the MQSM instance. The attributes of `__init__` method are
@@ -97,7 +99,9 @@ class MQSM:
         num_index_qubits = utils.get_qubit_count(num_samples)
 
         # y-axis
-        num_channels = 1 if data.ndim == 1 else data.shape[0]  # data-dependent channels
+        num_channels = (
+            1 if data.ndim == 1 else data.shape[0]
+        )  # data-dependent channels
         if self.num_channels:
             num_channels = self.num_channels  # override with pre-set channels
 
@@ -107,7 +111,9 @@ class MQSM:
             max(2, num_channels)
         )  # apply constraint of minimum 2 channels
         num_value_qubits = (
-            utils.get_bit_depth(data) if not self.qubit_depth else self.qubit_depth
+            utils.get_bit_depth(data)
+            if not self.qubit_depth
+            else self.qubit_depth
         )
 
         num_qubits = (num_index_qubits, num_channel_qubits, num_value_qubits)
@@ -138,14 +144,19 @@ class MQSM:
             This method should be followed by scheme.convert()
             to convert the values suitable for encoding.
         """
-        data = utils.apply_padding(data, (num_channel_qubits, num_index_qubits))
+        data = utils.apply_padding(
+            data, (num_channel_qubits, num_index_qubits)
+        )
         data = utils.interleave_channels(data)
         return data
 
     # ----- Circuit Preparation -----
 
     def initialize_circuit(
-        self, num_index_qubits: int, num_channel_qubits: int, num_value_qubits: int
+        self,
+        num_index_qubits: int,
+        num_channel_qubits: int,
+        num_value_qubits: int,
     ) -> qiskit.QuantumCircuit:
         """
         Initializes the circuit with Index, Channel and Value Registers.
@@ -158,9 +169,15 @@ class MQSM:
         Returns:
             circuit: Qiskit Circuit with the registers
         """
-        index_register = qiskit.QuantumRegister(num_index_qubits, self.labels[0])
-        channel_register = qiskit.QuantumRegister(num_channel_qubits, self.labels[1])
-        value_register = qiskit.QuantumRegister(num_value_qubits, self.labels[2])
+        index_register = qiskit.QuantumRegister(
+            num_index_qubits, self.labels[0]
+        )
+        channel_register = qiskit.QuantumRegister(
+            num_channel_qubits, self.labels[1]
+        )
+        value_register = qiskit.QuantumRegister(
+            num_value_qubits, self.labels[2]
+        )
 
         circuit = qiskit.QuantumCircuit(
             value_register, channel_register, index_register, name=self.name
@@ -194,7 +211,9 @@ class MQSM:
             a_bit = (value >> i) & 1
             a_bitstring.append(a_bit)
             if a_bit:
-                circuit.mct(channel_register[:] + index_register[:], areg_qubit)
+                circuit.mct(
+                    channel_register[:] + index_register[:], areg_qubit
+                )
 
     def measure(self, circuit: qiskit.QuantumCircuit) -> None:
         """
@@ -210,7 +229,10 @@ class MQSM:
     # ----- Default Encode Function -----
 
     def encode(
-        self, data: np.ndarray, measure: bool = True, verbose: Union[int, bool] = 2
+        self,
+        data: np.ndarray,
+        measure: bool = True,
+        verbose: Union[int, bool] = 2,
     ) -> qiskit.QuantumCircuit:
         """
         Given an audio data, prepares a Qiskit Circuit representing it.
@@ -225,7 +247,9 @@ class MQSM:
             A Qiskit Circuit representing the Digital Audio
         """
 
-        (num_channels, num_samples), num_qubits = self.calculate(data, verbose=verbose)
+        (num_channels, num_samples), num_qubits = self.calculate(
+            data, verbose=verbose
+        )
         num_index_qubits, num_channel_qubits, num_value_qubits = num_qubits
 
         # prepare data
@@ -242,7 +266,10 @@ class MQSM:
             self.value_setting(circuit=circuit, index=i, value=sample)
 
         # additional information for decoding
-        circuit.metadata = {"num_samples": num_samples, "num_channels": num_channels}
+        circuit.metadata = {
+            "num_samples": num_samples,
+            "num_channels": num_channels,
+        }
 
         # measure
         if measure:

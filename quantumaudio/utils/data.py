@@ -27,7 +27,9 @@ def simulate_data(
     return data
 
 
-def apply_index_padding(array: np.ndarray, num_index_qubits: int) -> np.ndarray:
+def apply_index_padding(
+    array: np.ndarray, num_index_qubits: int
+) -> np.ndarray:
     """Applies zero-padding to 1-D array based on the specified number of index
     qubits.
 
