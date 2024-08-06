@@ -5,8 +5,7 @@ from typing import Union, Optional
 
 
 class MSQPAM:
-    """
-    Multi-channel Single-Qubit Probability Amplitude Modulation (MSQPAM).
+    """Multi-channel Single-Qubit Probability Amplitude Modulation (MSQPAM).
 
     MSQPAM class implements an encoding and decoding scheme where the
     amplitude of a Digital signal is encoded through rotation gates
@@ -16,8 +15,7 @@ class MSQPAM:
     """
 
     def __init__(self, num_channels: Optional[int] = None) -> None:
-        """
-        Initialize the MSQPAM instance. The attributes of `__init__` method are
+        """Initialize the MSQPAM instance. The attributes of `__init__` method are
         specific to this Scheme which remains fixed and independent of the
         Data. These attributes gives an overview of the Scheme.
 
@@ -48,7 +46,6 @@ class MSQPAM:
                           is ensured by padding if required.
 
         """
-
         self.name = (
             "Multi-channel Single-Qubit Probability Amplitude Modulation"
         )
@@ -69,8 +66,7 @@ class MSQPAM:
     def calculate(
         self, data: np.ndarray, verbose: Union[int, bool] = True
     ) -> tuple[tuple[int, int], tuple[int, int, int]]:
-        """
-        Returns necessary information required for Encoding and Decoding:
+        """Returns necessary information required for Encoding and Decoding:
          - Number of qubits required to encode Channel, Time and Amplitude information.
          - Original shape of the data required for decoding.
 
@@ -114,8 +110,7 @@ class MSQPAM:
     def prepare_data(
         self, data: np.ndarray, num_index_qubits: int, num_channel_qubits: int
     ) -> np.ndarray:
-        """
-        Prepares the data with appropriate dimensions for encoding:
+        """Prepares the data with appropriate dimensions for encoding:
         - It pads the length of data with zeros on both dimensions to fit the
           number of states that can be represented with time and channel registers.
         - It flattens the array for encoding. The default arrangement of samples is
@@ -145,8 +140,7 @@ class MSQPAM:
         num_channel_qubits: int,
         num_value_qubits: int,
     ) -> qiskit.QuantumCircuit:
-        """
-        Initializes the circuit with Index, Channel and Value Registers.
+        """Initializes the circuit with Index, Channel and Value Registers.
 
         Args:
             num_index_qubits: Number of qubits used to encode the sample indices.
@@ -177,8 +171,7 @@ class MSQPAM:
     def value_setting(
         self, circuit: qiskit.QuantumCircuit, index: int, value: float
     ) -> None:
-        """
-        Encodes the prepared, converted values to the initialised circuit.
+        """Encodes the prepared, converted values to the initialised circuit.
         This function is used to set a single value at a single index. The
         decorator `with_indexing` applies the necessary control qubits
         corresponding to the given index.
@@ -210,8 +203,7 @@ class MSQPAM:
         )
 
     def measure(self, circuit: qiskit.QuantumCircuit) -> None:
-        """
-        Adds classical measurements to all registers of the Quantum Circuit
+        """Adds classical measurements to all registers of the Quantum Circuit
         if the circuit is not already measured.
 
         Args:
@@ -228,8 +220,7 @@ class MSQPAM:
         measure: bool = True,
         verbose: Union[int, bool] = 2,
     ) -> qiskit.QuantumCircuit:
-        """
-        Given an audio data, prepares a Qiskit Circuit representing it.
+        """Given an audio data, prepares a Qiskit Circuit representing it.
 
         Args:
             data: Array representing Digital Audio Samples
@@ -237,10 +228,10 @@ class MSQPAM:
             verbose: Level of information to print.
                      - >1: Prints number of qubits required.
                      - >2: Displays the encoded circuit.
+
         Returns:
             A Qiskit Circuit representing the Digital Audio
         """
-
         (num_channels, num_samples), num_qubits = self.calculate(
             data, verbose=verbose
         )
@@ -279,8 +270,7 @@ class MSQPAM:
         counts: Union[dict, qiskit.result.Counts],
         num_components: tuple[int, int],
     ) -> np.ndarray:
-        """
-        The first stage of decoding is extracting required components from
+        """The first stage of decoding is extracting required components from
         counts.
 
         Args:
@@ -316,8 +306,7 @@ class MSQPAM:
         num_components: tuple[int, int],
         inverted: bool = False,
     ) -> np.ndarray:
-        """
-        Given counts, Extract components and restore the conversion did at
+        """Given counts, Extract components and restore the conversion did at
         encoding stage.
 
         Args:
@@ -339,8 +328,7 @@ class MSQPAM:
         inverted: bool = False,
         keep_padding: tuple[int, int] = (False, False),
     ) -> np.ndarray:
-        """
-        Given a result object. Extract components and restore the conversion
+        """Given a result object. Extract components and restore the conversion
         did in encoding stage.
 
         Args:
@@ -398,8 +386,7 @@ class MSQPAM:
         inverted: bool = False,
         keep_padding: tuple[int, int] = (False, False),
     ) -> np.ndarray:
-        """
-        Given a qiskit circuit, decodes and returns back the Original Audio Array.
+        """Given a qiskit circuit, decodes and returns back the Original Audio Array.
 
         Args:
                 circuit: A Qiskit Circuit representing the Digital Audio.

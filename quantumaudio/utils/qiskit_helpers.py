@@ -17,6 +17,7 @@ def execute(
             circuit: A Qiskit Circuit.
             backend: A backend string compatible with qiskit.execute method
             shots  : Total number of times the quantum circuit is measured.
+
     Return:
             Qiskit Result object that contains metadata
     """
@@ -57,6 +58,7 @@ def get_counts(
             backend: A backend string compatible with qiskit.execute method
             shots  : Total number of times the quantum circuit is measured.
             pad: If True, applies padding to the counts dictionary.
+
     Return:
             Counts dictionary
     """
