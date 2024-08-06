@@ -40,3 +40,18 @@ decoded_signal  = qpam.decode(encoded_circuit,shots=4000)
 # Compare original vs reconstructed signal
 utils.plot([original_signal,decoded_signal])    
 ```
+
+### Installation
+To install Quantum Audio, you can use pip: ```pip install quantumaudio```
+
+### Contributing
+Contributions to Quantum Audio are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository.
+
+### License
+Quantum Audio is licensed under the Apache License 2.0.
+
+### Acknowledgments
+This project was inspired by the research work on quantum audio processing by [list of researchers or institutions]. We would like to thank them for their contributions to this field.
+
+### Contact
+If you have any questions or need further assistance, please feel free to reach out to us at [email address or contact information].
