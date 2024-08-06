@@ -196,7 +196,7 @@ class MQSM:
             value: value to be set at the index
 
         Note:
-                This method is used in a loop where each value is iterated and set
+            This method is used in a loop where each value is iterated and set
             at its corresponding index.
         """
         a_bitstring = []
