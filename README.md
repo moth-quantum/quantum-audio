@@ -73,7 +73,7 @@ tools.plot([original_signal,decoded_signal])
 ```
 
 ### Contributing
-Contributions to Quantum Audio are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository.
+Contributions to Quantum Audio are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository. For more information, review [Contributing Guidelines](CONTRIBUTING.md)
 
 ### License
 Quantum Audio is licensed under the Apache License 2.0.
