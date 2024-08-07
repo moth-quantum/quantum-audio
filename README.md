@@ -12,7 +12,7 @@ The package contains different schemes to encode audio and necessary utilities a
   
 | Acronym | Representation Name | Original Reference |
 |---------|---------------------|--------------------|
-| QPAM    | Quantum Probability Amplitude Modulation | Real-ket           |
+| QPAM    | Quantum Probability Amplitude Modulation | Real-Ket          |
 | SQPAM   | Single-Qubit Probability Amplitude Modulation | [FRQI](http://dx.doi.org/10.1007/s11128-010-0177-y)  |
 | MSQPAM  | Multi-channel Single-Qubit Probability Amplitude Modulation | [PMQA](https://doi.org/10.1007/s11128-022-03435-7)  |
 | QSM     | Quantum State Modulation | [FRQA](https://doi.org/10.1016/j.tcs.2017.12.025) |
@@ -37,8 +37,8 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
   - Faster encoding and decoding of long audio files using Batch processing.
 - **Dependency Changes:**
   - Support for qiskit is updated from v0.22 to v0.46.
-- **Minor Bug Fixes and Improvements:**
-  - Original Audio Length is preserved at Decoding
+- **Improvements:**
+  - Key Information of Original Audio is preserved at Decoding, making the Encoding and Decoding operations independent.
   - Improved organisation of code for Readability and Modularity
 
 ### Usage Example
