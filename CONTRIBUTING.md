@@ -10,7 +10,7 @@ Thank you for considering contributing to our project! To ensure compliance with
 2. **Clone Your Fork**
    - Clone your forked repository to your local machine:
      ```bash
-     git clone https://github.com/your-username/repo-name.git
+     git clone https://github.com/moth-quantum/quantum-audio.git
      ```
 
 3. **Create a Branch**
