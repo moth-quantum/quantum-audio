@@ -18,7 +18,7 @@ The package contains different schemes to encode audio and necessary utilities a
 | QSM     | Quantum State Modulation | [FRQA](https://doi.org/10.1016/j.tcs.2017.12.025) |
 | MQSM    | Multi-channel Quantum State Modulation | [QRMA](https://doi.org/10.1007/s11128-019-2317-3)  |
 
-- ```utils``` : Utilary functions for data processing, circuit preparation.
+- ```utils``` : Utilary functions for data processing, analysis, circuit preparation, etc.
 
 ## Acknowledgment of Previous Version (v0.0.2)
 This project is derived from research output on quantum representations of audio, carried by <b>Interdisciplinary Centre for Computer Music Research (ICCMR)</b>, University of Plymouth, UK, namely:
