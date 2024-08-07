@@ -2,7 +2,7 @@
 
 Thank you for considering contributing to our project! To ensure compliance with our coding standards, please follow these guidelines:
 
-## Steps for Contributing
+## Steps for Contributing Code
 
 1. **Fork the Repository**
    - Click the "Fork" button at the top right of this repository to create your own copy.
