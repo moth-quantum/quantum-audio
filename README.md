@@ -30,7 +30,7 @@ This project is derived from research output on quantum representations of audio
 This project has been completely redeveloped and is now maintained by <b>Moth Quantum</b>.
 - **New Architecture:**
   - This project has been restructured for better flexibility and scalability.
-  - Instead of _QuantumAudio_ Instances, the core package operates in the level of _Scheme_ Instances that performs encoding and decoding functions independent of the data.
+  - Instead of _QuantumAudio_ Instances, the package operates in the level of _Scheme_ Instances that performs encoding and decoding functions independent of the data.
   - This opens an avenue of Tools that can be built upon the core functionality.
 - **Feature Updates:**
   - Introducing 2 Additional Schemes that can encode and decode Multi-channel Audio.
