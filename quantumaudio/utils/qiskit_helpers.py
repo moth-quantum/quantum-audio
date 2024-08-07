@@ -3,7 +3,9 @@ import qiskit_aer
 import matplotlib.pyplot as plt
 from typing import Union, Callable, Optional
 
-# ------------------- Measurement ---------------------------
+# ======================
+# Measurement
+# ======================
 
 
 def execute(
@@ -70,7 +72,9 @@ def get_counts(
     return counts
 
 
-# ------------------- Preview Functions ---------------------------
+# ======================
+# Preview Functions
+# ======================
 
 
 def print_num_qubits(
