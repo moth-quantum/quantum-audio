@@ -43,25 +43,23 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
 
 ### Usage Example
 ```python
+# An instance of a scheme can be created using:
 import quantumaudio
-from quantumaudio import schemes, utils
+qpam = quantumaudio.load_scheme('qpam')
 
-# Example signal
-original_signal = utils.simulate_data(num_samples=8)
-    
-# An instance of a scheme can be created either directly
-sqpam = quantumaudio.load_scheme('spqam')
-
-# or from schemes
-qpam = schemes.QPAM()
+# or directly importing from schemes
+# from quantumaudio import schemes
+# qpam = schemes.QPAM() 
 
 # Encoding and Decoding
 encoded_circuit = qpam.encode(original_audio)
 # ... do some processing
 decoded_signal  = qpam.decode(encoded_circuit,shots=4000)    
-
+```
+```python
 # Compare original vs reconstructed signal
-utils.plot([original_signal,decoded_signal])    
+import tools
+tools.plot([original_signal,decoded_signal])    
 ```
 
 ### Installation
