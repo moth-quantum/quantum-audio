@@ -36,7 +36,7 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
   - Introducing 2 Additional Schemes that can encode and decode Multi-channel Audio.
   - Faster encoding and decoding of long audio files using Batch processing.
 - **Dependency Changes:**
-  - Support for qiskit is updated from v0.22 to v0.46.
+  - Support for Qiskit is updated from v0.22 to v0.46
 - **Improvements:**
   - Key Information of Original Audio is preserved at Decoding, making the Encoding and Decoding operations independent.
   - Improved organisation of code for Readability and Modularity
