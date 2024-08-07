@@ -51,7 +51,7 @@ To install Quantum Audio Package, you can use pip:
 pip install quantumaudio
 ```
 
-### Usage Example
+### Usage
 ```python
 # An instance of a scheme can be created using:
 import quantumaudio
@@ -73,13 +73,17 @@ tools.plot([original_signal,decoded_signal])
 ```
 
 ### Contributing
-Contributions to Quantum Audio are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository. For more information, review [Contributing Guidelines](CONTRIBUTING.md)
+Contributions to Quantum Audio are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository. 
+
+- **Code Contributions:** Add new features, fix bugs, or improve existing code.
+- **Documentation:** Enhance the README, tutorials, or other project documentation.
+- **Educational Use:** If you’re using this project for learning or teaching, we’d love to hear about your experiences and suggestions.
+- **Feedback and Ideas:** Share your thoughts, feature requests, or suggest improvements by opening an issue.
+
+For more information on contributing to Code and Documentation, please review [Contributing Guidelines](CONTRIBUTING.md).
 
 ### License
 Quantum Audio is licensed under the Apache License 2.0.
 
-### Acknowledgments
-This project was inspired by the research work on quantum audio processing by [list of researchers or institutions]. We would like to thank them for their contributions to this field.
-
 ### Contact
-If you have any questions or need further assistance, please feel free to reach out to us at [email address or contact information].
+If you have any questions or need further assistance, please feel free to contact Moth Quantum at hello@mothquantum.com
