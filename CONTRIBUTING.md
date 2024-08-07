@@ -86,7 +86,7 @@ Thank you for considering contributing to our project! To ensure compliance with
     - Ensure your PR adheres to the Apache 2.0 License and includes a clear description of the changes.
 
 ## Code of Conduct
-Please follow our [Code of Conduct](link-to-code-of-conduct) while contributing.
+Please follow our [Code of Conduct](CODE_OF_CONDUCT.md) while contributing.
 
 ## Additional Notes
 - **Communication:** If you have any questions or need clarification, feel free to reach out by opening an issue or contacting us via [preferred contact method].
