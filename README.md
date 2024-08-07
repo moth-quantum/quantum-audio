@@ -1,14 +1,15 @@
-## Quantum Audio
-<i>quantumaudio is a python package for building Quantum Representations of Digital Audio using qiskit circuits.</i> 
-
+# Quantum Audio
 ![PyPI](https://img.shields.io/pypi/v/quantumaudio) ![Read the Docs (version)](https://img.shields.io/readthedocs/quantumaudio/latest?label=API%20docs) ![GitHub](https://img.shields.io/github/license/moth-quantum/quantum-audio)
-<!-- <img width="930" alt="MQSM" src="https://github.com/moth-quantum/quantum-audio/assets/161862817/d4fcb03d-1c48-4d4a-8f6f-6b8c285b58f1"> -->
-<br>The audio encoded as quantum states can be processed and played back through a quantum computer or a simulator. The objective is to enable new ways of exploring audio signal processing for artistic and research purposes. 
+
+Quantum Audio is a Python package for building Quantum Representations of Digital Audio using Qiskit circuits.
+
+The objective of Quantum Audio is to enable new ways of exploring audio signal processing for artistic and research purposes. 
+The package provides fundamental features to encode audio as Quantum States that can be processed on a Quantum computer or simulator and played back.
 
 This package provides the following schemes and necessary utilities.
 
-- <b>schemes</b>: Quantum Audio Encoding and Decoding Methods
-
+- <b>schemes</b>: Quantum Audio Representation Methods
+  
     - QPAM   : Quantum Probability Amplitude Modulation
     - SQPAM  : Single-Qubit Probability Amplitude Modulation
     - MSQPAM : Multi-channel Single-Qubit Probability Amplitude Modulation
@@ -17,6 +18,15 @@ This package provides the following schemes and necessary utilities.
 
 - <b>utils</b>: Utilary functions for data processing, circuit preparation along
          with plotting and audio playback functions for Jupyter Notebook.
+
+## Acknowledgment of Previous Version (v0.0.2)
+This project is derived from research output on quantum representations of audio, carried by Interdisciplinary Centre for Computer Music Research (ICCMR), University of Plymouth, UK, namely:
+- Itaboraí, P.V., Miranda, E.R. (2022). Quantum Representations of Sound: From Mechanical Waves to Quantum Circuits. In: Miranda, E.R. (eds) Quantum Computer Music. Springer, Cham. https://doi.org/10.1007/978-3-031-13909-3_10
+- Itaboraí, P. V. (2022). Quantumaudio Module (Version 0.0.2) [Computer software]. https://github.com/iccmr-quantum/quantumaudio
+- Itaboraí, P. V. (2023) Towards Quantum Computing for Audio and Music Expression. Thesis. University of Plymouth. Available at: https://doi.org/10.24382/5119
+
+## Key Changes in the Redeveloped Version (v0.1.0)
+
 
 ### Usage Example
 ```python
