@@ -6,27 +6,40 @@ Quantum Audio is a Python package for building Quantum Representations of Digita
 The objective of Quantum Audio is to enable new ways of exploring audio signal processing for artistic and research purposes. 
 The package provides fundamental features to encode audio as Quantum States that can be processed on a Quantum computer or simulator and played back.
 
-This package provides the following schemes and necessary utilities.
+The package contains different schemes to encode audio and necessary utilities as follows:
 
-- <b>schemes</b>: Quantum Audio Representation Methods
+- ```schemes``` : Quantum Audio Representation Methods
   
-    - QPAM   : Quantum Probability Amplitude Modulation
-    - SQPAM  : Single-Qubit Probability Amplitude Modulation
-    - MSQPAM : Multi-channel Single-Qubit Probability Amplitude Modulation
-    - QSM    : Quantum State Modulation
-    - MQSM   : Multi-channel Quantum State Modulation
+| Acronym | Representation Name | Original Reference |
+|---------|---------------------|--------------------|
+| QPAM    | Quantum Probability Amplitude Modulation | Real-ket           |
+| SQPAM   | Single-Qubit Probability Amplitude Modulation | [FRQI](http://dx.doi.org/10.1007/s11128-010-0177-y)  |
+| MSQPAM  | Multi-channel Single-Qubit Probability Amplitude Modulation | [PMQA](https://doi.org/10.1007/s11128-022-03435-7)  |
+| QSM     | Quantum State Modulation | [FRQA](https://doi.org/10.1016/j.tcs.2017.12.025) |
+| MQSM    | Multi-channel Quantum State Modulation | [QRMA](https://doi.org/10.1007/s11128-019-2317-3)  |
 
-- <b>utils</b>: Utilary functions for data processing, circuit preparation along
-         with plotting and audio playback functions for Jupyter Notebook.
+- ```utils``` : Utilary functions for data processing, circuit preparation.
 
 ## Acknowledgment of Previous Version (v0.0.2)
-This project is derived from research output on quantum representations of audio, carried by Interdisciplinary Centre for Computer Music Research (ICCMR), University of Plymouth, UK, namely:
+This project is derived from research output on quantum representations of audio, carried by <b>Interdisciplinary Centre for Computer Music Research (ICCMR)</b>, University of Plymouth, UK, namely:
 - Itaboraí, P.V., Miranda, E.R. (2022). Quantum Representations of Sound: From Mechanical Waves to Quantum Circuits. In: Miranda, E.R. (eds) Quantum Computer Music. Springer, Cham. https://doi.org/10.1007/978-3-031-13909-3_10
 - Itaboraí, P. V. (2022). Quantumaudio Module (Version 0.0.2) [Computer software]. https://github.com/iccmr-quantum/quantumaudio
 - Itaboraí, P. V. (2023) Towards Quantum Computing for Audio and Music Expression. Thesis. University of Plymouth. Available at: https://doi.org/10.24382/5119
 
 ## Key Changes in the Redeveloped Version (v0.1.0)
-
+This project has been completely redeveloped and is now maintained by <b>Moth Quantum</b>.
+- **New Architecture:**
+  - This project has been restructured for better flexibility and scalability.
+  - Instead of _QuantumAudio_ Instances, the core package operates in the level of _Scheme_ Instances that performs encoding and decoding functions independent of the data.
+  - This opens an avenue of Tools that can be built upon the core functionality.
+- **Feature Updates:**
+  - Introducing 2 Additional Schemes that can encode and decode Multi-channel Audio.
+  - Faster encoding and decoding of long audio files using Batch processing.
+- **Dependency Changes:**
+  - Support for qiskit is updated from v0.22 to v0.46.
+- **Minor Bug Fixes and Improvements:**
+  - Original Audio Length is preserved at Decoding
+  - Improved organisation of code for Readability and Modularity
 
 ### Usage Example
 ```python
