@@ -42,6 +42,15 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
 - **Lisence Change:**
   - The Lisence is updated from **MIT** to **Apache 2.0**
 
+<!-- ### Migration Guide
+If you're transitioning from the previous version, see the [Migration Guide]() -->
+
+### Installation
+To install Quantum Audio Package, you can use pip: 
+```
+pip install quantumaudio
+```
+
 ### Usage Example
 ```python
 # An instance of a scheme can be created using:
@@ -62,11 +71,6 @@ decoded_signal  = qpam.decode(encoded_circuit,shots=4000)
 import tools
 tools.plot([original_signal,decoded_signal])    
 ```
-### Migration Guide
-If you're transitioning from the previous version, see the [Migration Guide]
-
-### Installation
-To install Quantum Audio, you can use pip: ```pip install quantumaudio```
 
 ### Contributing
 Contributions to Quantum Audio are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository.
