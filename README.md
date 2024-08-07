@@ -31,7 +31,6 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
 - **New Architecture:**
   - This project has been restructured for better flexibility and scalability.
   - Instead of _QuantumAudio_ Instances, the package operates in the level of _Scheme_ Instances that performs encoding and decoding functions independent of the data.
-  - This enables an avenue of Tools that can be built upon the core functionality.
 - **Feature Updates:**
   - Introducing 2 Additional Schemes that can encode and decode Multi-channel Audio.
   - Faster encoding and decoding of long audio files using Batch processing.
@@ -40,6 +39,8 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
 - **Improvements:**
   - Key Information of Original Audio is preserved at Decoding, making the Encoding and Decoding operations independent.
   - Improved organisation of code for Readability and Modularity
+- **Lisence Change:**
+  - The Lisence is updated from MIT to Apache 2.0
 
 ### Usage Example
 ```python
@@ -61,6 +62,8 @@ decoded_signal  = qpam.decode(encoded_circuit,shots=4000)
 import tools
 tools.plot([original_signal,decoded_signal])    
 ```
+### Migration Guide
+If you're transitioning from the previous version, see the [Migration Guide]
 
 ### Installation
 To install Quantum Audio, you can use pip: ```pip install quantumaudio```
