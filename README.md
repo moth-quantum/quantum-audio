@@ -27,7 +27,7 @@ This project is derived from research output on quantum representations of audio
 - Itaboraí, P. V. (2023) Towards Quantum Computing for Audio and Music Expression. Thesis. University of Plymouth. Available at: https://doi.org/10.24382/5119
 
 ## Key Changes in the Redeveloped Version (v0.1.0)
-This project has been completely redeveloped and is now maintained by <b>Moth Quantum</b>.
+This project has been completely redeveloped and is now maintained by <b>Moth Quantum</b>. https://mothquantum.com
 - **New Architecture:**
   - This project has been restructured for better flexibility and scalability.
   - Instead of _QuantumAudio_ Instances, the package operates in the level of _Scheme_ Instances that performs encoding and decoding functions independent of the data.
@@ -36,7 +36,7 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
   - Introducing 2 Additional Schemes that can encode and decode Multi-channel Audio.
   - Faster encoding and decoding of long audio files using Batch processing.
 - **Dependency Changes:**
-  - Support for Qiskit is updated from v0.22 to v0.46
+  - Support for _Qiskit_ is updated from **v0.22** to **v0.46**
 - **Improvements:**
   - Key Information of Original Audio is preserved at Decoding, making the Encoding and Decoding operations independent.
   - Improved organisation of code for Readability and Modularity
