@@ -93,8 +93,8 @@ Contributions to Quantum Audio are welcome! If you find any issues or have sugge
 
 For more information on contributing to Code and Documentation, please review [Contributing Guidelines](CONTRIBUTING.md).
 
-### License
-Quantum Audio is licensed under the Apache License 2.0.
+### Citing
+If you use this code or find it useful in your research, please consider citing: [DOI]()
 
 ### Contact
 If you have any questions or need further assistance, please feel free to contact Moth Quantum at hello@mothquantum.com
