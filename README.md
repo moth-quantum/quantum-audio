@@ -22,24 +22,35 @@ The package contains different schemes to encode audio and necessary utilities a
 
 ## Acknowledgment of Previous Version (v0.0.2)
 This project is derived from research output on quantum representations of audio, carried by <b>Interdisciplinary Centre for Computer Music Research (ICCMR)</b>, University of Plymouth, UK, namely:
+
 - Itaboraí, P.V., Miranda, E.R. (2022). Quantum Representations of Sound: From Mechanical Waves to Quantum Circuits. In: Miranda, E.R. (eds) Quantum Computer Music. Springer, Cham. https://doi.org/10.1007/978-3-031-13909-3_10
 - Itaboraí, P. V. (2022). Quantumaudio Module (Version 0.0.2) [Computer software]. https://github.com/iccmr-quantum/quantumaudio
 - Itaboraí, P. V. (2023) Towards Quantum Computing for Audio and Music Expression. Thesis. University of Plymouth. Available at: https://doi.org/10.24382/5119
 
 ## Key Changes in the Redeveloped Version (v0.1.0)
 This project has been completely redeveloped and is now maintained by <b>Moth Quantum</b>. https://mothquantum.com
+
 - **New Architecture:**
+
   - This project has been restructured for better flexibility and scalability.
   - Instead of _QuantumAudio_ Instances, the package operates in the level of _Scheme_ Instances that performs encoding and decoding functions independent of the data.
+    
 - **Feature Updates:**
+  
   - Introducing 2 Additional Schemes that can encode and decode Multi-channel Audio.
   - Faster encoding and decoding of long audio files using Batch processing.
+    
 - **Dependency Change:**
+  
   - Support for _Qiskit_ is updated from **v0.22** to **v0.46**
+    
 - **Improvements:**
+  
   - Key Information of Original Audio is preserved at Decoding, making the Encoding and Decoding operations independent.
   - Improved organisation of code for Readability and Modularity
+    
 - **Lisence Change:**
+  
   - The Lisence is updated from **MIT** to **Apache 2.0**
 
 <!-- ### Migration Guide
