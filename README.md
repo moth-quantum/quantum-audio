@@ -40,7 +40,7 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
   - Key Information of Original Audio is preserved at Decoding, making the Encoding and Decoding operations independent.
   - Improved organisation of code for Readability and Modularity
 - **Lisence Change:**
-  - The Lisence is updated from MIT to Apache 2.0
+  - The Lisence is updated from **MIT** to **Apache 2.0**
 
 ### Usage Example
 ```python
