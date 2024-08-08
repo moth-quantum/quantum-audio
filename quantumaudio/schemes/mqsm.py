@@ -75,6 +75,7 @@ class MQSM:
         self, data: np.ndarray, verbose: Union[int, bool] = True
     ) -> tuple[tuple[int, int], tuple[int, int, int]]:
         """Returns necessary information required for Encoding and Decoding:
+
          - Number of qubits required to encode Channel, Time and Amplitude information.
          - Original shape of the data required for decoding.
 
@@ -91,6 +92,7 @@ class MQSM:
             - num_channel_qubits to encode Channel Information (y-axis).
             - num_value_qubits to encode Amplitude Information (y-axis).
         """
+
         # x-axis
         num_samples = data.shape[-1]
         num_index_qubits = utils.get_qubit_count(num_samples)
@@ -123,6 +125,7 @@ class MQSM:
         self, data: np.ndarray, num_index_qubits: int, num_channel_qubits: int
     ) -> np.ndarray:
         """Prepares the data with appropriate dimensions for encoding:
+
         - It pads the length of data with zeros on both dimensions to fit the
           number of states that can be represented with time and channel registers.
         - It flattens the array for encoding. The default arrangement of samples is
@@ -140,6 +143,7 @@ class MQSM:
             This method should be followed by scheme.convert()
             to convert the values suitable for encoding.
         """
+
         data = utils.apply_padding(
             data, (num_channel_qubits, num_index_qubits)
         )
@@ -164,6 +168,7 @@ class MQSM:
         Returns:
             circuit: Qiskit Circuit with the registers
         """
+
         index_register = qiskit.QuantumRegister(
             num_index_qubits, self.labels[0]
         )
@@ -186,6 +191,7 @@ class MQSM:
         self, circuit: qiskit.QuantumCircuit, index: int, value: float
     ) -> None:
         """Encodes the prepared, converted values to the initialised circuit.
+
         This function is used to set a single value at a single index. The
         decorator `with_indexing` applies the necessary control qubits
         corresponding to the given index.
@@ -198,6 +204,7 @@ class MQSM:
         Note:
             This method is used in a loop where each value is iterated and set
             at its corresponding index.
+
         """
         a_bitstring = []
         value_register, channel_register, index_register = circuit.qregs
@@ -216,6 +223,7 @@ class MQSM:
         Args:
             circuit: Encoded Qiskit Circuit
         """
+
         if not circuit.cregs:
             utils.measure(circuit)
 
@@ -239,6 +247,7 @@ class MQSM:
         Returns:
             A Qiskit Circuit representing the Digital Audio
         """
+
         (num_channels, num_samples), num_qubits = self.calculate(
             data, verbose=verbose
         )
@@ -289,6 +298,7 @@ class MQSM:
             2-D Array of shape (num_channels, num_samples)
             for further decoding.
         """
+
         data = np.zeros(num_components, int)
         for state in counts:
             (t_bits, c_bits, a_bits) = state.split()
@@ -316,6 +326,7 @@ class MQSM:
         Return:
             data: Array of restored values
         """
+
         data = self.decode_components(counts, num_components)
         data = self.restore(data, qubit_depth)
         return data
@@ -338,6 +349,7 @@ class MQSM:
         Return:
                 data: Array of restored values with original dimensions
         """
+        
         counts = result.get_counts()
         header = result.results[0].header
 

@@ -59,6 +59,7 @@ class QSM:
         self, data: np.ndarray, verbose: Union[int, bool] = True
     ) -> tuple[int, tuple[int, int]]:
         """Returns necessary information required for Encoding and Decoding:
+
          - Number of qubits required to encode both Time and Amplitude information.
          - Original number of samples required for decoding.
 
@@ -72,6 +73,7 @@ class QSM:
             - num_index_qubits to encode Time Information (x-axis).
             - num_value_qubits to encode Amplitude Information (y-axis).
         """
+
         # x-axis
         num_samples = data.shape[-1]
         num_index_qubits = utils.get_qubit_count(num_samples)
@@ -95,6 +97,7 @@ class QSM:
         self, data: np.ndarray, num_index_qubits: int
     ) -> np.ndarray:
         """Prepares the data with appropriate dimensions for encoding:
+
         - It pads the length of data with zeros to fit the number of states
           that can be represented with `num_index_qubits`.
         - It also removes redundant dimension if the shape is (1,num_samples).
@@ -110,6 +113,7 @@ class QSM:
             This method should be followed by scheme.convert()
             to convert the values suitable for encoding.
         """
+
         data = utils.apply_index_padding(data, num_index_qubits)
         data = data.squeeze()
         return data
@@ -128,6 +132,7 @@ class QSM:
         Returns:
             circuit: Qiskit Circuit with the registers
         """
+
         index_register = qiskit.QuantumRegister(
             num_index_qubits, self.labels[0]
         )
@@ -146,6 +151,7 @@ class QSM:
         self, circuit: qiskit.QuantumCircuit, index: int, value: float
     ) -> None:
         """Encodes the prepared, converted values to the initialised circuit.
+
         This function is used to set a single value at a single index. The
         decorator `with_indexing` applies the necessary control qubits
         corresponding to the given index.
@@ -155,6 +161,7 @@ class QSM:
             index: position to set the value
             value: value to be set at the index
         """
+
         a_bitstring = []
         value_register, index_register = circuit.qregs
         for i, areg_qubit in enumerate(value_register):
@@ -170,6 +177,7 @@ class QSM:
         Args:
             circuit: Encoded Qiskit Circuit
         """
+
         if not circuit.cregs:
             utils.measure(circuit)
 
@@ -193,6 +201,7 @@ class QSM:
         Returns:
             A Qiskit Circuit representing the Digital Audio
         """
+
         num_samples, (num_index_qubits, num_value_qubits) = self.calculate(
             data, verbose=bool(verbose)
         )
@@ -234,6 +243,7 @@ class QSM:
         Returns:
             Array of components for further decoding.
         """
+
         data = np.zeros(num_components, int)
         for state in counts:
             (t_bits, a_bits) = state.split()
@@ -260,6 +270,7 @@ class QSM:
         Return:
             data: Array of restored values
         """
+
         data = self.decode_components(counts, num_samples)
         data = self.restore(data, qubit_depth)
         return data
@@ -280,6 +291,7 @@ class QSM:
         Return:
                 data: Array of restored values with original dimensions
         """
+
         counts = result.get_counts()
         header = result.results[0].header
 
@@ -319,6 +331,7 @@ class QSM:
         Return:
                 data: Array of decoded values
         """
+        
         self.measure(circuit)
         result = utils.execute(circuit=circuit, backend=backend, shots=shots)
         data = self.decode_result(result=result, keep_padding=keep_padding)

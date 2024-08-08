@@ -67,6 +67,7 @@ class MSQPAM:
         self, data: np.ndarray, verbose: Union[int, bool] = True
     ) -> tuple[tuple[int, int], tuple[int, int, int]]:
         """Returns necessary information required for Encoding and Decoding:
+
          - Number of qubits required to encode Channel, Time and Amplitude information.
          - Original shape of the data required for decoding.
 
@@ -83,6 +84,7 @@ class MSQPAM:
             - num_channel_qubits to encode Channel Information (y-axis).
             - num_value_qubits to encode Amplitude Information (y-axis).
         """
+
         # x-axis
         num_samples = data.shape[-1]
         num_index_qubits = utils.get_qubit_count(num_samples)
@@ -111,6 +113,7 @@ class MSQPAM:
         self, data: np.ndarray, num_index_qubits: int, num_channel_qubits: int
     ) -> np.ndarray:
         """Prepares the data with appropriate dimensions for encoding:
+
         - It pads the length of data with zeros on both dimensions to fit the
           number of states that can be represented with time and channel registers.
         - It flattens the array for encoding. The default arrangement of samples is
@@ -128,6 +131,7 @@ class MSQPAM:
             This method should be followed by scheme.convert()
             to convert the values suitable for encoding.
         """
+
         data = utils.apply_padding(
             data, (num_channel_qubits, num_index_qubits)
         )
@@ -150,6 +154,7 @@ class MSQPAM:
         Returns:
             circuit: Qiskit Circuit with the registers
         """
+
         index_register = qiskit.QuantumRegister(
             num_index_qubits, self.labels[0]
         )
@@ -181,6 +186,7 @@ class MSQPAM:
             index: position to set the value
             value: value to be set at the index
         """
+
         value_register, channel_register, index_register = circuit.qregs
 
         # initialise sub-circuit
@@ -209,6 +215,7 @@ class MSQPAM:
         Args:
             circuit: Encoded Qiskit Circuit
         """
+
         if not circuit.cregs:
             utils.measure(circuit)
 
@@ -232,6 +239,7 @@ class MSQPAM:
         Returns:
             A Qiskit Circuit representing the Digital Audio
         """
+
         (num_channels, num_samples), num_qubits = self.calculate(
             data, verbose=verbose
         )
@@ -282,6 +290,7 @@ class MSQPAM:
             2-D Array of shape (num_channels, num_samples)
             for further decoding.
         """
+
         # initialising components
         num_channels, num_samples = num_components
         cosine_amps = np.zeros((num_channels, num_samples))
@@ -318,6 +327,7 @@ class MSQPAM:
         Return:
             data: Array of restored values
         """
+
         cosine_amps, sine_amps = self.decode_components(counts, num_components)
         data = self.restore(cosine_amps, sine_amps, inverted)
         return data
@@ -342,6 +352,7 @@ class MSQPAM:
         Return:
                 data: Array of restored values with original dimensions
         """
+
         counts = result.get_counts()
         header = result.results[0].header
 
@@ -399,6 +410,7 @@ class MSQPAM:
         Return:
                 data: Array of decoded values
         """
+        
         self.measure(circuit)
         result = utils.execute(circuit=circuit, backend=backend, shots=shots)
         data = self.decode_result(result=result, keep_padding=keep_padding)

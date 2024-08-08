@@ -52,6 +52,7 @@ class QPAM:
         self, data: np.ndarray, verbose: Union[int, bool] = True
     ) -> tuple[int, tuple[int, int]]:
         """Returns necessary information required for Encoding and Decoding:
+
          - Number of qubits required to encode both Time and Amplitude information.
          - Original number of samples required for decoding.
 
@@ -65,6 +66,7 @@ class QPAM:
             - num_index_qubits to encode Time Information (x-axis).
             - num_value_qubits to encode Amplitude Information (y-axis).
         """
+
         # x-axis
         num_samples = data.shape[-1]
         num_index_qubits = utils.get_qubit_count(num_samples)
@@ -86,6 +88,7 @@ class QPAM:
         self, data: np.ndarray, num_index_qubits: int
     ) -> np.ndarray:
         """Prepares the data with appropriate dimensions for encoding:
+
         - It pads the length of data with zeros to fit the number of states
           that can be represented with `num_index_qubits`.
         - It also removes redundant dimension if the shape is (1,num_samples).
@@ -101,6 +104,7 @@ class QPAM:
             This method should be followed by scheme.convert()
             to convert the values suitable for encoding.
         """
+
         data = utils.apply_index_padding(data, num_index_qubits)
         data = data.squeeze()
         return data
@@ -119,6 +123,7 @@ class QPAM:
         Returns:
             circuit: Qiskit Circuit with the registers
         """
+
         index_register = qiskit.QuantumRegister(
             num_index_qubits, self.labels[0]
         )
@@ -140,6 +145,7 @@ class QPAM:
             circuit: Initialized Qiskit Circuit
             num_index_qubits: Number of qubits used to encode the sample indices.
         """
+
         circuit.initialize(values)
 
     def measure(self, circuit: qiskit.QuantumCircuit) -> None:
@@ -149,6 +155,7 @@ class QPAM:
         Args:
             circuit: Encoded Qiskit Circuit
         """
+
         if not circuit.cregs:
             circuit.measure_all()
 
@@ -172,6 +179,7 @@ class QPAM:
         Returns:
             A Qiskit Circuit representing the Digital Audio
         """
+
         num_samples, (num_index_qubits, num_value_qubits) = self.calculate(
             data, verbose=bool(verbose)
         )
@@ -206,6 +214,7 @@ class QPAM:
         Returns:
             Array of components for further decoding.
         """
+
         counts = utils.pad_counts(counts)
         return np.array(list(counts.values()))
 
@@ -227,6 +236,7 @@ class QPAM:
         Return:
             data: Array of restored values
         """
+
         probabilities = self.decode_components(counts)
         data = self.restore(probabilities, norm, shots)
         return data
@@ -250,6 +260,7 @@ class QPAM:
         Return:
             data: Array of restored values with original dimensions
         """
+
         counts = result.get_counts()
         shots = result.results[0].shots
         header = result.results[0].header
@@ -290,6 +301,7 @@ class QPAM:
         Return:
             data: Array of decoded values
         """
+        
         self.measure(circuit)
         result = utils.execute(circuit=circuit, backend=backend, shots=shots)
         data = self.decode_result(result=result, keep_padding=keep_padding)
