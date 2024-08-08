@@ -36,7 +36,8 @@ def with_indexing(func: Callable) -> Callable:
     Returns:
         The wrapped function with time indexing applied.
     """
-    @wraps(func) # added to fix docstrings not printing func
+
+    @wraps(func)  # added to fix docstrings not printing func
     def wrapper(*args, **kwargs):
         qc = kwargs.get("circuit")
         i = kwargs.get("index")
