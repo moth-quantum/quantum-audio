@@ -1,6 +1,11 @@
 quantumaudio.utils package
 ==========================
 
+.. automodule:: quantumaudio.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Submodules
 ----------
 
@@ -32,14 +37,6 @@ quantumaudio.utils.qiskit\_helpers module
 -----------------------------------------
 
 .. automodule:: quantumaudio.utils.qiskit_helpers
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: quantumaudio.utils
    :members:
    :undoc-members:
    :show-inheritance:

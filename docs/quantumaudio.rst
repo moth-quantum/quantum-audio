@@ -1,6 +1,11 @@
 quantumaudio package
 ====================
 
+.. automodule:: quantumaudio
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Subpackages
 -----------
 
@@ -9,11 +14,3 @@ Subpackages
 
    quantumaudio.schemes
    quantumaudio.utils
-
-Module contents
----------------
-
-.. automodule:: quantumaudio
-   :members:
-   :undoc-members:
-   :show-inheritance:
