@@ -6,8 +6,22 @@ __version__ = "0.1.0"
 
 import importlib
 
-
 def load_scheme(name, *args, **kwargs):
+    """Dynamically loads and returns a class from a specified scheme module that can perform encoding and decoding operations of Quantum Audio.
+
+    Args:
+        name: The name of the scheme to load i.e. "qpam", "sqpam", "qsm", "mqsm" or "msqpam"
+        *args: Positional arguments to pass to the class constructor.
+        **kwargs: Keyword arguments to pass to the class constructor.
+                  qubit_depth is a keyword for state modulations schemes i.e. qsm and mqsm
+                  num_channels is a keyword for multi-channel schemes i.e. mqsm and msqpam
+
+    Returns:
+        object: An instance of the class from the specified scheme module.
+
+    Raises:
+        ImportError: If the module or class cannot be imported.
+    """
     try:
         scheme = importlib.import_module(
             f"quantumaudio.schemes.{name.lower()}"
