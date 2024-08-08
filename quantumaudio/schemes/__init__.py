@@ -1,90 +1,51 @@
-"""This subpackages contains different schemes. The common
-information of using any scheme is detailed below.
+"""
+This subpackage contains different schemes. The common information for using any scheme is detailed below.
 
-A Scheme denotes one of the Quantum Audio Representation Methods.
-The core functions of a Scheme is Encoding and Decoding.
+A scheme denotes one of the Quantum Audio Representation Methods. The core functions of a scheme are encoding and decoding.
 
-- Encoding: takes in a Digital Audio Array, does necessary
-            pre-processing and Prepares a Quantum Circuit.
-            The Quantum Circuit can be used to create a state
-            that represents the Original Digital Audio.
+- **Encoding**: Takes in a digital audio array, performs necessary pre-processing, and prepares a quantum circuit. The quantum circuit can be used to create a state that represents the original digital audio.
 
-- Decoding: takes in the Quantum Circuit measurements,
-            does necessary post-processing and reconstructs the
-            the original Digital Audio back.
+- **Decoding**: Takes in the quantum circuit measurements, performs necessary post-processing, and reconstructs the original digital audio.
 
-The simplest form of interaction with a Scheme Object is to use
-scheme.encode() and scheme.decode() methods.
+The simplest form of interaction with a scheme object is to use the `scheme.encode()` and `scheme.decode()` methods.
 
-However, it involves several stages which can be manually implemented.
-The stages are listed below:
+However, it involves several stages that can be manually implemented. The stages are listed below:
 
-- calculate         : Calculates the necessary number of qubits
-                      for each quantum register with respect
-                      to the data shape, type of scheme and any
-                      user defined values valid for some schemes.
+- **Calculate**: Calculates the necessary number of qubits for each quantum register with respect to the data shape, type of scheme, and any user-defined values valid for some schemes.
 
-- Data Pre-Processing
+- **Data Pre-Processing**:
 
-    - prepare data   : Prepares the data by padding and reshaping.
+    - **Prepare Data**: Prepares the data by padding and reshaping.
 
-    - convert        : Converts the data to values suitable for encoding.
+    - **Convert**: Converts the data to values suitable for encoding.
 
-- Circuit Preparation
+- **Circuit Preparation**:
 
-    - initalize circuit : Initalises circuit with the calculated number of qubits
-                          for each quantum registers representing a different
-                          aspect of the Audio data. e.g. time register,
-                          value register, channel register etc.
+    - **Initialize Circuit**: Initializes the circuit with the calculated number of qubits for each quantum register representing a different aspect of the audio data (e.g., time register, value register, channel register, etc.).
 
-    - value setting     : Encodes / Sets the converted values to the circuit.
+    - **Value Setting**: Encodes or sets the converted values to the circuit.
 
-    - add metadata      : To keep Encode and Decode functions independent,
-                          the key information lost during encoding
-                          (e.g., original sample length) can be preserved
-                          by manually attaching them as dictionary to
-                          qiskit's circuit.metadata. This is done by default
-                          in scheme.encode() method.
+    - **Add Metadata**: To keep encode and decode functions independent, key information lost during encoding (e.g., original sample length) can be preserved by manually attaching them as a dictionary to Qiskit's `circuit.metadata`. This is done by default in the `scheme.encode()` method.
 
-    - measure(optional): Adds appropriate classical registers
-                         for measurement.
+    - **Measure (Optional)**: Adds appropriate classical registers for measurement.
 
-- encode            : Combines all the above steps.
+- **Encode**: Combines all the above steps.
 
-- execute(optional) : The circuit can be executed externally with
-                      any provider or internally using qiskit.execute
-                      method included in scheme.decode() method
-                      which uses aer simulator by default.
+- **Execute (Optional)**: The circuit can be executed externally with any provider or internally using Qiskit's `execute` method, included in the `scheme.decode()` method, which uses the Aer simulator by default.
 
-- Decoding Stages
+- **Decoding Stages**:
 
-    1) decode components : Extracts required components directly from the
-                           counts. i.e. a dictionary with the outcome of
-                           measurements performed on the quantum circuit.
+    1. **Decode Components**: Extracts required components directly from the counts (i.e., a dictionary with the outcome of measurements performed on the quantum circuit).
 
-    2) undo conversion   : Undo the data conversion done at encoding.
-                           Can be done using scheme.restore method.
+    2. **Undo Conversion**: Undoes the data conversion done during encoding. This can be done using the `scheme.restore()` method.
 
-    3) undo preparation  : Undo the data preparation such as padding
-                           done at encoding. Can be done manually
-                           using numpy slicing and reshape methods.
+    3. **Undo Preparation**: Undoes the data preparation, such as padding, done during encoding. This can be done manually using NumPy slicing and reshape methods.
 
-- reconstruct data   : Takes in a counts dictionary for decoding.
+- **Reconstruct Data**: Takes in a counts dictionary for decoding, combining Decoding Stages 1 and 2.
 
-                       Combines decoding stages 1 and 2.
+- **Decode Result**: Takes in a Qiskit `result` object for decoding, combining Decoding Stages 1, 2, and 3. It considers additional metadata, such as the original sample length, to undo the padding done at the data preparation stage.
 
-- decode result      : Takes in a qiskit.result object for decoding.
-
-                       Combines decoding stages 1, 2 and 3.
-
-                       It considers additional metadata such as
-                       original sample length to undo the padding
-                       done at data preparation stage.
-
-- decode             : Takes in a qiskit.circuit object for decoding.
-
-                       Performs measurement (if needed) and default
-                       execution, followed by all stages of decoding.
+- **Decode**: Takes in a Qiskit `circuit` object for decoding, performs measurement (if needed), and default execution, followed by all stages of decoding.
 """
 
 from .qsm import QSM
