@@ -73,7 +73,6 @@ class QSM:
             - num_index_qubits to encode Time Information (x-axis).
             - num_value_qubits to encode Amplitude Information (y-axis).
         """
-
         # x-axis
         num_samples = data.shape[-1]
         num_index_qubits = utils.get_qubit_count(num_samples)
@@ -113,7 +112,6 @@ class QSM:
             This method should be followed by scheme.convert()
             to convert the values suitable for encoding.
         """
-
         data = utils.apply_index_padding(data, num_index_qubits)
         data = data.squeeze()
         return data
@@ -132,7 +130,6 @@ class QSM:
         Returns:
             circuit: Qiskit Circuit with the registers
         """
-
         index_register = qiskit.QuantumRegister(
             num_index_qubits, self.labels[0]
         )
@@ -161,7 +158,6 @@ class QSM:
             index: position to set the value
             value: value to be set at the index
         """
-
         a_bitstring = []
         value_register, index_register = circuit.qregs
         for i, areg_qubit in enumerate(value_register):
@@ -177,7 +173,6 @@ class QSM:
         Args:
             circuit: Encoded Qiskit Circuit
         """
-
         if not circuit.cregs:
             utils.measure(circuit)
 
@@ -201,7 +196,6 @@ class QSM:
         Returns:
             A Qiskit Circuit representing the Digital Audio
         """
-
         num_samples, (num_index_qubits, num_value_qubits) = self.calculate(
             data, verbose=bool(verbose)
         )
@@ -243,7 +237,6 @@ class QSM:
         Returns:
             Array of components for further decoding.
         """
-
         data = np.zeros(num_components, int)
         for state in counts:
             (t_bits, a_bits) = state.split()
@@ -270,7 +263,6 @@ class QSM:
         Return:
             data: Array of restored values
         """
-
         data = self.decode_components(counts, num_samples)
         data = self.restore(data, qubit_depth)
         return data
@@ -291,7 +283,6 @@ class QSM:
         Return:
                 data: Array of restored values with original dimensions
         """
-
         counts = result.get_counts()
         header = result.results[0].header
 
@@ -331,7 +322,6 @@ class QSM:
         Return:
                 data: Array of decoded values
         """
-
         self.measure(circuit)
         result = utils.execute(circuit=circuit, backend=backend, shots=shots)
         data = self.decode_result(result=result, keep_padding=keep_padding)

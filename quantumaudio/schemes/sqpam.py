@@ -65,7 +65,6 @@ class SQPAM:
             - num_index_qubits to encode Time Information (x-axis).
             - num_value_qubits to encode Amplitude Information (y-axis).
         """
-
         # x-axis
         num_samples = data.shape[-1]
         num_index_qubits = utils.get_qubit_count(num_samples)
@@ -101,7 +100,6 @@ class SQPAM:
             This method should be followed by scheme.convert()
             to convert the values suitable for encoding.
         """
-
         data = utils.apply_index_padding(data, num_index_qubits)
         data = data.squeeze()
         return data
@@ -120,7 +118,6 @@ class SQPAM:
         Returns:
             circuit: Qiskit Circuit with the registers
         """
-
         index_register = qiskit.QuantumRegister(
             num_index_qubits, self.labels[0]
         )
@@ -148,7 +145,6 @@ class SQPAM:
             index: position to set the value
             value: value to be set at the index
         """
-
         value_register, index_register = circuit.qregs
 
         # initialise sub-circuit
@@ -197,7 +193,6 @@ class SQPAM:
         Returns:
             A Qiskit Circuit representing the Digital Audio
         """
-
         num_samples, (num_index_qubits, num_value_qubits) = self.calculate(
             data, verbose=bool(verbose)
         )
@@ -237,7 +232,6 @@ class SQPAM:
         Returns:
             Array of components for further decoding.
         """
-
         # initialising components
         cosine_amps = np.zeros(num_components)
         sine_amps = np.zeros(num_components)
@@ -272,7 +266,6 @@ class SQPAM:
         Return:
             data: Array of restored values
         """
-
         cosine_amps, sine_amps = self.decode_components(counts, num_samples)
         data = self.restore(cosine_amps, sine_amps, inverted)
         return data
@@ -295,7 +288,6 @@ class SQPAM:
         Return:
                 data: Array of restored values with original dimensions
         """
-
         counts = result.get_counts()
         header = result.results[0].header
 
@@ -338,7 +330,6 @@ class SQPAM:
         Return:
                 data: Array of decoded values
         """
-
         self.measure(circuit)
         result = utils.execute(circuit=circuit, backend=backend, shots=shots)
         data = self.decode_result(

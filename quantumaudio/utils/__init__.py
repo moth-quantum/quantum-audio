@@ -1,5 +1,4 @@
-"""
-This subpackage contains the following utility modules that support the encoding and decoding schemes:
+"""This subpackage contains the following utility modules that support the encoding and decoding schemes:
 
 - **data.py**: Data preparation and calculation functions.
 - **convert.py**: Data pre-processing functions required for encoding values into the quantum circuit.

@@ -1,5 +1,4 @@
-"""
-This subpackage contains different schemes. The common information for using any scheme is detailed below.
+"""This subpackage contains different schemes. The common information for using any scheme is detailed below.
 
 A scheme denotes one of the Quantum Audio Representation Methods. The core functions of a scheme are encoding and decoding.
 
