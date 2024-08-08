@@ -338,7 +338,7 @@ class SQPAM:
         Return:
                 data: Array of decoded values
         """
-        
+
         self.measure(circuit)
         result = utils.execute(circuit=circuit, backend=backend, shots=shots)
         data = self.decode_result(

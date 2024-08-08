@@ -349,7 +349,7 @@ class MQSM:
         Return:
                 data: Array of restored values with original dimensions
         """
-        
+
         counts = result.get_counts()
         header = result.results[0].header
 

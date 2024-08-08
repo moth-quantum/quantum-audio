@@ -410,7 +410,7 @@ class MSQPAM:
         Return:
                 data: Array of decoded values
         """
-        
+
         self.measure(circuit)
         result = utils.execute(circuit=circuit, backend=backend, shots=shots)
         data = self.decode_result(result=result, keep_padding=keep_padding)
