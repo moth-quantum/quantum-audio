@@ -46,8 +46,8 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
     
 - **Improvements:**
   
-  - Key Information of Original Audio is preserved at Decoding, making the Encoding and Decoding operations independent.
   - Improved organisation of code for Readability and Modularity
+  - Key Information of Original Audio is preserved at Decoding, making the Encoding and Decoding operations independent.
     
 - **Lisence Change:**
   
