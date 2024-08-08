@@ -13,8 +13,8 @@ def load_scheme(name, *args, **kwargs):
         name: The name of the scheme to load i.e. "qpam", "sqpam", "qsm", "mqsm" or "msqpam"
         *args: Positional arguments to pass to the class constructor.
         **kwargs: Keyword arguments to pass to the class constructor.
-                  qubit_depth is a keyword for state modulations schemes i.e. qsm and mqsm
-                  num_channels is a keyword for multi-channel schemes i.e. mqsm and msqpam
+                  "qubit_depth" for state modulations schemes (qsm and mqsm).
+                  "num_channels" for multi-channel schemes (mqsm and msqpam).
 
     Returns:
         object: An instance of the class from the specified scheme module.
