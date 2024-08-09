@@ -33,12 +33,12 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
 - **New Architecture:**
 
   - This project has been restructured for better flexibility and scalability.
-  - Instead of _QuantumAudio_ Instances, the package operates in the level of _Scheme_ Instances that performs encoding and decoding functions independent of the data.
+  - Instead of _QuantumAudio_ Instances, the package operates at the level of _Scheme_ Instances that performs encoding and decoding functions independent of the data.
     
 - **Feature Updates:**
   
   - Introducing 2 Additional Schemes that can encode and decode Multi-channel Audio.
-  - Faster encoding and decoding of long audio files using Batch processing.
+  - Supports Faster encoding and decoding of long audio files using Batch processing.
     
 - **Dependency Change:**
   
@@ -47,7 +47,7 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
 - **Improvements:**
   
   - Improved organisation of code for Readability and Modularity
-  - Key Information of Original Audio is preserved at Decoding, making the Encoding and Decoding operations independent.
+  - Key Information of Original Audio is preserved at Encoding, making the Encoding and Decoding operations independent.
     
 - **Lisence Change:**
   
