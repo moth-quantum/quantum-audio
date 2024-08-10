@@ -85,9 +85,10 @@ tools.plot([original_signal,decoded_signal])
 
 ### Contributing
 Contributions to Quantum Audio are welcome! This package is designed to be a versatile tool for both research and artistic exploration.
+
 If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository. 
 
-- **Code Contributions:** Add new features, fix bugs, or improve existing code.
+- **Code Contributions:** Add new features, fix bugs, or improve existing functionality and code.
 - **Documentation:** Enhance the README, tutorials, or other project documentation.
 - **Educational Use:** If you’re using this project for learning, teaching or research, we’d love to hear about your experiences and suggestions.
 - **Feedback and Ideas:** Share your thoughts, feature requests, or suggest improvements by opening an issue.
