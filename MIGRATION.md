@@ -26,7 +26,7 @@
 
 **v0.0.2**
   ```python
-  qpam.load_input(digital_audio)
+  qpam.load_input(digital_audio) # here qpam is updated
   qpam.prepare()
   qpam.measure()
   
@@ -35,7 +35,7 @@
 
 **v0.1.0**
   ```python
-  circuit = qpam.encode(digital_audio)
+  circuit = qpam.encode(digital_audio) # here qpam remains unchanged
   ```
   or
   ```python
