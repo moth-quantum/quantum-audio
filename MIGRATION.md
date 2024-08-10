@@ -35,7 +35,7 @@
 
 **v0.1.0**
   ```python
-  circuit = qpam.encode(digital_audio) # here qpam is always unchanged
+  circuit = qpam.encode(digital_audio) # qpam remains unchanged
   ```
   or
   ```python
