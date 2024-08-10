@@ -57,4 +57,5 @@ For manually implementing each step of the ```encode()``` operation, please chec
   ```python
   digital_audio = qpam.decode(cirucit, shot=4000)
   ```
-  Any backend compatible with qiskit.execute method can be passed with backend parameter. Defaults to AerSimulator.
+  Any backend compatible with ```qiskit.execute()``` method can be passed with ```backend=``` parameter. 
+  When not mentioned, it defaults to AerSimulator.
