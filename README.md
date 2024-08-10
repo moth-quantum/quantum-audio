@@ -53,8 +53,8 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
   
   - The Lisence is updated from **MIT** to **Apache 2.0**
 
-<!-- ### Migration Guide
-If you're transitioning from the previous version, see the [Migration Guide]() -->
+### Migration Guide
+If you're transitioning from the previous version, please check the [Migration Guide](MIGRATION.md) for an overview on the package usability. 
 
 ### Installation
 To install Quantum Audio Package, you can use pip: 
@@ -84,11 +84,13 @@ tools.plot([original_signal,decoded_signal])
 ```
 
 ### Contributing
-Contributions to Quantum Audio are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository. 
+Contributions to Quantum Audio are welcome! This package is designed to be a versatile tool for both research and artistic exploration. 
+Whether you’re developing new features, improving existing functionality, your contributions are valuable to the community.
+If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository. 
 
 - **Code Contributions:** Add new features, fix bugs, or improve existing code.
 - **Documentation:** Enhance the README, tutorials, or other project documentation.
-- **Educational Use:** If you’re using this project for learning or teaching, we’d love to hear about your experiences and suggestions.
+- **Educational Use:** If you’re using this project for learning, teaching or research, we’d love to hear about your experiences and suggestions.
 - **Feedback and Ideas:** Share your thoughts, feature requests, or suggest improvements by opening an issue.
 
 For more information on contributing to Code and Documentation, please review [Contributing Guidelines](CONTRIBUTING.md).
