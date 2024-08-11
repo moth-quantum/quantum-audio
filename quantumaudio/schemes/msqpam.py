@@ -314,7 +314,7 @@ class MSQPAM:
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_channels: number of (channels, samples) to get.
+            num_components: number of (channels, samples) to get.
             inverted : retrieves cosine components of the signal.
 
         Return:
