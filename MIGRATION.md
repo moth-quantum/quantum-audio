@@ -58,3 +58,5 @@ For manually implementing each step of the ```encode()``` operation, please chec
   digital_audio = qpam.decode(cirucit, shot=4000)
   ```
   The ```scheme.decode()``` function uses local _AerSimulator_ as default backend. It performs ```qiskit.execute()``` method similar to v0.0.2. Any backend object compatible with this method can be passed with ```backend=``` parameter. 
+  
+  For manually implementing each step of the ```decode()``` operation, please check [Documentation]()
