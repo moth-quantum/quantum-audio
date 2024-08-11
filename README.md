@@ -20,14 +20,16 @@ The package contains different schemes to encode audio and necessary utilities a
 
 - ```utils``` : Utilary functions for data processing, analysis, circuit preparation, etc.
 
-## Acknowledgment of Previous Version (v0.0.2)
+### Acknowledgment of Previous Version (v0.0.2)
 This project is derived from research output on quantum representations of audio, carried by <b>Interdisciplinary Centre for Computer Music Research (ICCMR)</b>, University of Plymouth, UK, namely:
 
 - Itaboraí, P.V., Miranda, E.R. (2022). Quantum Representations of Sound: From Mechanical Waves to Quantum Circuits. In: Miranda, E.R. (eds) Quantum Computer Music. Springer, Cham. https://doi.org/10.1007/978-3-031-13909-3_10
+  
 - Itaboraí, P. V. (2022). Quantumaudio Module (Version 0.0.2) [Computer software]. https://github.com/iccmr-quantum/quantumaudio
+  
 - Itaboraí, P. V. (2023) Towards Quantum Computing for Audio and Music Expression. Thesis. University of Plymouth. Available at: https://doi.org/10.24382/5119
 
-## Key Changes in the Redeveloped Version (v0.1.0)
+### Key Changes in the Redeveloped Version (v0.1.0)
 This project has been completely redeveloped and is now maintained by <b>Moth Quantum</b>. https://mothquantum.com
 
 - **New Architecture:**
