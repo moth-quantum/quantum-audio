@@ -79,11 +79,20 @@ encoded_circuit = qpam.encode(original_audio)
 # ... do some processing
 decoded_signal  = qpam.decode(encoded_circuit,shots=4000)    
 ```
-```python
-# Compare original vs reconstructed signal
-import tools
-tools.plot([original_signal,decoded_signal])    
-```
+
+#### Running with Quantum Simulator
+
+The default ```scheme.decode()``` uses local _AerSimulator_ as default backend. Internally, it performs ```qiskit.execute()``` method similar to v0.0.2 and a compatible backend object can be specified by passing ```backend=``` parameter.
+
+#### Running with Quantum Hardware
+
+The package provides flexible use of Quantum Hardware from different Providers using the following two functions:
+
+- If the results obtained from a Hardware follows the format of [qiskit.result.Result](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Result) object:
+  - The audio can be decoded using ```scheme.decode_result(result_object)``` method. In this case, relevant metadata information is preserved and applied at decoding. 
+
+- If the results is in form of counts dictionary or [qiskit.result.Counts](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Counts) object with keys representing classical measurement outcomes and values indicating the number of times the outcome was observed:
+  - The audio can be decoded using ```scheme.reconstruct_data(counts)``` method. In this case, metadata information can be manually passed as arguments.
 
 ### Contributing
 Contributions to Quantum Audio are welcome! This package is designed to be a versatile tool for both research and artistic exploration.
