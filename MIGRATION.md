@@ -13,7 +13,7 @@
 **v0.1.0**
   ```python
   import quantumaudio
-  qpam = quantumaudio.load_scheme('qpam') #returns a Scheme Class
+  qpam = quantumaudio.load_scheme('qpam') #returns a Scheme Instance
   ```
   or
   
