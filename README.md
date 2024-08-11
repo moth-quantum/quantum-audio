@@ -86,7 +86,7 @@ The default ```scheme.decode()``` uses local _AerSimulator_ as default backend. 
 
 #### Running on Quantum Hardware
 
-The package provides flexible use of Quantum Hardware from different Providers using the following two functions:
+The package allows flexible use of Quantum Hardware from different Providers for executing the circuits.
 
 - If the results obtained from a Hardware follows the format of [qiskit.result.Result](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Result) object:
   - The audio can be decoded using ```scheme.decode_result(result_object)``` method. In this case, relevant metadata information is preserved and applied at decoding. 
