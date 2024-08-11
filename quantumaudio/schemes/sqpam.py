@@ -299,7 +299,7 @@ class SQPAM:
 
         # decoding y-axis
         data = self.reconstruct_data(
-            counts=counts, num_samples=num_samples, inverted=False
+            counts=counts, num_components=num_samples, inverted=False
         )
 
         # undo padding
