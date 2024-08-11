@@ -26,7 +26,7 @@
 
 **v0.0.2**
   ```python
-  qpam.load_input(digital_audio) # here qpam is updated
+  qpam.load_input(digital_audio) # here qpam gets updated
   qpam.prepare()
   qpam.measure()
   
