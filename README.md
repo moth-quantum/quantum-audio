@@ -80,11 +80,11 @@ encoded_circuit = qpam.encode(original_audio)
 decoded_signal  = qpam.decode(encoded_circuit,shots=4000)    
 ```
 
-#### Running with Quantum Simulator
+#### Running on Simulator
 
 The default ```scheme.decode()``` uses local _AerSimulator_ as default backend. Internally, it performs ```qiskit.execute()``` method similar to v0.0.2 and a compatible backend object can be specified by passing ```backend=``` parameter.
 
-#### Running with Quantum Hardware
+#### Running on Quantum Hardware
 
 The package provides flexible use of Quantum Hardware from different Providers using the following two functions:
 
