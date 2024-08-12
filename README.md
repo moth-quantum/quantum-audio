@@ -69,6 +69,8 @@ It is recommended to use an environment for the following ```pip``` commands to 
 For local installation from the cloned directory, use:
 ```pip install .``` or  ```pip install -r requirements.txt```
 
+Additional Dependencies can be installed as follows:
+
 - **Digital Audio Dependencies** <br>
   The core package operates with numpy arrays. Dependecies for audio file handling to run audio examples in notebook and scripts in the repository, can be additionally installed using pip:
   ```
