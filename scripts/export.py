@@ -2,6 +2,7 @@ import sys
 import os
 from params import *
 import argparse
+from typing import Optional, Any
 sys.path.insert(0, os.path.dirname(os.getcwd()))
 import tools
 import quantumaudio
