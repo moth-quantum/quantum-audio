@@ -67,7 +67,7 @@ pip install quantumaudio
 It is recommended to use an environment for the following ```pip``` commands to avoid dependency conflicts especially if you have qiskit v1.0 or later installed. For Information on creating environments and using them with Jupyter notebook, please refer [Demo Notebook](DEMO.ipynb).
 
 For local installation from the cloned directory, use:
-```pip install .``` or ```pip install -r requirements.txt```
+```pip install .``` or  ```pip install -r requirements.txt```
 
 - **Digital Audio Dependencies** <br>
   The core package operates with numpy arrays. Dependecies for audio file handling to run audio examples in notebook and scripts in the repository, can be additionally installed using pip:
