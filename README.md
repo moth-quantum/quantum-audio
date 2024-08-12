@@ -70,20 +70,18 @@ For local installation from the cloned directory, use:
 ```pip install .``` or ```pip install -r requirements.txt```
 
 - **Digital Audio Dependencies** <br>
-  The core package operates with numpy arrays. Dependecies for audio file handling to run audio examples in this notebook and scripts in the repository, can be additionally installed using pip:
+  The core package operates with numpy arrays. Dependecies for audio file handling to run audio examples in notebook and scripts in the repository, can be additionally installed using pip:
   ```
   pip install quantumaudio[audio_io]
   ```
   For local installation from the cloned directory: ```pip install .[audio_io]``` or manually with ```pip install soundfile librosa``` .<br>
 
 - **Notebook Dependencies** <br>
-    This notebook features interactive elements that requires additional dependencies. It can be installed using pip:
+    The [Demo Notebook](DEMO.ipynb) features interactive elements that requires additional dependencies. It can be installed using pip:
   ```
   pip install quantumaudio[notebook]
   ```
   For local installation from the cloned directory: ```pip install .[notebook]``` or manually with ```pip install ipython ipywidgets ipykernel``` .<br>
-
-  <b>Note</b>: ```ipykernel``` is mentioned specifically to create kernels for notebooks. Please refer [Demo Notebook](DEMO.ipynb) for more info.
 
 ### Usage
 ```python
