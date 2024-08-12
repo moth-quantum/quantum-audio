@@ -64,7 +64,7 @@ To install Quantum Audio Package, you can use pip:
 pip install quantumaudio
 ```
 **Note**: 
-It is recommended to use an environment for the following ```pip``` commands to avoid dependency conflicts especially if you have qiskit v1.0 or later installed. For Information on creating environments and using them with Jupyter notebook, please refer [Demo Notebook](DEMO.ipynb).
+It is recommended to use an environment to avoid dependency conflicts especially if you have qiskit v1.0 or later installed. For Information on creating environments and using them with Jupyter notebook, please refer [Demo Notebook](DEMO.ipynb).
 
 For local installation from the cloned directory, use:
 ```pip install .``` or  ```pip install -r requirements.txt```
