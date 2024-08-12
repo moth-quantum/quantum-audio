@@ -66,6 +66,7 @@ def plot(
     samples: Union[np.ndarray, list[np.ndarray]],
     title: Union[str, None] = None,
     label: tuple[str, str] = ("original", "reconstructed"),
+    figsize: tuple[int, int] = (6, 4),
 ) -> None:
     """Plots the given samples. It accepts multi-dimensional array and also multiple plots for comparisons.
 
@@ -73,6 +74,7 @@ def plot(
         samples: The samples to plot. Can be a single numpy array or a list of numpy arrays.
         title: Title for the plot. Defaults to None.
         label: Labels for the samples. Defaults to ("original", "reconstructed").
+        figsize: Set the width and height for matplotlib plot
 
     Returns:
         None
@@ -87,7 +89,7 @@ def plot(
     x_axis = np.arange(0, num_samples)
 
     if num_channels > 1:
-        fig, axs = plt.subplots(num_channels, 1, figsize=(8, 8))
+        fig, axs = plt.subplots(num_channels, 1, figsize=figsize)
         for i, y_axis in enumerate(samples):
             for c in range(num_channels):
                 axs[c].plot(
@@ -104,6 +106,7 @@ def plot(
         plt.tight_layout()
 
     else:
+        plt.figure(figsize=figsize)
         for i, y_axis in enumerate(samples):
             plt.plot(x_axis, y_axis.squeeze(), label=None if not label else label[i])
             plt.xlabel("Index")

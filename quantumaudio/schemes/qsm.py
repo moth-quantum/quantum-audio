@@ -248,7 +248,7 @@ class QSM:
     def reconstruct_data(
         self,
         counts: Union[dict, qiskit.result.Counts],
-        num_samples: int,
+        num_components: int,
         qubit_depth: int,
     ) -> np.ndarray:
         """Given counts, Extract components and restore the conversion did at
@@ -263,7 +263,7 @@ class QSM:
         Return:
             data: Array of restored values
         """
-        data = self.decode_components(counts, num_samples)
+        data = self.decode_components(counts, num_components)
         data = self.restore(data, qubit_depth)
         return data
 

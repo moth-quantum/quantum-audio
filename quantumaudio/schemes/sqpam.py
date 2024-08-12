@@ -251,7 +251,7 @@ class SQPAM:
     def reconstruct_data(
         self,
         counts: Union[dict, qiskit.result.Counts],
-        num_samples: int,
+        num_components: int,
         inverted: bool = False,
     ) -> np.ndarray:
         """Given counts, Extract components and restore the conversion did at
@@ -266,7 +266,7 @@ class SQPAM:
         Return:
             data: Array of restored values
         """
-        cosine_amps, sine_amps = self.decode_components(counts, num_samples)
+        cosine_amps, sine_amps = self.decode_components(counts, num_components)
         data = self.restore(cosine_amps, sine_amps, inverted)
         return data
 
@@ -299,7 +299,7 @@ class SQPAM:
 
         # decoding y-axis
         data = self.reconstruct_data(
-            counts=counts, num_samples=num_samples, inverted=False
+            counts=counts, num_components=num_samples, inverted=False
         )
 
         # undo padding
