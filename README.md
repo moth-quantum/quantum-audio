@@ -116,7 +116,7 @@ The package allows flexible use of Quantum Hardware from different Providers for
   - The audio can be decoded using ```scheme.reconstruct_data(counts)``` method. In this case, metadata information can be manually passed as arguments.
  
 #### Additional Materials
-- For examples on circuit preparation, signals and Audio reconstruction, Please try the [Demo Notebook](DEMO.ipynb) .
+- For examples on circuit preparation, signals and audio reconstruction, Please try the [Demo Notebook](DEMO.ipynb) .
 
 - To quickly export quantumaudio from any audio file, a script ```export.py``` is provided in scripts folder.
   ```
