@@ -76,14 +76,14 @@ Additional Dependencies can be installed as follows:
   ```
   pip install quantumaudio[audio_io]
   ```
-  For local installation from the cloned directory: ```pip install .[audio_io]``` or manually with ```pip install soundfile librosa``` .<br>
+  For local installation from the cloned directory: ```pip install .[audio_io]``` or manually with ```pip install -r requirements-audio.txt``` .<br>
 
 - **Notebook Dependencies** <br>
     The [Demo Notebook](DEMO.ipynb) features interactive elements that requires additional dependencies. It can be installed using pip:
   ```
   pip install quantumaudio[notebook]
   ```
-  For local installation from the cloned directory: ```pip install .[notebook]``` or manually with ```pip install ipython ipywidgets ipykernel``` .<br>
+  For local installation from the cloned directory: ```pip install .[notebook]``` or manually with ```pip install -r requirements-notebook.txt``` .<br>
 
 ### Usage
 ```python
