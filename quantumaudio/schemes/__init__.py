@@ -47,10 +47,16 @@ However, it involves several stages that can be manually implemented. The stages
 - **Decode**: Takes in a Qiskit `circuit` object for decoding, performs measurement (if needed), and default execution, followed by all stages of decoding.
 """
 
-from .qsm import QSM
-from .qpam import QPAM
-from .mqsm import MQSM
-from .sqpam import SQPAM
-from .msqpam import MSQPAM
+import importlib
 
-__all__ = ["QSM", "QPAM", "MQSM", "SQPAM", "MSQPAM"]
+def __getattr__(name):
+    try:
+        module = importlib.import_module(f".{name.lower()}", package=__name__)
+        return getattr(module, name.upper())
+    except (ImportError, AttributeError) as e:
+        raise AttributeError(f"module {__name__} has no attribute {name}") from e
+
+def __dir__():
+    return __all__
+
+__all__ = ["QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM"]
