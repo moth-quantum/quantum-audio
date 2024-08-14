@@ -8,7 +8,7 @@ import importlib
 
 def __getattr__(name):
     try:
-        if name in _all_modules:
+        if name.upper() not in _all_schemes:
             module = importlib.import_module(f".{name.lower()}", package=__name__)
             return module
         else:
