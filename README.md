@@ -76,7 +76,9 @@ Additional Dependencies can be installed as follows:
   ```
   pip install quantumaudio[audio_io]
   ```
-  For local installation from the cloned directory: ```pip install .[audio_io]``` or manually with ```pip install -r requirements-audio.txt``` .<br>
+  For local installation from the cloned directory: ```pip install .[audio_io]``` or manually with ```pip install -r requirements-audio.txt```.<br>
+
+  **Note**: The shape of Multi-dimensional arrays processed by the package are in the format of **Channels First** e.g. (2, N) for a Stereo Audio of N samples.
 
 - **Notebook Dependencies** <br>
     The [Demo Notebook](DEMO.ipynb) features interactive elements that requires additional dependencies. It can be installed using pip:
