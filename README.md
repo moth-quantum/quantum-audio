@@ -87,13 +87,17 @@ Additional Dependencies can be installed as follows:
 
 ### Usage
 ```python
-# An instance of a scheme can be created using:
 import quantumaudio
-qpam = quantumaudio.schemes.QPAM() # or simply quantumaudio.QPAM()
 
-# Encoding and Decoding
+# An instance of a scheme can be created from quantumaudio.schemes or simply:
+qpam = quantumaudio.QPAM() 
+
+# Encoding
 encoded_circuit = qpam.encode(original_audio)
+
 # ... do some processing
+
+# Decoding
 decoded_signal  = qpam.decode(encoded_circuit,shots=4000)    
 ```
 
