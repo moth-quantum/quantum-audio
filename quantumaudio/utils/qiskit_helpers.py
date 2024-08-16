@@ -120,6 +120,6 @@ def draw_circuit(circuit: qiskit.QuantumCircuit, decompose: int = 0) -> None:
 
     try:  # Display the plot inline in Jupyter Notebook
         display(circuit.draw("mpl", style="clifford"))
-    except:  # Show the plot in a separate window (for terminal)
+    except ImportError:  # Show the plot in a separate window (for terminal)
         circuit.draw("mpl", style="clifford")
         plt.show()
