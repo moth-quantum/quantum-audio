@@ -112,7 +112,7 @@ def prepared_circuit(sqpam, circuit, converted_data):
 
 def test_circuit_registers(sqpam, prepared_circuit, num_index_qubits, num_value_qubits):
     assert prepared_circuit.num_qubits == num_index_qubits + num_value_qubits
-    assert prepared_circuit.num_clbits == num_index_qubits + num_value_qubits 
+    assert prepared_circuit.num_clbits == num_index_qubits + num_value_qubits
     print(prepared_circuit.qubits)
 
     for i, qubit in enumerate(prepared_circuit.qubits):
@@ -144,7 +144,7 @@ def shots():
 @pytest.fixture
 def num_components(num_index_qubits):
     return 2**num_index_qubits
-    
+
 def test_decode_components(sqpam, counts, num_components):
     components = sqpam.decode_components(counts, num_components)
     print(f'components: {components}')

@@ -38,7 +38,7 @@ def test_init_attributes(msqpam):
 
 
 #Mono and Stereo Audios for testing
-test_inputs = [ 
+test_inputs = [
     np.array([0., -0.25, 0.5 , 0.75,  -0.75  ,  -1.,  0.25]),
     np.array([[0., -0.25, 0.5 , 0.75,  -0.75  ,  -1.,  0.25],[0., 0.25, -0.5 , -0.75,   0.75  ,   1., -0.25]])
     ]
@@ -122,7 +122,7 @@ def test_measure(msqpam, circuit):
 @pytest.fixture
 def prepared_circuit(msqpam, circuit, request):
     converted = msqpam.convert(request.param) #prepared_data
-    for i, value in enumerate(converted): 
+    for i, value in enumerate(converted):
         msqpam.value_setting(circuit=circuit, index=i, value=value)
     msqpam.measure(circuit)
     return circuit
@@ -130,7 +130,7 @@ def prepared_circuit(msqpam, circuit, request):
 @pytest.mark.parametrize('prepared_circuit', tuple(test_prepared_data), indirect=['prepared_circuit'])
 def test_circuit_registers(msqpam, prepared_circuit, num_index_qubits, num_value_qubits, num_channels_qubits):
     assert prepared_circuit.num_qubits == num_index_qubits + num_value_qubits + num_channels_qubits
-    assert prepared_circuit.num_clbits == num_index_qubits + num_value_qubits + num_channels_qubits 
+    assert prepared_circuit.num_clbits == num_index_qubits + num_value_qubits + num_channels_qubits
     print(prepared_circuit.qubits)
 
     for i, qubit in enumerate(prepared_circuit.qubits):

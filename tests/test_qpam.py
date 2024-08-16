@@ -111,7 +111,7 @@ def prepared_circuit(qpam, circuit, converted_data):
 
 def test_circuit_registers(qpam, prepared_circuit, num_index_qubits, num_value_qubits):
     assert prepared_circuit.num_qubits == num_index_qubits + num_value_qubits
-    assert prepared_circuit.num_clbits == num_index_qubits + num_value_qubits 
+    assert prepared_circuit.num_clbits == num_index_qubits + num_value_qubits
 
     for i, qubit in enumerate(prepared_circuit.qubits):
         if i < num_value_qubits:
@@ -142,7 +142,7 @@ def shots():
 @pytest.fixture
 def norm_factor(converted_data):
     return converted_data[0]
-    
+
 def test_decode_components(qpam, counts):
     components = qpam.decode_components(counts)
     assert components.all() != None

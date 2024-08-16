@@ -17,7 +17,6 @@ import sys
 import os
 from params import *
 import argparse
-from typing import Optional, Any
 sys.path.insert(0, os.path.dirname(os.getcwd()))
 import tools
 import quantumaudio
@@ -53,7 +52,7 @@ if __name__ == '__main__':
 
     scheme = args.scheme
     shots = args.shots
-    
+
     sr = args.sr
     stereo = args.stereo
     mono = not stereo
@@ -67,6 +66,6 @@ if __name__ == '__main__':
         scheme = default_multi_channel_scheme
 
     scheme = quantumaudio.load_scheme(scheme)
-    
+
     # Export
     tools.audio.save_quantumaudio(file_path=input_path,output_filepath=output_path,sr=sr,mono=mono,scheme=scheme,shots=shots,chunk_size=chunk_size,verbose=verbose)

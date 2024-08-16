@@ -15,7 +15,7 @@
 
 import qiskit
 from functools import wraps
-from typing import Union, Callable, Optional
+from typing import Callable, Optional
 
 # ======================
 # Circuit Preparation Utils

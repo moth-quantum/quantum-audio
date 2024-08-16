@@ -120,7 +120,7 @@ def prepared_circuit(qsm, circuit, converted_data):
 
 def test_circuit_registers(qsm, prepared_circuit, num_index_qubits, num_value_qubits):
     assert prepared_circuit.num_qubits == num_index_qubits + num_value_qubits
-    assert prepared_circuit.num_clbits == num_index_qubits + num_value_qubits 
+    assert prepared_circuit.num_clbits == num_index_qubits + num_value_qubits
     print(prepared_circuit.qubits)
 
     for i, qubit in enumerate(prepared_circuit.qubits):
@@ -151,7 +151,7 @@ def shots():
 @pytest.fixture
 def num_components(num_index_qubits):
     return 2**num_index_qubits
-    
+
 def test_decode_components(qsm, counts, num_components):
     components = qsm.decode_components(counts, num_components)
     print(f'components: {components}')

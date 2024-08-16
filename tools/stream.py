@@ -15,7 +15,7 @@
 
 import numpy as np
 from tqdm import tqdm
-from typing import Optional, Any
+from typing import Any
 
 # ======================
 # Buffering Utils
@@ -94,12 +94,12 @@ def combine_chunks(chunks):
 
 def stream_data(
     data: np.ndarray,
-    scheme: Any, 
+    scheme: Any,
     shots: int = 8000,
     chunk_size: int = 64,
     verbose: bool = False,
 ) -> np.ndarray:
-    
+
     assert chunk_size < data.shape[-1], f'Chunk size ({chunk_size}) cant be smaller than number of samples ({data.shape[-1]})'
     chunks = get_chunks(data=data,chunk_size=chunk_size,verbose=verbose)
     processed_chunks = process_chunks(chunks=chunks,scheme=scheme,shots=shots)

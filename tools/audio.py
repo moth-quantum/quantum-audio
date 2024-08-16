@@ -49,8 +49,7 @@ def write(
     output_filepath: str = "audio.wav",
     audio_format: str = "WAV",
 ) -> None:
-    """
-    Export processed audio chunks into a single WAV file.
+    """Export processed audio chunks into a single WAV file.
 
     Parameters:
     processed_chunks (list of np.ndarray): List containing arrays of processed audio chunks.
@@ -73,13 +72,13 @@ def write(
 def get_quantumaudio(
     file_path: str,
     scheme: Any,
-    shots: int = 8000, 
+    shots: int = 8000,
     sr: int = 22050,
     mono: bool = True,
     chunk_size: int = 256,
     verbose: bool = False,
 ) -> np.NDArray:
-    
+
     digital_audio, sr = read(file_path=file_path,sr=sr,mono=mono)
     print(f'Sample Rate: {sr}')
     quantum_audio = stream.stream_data(data=digital_audio,scheme=scheme,shots=shots,chunk_size=chunk_size,verbose=verbose)
@@ -92,7 +91,7 @@ def get_quantumaudio(
 
 def save_quantumaudio(
     file_path: str,
-    scheme: Any, 
+    scheme: Any,
     sr: int = 22050,
     mono: bool = True,
     shots: int = 8000,
@@ -101,6 +100,6 @@ def save_quantumaudio(
     output_filepath: str = "reconstructed_audio.wav",
     audio_format: str = "WAV",
 ) -> None:
-    
+
     quantum_audio, sr = get_quantumaudio(file_path=file_path,sr=sr,mono=mono,scheme=scheme,shots=shots,chunk_size=chunk_size,verbose=verbose)
     write(data=quantum_audio.T,sr=sr,output_filepath=output_filepath,audio_format=audio_format)
