@@ -119,6 +119,9 @@ Get started on creating Quantum Audio Representations with few lines of code.
 import quantumaudio
 qpam = quantumaudio.schemes.QPAM() # or simply quantumaudio.QPAM()
 
+# Define an Input
+original_audio = [ ] # an array of samples
+
 # Encoding
 encoded_circuit = qpam.encode(original_audio)
 
