@@ -150,13 +150,29 @@ The package allows flexible use of Quantum Hardware from different Providers for
 For examples on circuit preparation, signals and audio reconstruction, Please try the [Demo Notebook](DEMO.ipynb) 
 
 ### Quick Export ⚡️
-To quickly export quantumaudio from any audio file, a script ```export.py``` is provided in scripts folder.
-  ```
+To quickly export quantumaudio from any audio file, a script ```export.py``` is provided in scripts folder. Following `cd scripts`, run:
+  ```bash
   python export.py -i path/to/input/audio/file
   ```
-  This command will export an output audio file in the same directory. The associated parameters can be controlled by checking ```python export.py --help```<br>
-  
-  Note: Digital Audio Dependencies (i.e. soundfile and librosa) must be installed to run this script and it only supports AerSimulator currently.
+  ```console
+  usage: export.py [-h] -i [-o] [-v] [--scheme] [--shots] [--sr] [--stereo] [--buffer_size]
+
+  Process quantum audio and export as .wav file.
+
+  options:
+    -h, --help            show this help message and exit
+    -i, --input           Path to the input audio file.
+    -o, --output          Path to the output audio file. (default: saves in same directory with a prefix `qa_`)
+    -v, --verbose         Enable verbose mode.
+    --scheme              Quantum Audio Scheme (default: `qpam` for mono audio, `mqsm` for stereo audio).
+    --shots               Number of shots for measurement (default: 8000)
+    --sr                  Sample rate of Digital audio (default: 22050)
+    --stereo              Enable stereo
+    --buffer_size         Length of each audio chunk (default: 256)
+  ```
+
+> [!Note]
+ > Digital Audio [Dependencies](#installation) (i.e. `soundfile` and `librosa`) must be installed to run this script and it currently supports `AerSimulator`.
 
 ## 🤝 Contributing <a id="contributing"></a>
 Contributions to Quantum Audio are welcome! This package is designed to be a versatile tool for both research and artistic exploration.
