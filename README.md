@@ -188,7 +188,7 @@ For more information on contributing to Code and Documentation, please review [C
 
 ## 🚩 Future Releases <a id="future-releases"></a>
 We're excited about keeping the package updated with features and improvements! Quantum Audio Package `v0.1.0` is a gradual upgrade from `v0.0.2` with focus on the core architectural changes. 
-In future releases, we plan to extend support to Qiskit `v1.0` and above. We also plan to introduce other schemes from Quantum Audio Literature along with Base Scheme Classes to support them.
+In future releases, we plan to extend support to Qiskit `v1.0+`. We also plan to introduce other schemes from Quantum Audio Literature along with Base Scheme Classes to support them.
 
 ## ✅ Citing <a id="citing"></a>
 If you use this code or find it useful in your research, please consider citing: [DOI]()
