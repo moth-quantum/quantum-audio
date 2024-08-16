@@ -4,7 +4,7 @@ line-length = 79
 convention = "google"
 
 [lint]
-select = ["F","E","W","B","Q","PL"]
+select = ["F","E","W","B","Q","PL","C4"]
 
 ignore = ["F403", "E501", "PLR0913", "PLR2004"]
 
