@@ -64,14 +64,19 @@ However, it involves several stages that can be manually implemented. The stages
 
 import importlib
 
+
 def __getattr__(name):
     try:
         module = importlib.import_module(f".{name.lower()}", package=__name__)
         return getattr(module, name.upper())
     except (ImportError, AttributeError) as e:
-        raise AttributeError(f"module {__name__} has no attribute {name}") from e
+        raise AttributeError(
+            f"module {__name__} has no attribute {name}"
+        ) from e
+
 
 def __dir__():
     return __all__
+
 
 __all__ = ["QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM"]
