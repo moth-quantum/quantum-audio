@@ -194,8 +194,6 @@ In future releases, we plan to extend support to Qiskit v1.0 and above. We also 
 If you use this code or find it useful in your research, please consider citing: [DOI]()
 
 ---
-## 📧 Contact 
-If you have any questions or need further assistance, please feel free to contact Moth Quantum at hello@mothquantum.com
 
 ## 📜 Copyright
 Copyright 2024 Moth Quantum
@@ -209,3 +207,6 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and limitations under the License.
+
+## 📧 Contact 
+If you have any questions or need further assistance, please feel free to contact Moth Quantum at hello@mothquantum.com
