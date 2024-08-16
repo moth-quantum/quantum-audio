@@ -120,15 +120,15 @@ import quantumaudio
 qpam = quantumaudio.schemes.QPAM() # or simply quantumaudio.QPAM()
 
 # Define an Input
-original_audio = [ ] # an array of samples
+original_data = [ ] # an array of samples
 
 # Encoding
-encoded_circuit = qpam.encode(original_audio)
+encoded_circuit = qpam.encode(original_data)
 
 # ... optionally do some processing
 
 # Decoding
-decoded_signal  = qpam.decode(encoded_circuit,shots=4000)    
+decoded_data  = qpam.decode(encoded_circuit,shots=4000)    
 ```
 
 ### Running on Simulator
