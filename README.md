@@ -89,7 +89,7 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
 ```pip install .``` or  ```pip install -r requirements.txt``` <br>
 
 > [!Note]
- > When using `pip` commands to install packages and dependencies, it's recommended to use a **virtual environment** to keep them isolated from the system's Python. This will avoid dependency conflicts especially if you have `Qiskit` version 1.0 or later installed. Instructions on using a virtual environment are provided [here](ENVRIONMENT.md).
+ > When using `pip` commands to install packages and dependencies, it's recommended to use a **virtual environment** to keep them isolated from the system's Python. This will avoid dependency conflicts especially if you have `Qiskit` version 1.0 or later installed. Instructions on using a virtual environment are provided [here](ENVIRONMENT.md).
 
 ### Optional Dependencies
 
