@@ -1,6 +1,6 @@
 ### Using Virtual Environment for Python:
 
-#### Option 1: Using conda:
+#### Option 1: Using [conda](https://docs.anaconda.com/miniconda/#quick-command-line-install):
 Create Environment: ```conda create --name myenv python=3.10``` <br>
 
 To run `pip` and `python` commands, the environment needs to be activated using the following command: <br>
