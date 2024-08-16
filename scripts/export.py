@@ -13,14 +13,15 @@
 # limitations under the License.
 # ==========================================================================
 
-import sys
-import os
-from params import *
 import argparse
+import os
+import sys
+
+from params import *
 
 sys.path.insert(0, os.path.dirname(os.getcwd()))
-import tools
 import quantumaudio
+import tools
 
 
 def set_output_path(input_path, prefix="qa_", suffix=""):

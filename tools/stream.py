@@ -13,9 +13,10 @@
 # limitations under the License.
 # ==========================================================================
 
+from typing import Any
+
 import numpy as np
 from tqdm import tqdm
-from typing import Any
 
 # ======================
 # Buffering Utils

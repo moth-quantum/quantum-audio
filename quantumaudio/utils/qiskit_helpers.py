@@ -13,10 +13,11 @@
 # limitations under the License.
 # ==========================================================================
 
+from typing import Optional, Union
+
+import matplotlib.pyplot as plt
 import qiskit
 import qiskit_aer
-import matplotlib.pyplot as plt
-from typing import Union, Optional
 
 # ======================
 # Measurement

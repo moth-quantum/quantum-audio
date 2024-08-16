@@ -13,12 +13,13 @@
 # limitations under the License.
 # ==========================================================================
 
-from quantumaudio.schemes import MSQPAM
-import pytest
 import numpy as np
+import pytest
 from qiskit import QuantumCircuit
 from qiskit.result.counts import Counts
 from qiskit.result.result import Result
+
+from quantumaudio.schemes import MSQPAM
 from quantumaudio.utils import interleave_channels
 
 

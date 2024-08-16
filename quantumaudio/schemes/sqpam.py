@@ -13,10 +13,12 @@
 # limitations under the License.
 # ==========================================================================
 
-from quantumaudio import utils
-import qiskit
+from typing import Optional, Union
+
 import numpy as np
-from typing import Union, Optional
+import qiskit
+
+from quantumaudio import utils
 
 
 class SQPAM:

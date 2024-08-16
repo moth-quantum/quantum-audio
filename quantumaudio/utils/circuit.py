@@ -13,9 +13,10 @@
 # limitations under the License.
 # ==========================================================================
 
-import qiskit
 from functools import wraps
 from typing import Callable, Optional
+
+import qiskit
 
 # ======================
 # Circuit Preparation Utils

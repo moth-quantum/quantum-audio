@@ -13,11 +13,13 @@
 # limitations under the License.
 # ==========================================================================
 
-import librosa
-import soundfile as sf
-from . import stream
-import numpy.typing as np
 from typing import Any
+
+import librosa
+import numpy.typing as np
+import soundfile as sf
+
+from . import stream
 
 # ======================
 # I/O handling functions

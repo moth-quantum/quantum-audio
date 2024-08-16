@@ -13,9 +13,10 @@
 # limitations under the License.
 # ==========================================================================
 
-import numpy as np
-import matplotlib.pyplot as plt
 from typing import Union
+
+import matplotlib.pyplot as plt
+import numpy as np
 
 # ======================
 # Plotting Utils

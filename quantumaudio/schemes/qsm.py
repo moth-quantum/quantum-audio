@@ -13,11 +13,13 @@
 # limitations under the License.
 # ==========================================================================
 
-from quantumaudio import utils
-import qiskit
+from typing import Optional, Union
+
 import numpy as np
+import qiskit
 from bitstring import BitArray
-from typing import Union, Optional
+
+from quantumaudio import utils
 
 
 class QSM:

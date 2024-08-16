@@ -13,10 +13,12 @@
 # limitations under the License.
 # ==========================================================================
 
-import quantumaudio.utils as utils
-import qiskit
+from typing import Optional, Union
+
 import numpy as np
-from typing import Union, Optional
+import qiskit
+
+import quantumaudio.utils as utils
 
 
 class MSQPAM:

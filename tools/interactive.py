@@ -13,11 +13,12 @@
 # limitations under the License.
 # ==========================================================================
 
+from typing import Any, Callable, Optional, Union
+
 import ipywidgets
-from IPython.display import display, Audio, clear_output
-import numpy as np
-from typing import Union, Any, Optional, Callable
 import matplotlib.pyplot as plt
+import numpy as np
+from IPython.display import Audio, clear_output, display
 
 # ======================
 # Notebook Utils
