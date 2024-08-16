@@ -79,7 +79,7 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
   For local installation from the cloned directory: ```pip install .[audio_io]``` or manually with ```pip install -r requirements-audio.txt```.<br>
 
   > [!Note]
- > If using your own choice of libraries for digital audio processing, please note that the Mult-channel Quantum Audio is processed with _Channels First_ data structures. e.g. (2, N) for a Stereo Audio of N samples.
+ > If using your own choice of libraries for digital audio processing, please note that Multi-channel Quantum Audio is processed with _Channels First_ data structures. e.g. (2, N) for a Stereo Audio of N samples.
 
 #### **Notebook Dependencies**
   The [Demo Notebook](DEMO.ipynb) features interactive elements that requires additional dependencies. It can be installed using pip:
