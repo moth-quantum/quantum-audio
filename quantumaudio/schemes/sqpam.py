@@ -177,7 +177,7 @@ class SQPAM:
 
         # attach sub-circuit
         circuit.append(
-            sub_circuit, [i for i in range(circuit.num_qubits - 1, -1, -1)]
+            sub_circuit, list(i for i in range(circuit.num_qubits - 1, -1, -1))
         )
 
     def measure(self, circuit: qiskit.QuantumCircuit) -> None:
