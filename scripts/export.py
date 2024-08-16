@@ -17,7 +17,7 @@ import argparse
 import os
 import sys
 
-from params import *
+from params import all_schemes, defaults
 
 sys.path.insert(0, os.path.dirname(os.getcwd()))
 import quantumaudio
@@ -33,9 +33,7 @@ def set_output_path(input_path, prefix="qa_", suffix=""):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Process quantum audio and export"
-    )
+    parser = argparse.ArgumentParser(description="Process quantum audio and export")
 
     parser.add_argument(
         "-i",
@@ -54,29 +52,27 @@ if __name__ == "__main__":
     parser.add_argument(
         "--scheme",
         choices=all_schemes,
-        default=default_scheme,
+        default=defaults["scheme"],
         help="Processing mode (default: quick).",
     )
     parser.add_argument(
         "--shots",
         type=int,
-        default=default_shots,
+        default=defaults["shots"],
         help="Number of items to process.",
     )
 
     parser.add_argument(
         "--sr",
         type=int,
-        default=default_sr,
+        default=defaults["sr"],
         help="Number of items to process.",
     )
-    parser.add_argument(
-        "--stereo", action="store_true", help="Enable verbose mode."
-    )
+    parser.add_argument("--stereo", action="store_true", help="Enable verbose mode.")
     parser.add_argument(
         "--buffer_size",
         type=int,
-        default=default_chunk_size,
+        default=defaults["chunk_size"],
         help="Number of items to process.",
     )
 
@@ -101,7 +97,7 @@ if __name__ == "__main__":
         output_path = set_output_path(input_path)
 
     if stereo:
-        scheme = default_multi_channel_scheme
+        scheme = defaults["multi_channel_scheme"]
 
     scheme = quantumaudio.load_scheme(scheme)
 
