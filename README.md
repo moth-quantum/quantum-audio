@@ -9,7 +9,7 @@ Audio plays a vital role in carrying information and music, traversing through d
 
 The Quantum Audio Package provides fundamental operations for representing audio as Quantum States that can be processed on a Quantum computer (or Simulator) and played back in the classical world 🔊.
 
-The objective of Quantum Audio is to enable new ways of exploring audio signal processing for artistic and research purposes.
+The objective of Quantum Audio is to enable new ways of exploring audio signal processing for artistic and research purposes 💫
 
 ## 🗒️ Table of Contents
 
@@ -112,6 +112,8 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
 
 ---
 ## 🎨 Usage
+
+Get started on creating Quantum Audio Representations with few lines of code.
 ```python
 # An instance of a scheme can be created using:
 import quantumaudio
@@ -128,7 +130,7 @@ decoded_signal  = qpam.decode(encoded_circuit,shots=4000)
 
 ### Running on Simulator
 
-The default ```scheme.decode()``` uses local _AerSimulator_ as default backend. Internally, it performs ```qiskit.execute()``` method similar to v0.0.2 and a compatible backend object can be specified by passing ```backend=``` parameter.
+The default ```scheme.decode()``` uses local _AerSimulator_ as default backend. Internally, it performs ```qiskit.execute()``` method similar to ```v0.0.2``` and a compatible backend object can be specified by passing ```backend=``` parameter.
 
 ### Running on Quantum Hardware
 
@@ -144,7 +146,7 @@ The package allows flexible use of Quantum Hardware from different Providers for
 ### Notebook Examples
 For examples on circuit preparation, signals and audio reconstruction, Please try the [Demo Notebook](DEMO.ipynb) .
 
-### ⚡️ Quick Export
+### Quick Export ⚡️
 To quickly export quantumaudio from any audio file, a script ```export.py``` is provided in scripts folder.
   ```
   python export.py -i path/to/input/audio/file
