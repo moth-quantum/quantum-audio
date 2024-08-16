@@ -85,7 +85,7 @@ To install Quantum Audio Package, you can use ```pip``` (comes with Python) whic
 ```
 pip install quantumaudio
 ```
-For local installation by [cloning](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository), navigate to the cloned directory in terminal or command prompt and run:
+For local installation by [cloning](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository), navigate to the cloned directory in terminal or command prompt and run:<br>
 ```pip install .``` or  ```pip install -r requirements.txt``` <br>
 
 > [!Note]
@@ -98,7 +98,7 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
   ```
   pip install quantumaudio[audio_io]
   ```
-  For local installation from the cloned directory: ```pip install .[audio_io]``` or manually with ```pip install -r requirements-audio.txt```.<br>
+  For local installation from the cloned directory: ```pip install .[audio_io]``` or manually with ```pip install -r requirements-audio.txt```<br>
 
   > [!Tip]
  > If using your own choice of libraries for digital audio processing, please be aware that Multi-channel Quantum Audio is processed with _Channels First_ data structure. e.g. `(2, N)` for a Stereo Audio of `N` samples.
@@ -108,7 +108,7 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
   ```
   pip install quantumaudio[notebook]
   ```
-  For local installation from the cloned directory: ```pip install .[notebook]``` or manually with ```pip install -r requirements-notebook.txt``` .<br>
+  For local installation from the cloned directory: ```pip install .[notebook]``` or manually with ```pip install -r requirements-notebook.txt``` <br>
 
 ---
 ## 🎨 Usage
