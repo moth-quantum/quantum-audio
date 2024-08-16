@@ -13,8 +13,8 @@ The objective of Quantum Audio is to enable new ways of exploring audio signal p
 
 ## 🗒️ Table of Contents
 
-- [Overview](#main-features)
-- [Version Information](#where-to-get-it)
+- [Overview](#overview)
+- [Version Information](#version)
 - [Installation](#dependencies)
 - [Usage](#installation-from-sources)
 - [Materials](#license)
@@ -23,7 +23,7 @@ The objective of Quantum Audio is to enable new ways of exploring audio signal p
 - [Citing](#getting-help)
 
 ---
-## 🔍 Overview
+## 🔍 Overview <a id="overview"></a>
 
 The package contains different schemes to encode audio and necessary utilities as follows:
 
@@ -39,7 +39,7 @@ The package contains different schemes to encode audio and necessary utilities a
 
 - ```utils``` : Utilary functions for data processing, analysis, circuit preparation, etc.
 ---
-## 🧩 Version Information
+## 🧩 Version Information <a id="version"></a>
 
 ### Acknowledgment of Previous Version ```v0.0.2```
 This project is derived from research output on quantum representations of audio, carried by <b>Interdisciplinary Centre for Computer Music Research (ICCMR)</b>, University of Plymouth, UK, namely:
