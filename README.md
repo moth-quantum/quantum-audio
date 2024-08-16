@@ -150,7 +150,7 @@ The package allows flexible use of Quantum Hardware from different Providers for
 For examples on circuit preparation, signals and audio reconstruction, Please try the [Demo Notebook](DEMO.ipynb) 
 
 ### Quick Export ⚡️
-To quickly export quantumaudio from any audio file, a script ```export.py``` is provided in scripts folder. Following `cd scripts`, run:
+To quickly export quantumaudio from any audio file (e.g., mp3, ogg, flac, m4a), a script ```export.py``` is provided in scripts folder. Following `cd scripts`, run:
   ```bash
   python export.py -i path/to/input/audio/file
   ```
