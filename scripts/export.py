@@ -45,7 +45,7 @@ if __name__ == "__main__":
         help="Path to the input audio file.",
     )
     parser.add_argument(
-        "-o", "--output", type=str, help="Path to the output audio file."
+        "-o", "--output", type=str, help="Path to the output audio file. (default: saves in same directory with a prefix `qa_`)"
     )
     parser.add_argument(
         "-v", "--verbose", action="store_true", help="Enable verbose mode."
@@ -55,29 +55,29 @@ if __name__ == "__main__":
         "--scheme",
         choices=all_schemes,
         default=defaults["scheme"],
-        help="Processing mode (default: quick).",
+        help=f"Quantum Audio Scheme (default: {defaults['scheme']} for mono audio, {defaults['multi_channel_scheme']} for stereo audio).",
     )
     parser.add_argument(
         "--shots",
         type=int,
         default=defaults["shots"],
-        help="Number of items to process.",
+        help=f"Number of shots for measurement (default: {defaults['shots']})",
     )
 
     parser.add_argument(
         "--sr",
         type=int,
         default=defaults["sr"],
-        help="Number of items to process.",
+        help=f"Sample rate of Digital audio  (default: {defaults['sr']})",
     )
     parser.add_argument(
-        "--stereo", action="store_true", help="Enable verbose mode."
+        "--stereo", action="store_true", help="Enable stereo"
     )
     parser.add_argument(
         "--buffer_size",
         type=int,
         default=defaults["chunk_size"],
-        help="Number of items to process.",
+        help=f"Length of each audio chunk  (default: {defaults['chunk_size']})",
     )
 
     # Parse the arguments
