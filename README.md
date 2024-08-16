@@ -172,7 +172,7 @@ To quickly export quantumaudio from any audio file, a script ```export.py``` is 
   ```
 
 > [!Note]
- > Digital Audio [Dependencies](#installation) (i.e. `soundfile` and `librosa`) must be installed to run this script and it currently supports `AerSimulator`.
+ > Digital Audio [Dependencies](#installation) must be installed to run this script and it currently supports `AerSimulator`.
 
 ## 🤝 Contributing <a id="contributing"></a>
 Contributions to Quantum Audio are welcome! This package is designed to be a versatile tool for both research and artistic exploration.
