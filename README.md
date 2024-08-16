@@ -11,7 +11,7 @@ The Quantum Audio Package provides fundamental operations for representing audio
 
 The objective of Quantum Audio is to enable new ways of exploring audio signal processing for artistic and research purposes.
 
-## Contents
+## Overview
 
 The package contains different schemes to encode audio and necessary utilities as follows:
 
