@@ -59,29 +59,30 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
 If you're transitioning from the previous version, please check the [Migration Guide](MIGRATION.md) for an overview on the package usability. 
 
 ### Installation
-To install Quantum Audio Package, you can use pip: 
+To install Quantum Audio Package, you can use ```pip``` (comes with Python) which installs from [PyPI](https://pypi.org/project/quantumaudio/) package manager. Run the following command in terminal or command prompt: 
 ```
 pip install quantumaudio
 ```
-**Note**: 
-It is recommended to use an environment to avoid dependency conflicts especially if you have qiskit v1.0 or later installed. For Information on creating environments and using them with Jupyter notebook, please refer [Demo Notebook](DEMO.ipynb).
+For local installation by [cloning](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository), navigate to the cloned directory in terminal or command prompt and run:
+```pip install .``` or  ```pip install -r requirements.txt``` <br>
 
-For local installation from the cloned directory, use:
-```pip install .``` or  ```pip install -r requirements.txt```
+> [!Note]
+ > When using `pip` commands to install packages and dependencies, it's recommended to use a **virtual environment** to keep them isolated from the system's Python. This will avoid dependency conflicts especially if you have `Qiskit` version 1.0 or later installed. Instructions on using a virtual environment are provided [here](ENVRIONMENT.md).
 
-Optional Dependencies can be installed as follows:
+### Optional Dependencies
 
-- **Digital Audio Dependencies** <br>
+#### **Digital Audio Dependencies**
   The core package operates with numpy arrays. Dependecies for audio file handling to run audio examples in notebook and scripts in the repository, can be additionally installed using pip:
   ```
   pip install quantumaudio[audio_io]
   ```
   For local installation from the cloned directory: ```pip install .[audio_io]``` or manually with ```pip install -r requirements-audio.txt```.<br>
 
-  **Note**: The shape of Multi-dimensional arrays processed by the package is in the format of **Channels First** e.g. (2, N) for a Stereo Audio of N samples.
+  > [!Note]
+ > If using your own choice of libraries for digital audio processing, please note that the Mult-channel Quantum Audio is processed with _Channels First_ data structures. e.g. (2, N) for a Stereo Audio of N samples.
 
-- **Notebook Dependencies** <br>
-    The [Demo Notebook](DEMO.ipynb) features interactive elements that requires additional dependencies. It can be installed using pip:
+#### **Notebook Dependencies**
+  The [Demo Notebook](DEMO.ipynb) features interactive elements that requires additional dependencies. It can be installed using pip:
   ```
   pip install quantumaudio[notebook]
   ```
