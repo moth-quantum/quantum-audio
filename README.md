@@ -17,7 +17,7 @@ The objective of Quantum Audio is to enable new ways of exploring audio signal p
 - [Version Information](#version)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Materials](#materials)
+- [Resources](#materials)
 - [Contributing](#contributing)
 - [Future Releases](#future-releases)
 - [Citing](#citing)
@@ -145,7 +145,7 @@ The package allows flexible use of Quantum Hardware from different Providers for
 - If the results is in form of counts dictionary or [qiskit.result.Counts](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Counts) object with keys representing classical measurement outcomes and values indicating the number of times the outcome was observed:
   - The audio can be decoded using ```scheme.reconstruct_data(counts)``` method. In this case, metadata information can be manually passed as arguments.
  
-## 📘 Materials <a id="materials"></a>
+## 📘 Resources <a id="materials"></a>
 ### Notebook Examples
 For examples on circuit preparation, signals and audio reconstruction, Please try the [Demo Notebook](DEMO.ipynb) 
 
