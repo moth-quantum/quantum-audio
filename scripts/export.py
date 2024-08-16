@@ -33,7 +33,9 @@ def set_output_path(input_path, prefix="qa_", suffix=""):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Process quantum audio and export")
+    parser = argparse.ArgumentParser(
+        description="Process quantum audio and export"
+    )
 
     parser.add_argument(
         "-i",
@@ -68,7 +70,9 @@ if __name__ == "__main__":
         default=defaults["sr"],
         help="Number of items to process.",
     )
-    parser.add_argument("--stereo", action="store_true", help="Enable verbose mode.")
+    parser.add_argument(
+        "--stereo", action="store_true", help="Enable verbose mode."
+    )
     parser.add_argument(
         "--buffer_size",
         type=int,
