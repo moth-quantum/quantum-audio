@@ -3,7 +3,8 @@
 
 An open-source Python package for building Quantum Representations of Digital Audio using _Qiskit_ circuits.
 
-## What is Quantum Audio ?
+---
+## 💿 What is Quantum Audio ?
 
 Audio plays a vital role in carrying information and music, traversing through domains — from analog and digital formats to engaging our senses in a profound way. With the advent of Quantum Computing, we formulate ways of representing Audio Information in the Quantum Domain.
 
@@ -11,7 +12,19 @@ The Quantum Audio Package provides fundamental operations for representing audio
 
 The objective of Quantum Audio is to enable new ways of exploring audio signal processing for artistic and research purposes.
 
-## Overview
+## 🗒️ Table of Contents
+
+- [Overview](#main-features)
+- [Version Information](#where-to-get-it)
+- [Installation](#dependencies)
+- [Usage](#installation-from-sources)
+- [Materials](#license)
+- [Contributing](#documentation)
+- [Future Releases](#background)
+- [Citing](#getting-help)
+
+---
+## 🔍 Overview
 
 The package contains different schemes to encode audio and necessary utilities as follows:
 
@@ -26,8 +39,10 @@ The package contains different schemes to encode audio and necessary utilities a
 | MQSM    | Multi-channel Quantum State Modulation | [QRMA](https://doi.org/10.1007/s11128-019-2317-3)  |
 
 - ```utils``` : Utilary functions for data processing, analysis, circuit preparation, etc.
+---
+## 🧩 Version Information
 
-## Acknowledgment of Previous Version (v0.0.2)
+### Acknowledgment of Previous Version ```v0.0.2```
 This project is derived from research output on quantum representations of audio, carried by <b>Interdisciplinary Centre for Computer Music Research (ICCMR)</b>, University of Plymouth, UK, namely:
 
 - Itaboraí, P.V., Miranda, E.R. (2022). Quantum Representations of Sound: From Mechanical Waves to Quantum Circuits. In: Miranda, E.R. (eds) Quantum Computer Music. Springer, Cham. https://doi.org/10.1007/978-3-031-13909-3_10
@@ -36,7 +51,7 @@ This project is derived from research output on quantum representations of audio
   
 - Itaboraí, P. V. (2023) Towards Quantum Computing for Audio and Music Expression. Thesis. University of Plymouth. Available at: https://doi.org/10.24382/5119
 
-## Key Changes in the Redeveloped Version (v0.1.0)
+### Key Changes in the Redeveloped Version ```v0.1.0```
 This project has been completely redeveloped and is now maintained by <b>Moth Quantum</b>. https://mothquantum.com
 
 - **New Architecture:**
@@ -63,9 +78,10 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
   - The Lisence is updated from **MIT** to **Apache 2.0**
 
 ### Migration Guide
-If you're transitioning from the previous version, please check the [Migration Guide](MIGRATION.md) for an overview on the package usability. 
+If you're transitioning from the previous version, please check the [Migration Guide](MIGRATION.md) for an overview on the package usability.
 
-## Installation
+---
+##  🪄 Installation
 To install Quantum Audio Package, you can use ```pip``` (comes with Python) which installs from [PyPI](https://pypi.org/project/quantumaudio/) package manager. Run the following command in terminal or command prompt: 
 ```
 pip install quantumaudio
@@ -76,7 +92,7 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
 > [!Note]
  > When using `pip` commands to install packages and dependencies, it's recommended to use a **virtual environment** to keep them isolated from the system's Python. This will avoid dependency conflicts especially if you have `Qiskit` version 1.0 or later installed. Instructions on using a virtual environment are provided [here](ENVRIONMENT.md).
 
-## Optional Dependencies
+### Optional Dependencies
 
 #### **Digital Audio Dependencies**
   The core package operates with numpy arrays. Dependecies for audio file handling to run audio examples in notebook and scripts in the repository, can be additionally installed using pip:
@@ -85,8 +101,8 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
   ```
   For local installation from the cloned directory: ```pip install .[audio_io]``` or manually with ```pip install -r requirements-audio.txt```.<br>
 
-  > [!Note]
- > If using your own choice of libraries for digital audio processing, please note that the Mult-channel Quantum Audio is processed with _Channels First_ data structures. e.g. (2, N) for a Stereo Audio of N samples.
+  > [!Tip]
+ > If using your own choice of libraries for digital audio processing, please be aware that Multi-channel Quantum Audio is processed with _Channels First_ data structure. e.g. `(2, N)` for a Stereo Audio of `N` samples.
 
 #### **Notebook Dependencies**
   The [Demo Notebook](DEMO.ipynb) features interactive elements that requires additional dependencies. It can be installed using pip:
@@ -95,7 +111,8 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
   ```
   For local installation from the cloned directory: ```pip install .[notebook]``` or manually with ```pip install -r requirements-notebook.txt``` .<br>
 
-## Usage
+---
+## 🎨 Usage
 ```python
 # An instance of a scheme can be created using:
 import quantumaudio
@@ -110,11 +127,11 @@ encoded_circuit = qpam.encode(original_audio)
 decoded_signal  = qpam.decode(encoded_circuit,shots=4000)    
 ```
 
-#### Running on Simulator
+### Running on Simulator
 
 The default ```scheme.decode()``` uses local _AerSimulator_ as default backend. Internally, it performs ```qiskit.execute()``` method similar to v0.0.2 and a compatible backend object can be specified by passing ```backend=``` parameter.
 
-#### Running on Quantum Hardware
+### Running on Quantum Hardware
 
 The package allows flexible use of Quantum Hardware from different Providers for executing the circuits.
 
@@ -124,11 +141,11 @@ The package allows flexible use of Quantum Hardware from different Providers for
 - If the results is in form of counts dictionary or [qiskit.result.Counts](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Counts) object with keys representing classical measurement outcomes and values indicating the number of times the outcome was observed:
   - The audio can be decoded using ```scheme.reconstruct_data(counts)``` method. In this case, metadata information can be manually passed as arguments.
  
-## Additional Materials
-### Notebook
+## 📘 Materials
+### Notebook Examples
 For examples on circuit preparation, signals and audio reconstruction, Please try the [Demo Notebook](DEMO.ipynb) .
 
-### Export Quantum Audio
+### ⚡️ Quick Export
 To quickly export quantumaudio from any audio file, a script ```export.py``` is provided in scripts folder.
   ```
   python export.py -i path/to/input/audio/file
@@ -137,7 +154,7 @@ To quickly export quantumaudio from any audio file, a script ```export.py``` is 
   
   Note: Digital Audio Dependencies (i.e. soundfile and librosa) must be installed to run this script and it only supports AerSimulator currently.
 
-## Contributing
+## 🤝 Contributing
 Contributions to Quantum Audio are welcome! This package is designed to be a versatile tool for both research and artistic exploration.
 
 If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository. 
@@ -149,17 +166,17 @@ If you find any issues or have suggestions for improvements, please open an issu
 
 For more information on contributing to Code and Documentation, please review [Contributing Guidelines](CONTRIBUTING.md).
 
-## Future Releases
+## 🔼 Future Releases
 We're excited about the upcoming features and improvements! Quantum Audio Package v0.1.0 is a gradual upgrade from v0.2.0 with focus on the core architectural changes. 
 In future releases, we plan to extend support to Qiskit v1.0 and above. We also plan to introduce more schemes from Quantum Audio Literature along with a Base Scheme Class to aid further contributions.
 
-## Citing
+## ✅ Citing
 If you use this code or find it useful in your research, please consider citing: [DOI]()
 
-## Contact
+## 📧 Contact
 If you have any questions or need further assistance, please feel free to contact Moth Quantum at hello@mothquantum.com
 
-## Copyright
+## 📜 Copyright
 Copyright 2024 Moth Quantum
 
 Licensed under the Apache License, Version 2.0 (the "License");
