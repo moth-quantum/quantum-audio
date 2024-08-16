@@ -4,5 +4,5 @@ version = "0.1.0"
 dependencies = ["qiskit==0.46.0","qiskit_aer==0.13.3","numpy","bitstring","matplotlib","pylatexenc","tqdm"]
 
 [project.optional-dependencies]
-audio_io = ["soundfile,"librosa"]
+audio_io = ["soundfile","librosa"]
 notebook_examples = ["ipython","ipykernel","ipywidgets"]
