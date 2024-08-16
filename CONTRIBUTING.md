@@ -50,17 +50,7 @@ Thank you for considering contributing to our project! To ensure compliance with
 
 7. **Use Linting**
    - **Linting Tool:** We use `ruff` for linting. Ensure that your code adheres to our linting standards.
-   - **Ruff Configuration:** Our `ruff` configuration is as follows:
-     ```ini
-     [tool.ruff]
-     line-length = 79
-
-     [tool.ruff.lint]
-     select = ["D"]
-
-     [tool.ruff.lint.pydocstyle]
-     convention = "google"
-     ```
+   - **Ruff Configuration:** Please check our `ruff` configuration [here](.ruff.toml).
    - **Run Linter:** Before submitting your PR, run `ruff` to check for any issues:
      ```bash
      ruff check .
