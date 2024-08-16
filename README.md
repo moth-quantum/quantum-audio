@@ -15,12 +15,12 @@ The objective of Quantum Audio is to enable new ways of exploring audio signal p
 
 - [Overview](#overview)
 - [Version Information](#version)
-- [Installation](#dependencies)
-- [Usage](#installation-from-sources)
-- [Materials](#license)
-- [Contributing](#documentation)
-- [Future Releases](#background)
-- [Citing](#getting-help)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Materials](#materials)
+- [Contributing](#contributing)
+- [Future Releases](#future-releases)
+- [Citing](#citing)
 
 ---
 ## 🔍 Overview <a id="overview"></a>
@@ -80,7 +80,7 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
 If you're transitioning from the previous version, please check the [Migration Guide](MIGRATION.md) for an overview on the package usability.
 
 ---
-##  🪄 Installation
+##  🪄 Installation <a id="installation"></a>
 To install Quantum Audio Package, you can use ```pip``` (comes with Python) which installs from [PyPI](https://pypi.org/project/quantumaudio/) package manager. Run the following command in terminal or command prompt: 
 ```
 pip install quantumaudio
@@ -111,7 +111,7 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
   For local installation from the cloned directory: ```pip install .[notebook]``` or manually with ```pip install -r requirements-notebook.txt``` <br>
 
 ---
-## 🎨 Usage
+## 🎨 Usage <a id="usage"></a>
 
 Get started on creating Quantum Audio Representations with few lines of code.
 ```python
@@ -145,7 +145,7 @@ The package allows flexible use of Quantum Hardware from different Providers for
 - If the results is in form of counts dictionary or [qiskit.result.Counts](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Counts) object with keys representing classical measurement outcomes and values indicating the number of times the outcome was observed:
   - The audio can be decoded using ```scheme.reconstruct_data(counts)``` method. In this case, metadata information can be manually passed as arguments.
  
-## 📘 Materials
+## 📘 Materials <a id="materials"></a>
 ### Notebook Examples
 For examples on circuit preparation, signals and audio reconstruction, Please try the [Demo Notebook](DEMO.ipynb) .
 
@@ -158,7 +158,7 @@ To quickly export quantumaudio from any audio file, a script ```export.py``` is 
   
   Note: Digital Audio Dependencies (i.e. soundfile and librosa) must be installed to run this script and it only supports AerSimulator currently.
 
-## 🤝 Contributing
+## 🤝 Contributing <a id="contributing"></a>
 Contributions to Quantum Audio are welcome! This package is designed to be a versatile tool for both research and artistic exploration.
 
 If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository. 
@@ -170,14 +170,15 @@ If you find any issues or have suggestions for improvements, please open an issu
 
 For more information on contributing to Code and Documentation, please review [Contributing Guidelines](CONTRIBUTING.md).
 
-## 🔼 Future Releases
+## 🔼 Future Releases <a id="future-releases"></a>
 We're excited about the upcoming features and improvements! Quantum Audio Package v0.1.0 is a gradual upgrade from v0.2.0 with focus on the core architectural changes. 
 In future releases, we plan to extend support to Qiskit v1.0 and above. We also plan to introduce more schemes from Quantum Audio Literature along with a Base Scheme Class to aid further contributions.
 
-## ✅ Citing
+## ✅ Citing <a id="citing"></a>
 If you use this code or find it useful in your research, please consider citing: [DOI]()
 
-## 📧 Contact
+---
+## 📧 Contact 
 If you have any questions or need further assistance, please feel free to contact Moth Quantum at hello@mothquantum.com
 
 ## 📜 Copyright
