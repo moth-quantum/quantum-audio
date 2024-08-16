@@ -116,7 +116,7 @@ def draw_circuit(circuit: qiskit.QuantumCircuit, decompose: int = 0) -> None:
         decompose: Number of times to decompose the circuit. Defaults to 0.
 
     """
-    for i in range(decompose):
+    for _i in range(decompose):
         circuit = circuit.decompose()
 
     circuit.draw("mpl", style="clifford")
