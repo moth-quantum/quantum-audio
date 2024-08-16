@@ -18,7 +18,7 @@ from typing import Optional, Union
 import numpy as np
 import qiskit
 
-import quantumaudio.utils as utils
+from quantumaudio import utils
 
 
 class MSQPAM:
