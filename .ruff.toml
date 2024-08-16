@@ -1,11 +1,40 @@
+# Set PEP-8 Standard for maximum line length
 line-length = 79
 
 [lint.pydocstyle]
+# Set the docstring convention to "google"
 convention = "google"
 
 [lint]
-select = ["F","E","W","B","Q","PL","RUF"]
+select = [
+  # Pyflakes errors (e.g., undefined names)
+  "F",
+  # Pycodestyle errors (e.g., indentation, spacing)
+  "E",
+  # Warnings (e.g., syntax warnings)
+  "W",
+  # Bugbear errors (e.g., common bugs and performance issues)
+  "B",
+  # Quotes issues
+  "Q",
+  # Pylint specific checks
+  "PL",
+  # Ruff-specific issues
+  "RUF",
+]
 
-ignore = ["F403", "E501", "PLR0913", "PLR2004"]
+ignore = [
+  # Wildcard imports (To ignore from file import * in utils/__init__.py)
+  "F403",
+  # Line too long (line exceeds maximum length)
+  "E501",
+  # Too many arguments
+  "PLR0913",
+  # Too many local variables
+  "PLR2004",
+]
 
-exclude = ["tests/*.py", "scripts/*.py"]
+exclude = [
+  "tests/*.py",
+  "scripts/*.py",
+]
