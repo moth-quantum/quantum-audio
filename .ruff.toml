@@ -26,11 +26,11 @@ select = [
 ignore = [
   # Wildcard imports (To ignore from file import * in utils/__init__.py)
   "F403",
-  # Line too long (line exceeds maximum length)
+  # Line too long (line exceeds maximum length in some places)
   "E501",
-  # Too many arguments
+  # Too many arguments (Used in high-level functions in Tools)
   "PLR0913",
-  # Too many local variables
+  # Too many local variables (Ignore magic value `2` for stereo, etc.)
   "PLR2004",
 ]
 
