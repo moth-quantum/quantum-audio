@@ -43,8 +43,5 @@ def __getattr__(name):
 def __dir__():
     return __all__
 
-
-_all_modules = ["schemes", "utils"]
 _all_schemes = ["QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM"]
-
-__all__ = _all_modules + _all_schemes
+__all__ = ["schemes", "utils", "QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM"]
