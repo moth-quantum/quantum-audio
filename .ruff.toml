@@ -4,4 +4,4 @@ line-length = 79
 convention = "google"
 
 [lint]
-select = ["E", "F", "W", "D"]
+select = ["E", "F", "W", "D", "N"]
