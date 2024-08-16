@@ -3,7 +3,6 @@
 
 An open-source Python package for building Quantum Representations of Digital Audio using _Qiskit_ circuits.
 
----
 ## 💿 What is Quantum Audio ?
 
 Audio plays a vital role in carrying information and music, traversing through domains — from analog and digital formats to engaging our senses in a profound way. With the advent of Quantum Computing, we formulate ways of representing Audio Information in the Quantum Domain.
