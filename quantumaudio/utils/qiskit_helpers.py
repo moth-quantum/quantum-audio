@@ -119,8 +119,5 @@ def draw_circuit(circuit: qiskit.QuantumCircuit, decompose: int = 0) -> None:
     for i in range(decompose):
         circuit = circuit.decompose()
 
-    try:  # Display the plot inline in Jupyter Notebook
-        display(circuit.draw("mpl", style="clifford"))
-    except ImportError:  # Show the plot in a separate window (for terminal)
-        circuit.draw("mpl", style="clifford")
-        plt.show()
+    circuit.draw("mpl", style="clifford")
+    plt.show()
