@@ -32,7 +32,7 @@ def tune(
     step: int = 10,
     name: str = "Shots",
     ref: np.ndarray = None,
-    limit: int = None,
+    limit: Optional[int] = None,
 ) -> None:
     """Sets up an interactive widget to tune parameters and visualize the
     function.
