@@ -147,7 +147,7 @@ The package allows flexible use of Quantum Hardware from different Providers for
  
 ## 📘 Materials <a id="materials"></a>
 ### Notebook Examples
-For examples on circuit preparation, signals and audio reconstruction, Please try the [Demo Notebook](DEMO.ipynb) .
+For examples on circuit preparation, signals and audio reconstruction, Please try the [Demo Notebook](DEMO.ipynb) 
 
 ### Quick Export ⚡️
 To quickly export quantumaudio from any audio file, a script ```export.py``` is provided in scripts folder.
