@@ -4,4 +4,8 @@ line-length = 79
 convention = "google"
 
 [lint]
-select = ["E", "F", "D", "I"]
+select = ["F","E","W","B"]
+
+ignore = ["F403", "E501"]
+
+exclude = ["tests/*.py", "scripts/*.py"]
