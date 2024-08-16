@@ -21,6 +21,7 @@ from typing import Union
 # Plotting Utils
 # ======================
 
+
 def simulate_data(
     num_samples: int, num_channels: int = 1, seed: int = 42
 ) -> np.ndarray:
@@ -41,6 +42,7 @@ def simulate_data(
     if num_channels == 1:
         data = data.squeeze()
     return data
+
 
 def plot_1d(
     samples: np.ndarray,
@@ -66,7 +68,9 @@ def plot_1d(
     x_axis = np.arange(0, num_samples)
 
     for i, y_axis in enumerate(samples):
-        plt.plot(x_axis, y_axis.squeeze(), label=None if not label else label[i])
+        plt.plot(
+            x_axis, y_axis.squeeze(), label=None if not label else label[i]
+        )
 
     plt.xlabel("Index")
     plt.ylabel("Values")
@@ -123,7 +127,9 @@ def plot(
     else:
         plt.figure(figsize=figsize)
         for i, y_axis in enumerate(samples):
-            plt.plot(x_axis, y_axis.squeeze(), label=None if not label else label[i])
+            plt.plot(
+                x_axis, y_axis.squeeze(), label=None if not label else label[i]
+            )
             plt.xlabel("Index")
             plt.ylabel("Values")
             if label:

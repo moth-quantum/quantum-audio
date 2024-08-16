@@ -23,6 +23,7 @@ import matplotlib.pyplot as plt
 # Notebook Utils
 # ======================
 
+
 def tune(
     obj: np.ndarray,
     function: Callable,
@@ -70,7 +71,9 @@ def tune(
 
 
 def play(
-    array: Union[list[float], list[int]], rate: int = 44100, autoplay: bool = False
+    array: Union[list[float], list[int]],
+    rate: int = 44100,
+    autoplay: bool = False,
 ) -> None:
     """Display audio from an array of audio data.
 
@@ -84,6 +87,7 @@ def play(
     """
     audio = Audio(data=array, rate=rate, autoplay=autoplay)
     display(audio)
+
 
 def tune_audio(
     obj: np.ndarray,
@@ -113,7 +117,12 @@ def tune_audio(
     """
 
     def plot_function(shots):
-        y = function(chunks=obj[offset:limit], scheme=scheme, shots=shots, show_progress=False)
+        y = function(
+            chunks=obj[offset:limit],
+            scheme=scheme,
+            shots=shots,
+            show_progress=False,
+        )
         if y:
             y = np.concatenate(y)
         clear_output(wait=True)

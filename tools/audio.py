@@ -23,6 +23,7 @@ from typing import Any
 # I/O handling functions
 # ======================
 
+
 def read(
     file_path: str,
     sr: int = 22050,
@@ -43,6 +44,7 @@ def read(
     y, sr = librosa.load(file_path, sr=sr, mono=mono)
     return y, sr
 
+
 def write(
     data: np.NDArray,
     sr: int,
@@ -61,13 +63,15 @@ def write(
     """
     data = data.squeeze()
     if data.ndim == 2 and data.shape[0] < data.shape[1]:
-        data = data.T # Soundfile requires 'Channels Last' format for writing
+        data = data.T  # Soundfile requires 'Channels Last' format for writing
     sf.write(output_filepath, data, sr, format=output_filepath)
     print(output_filepath)
+
 
 # ======================
 # Main Processing function
 # ======================
+
 
 def get_quantumaudio(
     file_path: str,
@@ -78,16 +82,22 @@ def get_quantumaudio(
     chunk_size: int = 256,
     verbose: bool = False,
 ) -> np.NDArray:
-
-    digital_audio, sr = read(file_path=file_path,sr=sr,mono=mono)
-    print(f'Sample Rate: {sr}')
-    quantum_audio = stream.stream_data(data=digital_audio,scheme=scheme,shots=shots,chunk_size=chunk_size,verbose=verbose)
+    digital_audio, sr = read(file_path=file_path, sr=sr, mono=mono)
+    print(f"Sample Rate: {sr}")
+    quantum_audio = stream.stream_data(
+        data=digital_audio,
+        scheme=scheme,
+        shots=shots,
+        chunk_size=chunk_size,
+        verbose=verbose,
+    )
     return quantum_audio, sr
 
 
 # ======================
 # Process and Save
 # ======================
+
 
 def save_quantumaudio(
     file_path: str,
@@ -100,6 +110,18 @@ def save_quantumaudio(
     output_filepath: str = "reconstructed_audio.wav",
     audio_format: str = "WAV",
 ) -> None:
-
-    quantum_audio, sr = get_quantumaudio(file_path=file_path,sr=sr,mono=mono,scheme=scheme,shots=shots,chunk_size=chunk_size,verbose=verbose)
-    write(data=quantum_audio.T,sr=sr,output_filepath=output_filepath,audio_format=audio_format)
+    quantum_audio, sr = get_quantumaudio(
+        file_path=file_path,
+        sr=sr,
+        mono=mono,
+        scheme=scheme,
+        shots=shots,
+        chunk_size=chunk_size,
+        verbose=verbose,
+    )
+    write(
+        data=quantum_audio.T,
+        sr=sr,
+        output_filepath=output_filepath,
+        audio_format=audio_format,
+    )

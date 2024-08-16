@@ -21,6 +21,7 @@ from typing import Any
 # Buffering Utils
 # ======================
 
+
 def get_chunks(
     data: np.ndarray,
     chunk_size: int = 256,
@@ -68,7 +69,12 @@ def process(chunk: np.ndarray, scheme: Any, shots: int) -> np.ndarray:
     return chunk
 
 
-def process_chunks(chunks: list[np.ndarray], scheme: Any, shots: int, show_progress: bool = True) -> list:
+def process_chunks(
+    chunks: list[np.ndarray],
+    scheme: Any,
+    shots: int,
+    show_progress: bool = True,
+) -> list:
     """Process chunks of data in an iteration according to a specified scheme.
 
     Parameters:
@@ -80,17 +86,19 @@ def process_chunks(chunks: list[np.ndarray], scheme: Any, shots: int, show_progr
     None
     """
     processed_chunks = []
-    for chunk in tqdm(chunks, disable = not show_progress):
+    for chunk in tqdm(chunks, disable=not show_progress):
         processed_chunk = process(chunk, scheme, shots)
         processed_chunks.append(processed_chunk)
     return processed_chunks
 
+
 def combine_chunks(chunks):
     if chunks[0].ndim != 1:
-        output = np.concatenate(chunks,axis=1)
+        output = np.concatenate(chunks, axis=1)
     else:
-        output = np.concatenate(chunks,axis=0)
+        output = np.concatenate(chunks, axis=0)
     return output
+
 
 def stream_data(
     data: np.ndarray,
@@ -99,9 +107,12 @@ def stream_data(
     chunk_size: int = 64,
     verbose: bool = False,
 ) -> np.ndarray:
-
-    assert chunk_size < data.shape[-1], f'Chunk size ({chunk_size}) cant be smaller than number of samples ({data.shape[-1]})'
-    chunks = get_chunks(data=data,chunk_size=chunk_size,verbose=verbose)
-    processed_chunks = process_chunks(chunks=chunks,scheme=scheme,shots=shots)
+    assert (
+        chunk_size < data.shape[-1]
+    ), f"Chunk size ({chunk_size}) cant be smaller than number of samples ({data.shape[-1]})"
+    chunks = get_chunks(data=data, chunk_size=chunk_size, verbose=verbose)
+    processed_chunks = process_chunks(
+        chunks=chunks, scheme=scheme, shots=shots
+    )
     output = combine_chunks(processed_chunks)
     return output
