@@ -125,7 +125,7 @@ original_audio = [ ] # an array of samples
 # Encoding
 encoded_circuit = qpam.encode(original_audio)
 
-# ... do some processing
+# ... optionally do some processing
 
 # Decoding
 decoded_signal  = qpam.decode(encoded_circuit,shots=4000)    
