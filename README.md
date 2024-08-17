@@ -130,7 +130,7 @@ encoded_circuit = qpam.encode(original_data)
 decoded_data  = qpam.decode(encoded_circuit,shots=4000)    
 ```
 > [!Note]
-> The `encode` function returns a circuit with classical measurements by default. In Qiskit, it is not possible to directly modify a circuit after these measurements are added. If you wish to return a circuit without measurements, you can specify `measure=False` while encoding.
+> The `encode` function returns a circuit with attached classical measurements by default. In Qiskit, it is not possible to directly modify a circuit after these measurements are added. If you wish to return a circuit without measurements, you can specify `measure=False` while encoding.
 
 > [!Tip]
 > The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent short length of samples per Circuit. The functions provided in `tools/stream.py` facilitate processing of Long arrays in chunks. Examples of the usage can be found in the [Demo Notebook](DEMO.ipynb) and `scripts` provided in this repository.
