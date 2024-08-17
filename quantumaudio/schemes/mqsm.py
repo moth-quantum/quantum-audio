@@ -28,7 +28,7 @@ class MQSM:
     MQSM class implements an encoding and decoding scheme where the
     amplitude of a Digital signal is encoded as qubit states.
     These states are controlled by qubits of time register that encodes
-    the corresponding time index information. Additionally another register
+    the corresponding time index information. Additionally, another register
     is used to represent the channel information.
     """
 
@@ -39,7 +39,7 @@ class MQSM:
     ) -> None:
         """Initialize the MQSM instance. The attributes of `__init__` method are
         specific to this Scheme which remains fixed and independent of the
-        Data. These attributes gives an overview of the Scheme.
+        Data. These attributes give an overview of the Scheme.
 
         Attributes:
             name:         Holds the full name of the representation.
@@ -49,12 +49,12 @@ class MQSM:
                           that depends on the bit depth of audio)
             num_channels: Number of channels in a 2-dimensional data.
                           For e.g. (2,8) denotes stereo audio of length 8.
-                          (Note: MQSM works with at-least 2 channels.)
+                          (Note: MQSM works with at least 2 channels.)
 
-            n_fold:       Term for fixed number of registers used.
+            n_fold:       Term for a fixed number of registers used.
             labels:       Name of the Quantum registers
             positions:    Index position of Quantum registers
-                          (In Qiskit circuit the registers are arranged
+                          (In a Qiskit circuit the registers are arranged
                           from Top to Bottom)
 
             convert:      Function that applies a mathematical conversion
@@ -66,11 +66,6 @@ class MQSM:
                           However, the user can specify `qubit_depth` to
                           override it. This is useful in case of
                           real hardware limitations.
-
-            num_channels: If None, the num_channels is adapted to the data.
-                          However, the user can specify `num_channel` to
-                          override it. In any case, Minimum 2 channels
-                          is ensured by padding if required.
 
         """
         self.name = "Multi-channel Quantum State Modulation"
@@ -248,13 +243,13 @@ class MQSM:
         measure: bool = True,
         verbose: Union[int, bool] = 2,
     ) -> qiskit.QuantumCircuit:
-        """Given an audio data, prepares a Qiskit Circuit representing it.
+        """Given audio data, prepares a Qiskit Circuit representing it.
 
         Args:
             data: Array representing Digital Audio Samples
             measure: Adds measurement to the circuit if set True or int > 0.
             verbose: Level of information to print.
-                     - >1: Prints number of qubits required.
+                     - >1: Prints the number of qubits required.
                      - >2: Displays the encoded circuit.
 
         Returns:
@@ -298,7 +293,7 @@ class MQSM:
         counts: Union[dict, qiskit.result.Counts],
         num_components: tuple[int, int],
     ) -> np.ndarray:
-        """The first stage of decoding is extracting required components from
+        """The first stage of decoding is extracting the required components from
         counts.
 
         Args:
@@ -325,7 +320,7 @@ class MQSM:
         num_components: tuple[int, int],
         qubit_depth: int,
     ) -> np.ndarray:
-        """Given counts, Extract components and restore the conversion did at
+        """Given counts, Extract components and restore the conversion at
         encoding stage.
 
         Args:
@@ -347,12 +342,12 @@ class MQSM:
         keep_padding: tuple[int, int] = (False, False),
     ) -> np.ndarray:
         """Given a result object. Extract components and restore the conversion
-        did in encoding stage.
+        did in the encoding stage.
 
         Args:
                 result: a qiskit Result object that contains counts along
                         with metadata that was held by the original circuit.
-                keep_padding: Undo the padding set at Encoding stage if set False.
+                keep_padding: Undo the padding set at Encoding stage if set to False.
                               Dimension 0: for channels
                               Dimension 1: for time
 
@@ -405,7 +400,7 @@ class MQSM:
         shots: int = 4000,
         keep_padding: tuple[int, int] = (False, False),
     ) -> np.ndarray:
-        """Given a qiskit circuit, decodes and returns back the Original Audio Array.
+        """Given a qiskit circuit, decodes and returns the Original Audio Array.
 
         Args:
                 circuit: A Qiskit Circuit representing the Digital Audio.
