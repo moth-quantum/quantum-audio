@@ -122,7 +122,7 @@ def save_quantumaudio(
         verbose=verbose,
     )
     write(
-        data=quantum_audio.T,
+        data=quantum_audio,
         sr=sr,
         output_filepath=output_filepath,
         audio_format=audio_format,

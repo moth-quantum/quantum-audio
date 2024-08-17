@@ -5,11 +5,9 @@ An open-source Python package for building Quantum Representations of Digital Au
 
 ## 💿 What is Quantum Audio ?
 
-Audio plays a vital role in carrying information and music, traversing through domains — from analog and digital formats to engaging our senses in a profound way. With the advent of Quantum Computing, we formulate ways of representing Audio Information in the Quantum Domain.
+Audio plays a vital role in carrying information and music, traversing through domains — from analog and digital formats to engaging our senses in a profound way. With the advent of Quantum Computing, we formulate ways of representing Audio Information in the Quantum Domain, enabling new ways of exploration in artistic and research contexts 💫
 
 The Quantum Audio Package provides fundamental operations for representing audio as Quantum States that can be processed on a Quantum computer (or Simulator) and played back in the classical world 🔊
-
-The objective of Quantum Audio is to enable new ways of exploring audio signal processing for artistic and research purposes 💫
 
 ## 🗒️ Table of Contents
 
@@ -25,19 +23,20 @@ The objective of Quantum Audio is to enable new ways of exploring audio signal p
 ---
 ## 🔍 Overview <a id="overview"></a>
 
+Modulation Schemes are essential methods for Encoding Audio in both Analog (such as **FM** 📻) and Digital (such as **PCM** 💻) formats. The same is extended for Quantum Audio.
 The package contains different schemes to encode audio and necessary utilities as follows:
 
 - ```schemes``` : Quantum Audio Representation Methods
   
 | Acronym | Representation Name | Original Reference |
 |---------|---------------------|--------------------|
-| QPAM    | Quantum Probability Amplitude Modulation | Real-Ket          |
-| SQPAM   | Single-Qubit Probability Amplitude Modulation | [FRQI](http://dx.doi.org/10.1007/s11128-010-0177-y)  |
-| MSQPAM  | Multi-channel Single-Qubit Probability Amplitude Modulation | [PMQA](https://doi.org/10.1007/s11128-022-03435-7)  |
-| QSM     | Quantum State Modulation | [FRQA](https://doi.org/10.1016/j.tcs.2017.12.025) |
-| MQSM    | Multi-channel Quantum State Modulation | [QRMA](https://doi.org/10.1007/s11128-019-2317-3)  |
+| **QPAM**    | Quantum Probability Amplitude Modulation | Real-Ket          |
+| **SQPAM**   | Single-Qubit Probability Amplitude Modulation | [FRQI](http://dx.doi.org/10.1007/s11128-010-0177-y)  |
+| **MSQPAM**  | Multi-channel Single-Qubit Probability Amplitude Modulation | [PMQA](https://doi.org/10.1007/s11128-022-03435-7)  |
+| **QSM**     | Quantum State Modulation | [FRQA](https://doi.org/10.1016/j.tcs.2017.12.025) |
+| **MQSM**    | Multi-channel Quantum State Modulation | [QRMA](https://doi.org/10.1007/s11128-019-2317-3)  |
 
-- ```utils``` : Utilary functions for data processing, analysis, circuit preparation, etc.
+- ```utils``` : Common Utilary functions for data processing, analysis, circuit preparation, etc.
 ---
 ## 🧩 Version Information <a id="version"></a>
 
@@ -65,7 +64,7 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
     
 - **Dependency Change:**
   
-  - Support for _Qiskit_ is updated from **v0.22** to **v0.46**
+  - Support for _Qiskit_ is updated from `v0.22` to `v0.46`
     
 - **Improvements:**
   
@@ -125,11 +124,16 @@ original_data = [ ] # an array of samples
 # Encoding
 encoded_circuit = qpam.encode(original_data)
 
-# ... optionally do some processing
+# ... do some analysis or processing
 
 # Decoding
 decoded_data  = qpam.decode(encoded_circuit,shots=4000)    
 ```
+> [!Note]
+> The `encode` function returns a circuit with classical measurements by default. In Qiskit, it is not possible to directly modify a circuit after these measurements are added. If you wish to return a circuit without measurements, you can specify `measure=False` while encoding.
+
+> [!Tip]
+> The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent short length of samples per Circuit. The functions provided in `tools/stream.py` facilitate processing of Long arrays in chunks. Examples of the usage can be found in the [Demo Notebook](DEMO.ipynb) and `scripts` provided in this repository.
 
 ### Running on Simulator
 
@@ -147,10 +151,10 @@ The package allows flexible use of Quantum Hardware from different Providers for
  
 ## 📘 Additional Resources <a id="materials"></a>
 ### Notebook Examples
-For examples on circuit preparation, signals reconstruction, and interactive demonstrations, please check the [Demo Notebook](DEMO.ipynb).
+For examples on circuit preparation, signals reconstruction, and interactive demonstrations, please check the [Demo Notebook](DEMO.ipynb). It combines the core package with useful functions from `tools` folder to go through Visual and Digital Audio examples.
 
 ### Quick Export ⚡️
-To quickly export quantumaudio from any audio file (e.g., mp3, ogg, flac, m4a), a script ```export.py``` is provided in scripts folder. Following `cd scripts`, run:
+To quickly export quantumaudio from any audio file (e.g., mp3, ogg, flac, m4a), a script ```export.py``` is provided in `scripts` folder. Navigate with `cd scripts` and run:
   ```bash
   python export.py -i path/to/input/audio/file
   ```
@@ -188,7 +192,7 @@ For more information on contributing to Code and Documentation, please review [C
 
 ## 🚩 Future Releases <a id="future-releases"></a>
 We're excited about keeping the package updated with features and improvements! Quantum Audio Package `v0.1.0` is a gradual upgrade from `v0.0.2` with focus on the core architectural changes. 
-In future releases, we plan to extend support to Qiskit `v1.0` and above. We also plan to introduce other schemes from Quantum Audio Literature along with Base Scheme Classes to support them.
+In future releases, we plan to extend support to Qiskit `v1.0+`. We also plan to introduce other schemes from Quantum Audio Literature along with Base Scheme Classes to support a generic structure.
 
 ## ✅ Citing <a id="citing"></a>
 If you use this code or find it useful in your research, please consider citing: [DOI]()
