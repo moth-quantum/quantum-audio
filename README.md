@@ -84,11 +84,11 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
   - The License is updated from **MIT** to **Apache 2.0**
 
 ### Migration Guide
-If you're transitioning from the previous version, please check the [Migration Guide](MIGRATION.md) for an overview on the package usability.
+If you're transitioning from the previous version, please check the [Migration Guide](MIGRATION.md) for an overview of the package usability.
 
 
 ##  🪄 Installation <a id="installation"></a>
-To install Quantum Audio Package, you can use ```pip``` (comes with Python) which installs it from [PyPI](https://pypi.org/project/quantumaudio/) package manager. Run the following command in Terminal or Command Prompt: 
+To install the Quantum Audio Package, you can use ```pip``` (which comes with Python) which installs it from [PyPI](https://pypi.org/project/quantumaudio/) package manager. Run the following command in Terminal or Command Prompt: 
 ```
 pip install quantumaudio
 ```
