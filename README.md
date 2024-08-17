@@ -137,7 +137,7 @@ decoded_data  = qpam.decode(encoded_circuit,shots=4000)
 
 ### Running on Simulator
 
-The default ```scheme.decode()``` uses local _AerSimulator_ as default backend. Internally, it performs ```qiskit.execute()``` method similar to ```v0.0.2``` and a compatible backend object can be specified by passing ```backend=``` parameter.
+The default ```scheme.decode()``` uses local [_AerSimulator_](https://github.com/Qiskit/qiskit-aer) as default backend. Internally, the function performs ```qiskit.execute()``` method similar to ```v0.0.2``` and a compatible backend object can be specified by passing ```backend=``` parameter.
 
 ### Running on Quantum Hardware
 
