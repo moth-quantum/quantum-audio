@@ -124,7 +124,7 @@ original_data = [ ] # an array of samples
 # Encoding
 encoded_circuit = qpam.encode(original_data)
 
-# ... optionally do some processing
+# ... do some analysis or processing
 
 # Decoding
 decoded_data  = qpam.decode(encoded_circuit,shots=4000)    
