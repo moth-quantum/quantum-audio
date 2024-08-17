@@ -36,7 +36,7 @@ The package contains different schemes to encode audio and necessary utilities a
 | `QSM`     | Quantum State Modulation | [FRQA](https://doi.org/10.1016/j.tcs.2017.12.025) |
 | `MQSM`    | Multi-channel Quantum State Modulation | [QRMA](https://doi.org/10.1007/s11128-019-2317-3)  |
 
-- ```utils``` : Utilary functions for data processing, analysis, circuit preparation, etc.
+- ```utils``` : Common Utilary functions for data processing, analysis, circuit preparation, etc.
 ---
 ## 🧩 Version Information <a id="version"></a>
 
