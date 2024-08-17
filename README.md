@@ -23,18 +23,18 @@ The Quantum Audio Package provides fundamental operations for representing audio
 ---
 ## 🔍 Overview <a id="overview"></a>
 
-Modulation Schemes are essential methods for Encoding Audio in both Analog (such as `FM` 📻) and Digital (such as `PCM` 💻) formats. The same is extended for Quantum Audio.
+Modulation Schemes are essential methods for Encoding Audio in both Analog (such as **FM** 📻) and Digital (such as **PCM** 💻) formats. The same is extended for Quantum Audio.
 The package contains different schemes to encode audio and necessary utilities as follows:
 
 - ```schemes``` : Quantum Audio Representation Methods
   
 | Acronym | Representation Name | Original Reference |
 |---------|---------------------|--------------------|
-| `QPAM`    | Quantum Probability Amplitude Modulation | Real-Ket          |
-| `SQPAM`   | Single-Qubit Probability Amplitude Modulation | [FRQI](http://dx.doi.org/10.1007/s11128-010-0177-y)  |
-| `MSQPAM`  | Multi-channel Single-Qubit Probability Amplitude Modulation | [PMQA](https://doi.org/10.1007/s11128-022-03435-7)  |
-| `QSM`     | Quantum State Modulation | [FRQA](https://doi.org/10.1016/j.tcs.2017.12.025) |
-| `MQSM`    | Multi-channel Quantum State Modulation | [QRMA](https://doi.org/10.1007/s11128-019-2317-3)  |
+| **QPAM**    | Quantum Probability Amplitude Modulation | Real-Ket          |
+| **SQPAM**   | Single-Qubit Probability Amplitude Modulation | [FRQI](http://dx.doi.org/10.1007/s11128-010-0177-y)  |
+| **MSQPAM**  | Multi-channel Single-Qubit Probability Amplitude Modulation | [PMQA](https://doi.org/10.1007/s11128-022-03435-7)  |
+| **QSM**     | Quantum State Modulation | [FRQA](https://doi.org/10.1016/j.tcs.2017.12.025) |
+| **MQSM**    | Multi-channel Quantum State Modulation | [QRMA](https://doi.org/10.1007/s11128-019-2317-3)  |
 
 - ```utils``` : Common Utilary functions for data processing, analysis, circuit preparation, etc.
 ---
