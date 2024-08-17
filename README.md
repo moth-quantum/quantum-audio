@@ -1,12 +1,11 @@
 <div align="center">
   
 # Quantum Audio
-![Python version](https://img.shields.io/badge/python-3.9+-important) ![PyPI](https://img.shields.io/pypi/v/quantumaudio) ![Read the Docs (version)](https://img.shields.io/readthedocs/quantumaudio/latest?label=API%20docs) [![LICENSE](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/moth-quantum/quantum-audio/blob/pre-release-docs/LICENSE) [![DOI](https://zenodo.org/badge/DOI/10.1234/zenodo.123456.svg)](https://doi.org/)
-
 An open-source Python package for building Quantum Representations of Digital Audio using _Qiskit_ circuits.
 
-<img width="600" alt="Screenshot 2024-08-17 at 11 44 45" src="https://github.com/user-attachments/assets/eb61f8f7-4fd3-4a67-95ab-ac7cc4aeb5d9">
+<img width="600" alt="Screenshot 2024-08-17 at 11 44 45" src="https://github.com/user-attachments/assets/eb61f8f7-4fd3-4a67-95ab-ac7cc4aeb5d9"><br>
 
+![Python version](https://img.shields.io/badge/python-3.9+-important) ![PyPI](https://img.shields.io/pypi/v/quantumaudio) ![Read the Docs (version)](https://img.shields.io/readthedocs/quantumaudio/latest?label=API%20docs) [![LICENSE](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/moth-quantum/quantum-audio/blob/pre-release-docs/LICENSE) [![DOI](https://zenodo.org/badge/DOI/10.1234/zenodo.123456.svg)](https://doi.org/)
 </div>
 
 ## 💿 What is Quantum Audio ?
