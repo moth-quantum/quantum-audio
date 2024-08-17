@@ -93,7 +93,7 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
 ### Optional Dependencies
 
 #### **Digital Audio Dependencies**
-  The core package operates with _numpy_ arrays. Dependecies for audio file handling to run audio examples in notebook and scripts in the repository, can be additionally installed using pip:
+  The core package operates with _numpy_ arrays. Dependecies for audio file handling to run audio examples in notebook and scripts in the repository, can be additionally installed using `pip`:
   ```
   pip install quantumaudio[audio_io]
   ```
@@ -103,7 +103,7 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
  > If using your own choice of libraries for digital audio processing, please be aware that Multi-channel Quantum Audio is processed with _Channels First_ data structure. e.g. `(2, N)` for a Stereo Audio of `N` samples.
 
 #### **Notebook Dependencies**
-  The [Demo Notebook](DEMO.ipynb) features interactive elements that requires additional dependencies. It can be installed using pip:
+  The [Demo Notebook](DEMO.ipynb) features interactive elements that requires additional dependencies. It can be installed using `pip`:
   ```
   pip install quantumaudio[notebook]
   ```
