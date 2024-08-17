@@ -130,6 +130,9 @@ encoded_circuit = qpam.encode(original_data)
 decoded_data  = qpam.decode(encoded_circuit,shots=4000)    
 ```
 
+> [!Tip]
+> The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent short length of samples per Circuit. The functions provided in `Tools/stream.py` facilitate processing of Long Audio Files in chunks. Examples of the usage are presented in the [Demo Notebook](DEMO.ipynb) and `Scripts`.
+
 ### Running on Simulator
 
 The default ```scheme.decode()``` uses local _AerSimulator_ as default backend. Internally, it performs ```qiskit.execute()``` method similar to ```v0.0.2``` and a compatible backend object can be specified by passing ```backend=``` parameter.
