@@ -49,7 +49,7 @@ The package contains different schemes to encode audio and necessary utilities a
 ## 🧩 Version Information <a id="version"></a>
 
 ### Acknowledgment of Previous Version ```v0.0.2```
-This project is derived from research output on quantum representations of audio, carried by <b>Interdisciplinary Centre for Computer Music Research (ICCMR)</b>, University of Plymouth, UK, namely:
+This project is derived from research output on Quantum Representations of Audio, carried by <b>Interdisciplinary Centre for Computer Music Research (ICCMR)</b>, University of Plymouth, UK, namely:
 
 - Itaboraí, P.V., Miranda, E.R. (2022). Quantum Representations of Sound: From Mechanical Waves to Quantum Circuits. In: Miranda, E.R. (eds) Quantum Computer Music. Springer, Cham. https://doi.org/10.1007/978-3-031-13909-3_10
   
