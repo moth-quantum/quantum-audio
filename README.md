@@ -92,7 +92,7 @@ To install Quantum Audio Package, you can use ```pip``` (comes with Python) whic
 ```
 pip install quantumaudio
 ```
-For local installation by [cloning](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository), navigate to the cloned directory in terminal or command prompt and run:<br>
+For local installation by [cloning](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository), navigate to the cloned directory in Terminal or Command Prompt and run:<br>
 ```pip install .``` or  ```pip install -r requirements.txt``` <br>
 
 > [!Note]
