@@ -63,7 +63,7 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
 - **New Architecture:**
 
   - This project has been restructured for better flexibility and scalability.
-  - Instead of _QuantumAudio_ Instances, the package operates at the level of _Scheme_ Instances that performs encoding and decoding functions independent of the data.
+  - Instead of _QuantumAudio_ Instances, the package operates at the level of _Scheme_ Instances that perform encoding and decoding functions independent of the data.
     
 - **Feature Updates:**
   
@@ -79,9 +79,9 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
   - Improved organisation of code for Readability and Modularity
   - Key Information of Original Audio is preserved at Encoding, making the Encoding and Decoding operations independent.
     
-- **Lisence Change:**
+- **License Change:**
   
-  - The Lisence is updated from **MIT** to **Apache 2.0**
+  - The License is updated from **MIT** to **Apache 2.0**
 
 ### Migration Guide
 If you're transitioning from the previous version, please check the [Migration Guide](MIGRATION.md) for an overview on the package usability.
