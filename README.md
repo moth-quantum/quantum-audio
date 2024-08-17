@@ -80,7 +80,7 @@ If you're transitioning from the previous version, please check the [Migration G
 
 ---
 ##  🪄 Installation <a id="installation"></a>
-To install Quantum Audio Package, you can use ```pip``` (comes with Python) which installs from [PyPI](https://pypi.org/project/quantumaudio/) package manager. Run the following command in terminal or command prompt: 
+To install Quantum Audio Package, you can use ```pip``` (comes with Python) which installs it from [PyPI](https://pypi.org/project/quantumaudio/) package manager. Run the following command in terminal or command prompt: 
 ```
 pip install quantumaudio
 ```
