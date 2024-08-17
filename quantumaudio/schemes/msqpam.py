@@ -28,13 +28,13 @@ class MSQPAM:
     amplitude of a Digital signal is encoded through rotation gates
     acting on a single-qubit. This qubit is controlled by qubits of
     time register that encodes the corresponding time index information.
-    Additionally another register is used to represent the channel information.
+    Additionally, another register is used to represent the channel information.
     """
 
     def __init__(self, num_channels: Optional[int] = None) -> None:
         """Initialize the MSQPAM instance. The attributes of `__init__` method are
         specific to this Scheme which remains fixed and independent of the
-        Data. These attributes gives an overview of the Scheme.
+        Data. These attributes give an overview of the Scheme.
 
         Attributes:
             name:         Holds the full name of the representation.
@@ -43,13 +43,13 @@ class MSQPAM:
                           (Note: In MSQPAM, the qubit depth
                           is 1 denoting the "Single-Qubit".)
             num_channels: Number of channels in a 2-dimensional data.
-                          For e.g. (2,8) denotes stereo audio of length 8.
-                          (Note: MSQPAM works with at-least 2 channels.)
+                          E.g. (2,8) denotes stereo audio of length 8.
+                          (Note: MSQPAM works with at least 2 channels.)
 
-            n_fold:       Term for fixed number of registers used.
+            n_fold:       Term for a fixed number of registers used.
             labels:       Name of the Quantum registers
             positions:    Index position of Quantum registers
-                          (In Qiskit circuit the registers are arranged
+                          (In a Qiskit circuit the registers are arranged
                           from Top to Bottom)
 
             convert:      Function that applies a mathematical conversion
@@ -58,7 +58,7 @@ class MSQPAM:
 
         Args:
             num_channels: If None, the num_channels is adapted to the data.
-                          However, an user can specify `num_channels` to
+                          However, a user can specify `num_channels` to
                           override it. In any case, Minimum 2 channels
                           is ensured by padding if required.
 
