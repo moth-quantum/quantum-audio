@@ -44,7 +44,7 @@ The package contains different schemes to encode audio and necessary utilities a
 | **QSM**     | Quantum State Modulation | [FRQA](https://doi.org/10.1016/j.tcs.2017.12.025) |
 | **MQSM**    | Multi-channel Quantum State Modulation | [QRMA](https://doi.org/10.1007/s11128-019-2317-3)  |
 
-- ```utils``` : Common Utilary functions for data processing, analysis, circuit preparation, etc.
+- ```utils``` : Common Utilary functions for Data Processing, Analysis, Circuit Preparation, etc.
 
 ## 🧩 Version Information <a id="version"></a>
 
@@ -88,7 +88,7 @@ If you're transitioning from the previous version, please check the [Migration G
 
 
 ##  🪄 Installation <a id="installation"></a>
-To install the Quantum Audio Package, you can use ```pip``` (which comes with Python) which installs it from [PyPI](https://pypi.org/project/quantumaudio/) package manager. Run the following command in Terminal or Command Prompt: 
+To install the Quantum Audio Package, you can use ```pip``` (included with Python) which installs it from [PyPI](https://pypi.org/project/quantumaudio/) package manager. Run the following command in Terminal or Command Prompt: 
 ```
 pip install quantumaudio
 ```
