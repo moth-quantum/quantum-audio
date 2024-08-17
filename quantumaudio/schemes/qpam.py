@@ -26,7 +26,7 @@ class QPAM:
 
     QPAM class implements encoding and decoding of Digital Audio as
     Quantum Probability Amplitudes. It's the simplest of Schemes and
-    uses qiskit circuit's `initialize` method to set the Quantum States
+    uses Qiskit circuit's `initialize` method to set the Quantum States
     based on provided values. The values are normalized before encoding
     using the `convert` method.
     """
@@ -179,7 +179,7 @@ class QPAM:
         measure: bool = True,
         verbose: Union[int, bool] = 2,
     ) -> qiskit.QuantumCircuit:
-        """Given an audio data, prepares a Qiskit Circuit representing it.
+        """Given audio data, prepares a Qiskit Circuit representing it.
 
         Args:
             data: Array representing Digital Audio Samples
@@ -264,7 +264,7 @@ class QPAM:
                     with metadata that was held by the original circuit.
             shots : total number of times the quantum circuit is measured.
             norm  : the norm factor used to normalize the decoding.
-            keep_padding: Undos the padding set at Encoding stage if set False.
+            keep_padding: Undos the padding set at Encoding stage if set to False.
 
         Return:
             data: Array of restored values with original dimensions
@@ -304,7 +304,7 @@ class QPAM:
             backend: A backend string compatible with qiskit.execute method.
             shots  : Total number of times the quantum circuit is measured.
             norm   : The norm factor used to normalize the decoding in QPAM.
-            keep_padding: Undo the padding set at Encoding stage if set False.
+            keep_padding: Undo the padding set at Encoding stage if set to False.
 
         Return:
             data: Array of decoded values
