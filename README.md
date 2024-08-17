@@ -131,7 +131,7 @@ decoded_data  = qpam.decode(encoded_circuit,shots=4000)
 ```
 
 > [!Tip]
-> The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent short length of samples per Circuit. The functions provided in `Tools/stream.py` facilitate processing of Long Audio Files in chunks. Examples of the usage are presented in the [Demo Notebook](DEMO.ipynb) and `Scripts`.
+> The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent short length of samples per Circuit. The functions provided in `tools/stream.py` facilitate processing of Long Audio Files in chunks. Examples of the usage can be found in the [Demo Notebook](DEMO.ipynb) and `scripts` provided in this repository.
 
 ### Running on Simulator
 
