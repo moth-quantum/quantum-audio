@@ -7,7 +7,7 @@
 
 An open-source Python package for building Quantum Representations of Digital Audio using _Qiskit_ circuits.
 
-<img width="600" alt="Screenshot 2024-08-17 at 11 44 45" src="https://github.com/user-attachments/assets/eb61f8f7-4fd3-4a67-95ab-ac7cc4aeb5d9"><br>
+<img width="600" alt="QSM Example" src="media/qsm_example.png"><br>
 
 
 </div>
