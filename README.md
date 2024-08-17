@@ -64,7 +64,7 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
     
 - **Dependency Change:**
   
-  - Support for _Qiskit_ is updated from **v0.22** to **v0.46**
+  - Support for _Qiskit_ is updated from `v0.22` to `v0.46`
     
 - **Improvements:**
   
