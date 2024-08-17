@@ -49,7 +49,7 @@ The package contains different schemes to encode audio and necessary utilities a
 ## 🧩 Version Information <a id="version"></a>
 
 ### Acknowledgment of Previous Version ```v0.0.2```
-This project is derived from research output on Quantum Representations of Audio, carried by <b>Interdisciplinary Centre for Computer Music Research (ICCMR)</b>, University of Plymouth, UK, namely:
+This project is derived from research output on quantum representations of audio, carried by <b>Interdisciplinary Centre for Computer Music Research (ICCMR)</b>, University of Plymouth, UK, namely:
 
 - Itaboraí, P.V., Miranda, E.R. (2022). Quantum Representations of Sound: From Mechanical Waves to Quantum Circuits. In: Miranda, E.R. (eds) Quantum Computer Music. Springer, Cham. https://doi.org/10.1007/978-3-031-13909-3_10
   
@@ -63,7 +63,7 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
 - **New Architecture:**
 
   - This project has been restructured for better flexibility and scalability.
-  - Instead of _QuantumAudio_ Instances, the package operates at the level of _Scheme_ Instances that perform encoding and decoding functions independent of the data.
+  - Instead of _QuantumAudio_ Instances, the package operates at the level of _Scheme_ Instances that performs encoding and decoding functions independent of the data.
     
 - **Feature Updates:**
   
@@ -79,20 +79,20 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
   - Improved organisation of code for Readability and Modularity
   - Key Information of Original Audio is preserved at Encoding, making the Encoding and Decoding operations independent.
     
-- **License Change:**
+- **Lisence Change:**
   
-  - The License is updated from **MIT** to **Apache 2.0**
+  - The Lisence is updated from **MIT** to **Apache 2.0**
 
 ### Migration Guide
-If you're transitioning from the previous version, please check the [Migration Guide](MIGRATION.md) for an overview of the package usability.
+If you're transitioning from the previous version, please check the [Migration Guide](MIGRATION.md) for an overview on the package usability.
 
 
 ##  🪄 Installation <a id="installation"></a>
-To install the Quantum Audio Package, you can use ```pip``` (which comes with Python) which installs it from [PyPI](https://pypi.org/project/quantumaudio/) package manager. Run the following command in Terminal or Command Prompt: 
+To install Quantum Audio Package, you can use ```pip``` (comes with Python) which installs it from [PyPI](https://pypi.org/project/quantumaudio/) package manager. Run the following command in terminal or command prompt: 
 ```
 pip install quantumaudio
 ```
-For local installation by [cloning](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository), navigate to the cloned directory in Terminal or Command Prompt and run:<br>
+For local installation by [cloning](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository), navigate to the cloned directory in terminal or command prompt and run:<br>
 ```pip install .``` or  ```pip install -r requirements.txt``` <br>
 
 > [!Note]
@@ -101,7 +101,7 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
 ### Optional Dependencies
 
 #### **Digital Audio Dependencies**
-  The core package operates with _numpy_ arrays. Dependecies for audio file handling to run audio examples in notebook and scripts in the repository, can be additionally installed using `pip`:
+  The core package operates with _numpy_ arrays. Dependencies for audio file handling to run audio examples in notebook and scripts in the repository can be additionally installed using `pip`:
   ```
   pip install quantumaudio[audio_io]
   ```
@@ -111,7 +111,7 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
  > If using your own choice of libraries for digital audio processing, please be aware that Multi-channel Quantum Audio is processed with _Channels First_ data structure. e.g. `(2, N)` for a Stereo Audio of `N` samples.
 
 #### **Notebook Dependencies**
-  The [Demo Notebook](DEMO.ipynb) features interactive elements that requires additional dependencies. It can be installed using `pip`:
+  The [Demo Notebook](DEMO.ipynb) features interactive elements that require additional dependencies. It can be installed using `pip`:
   ```
   pip install quantumaudio[notebook]
   ```
@@ -120,7 +120,7 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
 
 ## 🎨 Usage <a id="usage"></a>
 
-Get started on creating Quantum Audio Representations with few lines of code.
+Get started on creating Quantum Audio Representations with just a few lines of code.
 ```python
 # An instance of a scheme can be created using:
 import quantumaudio
@@ -141,28 +141,28 @@ decoded_data  = qpam.decode(encoded_circuit,shots=4000)
 > The `encode` function returns a circuit with attached classical measurements by default. In Qiskit, it is not possible to directly modify a circuit after these measurements are added. If you wish to return a circuit without measurements, you can specify `measure=False` while encoding.
 
 > [!Tip]
-> The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent short length of samples per Circuit. The functions provided in `tools/stream.py` facilitate processing of Long arrays in chunks. Examples of the usage can be found in the [Demo Notebook](DEMO.ipynb) and `scripts` provided in this repository.
+> The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent a short length of samples per Circuit. The functions provided in `tools/stream.py` facilitate the processing of Long arrays in chunks. Examples of the usage can be found in the [Demo Notebook](DEMO.ipynb) and `scripts` provided in this repository.
 
 ### Running on Simulator
 
-The default ```scheme.decode()``` uses local [_AerSimulator_](https://github.com/Qiskit/qiskit-aer) as default backend. Internally, the function performs ```qiskit.execute()``` method similar to ```v0.0.2``` and a compatible backend object can be specified by passing ```backend=``` parameter.
+The default ```scheme.decode()``` uses local [_AerSimulator_](https://github.com/Qiskit/qiskit-aer) as the default backend. Internally, the function performs ```qiskit.execute()``` method similar to ```v0.0.2``` and a compatible backend object can be specified by passing the ```backend=``` parameter.
 
 ### Running on Quantum Hardware
 
 The package allows flexible use of Quantum Hardware from different Providers for executing the circuits.
 
-- If the results obtained from a Hardware follows the format of [qiskit.result.Result](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Result) object:
+- If the result obtained from a Hardware follow the format of [qiskit.result.Result](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Result) object:
   - The audio can be decoded using ```scheme.decode_result(result_object)``` method. In this case, relevant metadata information is preserved and applied at decoding. 
 
-- If the results is in form of counts dictionary or [qiskit.result.Counts](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Counts) object with keys representing classical measurement outcomes and values indicating the number of times the outcome was observed:
+- If the result is in form of a **Counts** dictionary or [qiskit.result.Counts](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Counts) object with keys representing classical measurement outcomes and values indicating the number of times the outcome was observed:
   - The audio can be decoded using ```scheme.reconstruct_data(counts)``` method. In this case, metadata information can be manually passed as arguments.
  
 ## 📘 Additional Resources <a id="materials"></a>
 ### Notebook Examples
-For examples on circuit preparation, signals reconstruction, and interactive demonstrations, please check the [Demo Notebook](DEMO.ipynb). It combines the core package with useful functions from `tools` folder to go through Visual and Digital Audio examples.
+For examples of circuit preparation, signals reconstruction, and interactive demonstrations, please check the [Demo Notebook](DEMO.ipynb). It combines the core package with useful functions from the `tools` folder to go through Visual and Digital Audio examples.
 
 ### Quick Export ⚡️
-To quickly export quantumaudio from any audio file (e.g., mp3, ogg, flac, m4a), a script ```export.py``` is provided in `scripts` folder. Navigate with `cd scripts` and run:
+To quickly export quantumaudio from any audio file (e.g., mp3, ogg, flac, m4a), a script ```export.py``` is provided in the `scripts` folder. Navigate with `cd scripts` and run:
   ```bash
   python export.py -i path/to/input/audio/file
   ```
@@ -199,7 +199,7 @@ If you find any issues or have suggestions for improvements, please open an issu
 For more information on contributing to Code and Documentation, please review [Contributing Guidelines](CONTRIBUTING.md).
 
 ## 🚩 Future Releases <a id="future-releases"></a>
-We're excited to keep the package updated with features and improvements as the community evolves!<br> Quantum Audio Package `v0.1.0` is a gradual upgrade from `v0.0.2` with focus on the core architectural changes. 
+We're excited to keep the package updated with features and improvements as the community evolves!<br> Quantum Audio Package `v0.1.0` is a gradual upgrade from `v0.0.2` with a focus on the core architectural changes. 
 In future releases, we plan to extend support to Qiskit `v1.0+`. We also plan to introduce other schemes from Quantum Audio Literature along with Base Scheme Classes to support a generic structure for future contributions.
 
 ## ✅ Citing <a id="citing"></a>
