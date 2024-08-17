@@ -45,7 +45,10 @@ if __name__ == "__main__":
         help="Path to the input audio file.",
     )
     parser.add_argument(
-        "-o", "--output", type=str, help="Path to the output audio file. (default: saves in same directory with a prefix `qa_`)"
+        "-o",
+        "--output",
+        type=str,
+        help="Path to the output audio file. (default: saves in same directory with a prefix `qa_`)",
     )
     parser.add_argument(
         "-v", "--verbose", action="store_true", help="Enable verbose mode."
@@ -70,9 +73,7 @@ if __name__ == "__main__":
         default=defaults["sr"],
         help=f"Sample rate of Digital audio  (default: {defaults['sr']})",
     )
-    parser.add_argument(
-        "--stereo", action="store_true", help="Enable stereo"
-    )
+    parser.add_argument("--stereo", action="store_true", help="Enable stereo")
     parser.add_argument(
         "--buffer_size",
         type=int,
