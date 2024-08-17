@@ -176,7 +176,7 @@ To quickly export quantumaudio from any audio file (e.g., mp3, ogg, flac, m4a), 
   ```
 
 > [!Note]
- > Digital Audio [Dependencies](#installation) must be installed to run this script and it currently supports `AerSimulator`.
+ > Digital Audio [Dependencies](#installation) must be installed to run this script and it currently uses _AerSimulator_.
 
 ## 🤝 Contributing <a id="contributing"></a>
 Contributions to Quantum Audio are welcome! This package is designed to be a versatile tool for both research and artistic exploration.
