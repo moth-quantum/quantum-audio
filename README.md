@@ -29,7 +29,6 @@ The Quantum Audio Package provides fundamental operations for representing audio
 - [Future Releases](#future-releases)
 - [Citing](#citing)
 
----
 ## 🔍 Overview <a id="overview"></a>
 
 Modulation Schemes are essential methods for encoding Audio in both Analog (such as **FM** 📻) and Digital (such as **PCM** 💻) formats. The same is extended for Quantum Audio.
@@ -46,7 +45,7 @@ The package contains different schemes to encode audio and necessary utilities a
 | **MQSM**    | Multi-channel Quantum State Modulation | [QRMA](https://doi.org/10.1007/s11128-019-2317-3)  |
 
 - ```utils``` : Common Utilary functions for data processing, analysis, circuit preparation, etc.
----
+
 ## 🧩 Version Information <a id="version"></a>
 
 ### Acknowledgment of Previous Version ```v0.0.2```
@@ -87,7 +86,7 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
 ### Migration Guide
 If you're transitioning from the previous version, please check the [Migration Guide](MIGRATION.md) for an overview on the package usability.
 
----
+
 ##  🪄 Installation <a id="installation"></a>
 To install Quantum Audio Package, you can use ```pip``` (comes with Python) which installs it from [PyPI](https://pypi.org/project/quantumaudio/) package manager. Run the following command in terminal or command prompt: 
 ```
@@ -118,7 +117,7 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
   ```
   For local installation from the cloned directory: ```pip install .[notebook]``` or manually with ```pip install -r requirements-notebook.txt``` <br>
 
----
+
 ## 🎨 Usage <a id="usage"></a>
 
 Get started on creating Quantum Audio Representations with few lines of code.
