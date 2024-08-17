@@ -239,13 +239,13 @@ class MSQPAM:
         measure: bool = True,
         verbose: Union[int, bool] = 2,
     ) -> qiskit.QuantumCircuit:
-        """Given an audio data, prepares a Qiskit Circuit representing it.
+        """Given audio data, prepares a Qiskit Circuit representing it.
 
         Args:
             data: Array representing Digital Audio Samples
             measure: Adds measurement to the circuit if set True or int > 0.
             verbose: Level of information to print.
-                     - >1: Prints number of qubits required.
+                     - >1: Prints the number of qubits required.
                      - >2: Displays the encoded circuit.
 
         Returns:
@@ -348,13 +348,13 @@ class MSQPAM:
         keep_padding: tuple[int, int] = (False, False),
     ) -> np.ndarray:
         """Given a result object. Extract components and restore the conversion
-        did in encoding stage.
+        did in the encoding stage.
 
         Args:
                 result: a qiskit Result object that contains counts along
                         with metadata that was held by the original circuit.
                 inverted : retrieves cosine components of the signal.
-                keep_padding: Undo the padding set at Encoding stage if set False.
+                keep_padding: Undo the padding set at Encoding stage if set to False.
                               Dimension 0: for channels
                               Dimension 1: for time
 
@@ -405,14 +405,14 @@ class MSQPAM:
         inverted: bool = False,
         keep_padding: tuple[int, int] = (False, False),
     ) -> np.ndarray:
-        """Given a qiskit circuit, decodes and returns back the Original Audio Array.
+        """Given a qiskit circuit, decodes and returns the Original Audio Array.
 
         Args:
                 circuit: A Qiskit Circuit representing the Digital Audio.
                 backend: A backend string compatible with qiskit.execute method
                 shots  : Total number of times the quantum circuit is measured.
                 inverted: retrieves cosine components of the signal.
-                keep_padding: Undo the padding set at Encoding stage if set False.
+                keep_padding: Undo the padding set at Encoding stage if set to False.
                               Dimension 0: for channels
                               Dimension 1: for time
         Return:
