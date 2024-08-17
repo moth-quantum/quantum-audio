@@ -49,7 +49,7 @@ The package contains different schemes to encode audio and necessary utilities a
 ## 🧩 Version Information <a id="version"></a>
 
 ### Acknowledgment of Previous Version ```v0.0.2```
-This project is derived from research output on quantum representations of audio, carried by <b>Interdisciplinary Centre for Computer Music Research (ICCMR)</b>, University of Plymouth, UK, namely:
+This project is derived from research output on Quantum Representations of Audio, carried by <b>Interdisciplinary Centre for Computer Music Research (ICCMR)</b>, University of Plymouth, UK, namely:
 
 - Itaboraí, P.V., Miranda, E.R. (2022). Quantum Representations of Sound: From Mechanical Waves to Quantum Circuits. In: Miranda, E.R. (eds) Quantum Computer Music. Springer, Cham. https://doi.org/10.1007/978-3-031-13909-3_10
   
@@ -63,7 +63,7 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
 - **New Architecture:**
 
   - This project has been restructured for better flexibility and scalability.
-  - Instead of _QuantumAudio_ Instances, the package operates at the level of _Scheme_ Instances that performs encoding and decoding functions independent of the data.
+  - Instead of _QuantumAudio_ Instances, the package operates at the level of _Scheme_ Instances that perform encoding and decoding functions independent of the data.
     
 - **Feature Updates:**
   
@@ -79,20 +79,20 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
   - Improved organisation of code for Readability and Modularity
   - Key Information of Original Audio is preserved at Encoding, making the Encoding and Decoding operations independent.
     
-- **Lisence Change:**
+- **License Change:**
   
-  - The Lisence is updated from **MIT** to **Apache 2.0**
+  - The License is updated from **MIT** to **Apache 2.0**
 
 ### Migration Guide
-If you're transitioning from the previous version, please check the [Migration Guide](MIGRATION.md) for an overview on the package usability.
+If you're transitioning from the previous version, please check the [Migration Guide](MIGRATION.md) for an overview of the package usability.
 
 
 ##  🪄 Installation <a id="installation"></a>
-To install Quantum Audio Package, you can use ```pip``` (comes with Python) which installs it from [PyPI](https://pypi.org/project/quantumaudio/) package manager. Run the following command in terminal or command prompt: 
+To install the Quantum Audio Package, you can use ```pip``` (which comes with Python) which installs it from [PyPI](https://pypi.org/project/quantumaudio/) package manager. Run the following command in Terminal or Command Prompt: 
 ```
 pip install quantumaudio
 ```
-For local installation by [cloning](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository), navigate to the cloned directory in terminal or command prompt and run:<br>
+For local installation by [cloning](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository), navigate to the cloned directory in Terminal or Command Prompt and run:<br>
 ```pip install .``` or  ```pip install -r requirements.txt``` <br>
 
 > [!Note]
