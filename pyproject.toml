@@ -1,7 +1,36 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "quantumaudio"
-version = "0.1.0"
-dependencies = ["qiskit==0.46.0","qiskit_aer==0.13.3","numpy","bitstring","matplotlib","pylatexenc","tqdm"]
+authors = [
+    {name = "Moth Quantum", email = "hello@mothquantum.com"},
+]
+description = """A Python package for building Quantum Representations of Digital Audio. Developed by Moth Quantum.
+"""
+readme = "README.md"
+requires-python = ">=3.9"
+keywords = ["audio","quantum","quantum computing","qiskit","digital audio","signal processing","quantum computer music"]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: Apache Software License"
+]
+dependencies = [
+	"qiskit==0.46.0",
+	"qiskit_aer==0.13.3",
+	"numpy",
+	"bitstring",
+	"matplotlib",
+	"pylatexenc",
+	"tqdm"
+]
+dynamic = ["version"]
+
+[project.urls]
+Documentation = "https://quantumaudio.readthedocs.io/en/latest/"
+Source = "https://github.com/iccmr-quantum/quantumaudio"
+Moth_Website = "https://www.plymouth.ac.uk/research/iccmr"
 
 [project.optional-dependencies]
 audio_io = ["soundfile","librosa"]
