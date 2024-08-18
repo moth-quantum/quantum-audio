@@ -35,3 +35,6 @@ Moth_Website = "https://www.plymouth.ac.uk/research/iccmr"
 [project.optional-dependencies]
 audio_io = ["soundfile","librosa"]
 notebook_examples = ["ipython","ipykernel","ipywidgets"]
+
+[tool.setuptools]
+packages = ["quantumaudio"] 
