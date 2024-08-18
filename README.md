@@ -84,7 +84,7 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
   - The License is updated from **MIT** to **Apache 2.0**
 
 ### Migration Guide
-If you're transitioning from the previous version, please check the [Migration Guide](MIGRATION.md) for an overview of the package usability.
+If you're transitioning from the previous version, please check the [Migration Guide](https://github.com/moth-quantum/quantum-audio/blob/pre-release-docs/MIGRATION.md) for an overview of the package usability.
 
 
 ##  🪄 Installation <a id="installation"></a>
@@ -96,7 +96,7 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
 ```pip install .``` or  ```pip install -r requirements.txt``` <br>
 
 > [!Note]
- > When using `pip` commands to install packages and dependencies, it's recommended to use a **virtual environment** to keep them isolated from the system's Python. This will avoid dependency conflicts especially if you have _Qiskit_ version `1.0` or later installed. Instructions on using a virtual environment are provided [here](ENVIRONMENT.md).
+ > When using `pip` commands to install packages and dependencies, it's recommended to use a **virtual environment** to keep them isolated from the system's Python. This will avoid dependency conflicts especially if you have _Qiskit_ version `1.0` or later installed. Instructions on using a virtual environment are provided [here](https://github.com/moth-quantum/quantum-audio/blob/pre-release-docs/ENVIRONMENT.md).
 
 ### Optional Dependencies
 
@@ -111,7 +111,7 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
  > If using your own choice of libraries for digital audio processing, please be aware that Multi-channel Quantum Audio is processed with _Channels First_ data structure. e.g. `(2, N)` for a Stereo Audio of `N` samples.
 
 #### **Notebook Dependencies**
-  The [Demo Notebook](DEMO.ipynb) features interactive elements that require additional dependencies. It can be installed using `pip`:
+  The [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/pre-release-docs/DEMO.ipynb) features interactive elements that require additional dependencies. It can be installed using `pip`:
   ```
   pip install quantumaudio[notebook]
   ```
@@ -141,7 +141,7 @@ decoded_data  = qpam.decode(encoded_circuit,shots=4000)
 > The `encode` function returns a circuit with attached classical measurements by default. In Qiskit, it is not possible to directly modify a circuit after these measurements are added. If you wish to return a circuit without measurements, you can specify `measure=False` while encoding.
 
 > [!Tip]
-> The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent a short length of samples per Circuit. The functions provided in `tools/stream.py` facilitate the processing of Long arrays in chunks. Examples of the usage can be found in the [Demo Notebook](DEMO.ipynb) and `scripts` provided in this repository.
+> The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent a short length of samples per Circuit. The functions provided in `tools/stream.py` facilitate the processing of Long arrays in chunks. Examples of the usage can be found in the [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/pre-release-docs/DEMO.ipynb) and `scripts` provided in the repository.
 
 ### Running on Simulator
 
@@ -159,7 +159,7 @@ The package allows flexible use of Quantum Hardware from different Providers for
  
 ## 📘 Additional Resources <a id="materials"></a>
 ### Notebook Examples
-For examples of circuit preparation, signals reconstruction, and interactive demonstrations, please check the [Demo Notebook](DEMO.ipynb). It combines the core package with useful functions from the `tools` folder to go through Visual and Digital Audio examples.
+For examples of circuit preparation, signals reconstruction, and interactive demonstrations, please check the [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/pre-release-docs/DEMO.ipynb). It combines the core package with useful functions from the `tools` folder to go through Visual and Digital Audio examples.
 
 ### Quick Export ⚡️
 To quickly export quantumaudio from any audio file (e.g., mp3, ogg, flac, m4a), a script ```export.py``` is provided in the `scripts` folder. Navigate with `cd scripts` and run:
@@ -196,7 +196,7 @@ If you find any issues or have suggestions for improvements, please open an issu
 - **Educational Use:** If you’re using this project for learning, teaching or research, we’d love to hear about your experiences and suggestions.
 - **Feedback and Ideas:** Share your thoughts, feature requests, or suggest improvements by opening an issue.
 
-For more information on contributing to Code and Documentation, please review [Contributing Guidelines](CONTRIBUTING.md).
+For more information on contributing to Code and Documentation, please review [Contributing Guidelines](https://github.com/moth-quantum/quantum-audio/blob/pre-release-docs/CONTRIBUTING.md)
 
 ## 🚩 Future Releases <a id="future-releases"></a>
 We're excited to keep the package updated with features and improvements as the community evolves!<br> Quantum Audio Package `v0.1.0` is a gradual upgrade from `v0.0.2` with a focus on the core architectural changes. 
