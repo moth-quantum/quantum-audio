@@ -22,7 +22,22 @@ __version__ = "0.1.0"
 import importlib
 
 
+def load_scheme(name, *args, **kwargs):
+    """Dynamically load and instantiate a class from a scheme string."""
+    try:
+        scheme = importlib.import_module(
+            f"quantumaudio.schemes.{name.lower()}"
+        )
+        scheme_class = getattr(scheme, name.upper())
+        return scheme_class(*args, **kwargs)
+    except (ImportError, AttributeError) as e:
+        raise ImportError(
+            f"Could not load class '{name}' from schemes. Error: {e}."
+        ) from e
+
+
 def __getattr__(name):
+    """Dynamically load and instantiate a class from a scheme attribute."""
     try:
         if name.upper() not in _all_schemes:
             module = importlib.import_module(
@@ -41,8 +56,19 @@ def __getattr__(name):
 
 
 def __dir__():
+    """Set the available attributes."""
     return __all__
 
 
 _all_schemes = ["QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM"]
-__all__ = ["schemes", "utils", "QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM"]
+
+__all__ = [
+    "load_scheme",
+    "schemes",
+    "utils",
+    "QPAM",
+    "SQPAM",
+    "QSM",
+    "MSQPAM",
+    "MQSM",
+]
