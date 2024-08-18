@@ -66,7 +66,7 @@ def write(
     data = data.squeeze()
     if data.ndim == 2 and data.shape[0] < data.shape[1]:
         data = data.T  # Soundfile requires 'Channels Last' format for writing
-    sf.write(output_filepath, data, sr, format=output_filepath)
+    sf.write(output_filepath, data, sr, format=audio_format)
     print(output_filepath)
 
 
