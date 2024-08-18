@@ -121,7 +121,7 @@ def draw_circuit(circuit: qiskit.QuantumCircuit, decompose: int = 0) -> None:
 
     fig = circuit.draw("mpl", style="clifford")
 
-    try: # Check if the code is running in Jupyter Notebook
+    try:  # Check if the code is running in Jupyter Notebook
         display(fig)
     except NameError:
         plt.show()
