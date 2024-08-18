@@ -59,7 +59,6 @@ def __dir__():
     """Set the available attributes."""
     return __all__
 
-
 _all_schemes = ["QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM"]
 
 __all__ = [
