@@ -13,8 +13,8 @@
 # limitations under the License.
 # ==========================================================================
 
-"""This package provides Quantum Audio Representations of Digital Audio and
-necessary utilities.
+"""A Python package for building Quantum Representations of Digital Audio.
+Developed by Moth Quantum. https://mothquantum.com/
 """
 
 __version__ = "0.1.0"
@@ -58,6 +58,7 @@ def __getattr__(name):
 def __dir__():
     """Set the available attributes."""
     return __all__
+
 
 _all_schemes = ["QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM"]
 
