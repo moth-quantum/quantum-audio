@@ -13,8 +13,8 @@
 # limitations under the License.
 # ==========================================================================
 
-"""A Python package for building Quantum Representations of Digital Audio.
-Developed by Moth Quantum. https://mothquantum.com/
+"""This package provides Quantum Audio Representations of Digital Audio and
+necessary utilities.
 """
 
 __version__ = "0.1.0"
