@@ -23,6 +23,7 @@ import importlib
 
 # --------------------------- Lazy Loader ---------------------------
 
+
 def load_scheme(name, *args, **kwargs):
     """Dynamically load and instantiate a class from a scheme string."""
     try:
@@ -59,6 +60,7 @@ def __getattr__(name):
 def __dir__():
     """Set the available attributes."""
     return __all__
+
 
 _all_schemes = ["QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM"]
 
