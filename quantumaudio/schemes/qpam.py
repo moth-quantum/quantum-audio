@@ -1,23 +1,38 @@
-from quantumaudio import utils
-import qiskit
+# Copyright 2024 Moth Quantum
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ==========================================================================
+
+from typing import Optional, Union
+
 import numpy as np
-from typing import Union, Optional
+import qiskit
+
+from quantumaudio import utils
 
 
 class QPAM:
-    """
-    Quantum Probability Amplitude Modulation (QPAM).
+    """Quantum Probability Amplitude Modulation (QPAM).
 
     QPAM class implements encoding and decoding of Digital Audio as
     Quantum Probability Amplitudes. It's the simplest of Schemes and
-    uses qiskit circuit's `initialize` method to set the Quantum States
+    uses Qiskit circuit's `initialize` method to set the Quantum States
     based on provided values. The values are normalized before encoding
     using the `convert` method.
     """
 
     def __init__(self) -> None:
-        """
-        Initialize the QPAM instance. The attributes of `__init__` method are
+        """Initialize the QPAM instance. The attributes of `__init__` method are
         specific to this Scheme which remains fixed and independent of the
         Data. These attributes gives an overview of the Scheme.
 
@@ -36,7 +51,6 @@ class QPAM:
             convert:      Function that applies a mathematical conversion of input at Encoding.
             restore:      Function that restores the conversion at Decoding.
         """
-
         self.name = "Quantum Probability Amplitude Modulation"
         self.qubit_depth = 0
 
@@ -54,8 +68,8 @@ class QPAM:
     def calculate(
         self, data: np.ndarray, verbose: Union[int, bool] = True
     ) -> tuple[int, tuple[int, int]]:
-        """
-        Returns necessary information required for Encoding and Decoding:
+        """Returns necessary information required for Encoding and Decoding:
+
          - Number of qubits required to encode both Time and Amplitude information.
          - Original number of samples required for decoding.
 
@@ -86,9 +100,11 @@ class QPAM:
             utils.print_num_qubits(num_qubits, labels=self.labels)
         return num_samples, num_qubits
 
-    def prepare_data(self, data: np.ndarray, num_index_qubits: int) -> np.ndarray:
-        """
-        Prepares the data with appropriate dimensions for encoding:
+    def prepare_data(
+        self, data: np.ndarray, num_index_qubits: int
+    ) -> np.ndarray:
+        """Prepares the data with appropriate dimensions for encoding:
+
         - It pads the length of data with zeros to fit the number of states
           that can be represented with `num_index_qubits`.
         - It also removes redundant dimension if the shape is (1,num_samples).
@@ -122,15 +138,22 @@ class QPAM:
         Returns:
             circuit: Qiskit Circuit with the registers
         """
-        index_register = qiskit.QuantumRegister(num_index_qubits, self.labels[0])
-        value_register = qiskit.QuantumRegister(num_value_qubits, self.labels[1])
+        index_register = qiskit.QuantumRegister(
+            num_index_qubits, self.labels[0]
+        )
+        value_register = qiskit.QuantumRegister(
+            num_value_qubits, self.labels[1]
+        )
         # Arranging Registers from Top to Bottom
-        circuit = qiskit.QuantumCircuit(value_register, index_register, name=self.name)
+        circuit = qiskit.QuantumCircuit(
+            value_register, index_register, name=self.name
+        )
         return circuit
 
-    def value_setting(self, circuit: qiskit.QuantumCircuit, values: np.ndarray) -> None:
-        """
-        Encodes the prepared, converted values to the initialised circuit.
+    def value_setting(
+        self, circuit: qiskit.QuantumCircuit, values: np.ndarray
+    ) -> None:
+        """Encodes the prepared, converted values to the initialised circuit.
 
         Args:
             circuit: Initialized Qiskit Circuit
@@ -139,8 +162,7 @@ class QPAM:
         circuit.initialize(values)
 
     def measure(self, circuit: qiskit.QuantumCircuit) -> None:
-        """
-        Adds classical measurements to all qubits of the Quantum Circuit if
+        """Adds classical measurements to all qubits of the Quantum Circuit if
         the circuit is not already measured.
 
         Args:
@@ -152,10 +174,12 @@ class QPAM:
     # ----- Default Encode Function -----
 
     def encode(
-        self, data: np.ndarray, measure: bool = True, verbose: Union[int, bool] = 2
+        self,
+        data: np.ndarray,
+        measure: bool = True,
+        verbose: Union[int, bool] = 2,
     ) -> qiskit.QuantumCircuit:
-        """
-        Given an audio data, prepares a Qiskit Circuit representing it.
+        """Given audio data, prepares a Qiskit Circuit representing it.
 
         Args:
             data: Array representing Digital Audio Samples
@@ -163,10 +187,10 @@ class QPAM:
             verbose: Level of information to print.
                      - >1: Prints number of qubits required.
                      - >2: Displays the encoded circuit.
+
         Returns:
             A Qiskit Circuit representing the Digital Audio
         """
-
         num_samples, (num_index_qubits, num_value_qubits) = self.calculate(
             data, verbose=bool(verbose)
         )
@@ -191,8 +215,7 @@ class QPAM:
     def decode_components(
         self, counts: Union[dict, qiskit.result.Counts]
     ) -> np.ndarray:
-        """
-        The first stage of decoding is extracting required components from
+        """The first stage of decoding is extracting required components from
         counts.
 
         Args:
@@ -206,10 +229,12 @@ class QPAM:
         return np.array(list(counts.values()))
 
     def reconstruct_data(
-        self, counts: Union[dict, qiskit.result.Counts], shots: int, norm: float
+        self,
+        counts: Union[dict, qiskit.result.Counts],
+        shots: int,
+        norm: float,
     ) -> np.ndarray:
-        """
-        Given counts, Extract components and restore the conversion did at
+        """Given counts, Extract components and restore the conversion did at
         encoding stage.
 
         Args:
@@ -231,8 +256,7 @@ class QPAM:
         norm: Optional[float] = None,
         keep_padding: bool = False,
     ) -> np.ndarray:
-        """
-        Given a Qiskit Result object, Extract components and restore the
+        """Given a Qiskit Result object, Extract components and restore the
         conversion did at encoding stage.
 
         Args:
@@ -240,7 +264,7 @@ class QPAM:
                     with metadata that was held by the original circuit.
             shots : total number of times the quantum circuit is measured.
             norm  : the norm factor used to normalize the decoding.
-            keep_padding: Undos the padding set at Encoding stage if set False.
+            keep_padding: Undos the padding set at Encoding stage if set to False.
 
         Return:
             data: Array of restored values with original dimensions
@@ -273,15 +297,15 @@ class QPAM:
         norm: Optional[float] = None,
         keep_padding: bool = False,
     ) -> np.ndarray:
-        """
-        Given a qiskit circuit, decodes and returns back the Original Audio Array.
+        """Given a qiskit circuit, decodes and returns back the Original Audio Array.
 
         Args:
             circuit: A Qiskit Circuit representing the Digital Audio.
             backend: A backend string compatible with qiskit.execute method.
             shots  : Total number of times the quantum circuit is measured.
             norm   : The norm factor used to normalize the decoding in QPAM.
-            keep_padding: Undo the padding set at Encoding stage if set False.
+            keep_padding: Undo the padding set at Encoding stage if set to False.
+
         Return:
             data: Array of decoded values
         """

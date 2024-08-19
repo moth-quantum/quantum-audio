@@ -1,5 +1,6 @@
-.ipynb_checkpoints/*
 *.pyc
 .DS_Store
-.ipynb_checkpoints
-*/.ipynb_checkpoints/*
+.ipynb_checkpoints/
+media/*
+!media/qsm_example.png
+!media/audio_example.mp3

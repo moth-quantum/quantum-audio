@@ -1,10 +1,27 @@
+# Copyright 2024 Moth Quantum
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ==========================================================================
+
+from typing import Any
+
 import numpy as np
 from tqdm import tqdm
-from typing import Optional, Any
 
 # ======================
 # Buffering Utils
 # ======================
+
 
 def get_chunks(
     data: np.ndarray,
@@ -53,7 +70,12 @@ def process(chunk: np.ndarray, scheme: Any, shots: int) -> np.ndarray:
     return chunk
 
 
-def process_chunks(chunks: list[np.ndarray], scheme: Any, shots: int, show_progress: bool = True) -> list:
+def process_chunks(
+    chunks: list[np.ndarray],
+    scheme: Any,
+    shots: int,
+    show_progress: bool = True,
+) -> list:
     """Process chunks of data in an iteration according to a specified scheme.
 
     Parameters:
@@ -65,28 +87,33 @@ def process_chunks(chunks: list[np.ndarray], scheme: Any, shots: int, show_progr
     None
     """
     processed_chunks = []
-    for chunk in tqdm(chunks, disable = not show_progress):
+    for chunk in tqdm(chunks, disable=not show_progress):
         processed_chunk = process(chunk, scheme, shots)
         processed_chunks.append(processed_chunk)
     return processed_chunks
 
+
 def combine_chunks(chunks):
     if chunks[0].ndim != 1:
-        output = np.concatenate(chunks,axis=1)
+        output = np.concatenate(chunks, axis=1)
     else:
-        output = np.concatenate(chunks,axis=0)
+        output = np.concatenate(chunks, axis=0)
     return output
+
 
 def stream_data(
     data: np.ndarray,
-    scheme: Any, 
+    scheme: Any,
     shots: int = 8000,
     chunk_size: int = 64,
     verbose: bool = False,
 ) -> np.ndarray:
-    
-    assert chunk_size < data.shape[-1], f'Chunk size ({chunk_size}) cant be smaller than number of samples ({data.shape[-1]})'
-    chunks = get_chunks(data=data,chunk_size=chunk_size,verbose=verbose)
-    processed_chunks = process_chunks(chunks=chunks,scheme=scheme,shots=shots)
+    assert (
+        chunk_size < data.shape[-1]
+    ), f"Chunk size ({chunk_size}) cant be smaller than number of samples ({data.shape[-1]})"
+    chunks = get_chunks(data=data, chunk_size=chunk_size, verbose=verbose)
+    processed_chunks = process_chunks(
+        chunks=chunks, scheme=scheme, shots=shots
+    )
     output = combine_chunks(processed_chunks)
     return output

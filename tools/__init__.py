@@ -1,24 +1,35 @@
+# Copyright 2024 Moth Quantum
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ==========================================================================
+
+import importlib
+
 from .plot import plot
-from . import audio
-import numpy as np
 
-def simulate_data(
-    num_samples: int, num_channels: int = 1, seed: int = 42
-) -> np.ndarray:
-    """Simulates sythetic data for quick testing and plots. Typically, Audio data
-       contains several thousands of samples per second which is difficult to
-       visualise as circuit and plot"
 
-    Args:
-        num_samples (int): The number of samples to generate.
-        num_channels (int, optional): The number of channels for each sample. Defaults to 1.
-        seed (int, optional): The seed for the random number generator. Defaults to 42.
+def __getattr__(name):
+    try:
+        module = importlib.import_module(f".{name.lower()}", package=__name__)
+        return module
+    except (ImportError, AttributeError) as e:
+        raise AttributeError(
+            f"module {__name__} has no attribute {name}"
+        ) from e
 
-    Returns:
-        np.ndarray: A numpy array of simulated data.
-    """
-    np.random.seed(seed)
-    data = np.random.rand(num_samples, num_channels)
-    if num_channels == 1:
-        data = data.squeeze()
-    return data
+
+def __dir__():
+    return __all__
+
+
+__all__ = ["audio", "interactive", "plot", "stream"]

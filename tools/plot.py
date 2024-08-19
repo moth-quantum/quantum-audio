@@ -1,10 +1,27 @@
-import numpy as np
-import matplotlib.pyplot as plt
+# Copyright 2024 Moth Quantum
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ==========================================================================
+
 from typing import Union
+
+import matplotlib.pyplot as plt
+import numpy as np
 
 # ======================
 # Plotting Utils
 # ======================
+
 
 def simulate_data(
     num_samples: int, num_channels: int = 1, seed: int = 42
@@ -26,6 +43,7 @@ def simulate_data(
     if num_channels == 1:
         data = data.squeeze()
     return data
+
 
 def plot_1d(
     samples: np.ndarray,
@@ -51,7 +69,9 @@ def plot_1d(
     x_axis = np.arange(0, num_samples)
 
     for i, y_axis in enumerate(samples):
-        plt.plot(x_axis, y_axis.squeeze(), label=None if not label else label[i])
+        plt.plot(
+            x_axis, y_axis.squeeze(), label=None if not label else label[i]
+        )
 
     plt.xlabel("Index")
     plt.ylabel("Values")
@@ -66,6 +86,7 @@ def plot(
     samples: Union[np.ndarray, list[np.ndarray]],
     title: Union[str, None] = None,
     label: tuple[str, str] = ("original", "reconstructed"),
+    figsize: tuple[int, int] = (6, 4),
 ) -> None:
     """Plots the given samples. It accepts multi-dimensional array and also multiple plots for comparisons.
 
@@ -73,6 +94,7 @@ def plot(
         samples: The samples to plot. Can be a single numpy array or a list of numpy arrays.
         title: Title for the plot. Defaults to None.
         label: Labels for the samples. Defaults to ("original", "reconstructed").
+        figsize: Set the width and height for matplotlib plot
 
     Returns:
         None
@@ -87,7 +109,7 @@ def plot(
     x_axis = np.arange(0, num_samples)
 
     if num_channels > 1:
-        fig, axs = plt.subplots(num_channels, 1, figsize=(8, 8))
+        fig, axs = plt.subplots(num_channels, 1, figsize=figsize)
         for i, y_axis in enumerate(samples):
             for c in range(num_channels):
                 axs[c].plot(
@@ -104,8 +126,11 @@ def plot(
         plt.tight_layout()
 
     else:
+        plt.figure(figsize=figsize)
         for i, y_axis in enumerate(samples):
-            plt.plot(x_axis, y_axis.squeeze(), label=None if not label else label[i])
+            plt.plot(
+                x_axis, y_axis.squeeze(), label=None if not label else label[i]
+            )
             plt.xlabel("Index")
             plt.ylabel("Values")
             if label:

@@ -1,5 +1,22 @@
+# Copyright 2024 Moth Quantum
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ==========================================================================
+
+from functools import wraps
+from typing import Callable, Optional
+
 import qiskit
-from typing import Union, Callable, Optional
 
 # ======================
 # Circuit Preparation Utils
@@ -36,6 +53,7 @@ def with_indexing(func: Callable) -> Callable:
         The wrapped function with time indexing applied.
     """
 
+    @wraps(func)  # added to fix docstrings not printing func
     def wrapper(*args, **kwargs):
         qc = kwargs.get("circuit")
         i = kwargs.get("index")
@@ -78,7 +96,9 @@ def measure(
                                                  Defaults to ("ca", "cc", "ct").
         position: The position of the qubits to be measured. If None, all qubits are measured. Defaults to None.
     """
-    value_pos, *index_pos = range(len(qc.qregs)) if not position else reversed(position)
+    value_pos, *index_pos = (
+        range(len(qc.qregs)) if not position else reversed(position)
+    )
     value_label, *index_labels = labels
     index_labels = index_labels[len(index_labels) - len(index_pos) :]
     add_classical_register(qc, value_pos, value_label)

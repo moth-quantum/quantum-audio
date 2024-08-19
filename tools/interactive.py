@@ -1,13 +1,29 @@
+# Copyright 2024 Moth Quantum
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ==========================================================================
+
+from typing import Any, Callable, Optional, Union
+
 import ipywidgets
-from IPython.display import display, Audio, clear_output
-import numpy as np
-from typing import Union, Any, Optional, Callable
 import matplotlib.pyplot as plt
-from . import audio, stream
+import numpy as np
+from IPython.display import Audio, clear_output, display
 
 # ======================
 # Notebook Utils
 # ======================
+
 
 def tune(
     obj: np.ndarray,
@@ -16,7 +32,7 @@ def tune(
     step: int = 10,
     name: str = "Shots",
     ref: np.ndarray = None,
-    limit: int = None,
+    limit: Optional[int] = None,
 ) -> None:
     """Sets up an interactive widget to tune parameters and visualize the
     function.
@@ -56,7 +72,9 @@ def tune(
 
 
 def play(
-    array: Union[list[float], list[int]], rate: int = 44100, autoplay: bool = False
+    array: Union[list[float], list[int]],
+    rate: int = 44100,
+    autoplay: bool = False,
 ) -> None:
     """Display audio from an array of audio data.
 
@@ -70,6 +88,7 @@ def play(
     """
     audio = Audio(data=array, rate=rate, autoplay=autoplay)
     display(audio)
+
 
 def tune_audio(
     obj: np.ndarray,
@@ -99,7 +118,12 @@ def tune_audio(
     """
 
     def plot_function(shots):
-        y = function(chunks=obj[offset:limit], scheme=scheme, shots=shots, show_progress=False)
+        y = function(
+            chunks=obj[offset:limit],
+            scheme=scheme,
+            shots=shots,
+            show_progress=False,
+        )
         if y:
             y = np.concatenate(y)
         clear_output(wait=True)
