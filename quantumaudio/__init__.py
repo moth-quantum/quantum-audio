@@ -21,6 +21,8 @@ __version__ = "0.1.0b"
 
 import importlib
 
+# --------------------------- Lazy Loader ---------------------------
+
 
 def load_scheme(name, *args, **kwargs):
     """Dynamically load and instantiate a class from a scheme string."""
