@@ -4,3 +4,4 @@
 media/*
 !media/qsm_example.png
 !media/audio_example.mp3
+docs/*
