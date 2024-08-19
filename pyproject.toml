@@ -40,6 +40,13 @@ Documentation = "https://drive.google.com/file/d/1iJDihL2Pk9jTydA0Z4fw4hgmi2KY8L
 [project.optional-dependencies]
 audio_io = ["soundfile","librosa"]
 notebook_examples = ["ipython","ipykernel","ipywidgets"]
+all = [
+	"soundfile",
+ 	"librosa",
+  	"ipython",
+   	"ipykernel",
+    	"ipywidgets"
+]
 
 [tool.setuptools]
 packages = ["quantumaudio"] 
