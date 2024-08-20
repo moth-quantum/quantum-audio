@@ -33,6 +33,7 @@ def tune(
     name: str = "Shots",
     ref: np.ndarray = None,
     limit: Optional[int] = None,
+    figsize: tuple[int, int] = (10, 5),
 ) -> None:
     """Sets up an interactive widget to tune parameters and visualize the
     function.
@@ -49,25 +50,25 @@ def tune(
     Returns:
         ipywidgets.interactive
     """
-
+    
     def plot_function(shots):
         y = function(circuit=obj, backend=None, shots=shots)
         x = np.arange(0, len(y))
+        plt.figure(figsize=figsize)
         if isinstance(limit, int):
             x = x[:limit]
-        plt.plot(x, y[: len(x)], label=f"Shots = {shots}")
+        plt.plot(x, y[: len(x)], label=f"Measuring {shots} times")
         if isinstance(ref, np.ndarray):
             plt.plot(x, ref.squeeze()[: len(x)], label="Original")
         plt.xlabel("Shots")
         plt.ylabel("Values")
         plt.ylim(0, 1.5)
-        plt.legend()
+        plt.legend(fontsize=14)
         plt.grid(True)
         plt.show()
 
     variable_slider = ipywidgets.IntSlider(
-        value=1, min=1, max=max_value, step=step, description=name
-    )
+        value=1, min=1, max=max_value, step=step, description=name,layout=ipywidgets.widgets.Layout(width='600px'))
     return ipywidgets.interact(plot_function, shots=variable_slider)
 
 
