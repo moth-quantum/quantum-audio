@@ -78,6 +78,7 @@ class MQSM:
 
         self.convert = utils.quantize
         self.restore = utils.de_quantize
+        print(self.name)
 
     # ------------------- Encoding Helpers ---------------------------
 

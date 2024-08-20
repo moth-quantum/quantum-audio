@@ -75,6 +75,7 @@ class MSQPAM:
 
         self.convert = utils.convert_to_angles
         self.restore = utils.convert_from_angles
+        print(self.name)
 
     # ------------------- Encoding Helpers ---------------------------
 
