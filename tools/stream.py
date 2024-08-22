@@ -28,17 +28,22 @@ def get_chunks(
     chunk_size: int = 256,
     verbose: bool = False,
 ) -> None:
-    """Generate audio chunks from a file.
+    """
+    Splits a NumPy array into smaller chunks of specified size.
 
-    Parameters:
-    file_path (str): Path to the audio file.
-    sr (int, optional): Sampling rate (default is 22050).
-    chunk_size (int, optional): Size of each chunk (default is 256).
-    mono (bool, optional): Whether to load audio in mono (default is True).
-    verbose (bool, optional): Display buffering information (default is False).
+    This function takes a long array and divides it into smaller chunks, 
+    which can be useful for processing large datasets in manageable pieces.
+
+    Args:
+        data (np.ndarray): The input array to be split. The array can be one-dimensional 
+                           or two-dimensional. If one-dimensional, it will be reshaped 
+                           into two dimensions.
+        chunk_size (int, optional): The size of each chunk. Default is 256.
+        verbose (bool, optional): If True, prints detailed information about the data 
+                                  and chunks. Default is False.
 
     Returns:
-    None
+        None
     """
     print(f"Shape: {data.shape}")
     if data.ndim == 1:
