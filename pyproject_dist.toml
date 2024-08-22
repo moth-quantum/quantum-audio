@@ -38,18 +38,15 @@ Repository (private) = "https://github.com/moth-quantum/quantum-audio"
 Documentation (private) = "https://drive.google.com/file/d/1iJDihL2Pk9jTydA0Z4fw4hgmi2KY8L2N/view?usp=sharing"
 
 [project.optional-dependencies]
-audio_io = ["soundfile","librosa"]
-notebook_examples = ["ipython","ipykernel","ipywidgets"]
-
-[project.optional-dependencies]
-audio_io = ["soundfile","librosa"]
+audio_io = ["soundfile","librosa","tqdm"]
 notebook_examples = ["ipython","ipykernel","ipywidgets"]
 all = [
 	"soundfile",
  	"librosa",
   	"ipython",
    	"ipykernel",
-    	"ipywidgets"
+    	"ipywidgets",
+        "tqdm"
 ]
 
 [tool.setuptools]
