@@ -23,14 +23,17 @@ Thank you for considering contributing to our project! To ensure compliance with
    - Implement your feature or fix your bug.
 
 5. **Write Tests**
-   - **Add Tests:** Write tests for new features and bug fixes. Ensure that all new code is covered by tests.
-   - **Testing Framework:** Use the testing framework specified in our project (e.g., `pytest`, `unittest`, etc.).
+   - **Add Tests:** Write tests for new features and bug fixes. Ensure that all new code is covered by tests. The tests folder is located [here](https://github.com/moth-quantum/quantum-audio/tree/main/tests).
+   - **Testing Framework:** We use `pytest`. It can be installed on your python environment using:
+     ```bash
+      pip install pytest
+      ```
    - **Run Tests:** Before submitting your pull request (PR), run the tests to verify that they pass:
      ```bash
-     pytest
+     python -m pytest
      ```
 
-6. **Document Your Changes**
+7. **Document Your Changes**
    - **Docstrings:** Use Google-style docstrings to document your code. Follow the Google Python Style Guide for consistency:
      ```python
      def function_name(param1, param2):
@@ -48,7 +51,7 @@ Thank you for considering contributing to our project! To ensure compliance with
      ```
    - **Update Documentation:** Update the project’s documentation if your changes affect how the project is used. This may involve editing README files or other documentation files.
 
-7. **Use Linting**
+8. **Use Linting**
    - **Linting Tool:** We use `ruff` for linting. Ensure that your code adheres to our linting standards.
    - **Ruff Configuration:** Please check our `ruff` configuration [here](.ruff.toml).
    - **Run Linter:** Before submitting your PR, run `ruff` to check for any issues:
@@ -57,20 +60,20 @@ Thank you for considering contributing to our project! To ensure compliance with
      ```
    - **Fix Issues:** Address any linting issues reported by `ruff`.
 
-8. **Commit Your Changes**
+9. **Commit Your Changes**
    - Write clear, concise commit messages. Follow the commit message guidelines provided in the project (e.g., conventional commits).
      ```bash
      git add .
      git commit -m "Describe your changes here"
      ```
 
-9. **Push Your Branch**
+10. **Push Your Branch**
    - Push your branch to your forked repository:
      ```bash
      git push origin your-branch-name
      ```
 
-10. **Submit a Pull Request (PR)**
+11. **Submit a Pull Request (PR)**
     - Open a pull request from your forked repository to the main repository.
     - Provide a clear description of your changes, including any relevant information such as related issues or the rationale behind your changes.
     - Ensure your PR adheres to the Apache 2.0 License and includes a clear description of the changes.
