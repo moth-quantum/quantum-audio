@@ -46,7 +46,7 @@ The package contains different schemes to encode audio and necessary utilities a
 
 Additionaly, `tools` is provided in the repository which extends the core functionality to support Audio and Visual Examples.
 
-For a quick tour of Quantum Audio, try [Colab](https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd) 🚀
+> For a quick tour of Quantum Audio, try [Colab](https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd) 🚀
 
 ## 🧩 Version Information <a id="version"></a>
 
