@@ -44,9 +44,8 @@ The package contains different schemes to encode audio and necessary utilities a
 
 - `utils` : Common Utilary functions for Data Processing, Analysis, Circuit Preparation, etc.
 
-Additionaly, `tools` is provided in the repository which extends the core functionality to support Audio and Visual Examples.
-> [!Tip]
-> For a quick tour of the package, try [Colab](https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd)! 
+Additionaly, `tools` is provided in the repository which extends the core functionality to support Audio and Visual Examples.<br>
+For a quick tour of Quantum Audio, try [Colab](https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd) 🚀
 
 ## 🧩 Version Information <a id="version"></a>
 
