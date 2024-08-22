@@ -113,7 +113,7 @@ def plot(
             plt.ylabel("Values")
             if label:
                 plt.legend()
-
+            plt.grid(True)
     if title:
         plt.title(title)
     plt.show()
