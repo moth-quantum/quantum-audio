@@ -4,12 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "quantumaudio"
-dynamic = ["version", "readme", "dependencies"]
+version = "0.1.0b1"
 authors = [
     {name = "Moth Quantum", email = "hari@mothquantum.com"},
 ]
 description = """A Python package for building Quantum Representations of Digital Audio. Developed by Moth Quantum.
 """
+readme = "README.md"
 requires-python = ">=3.9"
 keywords = ["audio","quantum computing","signal processing"]
 classifiers = [
@@ -33,8 +34,12 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://mothquantum.com"
-Repository = "https://github.com/moth-quantum/quantum-audio"
-Documentation = "https://drive.google.com/file/d/1iJDihL2Pk9jTydA0Z4fw4hgmi2KY8L2N/view?usp=sharing"
+Repository (private) = "https://github.com/moth-quantum/quantum-audio"
+Documentation (private) = "https://drive.google.com/file/d/1iJDihL2Pk9jTydA0Z4fw4hgmi2KY8L2N/view?usp=sharing"
+
+[project.optional-dependencies]
+audio_io = ["soundfile","librosa"]
+notebook_examples = ["ipython","ipykernel","ipywidgets"]
 
 [project.optional-dependencies]
 audio_io = ["soundfile","librosa"]
@@ -49,8 +54,3 @@ all = [
 
 [tool.setuptools]
 packages = ["quantumaudio"] 
-
-[tool.setuptools.dynamic]
-version = { file = "quantumaudio/VERSION.txt" }
-readme = { file = "README.md", content-type = "text/markdown" }
-dependencies = {file = "requirements.txt" }

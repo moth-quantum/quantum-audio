@@ -60,6 +60,7 @@ class QPAM:
 
         self.convert = utils.convert_to_probability_amplitudes
         self.restore = utils.convert_from_probability_amplitudes
+        print(self.name)
 
     # ------------------- Encoding Helpers ---------------------------
 

@@ -14,6 +14,9 @@
   ```python
   import quantumaudio
   qpam = quantumaudio.QPAM() #returns a Scheme Instance
+
+  #or quantumaudio.schemes.QPAM()
+  #or quantumaudio.load_scheme('qpam')
   ```
 
 ### 2. Encoding a Digital Audio Array into Quantum Circuit

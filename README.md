@@ -3,18 +3,16 @@
 # Quantum Audio
 
 
-![Python version](https://img.shields.io/badge/python-3.9+-important) ![PyPI](https://img.shields.io/pypi/v/quantumaudio) ![Read the Docs (version)](https://img.shields.io/readthedocs/quantumaudio/latest?label=API%20docs) [![LICENSE](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/moth-quantum/quantum-audio/blob/main/LICENSE) [![DOI](https://zenodo.org/badge/DOI/10.1234/zenodo.123456.svg)](https://doi.org/)
+![Python version](https://img.shields.io/badge/python-3.9+-important) ![PyPI](https://img.shields.io/pypi/v/quantumaudio) ![Read the Docs (version)](https://img.shields.io/readthedocs/quantumaudio/latest?label=API%20docs) [![LICENSE](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/moth-quantum/quantum-audio/blob/main/LICENSE) [![DOI](https://zenodo.org/badge/DOI/10.1234/zenodo.123456.svg)](https://doi.org/) [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd)
 
 An open-source Python package for building Quantum Representations of Digital Audio using _Qiskit_ circuits.
 
-<img width="600" alt="QSM Example" src="https://github.com/moth-quantum/quantum-audio/blob/main/media/qsm_example.png"><br>
-
-
+<img width="600" alt="QSM Example" src="https://private-user-images.githubusercontent.com/161862817/360400512-556239a0-352c-4edb-a409-6e6147c3a0fc.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjQzMjQxMzcsIm5iZiI6MTcyNDMyMzgzNywicGF0aCI6Ii8xNjE4NjI4MTcvMzYwNDAwNTEyLTU1NjIzOWEwLTM1MmMtNGVkYi1hNDA5LTZlNjE0N2MzYTBmYy5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQwODIyJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MDgyMlQxMDUwMzdaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1iNjMxNTkwYTdhNDgyZTRkNWRlNzNiYTMyZjI5YmRkYTk2ODVlZTY4NGQ5NmI2NzgyYzczNDY1YWVkNzY2OTJkJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.9pdefwCqIem-_eMulKOPJ-UeEvNtp6eeHfIEqI-MVjg"><br>
 </div>
 
 ## 💿 What is Quantum Audio ?
 
-Audio plays a vital role in carrying information and music, traversing through domains — from analog and digital formats to engaging our senses in a profound way. With the advent of Quantum Computing, we formulate ways of representing Audio Information in the Quantum Domain, enabling new explorations in artistic and research contexts.
+Audio plays a vital role in carrying information and music, traversing through domains — from analog and digital formats to engaging our senses in a profound way. With the advent of Quantum Computing, we formulate ways of representing Audio Information in the Quantum Domain, enabling new explorations in artistic and research contexts 💫
 
 The Quantum Audio Package provides fundamental operations for representing audio as Quantum States that can be processed on a Quantum computer (or Simulator) and played back 🔊
 
@@ -44,7 +42,11 @@ The package contains different schemes to encode audio and necessary utilities a
 | **QSM**     | Quantum State Modulation | [FRQA](https://doi.org/10.1016/j.tcs.2017.12.025) |
 | **MQSM**    | Multi-channel Quantum State Modulation | [QRMA](https://doi.org/10.1007/s11128-019-2317-3)  |
 
-- ```utils``` : Common Utilary functions for Data Processing, Analysis, Circuit Preparation, etc.
+- `utils` : Common Utilary functions for Data Processing, Analysis, Circuit Preparation, etc.
+
+Additionaly, `tools` is provided in the repository which extends the core functionality to support Audio and Visual Examples.
+
+> For a quick tour of Quantum Audio, try [Colab](https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd) 🚀
 
 ## 🧩 Version Information <a id="version"></a>
 
@@ -63,7 +65,7 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
 - **New Architecture:**
 
   - This project has been restructured for better flexibility and scalability.
-  - Instead of _QuantumAudio_ Instances, the package operates at the level of _Scheme_ Instances that perform encoding and decoding functions independent of the data.
+  - Instead of _QuantumAudio_ Instances, the package begins at the level of _Scheme_ Instances that perform encoding and decoding functions independent of the data.
     
 - **Feature Updates:**
   

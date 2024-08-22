@@ -17,9 +17,11 @@
 necessary utilities.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.1.0b"
 
 import importlib
+
+# --------------------------- Lazy Loader ---------------------------
 
 
 def load_scheme(name, *args, **kwargs):

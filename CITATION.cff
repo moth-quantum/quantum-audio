@@ -1,0 +1,7 @@
+cff-version: 1.2.0
+message: "If you use this code or find it useful in your research, please consider citing:"
+title: "Quantum Audio"
+version: "0.1.0"
+authors:
+  - name: "Moth Quantum"
+date-released: "2024-08-22"

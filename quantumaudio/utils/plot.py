@@ -23,28 +23,6 @@ import numpy as np
 # ======================
 
 
-def simulate_data(
-    num_samples: int, num_channels: int = 1, seed: int = 42
-) -> np.ndarray:
-    """Simulates sythetic data for quick testing and plots. Typically, Audio data
-       contains several thousands of samples per second which is difficult to
-       visualise as circuit and plot"
-
-    Args:
-        num_samples (int): The number of samples to generate.
-        num_channels (int, optional): The number of channels for each sample. Defaults to 1.
-        seed (int, optional): The seed for the random number generator. Defaults to 42.
-
-    Returns:
-        np.ndarray: A numpy array of simulated data.
-    """
-    np.random.seed(seed)
-    data = np.random.rand(num_samples, num_channels)
-    if num_channels == 1:
-        data = data.squeeze()
-    return data
-
-
 def plot_1d(
     samples: np.ndarray,
     title: Union[str, None] = None,
@@ -86,7 +64,7 @@ def plot(
     samples: Union[np.ndarray, list[np.ndarray]],
     title: Union[str, None] = None,
     label: tuple[str, str] = ("original", "reconstructed"),
-    figsize: tuple[int, int] = (10, 5),
+    figsize: tuple[int, int] = (6, 4),
 ) -> None:
     """Plots the given samples. It accepts multi-dimensional array and also multiple plots for comparisons.
 
@@ -138,5 +116,4 @@ def plot(
             plt.grid(True)
     if title:
         plt.title(title)
-    plt.legend(fontsize=14)
     plt.show()

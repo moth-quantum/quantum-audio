@@ -25,3 +25,4 @@ from .circuit import *
 from .convert import *
 from .data import *
 from .qiskit_helpers import *
+from .plot import plot
