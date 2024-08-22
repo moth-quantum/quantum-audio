@@ -86,7 +86,7 @@ def plot(
     samples: Union[np.ndarray, list[np.ndarray]],
     title: Union[str, None] = None,
     label: tuple[str, str] = ("original", "reconstructed"),
-    figsize: tuple[int, int] = (6, 4),
+    figsize: tuple[int, int] = (10, 5),
 ) -> None:
     """Plots the given samples. It accepts multi-dimensional array and also multiple plots for comparisons.
 
@@ -135,7 +135,8 @@ def plot(
             plt.ylabel("Values")
             if label:
                 plt.legend()
-
+            plt.grid(True)
     if title:
         plt.title(title)
+    plt.legend(fontsize=14)
     plt.show()
