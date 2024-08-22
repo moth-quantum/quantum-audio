@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quantumaudio"
+version = "0.1.0b1"
+authors = [
+    {name = "Moth Quantum", email = "hari@mothquantum.com"},
+]
+description = """A Python package for building Quantum Representations of Digital Audio. Developed by Moth Quantum.
+"""
+readme = "README.md"
+requires-python = ">=3.9"
+keywords = ["audio","quantum computing","signal processing"]
+classifiers = [
+	"Development Status :: 4 - Beta",
+	"Intended Audience :: Science/Research",
+ 	"Intended Audience :: Developers",
+	"License :: OSI Approved :: Apache Software License",
+ 	"Programming Language :: Python :: 3.9",
+	"Programming Language :: Python :: 3.10",
+ 	"Programming Language :: Python :: 3.11"
+]
+dependencies = [
+	"qiskit==0.46",
+	"qiskit_aer==0.13.3",
+	"numpy",
+	"bitstring",
+	"matplotlib",
+	"pylatexenc",
+	"tqdm"
+]
+
+[project.urls]
+Homepage = "https://mothquantum.com"
+Repository (private) = "https://github.com/moth-quantum/quantum-audio"
+Documentation (private) = "https://drive.google.com/file/d/1iJDihL2Pk9jTydA0Z4fw4hgmi2KY8L2N/view?usp=sharing"
+
+[project.optional-dependencies]
+audio_io = ["soundfile","librosa"]
+notebook_examples = ["ipython","ipykernel","ipywidgets"]
+
+[project.optional-dependencies]
+audio_io = ["soundfile","librosa"]
+notebook_examples = ["ipython","ipykernel","ipywidgets"]
+all = [
+	"soundfile",
+ 	"librosa",
+  	"ipython",
+   	"ipykernel",
+    	"ipywidgets"
+]
+
+[tool.setuptools]
+packages = ["quantumaudio"] 
