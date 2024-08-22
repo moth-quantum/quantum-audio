@@ -7,7 +7,7 @@
 
 An open-source Python package for building Quantum Representations of Digital Audio using _Qiskit_ circuits.
 
-<img width="600" alt="QSM Example" src="https://private-user-images.githubusercontent.com/161862817/360400512-556239a0-352c-4edb-a409-6e6147c3a0fc.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjQzMjQxMzcsIm5iZiI6MTcyNDMyMzgzNywicGF0aCI6Ii8xNjE4NjI4MTcvMzYwNDAwNTEyLTU1NjIzOWEwLTM1MmMtNGVkYi1hNDA5LTZlNjE0N2MzYTBmYy5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQwODIyJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MDgyMlQxMDUwMzdaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1iNjMxNTkwYTdhNDgyZTRkNWRlNzNiYTMyZjI5YmRkYTk2ODVlZTY4NGQ5NmI2NzgyYzczNDY1YWVkNzY2OTJkJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.9pdefwCqIem-_eMulKOPJ-UeEvNtp6eeHfIEqI-MVjg"><br>
+<img width="600" alt="QSM Example" src="https://drive.usercontent.google.com/download?id=1v0A09wjfEXTUB4N92CIcnOT9h4krqVm9&export=view&authuser=0"><br>
 </div>
 
 ## 💿 What is Quantum Audio ?
