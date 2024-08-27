@@ -158,7 +158,7 @@ class QPAM:
 
         Args:
             circuit: Initialized Qiskit Circuit
-            num_index_qubits: Number of qubits used to encode the sample indices.
+            values: Array of probability amplitudes to encode
         """
         circuit.initialize(values)
 
