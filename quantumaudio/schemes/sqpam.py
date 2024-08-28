@@ -224,10 +224,10 @@ class SQPAM:
         for i, value in enumerate(values):
             self.value_setting(circuit=circuit, index=i, value=value)
         # additional information for decoding
-        circuit.metadata = {"num_samples": num_samples}
+        circuit.metadata = {"num_samples": num_samples, "num_qubits": (num_index_qubits, num_value_qubits)}
         # measure, print and return
         if measure:
-            self.measure(circuit)
+            circuit.measure_all()
         if verbose == 2:
             utils.draw_circuit(circuit, decompose=1)
         return circuit
@@ -256,7 +256,8 @@ class SQPAM:
 
         # getting components from counts
         for state in counts:
-            (index_bits, value_bits) = state.split()
+            value_bits = state[-1]
+            index_bits = state[:-1]
             i = int(index_bits, 2)
             a = counts[state]
             if value_bits == "0":
@@ -306,14 +307,16 @@ class SQPAM:
         Return:
                 data: Array of restored values with original dimensions
         """
-        counts = result.get_counts()
-        header = result.results[0].header
-
+        pub_result = result[0]
+        counts = pub_result.data.meas.get_counts()
+        shots = pub_result.metadata['shots']
+        header = pub_result.metadata['circuit_metadata']
+        
         # decoding x-axis
         index_position, _ = self.positions
-        num_index_qubits = header.qreg_sizes[index_position][1]
+        num_index_qubits = header["num_qubits"][0]
         num_samples = 2**num_index_qubits
-        original_num_samples = header.metadata["num_samples"]
+        original_num_samples = header["num_samples"]
 
         # decoding y-axis
         data = self.reconstruct_data(
