@@ -18,13 +18,14 @@ from typing import Optional, Union
 import matplotlib.pyplot as plt
 import qiskit
 import qiskit_aer
+from qiskit_ibm_runtime import Sampler
 
 # ======================
 # Measurement
 # ======================
 
 
-def execute(
+'''def execute(
     circuit: qiskit.QuantumCircuit,
     backend: Optional[str] = None,
     shots: int = 4000,
@@ -43,7 +44,7 @@ def execute(
         backend = qiskit_aer.AerSimulator()
     job = qiskit.execute(circuit, backend=backend, shots=shots)
     result = job.result()
-    return result
+    return result'''
 
 
 def pad_counts(counts: Union[dict, qiskit.result.Counts]) -> dict:
@@ -63,7 +64,7 @@ def pad_counts(counts: Union[dict, qiskit.result.Counts]) -> dict:
     return complete_counts
 
 
-def get_counts(
+'''def get_counts_(
     circuit: qiskit.QuantumCircuit,
     backend: Optional[str] = None,
     shots: int = 4000,
@@ -85,8 +86,23 @@ def get_counts(
     job = qiskit.execute(circuit, backend=backend, shots=shots)
     result = job.result()
     counts = pad_counts(result.get_counts()) if pad else result.get_counts()
-    return counts
+    return counts'''
 
+def execute(circuit,backend=None,shots=4000):
+    backend = qiskit_aer.AerSimulator() if not backend else backend
+    sampler = Sampler(mode=backend)
+    job = sampler.run([circuit],shots=shots)
+    result = job.result()
+    return result
+
+def get_counts(circuit,backend=None,shots=4000,pad=False):
+    backend = qiskit_aer.AerSimulator() if not backend else backend
+    sampler = Sampler(mode=backend)
+    job = sampler.run([circuit],shots=shots)
+    result = job.result()
+    counts = result[0].data.meas.get_counts()
+    counts = pad_counts(counts) if pad else counts
+    return counts
 
 # ======================
 # Preview Functions
