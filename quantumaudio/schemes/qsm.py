@@ -182,7 +182,7 @@ class QSM:
             a_bit = (value >> i) & 1
             a_bitstring.append(a_bit)
             if a_bit:
-                circuit.mct(index_register, areg_qubit)
+                circuit.mcx(index_register, areg_qubit)
 
     def measure(self, circuit: qiskit.QuantumCircuit) -> None:
         """Adds classical measurements to all registers of the Quantum Circuit
@@ -192,7 +192,8 @@ class QSM:
             circuit: Encoded Qiskit Circuit
         """
         if not circuit.cregs:
-            utils.measure(circuit)
+            circuit.barrier()
+            circuit.measure_all()
 
     # ----- Default Encode Function -----
 
@@ -228,7 +229,7 @@ class QSM:
             self.value_setting(circuit=circuit, index=i, value=sample)
 
         # additional information for decoding
-        circuit.metadata = {"num_samples": num_samples}
+        circuit.metadata = {"num_samples": num_samples, "num_qubits": (num_index_qubits, num_value_qubits)}
 
         # measure, print and return
         if measure:
@@ -256,11 +257,13 @@ class QSM:
             Array of components for further decoding.
         """
         data = np.zeros(num_components, int)
+        num_index_qubits = int(np.log2(num_components))
         for state in counts:
-            (t_bits, a_bits) = state.split()
-            t = int(t_bits, 2)
-            a = BitArray(bin=a_bits).int
-            data[t] = a
+            index_bits = state[:num_index_qubits]
+            value_bits = state[num_index_qubits:]
+            index = int(index_bits, 2)
+            value = BitArray(bin=value_bits).int
+            data[index] = value
         return data
 
     def reconstruct_data(
@@ -301,18 +304,17 @@ class QSM:
         Return:
                 data: Array of restored values with original dimensions
         """
-        counts = result.get_counts()
-        header = result.results[0].header
 
+        counts, metadata = utils.get_counts_and_metadata(result)
         index_position, amplitude_position = self.positions
 
         # decoding x-axis
-        num_index_qubits = header.qreg_sizes[index_position][-1]
+        num_index_qubits = metadata["num_qubits"][0]
         num_samples = 2**num_index_qubits
-        original_num_samples = header.metadata["num_samples"]
+        original_num_samples = metadata["num_samples"]
 
         # decoding y-axis
-        qubit_depth = header.qreg_sizes[amplitude_position][-1]
+        qubit_depth = metadata["num_qubits"][0]
         data = self.reconstruct_data(counts, num_samples, qubit_depth)
 
         # undo padding

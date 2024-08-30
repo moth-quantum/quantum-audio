@@ -270,12 +270,13 @@ class QPAM:
         Return:
             data: Array of restored values with original dimensions
         """
-        counts = result.get_counts()
-        shots = result.results[0].shots
-        header = result.results[0].header
-        norm = norm if norm else header.metadata["norm_factor"]
-        if "num_samples" in header.metadata:
-            original_num_samples = header.metadata["num_samples"]
+        
+        counts, metadata = utils.get_counts_and_metadata(result)
+        shots = metadata["shots"]
+        norm = norm if norm else metadata["norm_factor"]
+        
+        if "num_samples" in metadata:
+            original_num_samples = metadata["num_samples"]
         else:
             original_num_samples = None
 

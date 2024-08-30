@@ -18,13 +18,14 @@ from typing import Optional, Union
 import matplotlib.pyplot as plt
 import qiskit
 import qiskit_aer
+from qiskit import transpile
 
 # ======================
 # Measurement
 # ======================
 
 
-def execute(
+'''def execute(
     circuit: qiskit.QuantumCircuit,
     backend: Optional[str] = None,
     shots: int = 4000,
@@ -43,7 +44,7 @@ def execute(
         backend = qiskit_aer.AerSimulator()
     job = qiskit.execute(circuit, backend=backend, shots=shots)
     result = job.result()
-    return result
+    return result'''
 
 
 def pad_counts(counts: Union[dict, qiskit.result.Counts]) -> dict:
@@ -63,7 +64,7 @@ def pad_counts(counts: Union[dict, qiskit.result.Counts]) -> dict:
     return complete_counts
 
 
-def get_counts(
+'''def get_counts_(
     circuit: qiskit.QuantumCircuit,
     backend: Optional[str] = None,
     shots: int = 4000,
@@ -85,8 +86,27 @@ def get_counts(
     job = qiskit.execute(circuit, backend=backend, shots=shots)
     result = job.result()
     counts = pad_counts(result.get_counts()) if pad else result.get_counts()
-    return counts
+    return counts'''
 
+def execute(circuit,backend=None,shots=4000,memory=False):
+    backend = qiskit_aer.AerSimulator() if not backend else backend
+    circuit = transpile(circuit, backend)
+    job = backend.run(circuit,shots=shots,memory=memory)
+    result = job.result()
+    return result
+
+def get_counts_and_metadata(results_obj,result_id=0):
+    if isinstance(results_obj,qiskit.primitives.PrimitiveResult):
+        results_obj = results_obj[result_id]
+    if isinstance(results_obj,qiskit.primitives.SamplerPubResult):
+        counts = results_obj.data.meas.get_counts()
+        metadata = results_obj.metadata["circuit_metadata"]
+        metadata["shots"] = results_obj.metadata["shots"]
+    elif isinstance(results_obj,qiskit.result.Result):
+        counts = results_obj.get_counts()
+        metadata = results_obj.results[result_id].header.metadata
+        metadata["shots"] = results_obj.results[result_id].shots
+    return counts, metadata
 
 # ======================
 # Preview Functions

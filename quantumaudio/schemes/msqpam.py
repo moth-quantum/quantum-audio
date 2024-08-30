@@ -274,6 +274,7 @@ class MSQPAM:
         circuit.metadata = {
             "num_samples": num_samples,
             "num_channels": num_channels,
+            "num_qubits": num_qubits
         }
 
         # measure
@@ -307,9 +308,13 @@ class MSQPAM:
         cosine_amps = np.zeros((num_channels, num_samples))
         sine_amps = np.zeros((num_channels, num_samples))
 
+        num_index_qubits = int(np.log2(num_samples))
+
         # getting components from counts
         for state in counts:
-            (index_bits, channel_bits, value_bits) = state.split()
+            index_bits = state[:num_index_qubits]
+            channel_bits = state[num_index_qubits:-1]
+            value_bits = state[-1]
             i = int(index_bits, 2)
             j = int(channel_bits, 2)
             a = counts[state]
@@ -362,21 +367,19 @@ class MSQPAM:
         Return:
                 data: Array of restored values with original dimensions
         """
-        counts = result.get_counts()
-        header = result.results[0].header
+        counts, metadata = utils.get_counts_and_metadata(result)
 
         # decoding x-axis
         index_position, channel_position, _ = self.positions
-        num_index_qubits = header.qreg_sizes[index_position][1]
-        num_channel_qubits = header.qreg_sizes[channel_position][1]
+        num_index_qubits = metadata["num_qubits"][0]
+        num_channel_qubits = metadata["num_qubits"][1]
 
         num_samples = 2**num_index_qubits
         num_channels = 2**num_channel_qubits
         num_components = (num_channels, num_samples)
 
-        # original_num_samples = header.metadata["num_samples"] * num_channels
-        original_num_samples = header.metadata["num_samples"]
-        original_num_channels = header.metadata["num_channels"]
+        original_num_samples = metadata["num_samples"]
+        original_num_channels = metadata["num_channels"]
 
         # decoding y-axis
         data = self.reconstruct_data(
