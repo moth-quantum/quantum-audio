@@ -19,6 +19,7 @@ import matplotlib.pyplot as plt
 import qiskit
 import qiskit_aer
 from qiskit_ibm_runtime import Sampler
+from qiskit import transpile
 
 # ======================
 # Measurement
@@ -91,6 +92,7 @@ def pad_counts(counts: Union[dict, qiskit.result.Counts]) -> dict:
 def execute(circuit,backend=None,shots=4000):
     backend = qiskit_aer.AerSimulator() if not backend else backend
     sampler = Sampler(mode=backend)
+    circuit = transpile(circuit, backend)
     job = sampler.run([circuit],shots=shots)
     result = job.result()
     return result
