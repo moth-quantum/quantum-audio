@@ -1,4 +1,4 @@
-qiskit==0.46.0
+qiskit
 qiskit_aer==0.13.3
 numpy
 bitstring
