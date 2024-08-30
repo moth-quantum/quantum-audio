@@ -304,20 +304,17 @@ class QSM:
         Return:
                 data: Array of restored values with original dimensions
         """
-        pub_result = result[0]
-        counts = pub_result.data.meas.get_counts()
-        shots = pub_result.metadata['shots']
-        header = pub_result.metadata['circuit_metadata']
 
+        counts, metadata = utils.get_counts_and_metadata(result)
         index_position, amplitude_position = self.positions
 
         # decoding x-axis
-        num_index_qubits = header["num_qubits"][0]
+        num_index_qubits = metadata["num_qubits"][0]
         num_samples = 2**num_index_qubits
-        original_num_samples = header["num_samples"]
+        original_num_samples = metadata["num_samples"]
 
         # decoding y-axis
-        qubit_depth = header["num_qubits"][0]
+        qubit_depth = metadata["num_qubits"][0]
         data = self.reconstruct_data(counts, num_samples, qubit_depth)
 
         # undo padding
