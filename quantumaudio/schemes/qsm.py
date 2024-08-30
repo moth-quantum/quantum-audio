@@ -182,7 +182,7 @@ class QSM:
             a_bit = (value >> i) & 1
             a_bitstring.append(a_bit)
             if a_bit:
-                circuit.mct(index_register, areg_qubit)
+                circuit.mcx(index_register, areg_qubit)
 
     def measure(self, circuit: qiskit.QuantumCircuit) -> None:
         """Adds classical measurements to all registers of the Quantum Circuit
@@ -301,15 +301,17 @@ class QSM:
         Return:
                 data: Array of restored values with original dimensions
         """
-        counts = result.get_counts()
-        header = result.results[0].header
+        pub_result = result[0]
+        counts = pub_result.data.meas.get_counts()
+        shots = pub_result.metadata['shots']
+        header = pub_result.metadata['circuit_metadata']
 
         index_position, amplitude_position = self.positions
 
         # decoding x-axis
         num_index_qubits = header.qreg_sizes[index_position][-1]
         num_samples = 2**num_index_qubits
-        original_num_samples = header.metadata["num_samples"]
+        original_num_samples = header["num_samples"]
 
         # decoding y-axis
         qubit_depth = header.qreg_sizes[amplitude_position][-1]
