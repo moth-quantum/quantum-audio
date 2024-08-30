@@ -189,7 +189,7 @@ class SQPAM:
             circuit: Encoded Qiskit Circuit
         """
         if not circuit.cregs:
-            utils.measure(circuit)
+            circuit.measure_all()
 
     # ----- Default Encode Function -----
 
@@ -227,7 +227,7 @@ class SQPAM:
         circuit.metadata = {"num_samples": num_samples, "num_qubits": (num_index_qubits, num_value_qubits)}
         # measure, print and return
         if measure:
-            circuit.measure_all()
+            self.measure(circuit)
         if verbose == 2:
             utils.draw_circuit(circuit, decompose=1)
         return circuit
