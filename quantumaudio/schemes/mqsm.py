@@ -222,7 +222,7 @@ class MQSM:
             a_bit = (value >> i) & 1
             a_bitstring.append(a_bit)
             if a_bit:
-                circuit.mct(
+                circuit.mcx(
                     channel_register[:] + index_register[:], areg_qubit
                 )
 
@@ -278,6 +278,7 @@ class MQSM:
         circuit.metadata = {
             "num_samples": num_samples,
             "num_channels": num_channels,
+            "num_qubits": num_qubits
         }
 
         # measure
@@ -307,8 +308,13 @@ class MQSM:
             for further decoding.
         """
         data = np.zeros(num_components, int)
+        num_index_qubits = int(np.log2(num_components[1]))
+        num_channel_qubits = int(np.log2(num_components[0]))
+        
         for state in counts:
-            (t_bits, c_bits, a_bits) = state.split()
+            t_bits = state[:num_index_qubits]
+            c_bits = state[num_index_qubits:-(num_index_qubits+num_channel_qubits)]
+            a_bits = state[-(num_index_qubits+num_channel_qubits):]
             t = int(t_bits, 2)
             c = int(c_bits, 2)
             a = BitArray(bin=a_bits).int
@@ -355,24 +361,22 @@ class MQSM:
         Return:
                 data: Array of restored values with original dimensions
         """
-        counts = result.get_counts()
-        header = result.results[0].header
-
+        counts, metadata = utils.get_counts_and_metadata(result)
         index_position, channel_position, amplitude_position = self.positions
 
         # decoding x-axis
-        num_index_qubits = header.qreg_sizes[index_position][1]
-        num_channel_qubits = header.qreg_sizes[channel_position][1]
+        num_index_qubits = metadata["num_qubits"][0]
+        num_channel_qubits = metadata["num_qubits"][1]
 
         num_samples = 2**num_index_qubits
         num_channels = 2**num_channel_qubits
         num_components = (num_channels, num_samples)
 
-        original_num_samples = header.metadata["num_samples"]
-        original_num_channels = header.metadata["num_channels"]
+        original_num_samples = metadata["num_samples"]
+        original_num_channels = metadata["num_channels"]
 
         # decoding y-axis
-        bit_depth = header.qreg_sizes[amplitude_position][-1]
+        bit_depth = metadata["num_qubits"][2]
 
         # decoding data
         data = self.reconstruct_data(
