@@ -257,10 +257,10 @@ class QSM:
             Array of components for further decoding.
         """
         data = np.zeros(num_components, int)
-        num_value_qubits = int(np.log2(num_components))
+        num_index_qubits = int(np.log2(num_components))
         for state in counts:
-            value_bits = state[-num_value_qubits:]
-            index_bits = state[:-num_value_qubits]
+            index_bits = state[:num_index_qubits]
+            value_bits = state[num_index_qubits:]
             index = int(index_bits, 2)
             value = BitArray(bin=value_bits).int
             data[index] = value
