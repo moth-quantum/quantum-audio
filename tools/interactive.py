@@ -26,7 +26,7 @@ from IPython.display import Audio, clear_output, display
 
 
 def tune(
-    obj: np.ndarray,
+    obj: Any,
     function: Callable,
     max_value: int = 2048,
     step: int = 10,
@@ -39,13 +39,13 @@ def tune(
     function.
 
     Args:
-        obj (np.ndarray): Original Audio data array.
-        function (callable): The decode function.
-        max_value (int, optional): The maximum value for the tuning parameter. Defaults to 2048.
-        step (int, optional): The step size for the tuning parameter. Defaults to 10.
-        name (str, optional): The name/description of the parameter. Defaults to "parameter".
-        ref (np.ndarray, optional): Reference or comparison value. Defaults to None.
-        limit (any, optional): Limit or constraint for the parameter. Defaults to None.
+        obj: Encoded circuit.
+        function: The decode function.
+        max_value: The maximum value for the tuning parameter. Defaults to 2048.
+        step: The step size for the tuning parameter. Defaults to 10.
+        name: The name/description of the parameter. Defaults to "parameter".
+        ref: Reference or comparison value. Defaults to None.
+        limit: Limit or constraint for the parameter. Defaults to None.
 
     Returns:
         ipywidgets.interactive
@@ -80,9 +80,9 @@ def play(
     """Display audio from an array of audio data.
 
     Parameters:
-    array (list of float or int): Array containing audio data.
-    rate (int, optional): Sampling rate of the audio data (default is 44100).
-    autoplay (bool, optional): Whether to autoplay the audio (default is False).
+    array: Array containing audio data.
+    rate: Sampling rate of the audio data (default is 44100).
+    autoplay: Whether to autoplay the audio (default is False).
 
     Returns:
     None
@@ -92,7 +92,7 @@ def play(
 
 
 def tune_audio(
-    obj: np.ndarray,
+    obj: Any,
     scheme: Any,
     function: Callable,
     max_value: int = 8000,
@@ -105,14 +105,14 @@ def tune_audio(
     """Tune audio parameters according to a specified function and scheme.
 
     Args:
-        obj (np.ndarray): Original Audio data array.
-        function (callable): The decode function.
-        max_value (int, optional): Maximum value for tuning (default is 8000).
-        step (int, optional): Step size for tuning (default is 10).
-        name (str, optional): Name of the parameter being tuned (default is 'parameter').
-        limit (int, optional): Limit for tuning, if any (default is None).
-        sr (int, optional): Sampling rate (default is 22050).
-        offset (int, optional): Offset for tuning (default is 0).
+        obj: Audio Chunks.
+        function: The decode function.
+        max_value: Maximum value for tuning (default is 8000).
+        step: Step size for tuning (default is 10).
+        name: Name of the parameter being tuned (default is 'parameter').
+        limit: Limit for tuning, if any (default is None).
+        sr: Sampling rate (default is 22050).
+        offset: Offset for tuning (default is 0).
 
     Returns:
         ipywidgets.interactive

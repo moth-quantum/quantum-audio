@@ -190,7 +190,7 @@ class MQSM:
         )
 
         circuit = qiskit.QuantumCircuit(
-            value_register, channel_register, index_register, name=self.name
+            value_register, channel_register, index_register, name=self.__class__.__name__
         )
         circuit.h(channel_register)
         circuit.h(index_register)

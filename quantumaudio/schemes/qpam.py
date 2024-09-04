@@ -147,7 +147,7 @@ class QPAM:
         )
         # Arranging Registers from Top to Bottom
         circuit = qiskit.QuantumCircuit(
-            value_register, index_register, name=self.name
+            value_register, index_register, name=self.__class__.__name__
         )
         return circuit
 
