@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==========================================================================
 
-from typing import Optional, Union
+from typing import Union
 
 import matplotlib.pyplot as plt
 import qiskit
@@ -23,6 +23,7 @@ from qiskit import transpile
 # ======================
 # Measurement
 # ======================
+
 
 def pad_counts(counts: Union[dict, qiskit.result.Counts]) -> dict:
     """Pads the counts to its full length covering all basis states.
@@ -40,7 +41,8 @@ def pad_counts(counts: Union[dict, qiskit.result.Counts]) -> dict:
     complete_counts = {state: counts.get(state, 0) for state in all_states}
     return complete_counts
 
-def execute(circuit,backend=None,shots=4000,memory=False):
+
+def execute(circuit, backend=None, shots=4000, memory=False):
     """
     Executes a quantum circuit on a given backend and return the results.
 
@@ -55,18 +57,19 @@ def execute(circuit,backend=None,shots=4000,memory=False):
     """
     backend = qiskit_aer.AerSimulator() if not backend else backend
     circuit = transpile(circuit, backend)
-    job = backend.run(circuit,shots=shots,memory=memory)
+    job = backend.run(circuit, shots=shots, memory=memory)
     result = job.result()
     return result
 
-def get_counts_and_metadata(results_obj,result_id=0):
+
+def get_counts_and_metadata(results_obj, result_id=0):
     """
     Extract counts and metadata from a results object.
 
     Args:
         results_obj: An instance of `PrimitiveResult` or `Result` object from which to extract counts and metadata.
         result_id: The index of the result to extract if the results object if it contains multiple results.
-            
+
     Returns:
         counts: The counts of measurements from the results object.
         metadata: The metadata associated with the result.
@@ -74,15 +77,15 @@ def get_counts_and_metadata(results_obj,result_id=0):
     counts = {}
     metadata = {}
 
-    if isinstance(results_obj,qiskit.primitives.PrimitiveResult):
+    if isinstance(results_obj, qiskit.primitives.PrimitiveResult):
         results_obj = results_obj[result_id]
 
-    if isinstance(results_obj,qiskit.primitives.SamplerPubResult):
+    if isinstance(results_obj, qiskit.primitives.SamplerPubResult):
         counts = results_obj.data.meas.get_counts()
         metadata = results_obj.metadata["circuit_metadata"]
         metadata["shots"] = results_obj.metadata["shots"]
-    
-    elif isinstance(results_obj,qiskit.result.Result):
+
+    elif isinstance(results_obj, qiskit.result.Result):
         counts = results_obj.get_counts()
         metadata = results_obj.results[result_id].header.metadata
         metadata["shots"] = results_obj.results[result_id].shots
@@ -91,6 +94,7 @@ def get_counts_and_metadata(results_obj,result_id=0):
         raise TypeError("Unsupported result object type.")
 
     return counts, metadata
+
 
 # ======================
 # Preview Functions

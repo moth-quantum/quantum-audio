@@ -224,7 +224,10 @@ class SQPAM:
         for i, value in enumerate(values):
             self.value_setting(circuit=circuit, index=i, value=value)
         # additional information for decoding
-        circuit.metadata = {"num_samples": num_samples, "num_qubits": (num_index_qubits, num_value_qubits)}
+        circuit.metadata = {
+            "num_samples": num_samples,
+            "num_qubits": (num_index_qubits, num_value_qubits),
+        }
         # measure, print and return
         if measure:
             self.measure(circuit)
@@ -308,7 +311,7 @@ class SQPAM:
                 data: Array of restored values with original dimensions
         """
         counts, metadata = utils.get_counts_and_metadata(result)
-        
+
         # decoding x-axis
         index_position, _ = self.positions
         num_index_qubits = metadata["num_qubits"][0]
