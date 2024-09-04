@@ -15,9 +15,6 @@
 
 import importlib
 
-from .plot import plot
-import numpy as np
-np.random.seed(42)
 
 def __getattr__(name):
     try:
@@ -33,9 +30,4 @@ def __dir__():
     return __all__
 
 
-def test_signal(channels=1,samples=8):
-	signal = np.random.rand(channels,samples)
-	plot(signal)
-	return signal
-
-__all__ = ["audio", "interactive", "plot", "stream","test_signal"]
+__all__ = ["audio", "interactive", "stream"]

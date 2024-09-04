@@ -270,11 +270,11 @@ class QPAM:
         Return:
             data: Array of restored values with original dimensions
         """
-        
+
         counts, metadata = utils.get_counts_and_metadata(result)
         shots = metadata["shots"]
         norm = norm if norm else metadata["norm_factor"]
-        
+
         if "num_samples" in metadata:
             original_num_samples = metadata["num_samples"]
         else:

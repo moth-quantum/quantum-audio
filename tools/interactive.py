@@ -50,7 +50,7 @@ def tune(
     Returns:
         ipywidgets.interactive
     """
-    
+
     def plot_function(shots):
         y = function(circuit=obj, backend=None, shots=shots)
         x = np.arange(0, len(y))
@@ -68,7 +68,13 @@ def tune(
         plt.show()
 
     variable_slider = ipywidgets.IntSlider(
-        value=1, min=1, max=max_value, step=step, description=name,layout=ipywidgets.widgets.Layout(width='600px'))
+        value=1,
+        min=1,
+        max=max_value,
+        step=step,
+        description=name,
+        layout=ipywidgets.widgets.Layout(width="600px"),
+    )
     return ipywidgets.interact(plot_function, shots=variable_slider)
 
 

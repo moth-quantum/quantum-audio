@@ -190,7 +190,10 @@ class MQSM:
         )
 
         circuit = qiskit.QuantumCircuit(
-            value_register, channel_register, index_register, name=self.__class__.__name__
+            value_register,
+            channel_register,
+            index_register,
+            name=self.__class__.__name__,
         )
         circuit.h(channel_register)
         circuit.h(index_register)
@@ -278,7 +281,7 @@ class MQSM:
         circuit.metadata = {
             "num_samples": num_samples,
             "num_channels": num_channels,
-            "num_qubits": num_qubits
+            "num_qubits": num_qubits,
         }
 
         # measure
@@ -310,11 +313,13 @@ class MQSM:
         data = np.zeros(num_components, int)
         num_index_qubits = int(np.log2(num_components[1]))
         num_channel_qubits = int(np.log2(num_components[0]))
-        
+
         for state in counts:
             t_bits = state[:num_index_qubits]
-            c_bits = state[num_index_qubits:-(num_index_qubits+num_channel_qubits)]
-            a_bits = state[-(num_index_qubits+num_channel_qubits):]
+            c_bits = state[
+                num_index_qubits : -(num_index_qubits + num_channel_qubits)
+            ]
+            a_bits = state[-(num_index_qubits + num_channel_qubits) :]
             t = int(t_bits, 2)
             c = int(c_bits, 2)
             a = BitArray(bin=a_bits).int

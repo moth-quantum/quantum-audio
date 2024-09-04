@@ -181,7 +181,10 @@ class MSQPAM:
         )
 
         circuit = qiskit.QuantumCircuit(
-            value_register, channel_register, index_register, name=self.__class__.__name__
+            value_register,
+            channel_register,
+            index_register,
+            name=self.__class__.__name__,
         )
         circuit.h(channel_register)
         circuit.h(index_register)
@@ -274,7 +277,7 @@ class MSQPAM:
         circuit.metadata = {
             "num_samples": num_samples,
             "num_channels": num_channels,
-            "num_qubits": num_qubits
+            "num_qubits": num_qubits,
         }
 
         # measure

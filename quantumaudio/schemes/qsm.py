@@ -229,7 +229,10 @@ class QSM:
             self.value_setting(circuit=circuit, index=i, value=sample)
 
         # additional information for decoding
-        circuit.metadata = {"num_samples": num_samples, "num_qubits": (num_index_qubits, num_value_qubits)}
+        circuit.metadata = {
+            "num_samples": num_samples,
+            "num_qubits": (num_index_qubits, num_value_qubits),
+        }
 
         # measure, print and return
         if measure:
