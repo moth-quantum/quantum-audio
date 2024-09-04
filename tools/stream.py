@@ -31,15 +31,15 @@ def get_chunks(
     """
     Splits a NumPy array into smaller chunks of specified size.
 
-    This function takes a long array and divides it into smaller chunks, 
+    This function takes a long array and divides it into smaller chunks,
     which can be useful for processing large datasets in manageable pieces.
 
     Args:
-        data: The input array to be split. The array can be one-dimensional 
-                           or two-dimensional. If one-dimensional, it will be reshaped 
+        data: The input array to be split. The array can be one-dimensional
+                           or two-dimensional. If one-dimensional, it will be reshaped
                            into two dimensions.
         chunk_size: The size of each chunk. Default is 256.
-        verbose: If True, prints detailed information about the data 
+        verbose: If True, prints detailed information about the data
                                   and chunks. Default is False.
 
     Returns:
