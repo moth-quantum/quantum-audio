@@ -24,29 +24,6 @@ from qiskit import transpile
 # Measurement
 # ======================
 
-
-'''def execute(
-    circuit: qiskit.QuantumCircuit,
-    backend: Optional[str] = None,
-    shots: int = 4000,
-) -> qiskit.result.Result:
-    """Executes a quantum circuit using qiskit.execute.
-
-    Args:
-            circuit: A Qiskit Circuit.
-            backend: A backend string compatible with qiskit.execute method
-            shots  : Total number of times the quantum circuit is measured.
-
-    Return:
-            Qiskit Result object that contains metadata
-    """
-    if not backend:
-        backend = qiskit_aer.AerSimulator()
-    job = qiskit.execute(circuit, backend=backend, shots=shots)
-    result = job.result()
-    return result'''
-
-
 def pad_counts(counts: Union[dict, qiskit.result.Counts]) -> dict:
     """Pads the counts to its full length covering all basis states.
 
@@ -63,32 +40,19 @@ def pad_counts(counts: Union[dict, qiskit.result.Counts]) -> dict:
     complete_counts = {state: counts.get(state, 0) for state in all_states}
     return complete_counts
 
-
-'''def get_counts_(
-    circuit: qiskit.QuantumCircuit,
-    backend: Optional[str] = None,
-    shots: int = 4000,
-    pad: bool = False,
-) -> dict:
-    """Given a qiskit circuit, executes and returns counts dictionary.
+def execute(circuit,backend=None,shots=4000,memory=False):
+    """
+    Executes a quantum circuit on a given backend and return the results.
 
     Args:
-            circuit: A Qiskit Circuit.
-            backend: A backend string compatible with qiskit.execute method
-            shots  : Total number of times the quantum circuit is measured.
-            pad: If True, applies padding to the counts dictionary.
+        circuit: The quantum circuit to be executed.
+        backend: The backend on which to run the circuit. If None, the default backend `qiskit_aer.AerSimulator()` is used.
+        shots: Total number of times the quantum circuit is measured.
+        memory: Whether to return the memory (quantum state) of each shot.
 
-    Return:
-            Counts dictionary
+    Returns:
+        Result: The result of the execution, containing the counts and other metadata.
     """
-    if not backend:
-        backend = qiskit_aer.AerSimulator()
-    job = qiskit.execute(circuit, backend=backend, shots=shots)
-    result = job.result()
-    counts = pad_counts(result.get_counts()) if pad else result.get_counts()
-    return counts'''
-
-def execute(circuit,backend=None,shots=4000,memory=False):
     backend = qiskit_aer.AerSimulator() if not backend else backend
     circuit = transpile(circuit, backend)
     job = backend.run(circuit,shots=shots,memory=memory)
@@ -96,6 +60,17 @@ def execute(circuit,backend=None,shots=4000,memory=False):
     return result
 
 def get_counts_and_metadata(results_obj,result_id=0):
+    """
+    Extract counts and metadata from a results object.
+
+    Args:
+        results_obj: An instance of `PrimitiveResult` or `Result` object from which to extract counts and metadata.
+        result_id: The index of the result to extract if the results object if it contains multiple results.
+            
+    Returns:
+        counts: The counts of measurements from the results object.
+        metadata: The metadata associated with the result.
+    """
     if isinstance(results_obj,qiskit.primitives.PrimitiveResult):
         results_obj = results_obj[result_id]
     if isinstance(results_obj,qiskit.primitives.SamplerPubResult):
