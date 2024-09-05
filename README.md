@@ -74,7 +74,7 @@ This project has been completely redeveloped and is now maintained by <b>Moth Qu
     
 - **Dependency Change:**
   
-  - Support for _Qiskit_ is updated from `v0.22` to `v0.46`
+  - Support for _Qiskit_ is updated from `v0.22` to `v1.0+`
     
 - **Improvements:**
   
@@ -98,7 +98,7 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
 ```pip install .``` or  ```pip install -r requirements.txt``` <br>
 
 > [!Note]
- > When using `pip` commands to install packages and dependencies, it's recommended to use a **virtual environment** to keep them isolated from the system's Python. This will avoid dependency conflicts especially if you have _Qiskit_ version `1.0` or later installed. Instructions on using a virtual environment are provided [here](https://github.com/moth-quantum/quantum-audio/blob/main/ENVIRONMENT.md).
+ > When using `pip` commands to install packages and dependencies, it's recommended to use a **virtual environment** to keep them isolated from the system's Python. This will avoid any dependency conflicts. Instructions on using a virtual environment are provided [here](https://github.com/moth-quantum/quantum-audio/blob/main/ENVIRONMENT.md).
 
 ### Optional Dependencies
 
@@ -202,7 +202,7 @@ For more information on contributing to Code and Documentation, please review [C
 
 ## 🚩 Future Releases <a id="future-releases"></a>
 We're excited to keep the package updated with features and improvements as the community evolves!<br> Quantum Audio Package `v0.1.0` is a gradual upgrade from `v0.0.2` with a focus on the core architectural changes. 
-In future releases, we plan to extend support to Qiskit `v1.0+`. We also plan to introduce other schemes from Quantum Audio Literature along with Base Scheme Classes to support a generic structure for future contributions.
+In future releases, we plan to introduce other schemes from Quantum Audio Literature along with Base Scheme Classes to support a generic structure for future research contributions.
 
 ## ✅ Citing <a id="citing"></a>
 If you use this code or find it useful in your research, please consider citing: [DOI]()
