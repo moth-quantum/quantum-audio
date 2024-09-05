@@ -147,13 +147,13 @@ decoded_data  = qpam.decode(encoded_circuit,shots=4000)
 
 ### Running on Simulator
 
-The default ```scheme.decode()``` uses local [_AerSimulator_](https://github.com/Qiskit/qiskit-aer) as the default backend. Internally, the function performs ```qiskit.execute()``` method similar to ```v0.0.2``` and a compatible backend object can be specified by passing the ```backend=``` parameter.
+The default ```scheme.decode()``` uses local [_AerSimulator_](https://github.com/Qiskit/qiskit-aer) as the default backend. Internally, the function performs ```backend.run()``` method and any compatible backend object can be specified by passing the ```backend=``` parameter.
 
 ### Running on Quantum Hardware
 
 The package allows flexible use of Quantum Hardware from different Providers for executing the circuits.
 
-- If the result obtained from a Hardware follow the format of [qiskit.result.Result](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Result) object:
+- If the result obtained from a Hardware follow the format of [qiskit.result.Result](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Result) or [qiskit.primitives.PrimitiveResult](https://docs.quantum.ibm.com/api/qiskit/qiskit.primitives.PrimitiveResult):
   - The audio can be decoded using ```scheme.decode_result(result_object)``` method. In this case, relevant metadata information is preserved and applied at decoding. 
 
 - If the result is in form of a **Counts** dictionary or [qiskit.result.Counts](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Counts) object with keys representing classical measurement outcomes and values indicating the number of times the outcome was observed:
@@ -201,7 +201,7 @@ If you find any issues or have suggestions for improvements, please open an issu
 For more information on contributing to Code and Documentation, please review [Contributing Guidelines](https://github.com/moth-quantum/quantum-audio/blob/main/CONTRIBUTING.md)
 
 ## 🚩 Future Releases <a id="future-releases"></a>
-We're excited to keep the package updated with features and improvements as the community evolves!<br> Quantum Audio Package `v0.1.0` is a gradual upgrade from `v0.0.2` with a focus on the core architectural changes. 
+We're excited to keep the package updated with features and improvements as the community evolves!<br> Quantum Audio Package `v0.1.0` is a upgrade from `v0.0.2` with a focus on the core architectural changes. 
 In future releases, we plan to introduce other schemes from Quantum Audio Literature along with Base Scheme Classes to support a generic structure for future research contributions.
 
 ## ✅ Citing <a id="citing"></a>
