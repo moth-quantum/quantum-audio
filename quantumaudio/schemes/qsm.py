@@ -176,11 +176,9 @@ class QSM:
             index: position to set the value
             value: value to be set at the index
         """
-        a_bitstring = []
         value_register, index_register = circuit.qregs
         for i, areg_qubit in enumerate(value_register):
             a_bit = (value >> i) & 1
-            a_bitstring.append(a_bit)
             if a_bit:
                 circuit.mcx(index_register, areg_qubit)
 

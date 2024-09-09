@@ -219,11 +219,9 @@ class MQSM:
             at its corresponding index.
 
         """
-        a_bitstring = []
         value_register, channel_register, index_register = circuit.qregs
         for i, areg_qubit in enumerate(value_register):
             a_bit = (value >> i) & 1
-            a_bitstring.append(a_bit)
             if a_bit:
                 circuit.mcx(
                     channel_register[:] + index_register[:], areg_qubit
