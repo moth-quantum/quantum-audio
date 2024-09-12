@@ -19,9 +19,9 @@ import numpy as np
 import qiskit
 
 from quantumaudio import utils
+from .base_scheme import Scheme
 
-
-class MSQPAM:
+class MSQPAM(Scheme):
     """Multi-channel Single-Qubit Probability Amplitude Modulation (MSQPAM).
 
     MSQPAM class implements an encoding and decoding scheme where the

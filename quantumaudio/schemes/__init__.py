@@ -63,6 +63,7 @@ However, it involves several stages that can be manually implemented. The stages
 """
 
 import importlib
+from .base_scheme import Scheme
 
 
 def __getattr__(name):
@@ -80,4 +81,4 @@ def __dir__():
     return __all__
 
 
-__all__ = ["QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM"]
+__all__ = ["QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM", "Scheme"]
