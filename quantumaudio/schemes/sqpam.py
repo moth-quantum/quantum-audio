@@ -21,6 +21,7 @@ import qiskit
 from quantumaudio import utils
 from .base_scheme import Scheme
 
+
 class SQPAM(Scheme):
     """Single-Qubit Probability Amplitude Modulation (SQPAM).
 
