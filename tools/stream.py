@@ -98,7 +98,7 @@ def process_chunks(
     return processed_chunks
 
 
-def combine_chunks(chunks: List[np.ndarray]) -> np.ndarray:
+def combine_chunks(chunks: list[np.ndarray]) -> np.ndarray:
     """Combine a list of NumPy arrays along a specified axis.
 
     Parameters:
