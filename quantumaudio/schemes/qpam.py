@@ -19,9 +19,9 @@ import numpy as np
 import qiskit
 
 from quantumaudio import utils
+from .base_scheme import Scheme
 
-
-class QPAM:
+class QPAM(Scheme):
     """Quantum Probability Amplitude Modulation (QPAM).
 
     QPAM class implements encoding and decoding of Digital Audio as

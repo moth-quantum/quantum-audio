@@ -19,9 +19,9 @@ import numpy as np
 import qiskit
 
 from quantumaudio import utils
+from .base_scheme import Scheme
 
-
-class SQPAM:
+class SQPAM(Scheme):
     """Single-Qubit Probability Amplitude Modulation (SQPAM).
 
     SQPAM class implements an encoding and decoding scheme where the

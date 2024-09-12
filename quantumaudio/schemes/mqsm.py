@@ -20,9 +20,9 @@ import qiskit
 from bitstring import BitArray
 
 from quantumaudio import utils
+from .base_scheme import Scheme
 
-
-class MQSM:
+class MQSM(Scheme):
     """Multi-channel Quantum State Modulation (MQSM).
 
     MQSM class implements an encoding and decoding scheme where the

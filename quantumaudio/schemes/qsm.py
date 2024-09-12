@@ -20,9 +20,10 @@ import qiskit
 from bitstring import BitArray
 
 from quantumaudio import utils
+from .base_scheme import Scheme
 
 
-class QSM:
+class QSM(Scheme):
     """Quantum State Modulation (QSM).
 
     QSM class implements an encoding and decoding scheme where the
