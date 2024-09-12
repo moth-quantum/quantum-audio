@@ -14,9 +14,9 @@
 # ==========================================================================
 
 from abc import ABC, abstractmethod
-from typing import Any
 import numpy as np
 import qiskit
+
 
 class Scheme(ABC):
     """
@@ -54,4 +54,4 @@ class Scheme(ABC):
 
     def __str__(self) -> str:
         """Return a string representation of the modulation scheme."""
-        return f'{self.name} ({self.__class__.__name__})'
+        return f"{self.name} ({self.__class__.__name__})"

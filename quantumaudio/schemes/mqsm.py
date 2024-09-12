@@ -22,6 +22,7 @@ from bitstring import BitArray
 from quantumaudio import utils
 from .base_scheme import Scheme
 
+
 class MQSM(Scheme):
     """Multi-channel Quantum State Modulation (MQSM).
 
