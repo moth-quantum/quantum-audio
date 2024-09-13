@@ -38,7 +38,7 @@ def convert_to_probability_amplitudes(
     if not norm:
         norm = 1
     probability_amplitudes = array / norm
-    return norm, probability_amplitudes
+    return float(norm), probability_amplitudes
 
 
 def convert_to_angles(array: np.ndarray) -> np.ndarray:
