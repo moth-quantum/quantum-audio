@@ -14,6 +14,7 @@
 # ==========================================================================
 
 import numpy as np
+from typing import Union
 
 # ======================
 # Conversions
@@ -136,3 +137,24 @@ def is_within_range(arr: np.ndarray, min_val: float, max_val: float) -> bool:
         True if all elements are within the range, False otherwise.
     """
     return np.all((arr >= min_val) & (arr <= max_val))
+
+def assert_data(data: Union[list, tuple, np.ndarray]) -> np.ndarray:
+    """Ensure the data is a NumPy array. If the data is not a NumPy array,
+    it will be converted to one. Raises a TypeError if the input is not
+    a list, tuple, or NumPy array.
+    
+    Args:
+        data: Input data (could be a list, tuple, or NumPy array)
+    
+    Returns:
+        A NumPy array
+    
+    Raises:
+        TypeError: If the input data type is not supported
+    """
+    if isinstance(data, (list, tuple)):
+        return np.array(data)
+    elif isinstance(data, np.ndarray):
+        return data
+    else:
+        raise TypeError("Input data must be a list, tuple, or NumPy array")
