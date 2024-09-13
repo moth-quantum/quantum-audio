@@ -380,13 +380,13 @@ class MQSM(Scheme):
         original_num_channels = metadata["num_channels"]
 
         # decoding y-axis
-        bit_depth = metadata["num_qubits"][2]
+        qubit_depth = metadata["num_qubits"][2]
 
         # decoding data
         data = self.reconstruct_data(
             counts=counts,
             num_components=num_components,
-            qubit_depth=bit_depth,
+            qubit_depth=qubit_depth,
         )
 
         # reconstruct
