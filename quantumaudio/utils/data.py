@@ -20,7 +20,7 @@ import numpy as np
 # ======================
 
 
-def simulate_data(
+def test_signal(
     num_samples: int, num_channels: int = 1, seed: int = 42
 ) -> np.ndarray:
     """Simulates sythetic data for quick testing and plots. Typically, Audio data
@@ -37,6 +37,7 @@ def simulate_data(
     """
     np.random.seed(seed)
     data = np.random.rand(num_samples, num_channels)
+    data = 2.0 * data - 1.0
     if num_channels == 1:
         data = data.squeeze()
     return data
