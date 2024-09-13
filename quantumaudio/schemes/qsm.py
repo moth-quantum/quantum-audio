@@ -316,7 +316,7 @@ class QSM(Scheme):
         original_num_samples = metadata["num_samples"]
 
         # decoding y-axis
-        qubit_depth = metadata["num_qubits"][0]
+        qubit_depth = metadata["num_qubits"][1]
         data = self.reconstruct_data(counts, num_samples, qubit_depth)
 
         # undo padding
