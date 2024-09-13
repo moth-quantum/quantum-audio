@@ -234,7 +234,7 @@ class MSQPAM(Scheme):
             circuit: Encoded Qiskit Circuit
         """
         if not circuit.cregs:
-            utils.measure(circuit)
+            circuit.measure_all()
 
     # ----- Default Encode Function -----
 
@@ -354,6 +354,7 @@ class MSQPAM(Scheme):
     def decode_result(
         self,
         result: qiskit.result.Result,
+        metadata: Optional[dict] = None,
         inverted: bool = False,
         keep_padding: tuple[int, int] = (False, False),
     ) -> np.ndarray:
@@ -371,7 +372,8 @@ class MSQPAM(Scheme):
         Return:
                 data: Array of restored values with original dimensions
         """
-        counts, metadata = utils.get_counts_and_metadata(result)
+        counts = utils.get_counts(result)
+        metadata = utils.get_metadata(result) if not metadata else metadata
 
         # decoding x-axis
         index_position, channel_position, _ = self.positions

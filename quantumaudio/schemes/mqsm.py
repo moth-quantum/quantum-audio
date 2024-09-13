@@ -236,7 +236,8 @@ class MQSM(Scheme):
             circuit: Encoded Qiskit Circuit
         """
         if not circuit.cregs:
-            utils.measure(circuit)
+            circuit.barrier()
+            circuit.measure_all()
 
     # ----- Default Encode Function -----
 
@@ -350,6 +351,7 @@ class MQSM(Scheme):
     def decode_result(
         self,
         result: qiskit.result.Result,
+        metadata: Optional[dict] = None,
         keep_padding: tuple[int, int] = (False, False),
     ) -> np.ndarray:
         """Given a result object. Extract components and restore the conversion
@@ -365,7 +367,8 @@ class MQSM(Scheme):
         Return:
                 data: Array of restored values with original dimensions
         """
-        counts, metadata = utils.get_counts_and_metadata(result)
+        counts = utils.get_counts(result)
+        metadata = utils.get_metadata(result) if not metadata else metadata
         index_position, channel_position, amplitude_position = self.positions
 
         # decoding x-axis
