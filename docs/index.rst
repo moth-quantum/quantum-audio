@@ -50,28 +50,15 @@ schemes to encode audio and necessary utilities as follows:
 
 -  ``schemes`` : Quantum Audio Representation Methods
 
-+-----------+-----------------------------+---------------------------+
-| Acronym   | Representation Name         | Original Reference        |
-+===========+=============================+===========================+
-| **QPAM**  | Quantum Probability         | Real-Ket                  |
-|           | Amplitude Modulation        |                           |
-+-----------+-----------------------------+---------------------------+
-| **SQPAM** | Single-Qubit Probability    | `FRQ                      |
-|           | Amplitude Modulation        | I <http://dx.doi.org/10.1 |
-|           |                             | 007/s11128-010-0177-y>`__ |
-+-----------+-----------------------------+---------------------------+
-| *         | Multi-channel Single-Qubit  | `PM                       |
-| *MSQPAM** | Probability Amplitude       | QA <https://doi.org/10.10 |
-|           | Modulation                  | 07/s11128-022-03435-7>`__ |
-+-----------+-----------------------------+---------------------------+
-| **QSM**   | Quantum State Modulation    | `F                        |
-|           |                             | RQA <https://doi.org/10.1 |
-|           |                             | 016/j.tcs.2017.12.025>`__ |
-+-----------+-----------------------------+---------------------------+
-| **MQSM**  | Multi-channel Quantum State | `Q                        |
-|           | Modulation                  | RMA <https://doi.org/10.1 |
-|           |                             | 007/s11128-019-2317-3>`__ |
-+-----------+-----------------------------+---------------------------+
+   - **QPAM**: Quantum Probability Amplitude Modulation
+
+   - **SQPAM**: Single-Qubit Probability Amplitude Modulation (Original: `FRQI <http://dx.doi.org/10.1007/s11128-010-0177-y>`__)
+
+   - **MSQPAM**: Multi-channel Single-Qubit Probability Amplitude Modulation (Original: `PMQA <https://doi.org/10.1007/s11128-022-03435-7>`__)
+
+   - **QSM**: Quantum State Modulation (Original: `FRQA <https://doi.org/10.1016/j.tcs.2017.12.025>`__)
+
+   - **MQSM**: Multi-channel Quantum State Modulation (Original: `QRMA <https://doi.org/10.1007/s11128-019-2317-3>`__)
 
 -  ``utils`` : Common Utilary functions for Data Processing, Analysis,
    Circuit Preparation, etc.
@@ -416,3 +403,5 @@ Quantum Audio documentation
    :caption: Contents:
 
    modules
+   quantumaudio.schemes
+   quantumaudio.utils
