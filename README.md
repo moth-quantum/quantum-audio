@@ -162,10 +162,9 @@ The package allows flexible use of Quantum Hardware from different Providers as 
   - In this case, the metadata dictionary can be accessed from the encoded circuit using `circuit.metadata`
     
 > [!Tip]
-> Dictionaries are data type in python to store {key : value} pairs.
-> Counts Dicitonary contains keys representing classical measurement outcomes and values indicating the number of times the outcome was observed.
-> Example: {'00': 77, '01': 79, '10': 84, '11': 72}.
-> Metadata Dictionary is the key information that is required at decoding, which is commonly the original dimensions of the data. For QPAM Scheme, `shots` information used at execution is additionally required and can be passed as an argument. 
+> **Dictionaries** are data type in python to store {key : value} pairs.
+> - **Counts Dicitonary** contains keys representing classical measurement outcomes and values indicating the number of times the outcome was observed. Example: `{'00': 77, '01': 79, '10': 84, '11': 72}`.
+> - **Metadata Dictionary** stores the key information that is required at decoding, which is commonly the original data dimensions to restore. For QPAM Scheme, additionaly  `shots` information will be required which can passed through the parameter `shots=`. 
  
 ## 📘 Additional Resources <a id="materials"></a>
 ### Notebook Examples
