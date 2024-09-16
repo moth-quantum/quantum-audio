@@ -14,7 +14,7 @@
 # ==========================================================================
 
 from functools import wraps
-from typing import Callable, Optional
+from typing import Callable
 
 import qiskit
 

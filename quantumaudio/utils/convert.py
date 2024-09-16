@@ -138,17 +138,18 @@ def is_within_range(arr: np.ndarray, min_val: float, max_val: float) -> bool:
     """
     return np.all((arr >= min_val) & (arr <= max_val))
 
+
 def assert_data(data: Union[list, tuple, np.ndarray]) -> np.ndarray:
     """Ensure the data is a NumPy array. If the data is not a NumPy array,
     it will be converted to one. Raises a TypeError if the input is not
     a list, tuple, or NumPy array.
-    
+
     Args:
         data: Input data (could be a list, tuple, or NumPy array)
-    
+
     Returns:
         A NumPy array
-    
+
     Raises:
         TypeError: If the input data type is not supported
     """

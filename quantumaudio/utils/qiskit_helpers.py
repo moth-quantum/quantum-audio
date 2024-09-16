@@ -61,6 +61,7 @@ def execute(circuit, backend=None, shots=4000, memory=False):
     result = job.result()
     return result
 
+
 def get_counts(results_obj, result_id=0):
     """
     Extract counts from a results object.
@@ -87,6 +88,7 @@ def get_counts(results_obj, result_id=0):
         raise TypeError("Unsupported result object type.")
 
     return counts
+
 
 def get_metadata(results_obj, result_id=0):
     """
@@ -116,6 +118,7 @@ def get_metadata(results_obj, result_id=0):
         raise TypeError("Unsupported result object type.")
 
     return metadata
+
 
 def get_counts_and_metadata(results_obj, result_id=0):
     """
