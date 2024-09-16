@@ -21,9 +21,9 @@ A scheme denotes one of the Quantum Audio Representation Methods. The core funct
 
 - **Decoding**: Takes in the quantum circuit measurements, performs necessary post-processing, and reconstructs the original digital audio.
 
-The simplest form of interaction with a scheme object is to use the `scheme.encode()` and `scheme.decode()` methods.
+The simplest form of interaction with a scheme object is to use the `scheme.encode()` and `scheme.decode()` methods. This interaction is mandated by the base abstract class `quantumaudio.scheme.Scheme`.
 
-However, it involves several stages that can be manually implemented. The stages are listed below:
+However, these operations can involve several stages that can be manually used for research and debugging purposes. The stages of schemes implemented in the package are listed below:
 
 - **Calculate**: Calculates the necessary number of qubits for each quantum register with respect to the data shape, type of scheme, and any user-defined values valid for some schemes.
 
@@ -56,6 +56,8 @@ However, it involves several stages that can be manually implemented. The stages
     3. **Undo Preparation**: Undoes the data preparation, such as padding, done during encoding. This can be done manually using NumPy slicing and reshape methods.
 
 - **Reconstruct Data**: Takes in a counts dictionary for decoding, combining Decoding Stages 1 and 2.
+
+- **Decode Counts**: Takes in a counts dictionary for decoding, combining Decoding Stages 1 and 2. Additionally, It accepts metadata, to restore the original dimensions of data.
 
 - **Decode Result**: Takes in a Qiskit `result` object for decoding, combining Decoding Stages 1, 2, and 3. It considers additional metadata, such as the original sample length, to undo the padding done at the data preparation stage.
 
