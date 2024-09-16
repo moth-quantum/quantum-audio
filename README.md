@@ -217,8 +217,7 @@ If you find any issues or have suggestions for improvements, please open an issu
 For more information on contributing to Code and Documentation, please review [Contributing Guidelines](https://github.com/moth-quantum/quantum-audio/blob/main/CONTRIBUTING.md)
 
 ## 🚩 Future Releases <a id="future-releases"></a>
-We're excited to keep the package updated with features and improvements as the community evolves!<br> Quantum Audio Package `v0.1.0` is a upgrade from `v0.0.2` with a focus on the core architectural changes. 
-In future releases, we plan to introduce other schemes from Quantum Audio Literature along with Base Scheme Class Categories to support a generic structure for further contributions.
+We're excited to keep the package updated with features and improvements! In future releases, we plan to introduce other schemes from Quantum Audio Literature along with Base Scheme Class Categories to support a generic structure for further contributions.
 
 ## ✅ Citing <a id="citing"></a>
 If you use this code or find it useful in your research, please consider citing: [DOI]()
