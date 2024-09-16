@@ -51,7 +51,7 @@ Additionaly, `tools` is provided in the repository which extends the core functi
 ## 🧩 Version Information <a id="version"></a>
 
 ### Pre-release original version: ```v0.0.2```
-This project is derived from research output on Quantum Representations of Audio, carried by <b>Interdisciplinary Centre for Computer Music Research (ICCMR)</b>, University of Plymouth, UK, namely:
+This project is derived from research output on Quantum Representations of Audio, carried by <b>Interdisciplinary Centre for Computer Music Research ([ICCMR](https://www.plymouth.ac.uk/research/iccmr))</b>, University of Plymouth, UK, namely:
 
 - Itaboraí, P.V., Miranda, E.R. (2022). Quantum Representations of Sound: From Mechanical Waves to Quantum Circuits. In: Miranda, E.R. (eds) Quantum Computer Music. Springer, Cham. https://doi.org/10.1007/978-3-031-13909-3_10
   
@@ -60,7 +60,7 @@ This project is derived from research output on Quantum Representations of Audio
 - Itaboraí, P. V. (2023) Towards Quantum Computing for Audio and Music Expression. Thesis. University of Plymouth. Available at: https://doi.org/10.24382/5119
 
 ### Redevelopment: ```v0.1.0```
-This project has been completely redeveloped and is now maintained by <b>Moth Quantum</b>. https://mothquantum.com
+This project has been completely redeveloped and is now maintained by <b>[Moth Quantum](https://mothquantum.com)</b>.
 
 - **New Architecture:**
 
