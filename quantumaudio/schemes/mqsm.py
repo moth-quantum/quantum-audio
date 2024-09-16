@@ -422,7 +422,9 @@ class MQSM(Scheme):
         """
         counts = utils.get_counts(result)
         metadata = utils.get_metadata(result) if not metadata else metadata
-        data = self.decode_counts(counts=counts,metadata=metadata,keep_padding=keep_padding)
+        data = self.decode_counts(
+            counts=counts, metadata=metadata, keep_padding=keep_padding
+        )
         return data
 
     # ----- Default Decode Function -----

@@ -290,7 +290,6 @@ class QPAM(Scheme):
 
         return data
 
-
     def decode_result(
         self,
         result: qiskit.result.Result,
@@ -316,7 +315,13 @@ class QPAM(Scheme):
         counts = utils.get_counts(result)
         metadata = utils.get_metadata(result) if not metadata else metadata
 
-        data = self.decode_counts(counts=counts,metadata=metadata,shots=shots,norm=norm,keep_padding=keep_padding)
+        data = self.decode_counts(
+            counts=counts,
+            metadata=metadata,
+            shots=shots,
+            norm=norm,
+            keep_padding=keep_padding,
+        )
         return data
 
     # ----- Default Decode Function -----

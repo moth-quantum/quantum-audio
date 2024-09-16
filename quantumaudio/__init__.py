@@ -34,9 +34,9 @@ def load_scheme(name, *args, **kwargs):
         *args: Optional positional arguments to pass to the scheme class.
         **kwargs: Optional keyword arguments to pass to the scheme class such as:
 
-            - ``qubit_depth`` (int): For `qsm` and `mqsm` to manually set the number of qubits 
+            - ``qubit_depth`` (int): For `qsm` and `mqsm` to manually set the number of qubits
               to represent the amplitude of audio.
-            - ``num_channels`` (int): For `msqpam` and `mqsm` to manually set the number 
+            - ``num_channels`` (int): For `msqpam` and `mqsm` to manually set the number
               of channels to represent.
 
     Returns:
