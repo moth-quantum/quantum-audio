@@ -21,7 +21,7 @@ import numpy as np
 
 
 def test_signal(
-    num_samples: int, num_channels: int = 1, seed: int = 42
+    num_samples: int = 8, num_channels: int = 1, seed: int = 42
 ) -> np.ndarray:
     """Simulates sythetic data for quick testing and plots. Typically, Audio data
        contains several thousands of samples per second which is difficult to
