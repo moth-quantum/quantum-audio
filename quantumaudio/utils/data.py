@@ -21,15 +21,15 @@ import numpy as np
 
 
 def test_signal(
-    num_samples: int = 8, num_channels: int = 1, seed: int = 42
+    num_channels: int = 1, num_samples: int = 8, seed: int = 42
 ) -> np.ndarray:
     """Simulates sythetic data for quick testing and plots. Typically, Audio data
        contains several thousands of samples per second which is difficult to
        visualise as circuit and plot"
 
     Args:
-        num_samples: The number of samples to generate.
         num_channels: The number of channels for each sample. Defaults to 1.
+        num_samples: The number of samples to generate.
         seed: The seed for the random number generator. Defaults to 42.
 
     Returns:
