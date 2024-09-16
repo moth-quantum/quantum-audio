@@ -359,7 +359,7 @@ class MQSM(Scheme):
 
         Args:
                 counts: a qiskit Counts object or Dictionary obtained from a job result.
-                metadata: optionally pass metadata as argument.
+                metadata:  metadata required for decoding.
                 keep_padding: Undo the padding set at Encoding stage if set to False.
                               Dimension 0: for channels
                               Dimension 1: for time
