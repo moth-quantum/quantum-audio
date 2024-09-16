@@ -290,6 +290,39 @@ class QSM(Scheme):
         data = self.restore(data, qubit_depth)
         return data
 
+    def decode_counts(
+        self,
+        counts: Union[dict, qiskit.result.Counts],
+        metadata: dict,
+        keep_padding: bool = False,
+    ) -> np.ndarray:
+        """Given a result object. Extract components and restore the conversion
+        did in encoding stage.
+
+        Args:
+                counts: a qiskit Counts object or Dictionary obtained from a job result.
+                metadata: metadata required for decoding.
+                keep_padding: Undo the padding set at Encoding stage if set False.
+
+        Return:
+                data: Array of restored values with original dimensions
+        """
+        index_position, amplitude_position = self.positions
+
+        # decoding x-axis
+        num_index_qubits = metadata["num_qubits"][0]
+        num_samples = 2**num_index_qubits
+        original_num_samples = metadata["num_samples"]
+
+        # decoding y-axis
+        qubit_depth = metadata["num_qubits"][1]
+        data = self.reconstruct_data(counts, num_samples, qubit_depth)
+
+        # undo padding
+        if not keep_padding:
+            data = data[:original_num_samples]
+        return data
+
     def decode_result(
         self,
         result: qiskit.result.Result,
@@ -310,20 +343,7 @@ class QSM(Scheme):
         """
         counts = utils.get_counts(result)
         metadata = utils.get_metadata(result) if not metadata else metadata
-        index_position, amplitude_position = self.positions
-
-        # decoding x-axis
-        num_index_qubits = metadata["num_qubits"][0]
-        num_samples = 2**num_index_qubits
-        original_num_samples = metadata["num_samples"]
-
-        # decoding y-axis
-        qubit_depth = metadata["num_qubits"][1]
-        data = self.reconstruct_data(counts, num_samples, qubit_depth)
-
-        # undo padding
-        if not keep_padding:
-            data = data[:original_num_samples]
+        data = self.decode_counts(counts=counts,metadata=metadata,keep_padding=keep_padding)
         return data
 
     # ----- Default Decode Function -----

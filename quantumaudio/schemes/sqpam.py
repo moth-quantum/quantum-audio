@@ -293,6 +293,42 @@ class SQPAM(Scheme):
         data = self.restore(cosine_amps, sine_amps, inverted)
         return data
 
+    def decode_counts(
+        self,
+        counts: Union[dict, qiskit.result.Counts],
+        metadata: dict,
+        inverted: bool = False,
+        keep_padding: bool = False,
+    ) -> np.ndarray:
+        """Given a Qiskit counts object or Dictionary, Extract components and restore the
+        conversion did at encoding stage.
+
+        Args:
+                counts: a qiskit Counts object or Dictionary obtained from a job result.
+                metadata: metadata required for decoding.
+                inverted: retrieves cosine components of the signal.
+                keep_padding: Undo the padding set at Encoding stage if set False.
+
+        Return:
+                data: Array of restored values with original dimensions
+        """
+        # decoding x-axis
+        index_position, _ = self.positions
+        num_index_qubits = metadata["num_qubits"][0]
+        num_samples = 2**num_index_qubits
+        original_num_samples = metadata["num_samples"]
+
+        # decoding y-axis
+        data = self.reconstruct_data(
+            counts=counts, num_components=num_samples, inverted=False
+        )
+
+        # undo padding
+        if not keep_padding:
+            data = data[:original_num_samples]
+
+        return data
+
     def decode_result(
         self,
         result: qiskit.result.Result,
@@ -316,21 +352,7 @@ class SQPAM(Scheme):
         counts = utils.get_counts(result)
         metadata = utils.get_metadata(result) if not metadata else metadata
 
-        # decoding x-axis
-        index_position, _ = self.positions
-        num_index_qubits = metadata["num_qubits"][0]
-        num_samples = 2**num_index_qubits
-        original_num_samples = metadata["num_samples"]
-
-        # decoding y-axis
-        data = self.reconstruct_data(
-            counts=counts, num_components=num_samples, inverted=False
-        )
-
-        # undo padding
-        if not keep_padding:
-            data = data[:original_num_samples]
-
+        data = self.decode_counts(counts=counts,metadata=metadata,inverted=inverted,keep_padding=keep_padding)
         return data
 
     # ----- Default Decode Function -----

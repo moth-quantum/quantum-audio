@@ -260,7 +260,7 @@ class QPAM(Scheme):
         norm: Optional[float] = None,
         keep_padding: bool = False,
     ) -> np.ndarray:
-        """Given a Qiskit Result object, Extract components and restore the
+        """Given a Qiskit counts object or Dictionary, Extract components and restore the
         conversion did at encoding stage.
 
         Args:
