@@ -103,14 +103,14 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
 ### Optional Dependencies
 All additional dependencies can be installed using `pip`:
   ```
-  pip install quantumaudio[all]
+  pip install "quantumaudio[all]"
   ```
 It includes the following collection of dependencies:
 
   - **Digital Audio Dependencies**
     The core package operates with _numpy_ arrays. Dependencies for audio file handling to run audio examples in notebook and scripts in the repository can be additionally installed using `pip`:
     ```
-    pip install quantumaudio[audio_io]
+    pip install "quantumaudio[audio_io]"
     ```
     For local installation from the cloned directory: ```pip install .[audio_io]``` or manually with ```pip install -r requirements-audio.txt```<br>
   
@@ -120,7 +120,7 @@ It includes the following collection of dependencies:
   - **Notebook Dependencies**
     The [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/DEMO.ipynb) features interactive elements that require additional dependencies. It can be installed using `pip`:
     ```
-    pip install quantumaudio[notebook]
+    pip install "quantumaudio[notebook]"
     ```
     For local installation from the cloned directory: ```pip install .[notebook]``` or manually with ```pip install -r requirements-notebook.txt``` <br>
 
