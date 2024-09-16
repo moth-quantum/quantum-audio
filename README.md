@@ -151,13 +151,21 @@ The default ```scheme.decode()``` uses local [_AerSimulator_](https://github.com
 
 ### Running on Quantum Hardware
 
-The package allows flexible use of Quantum Hardware from different Providers for executing the circuits.
+The package allows flexible use of Quantum Hardware from different Providers as the execution of circuits can be done independently. Depending on the results, there are two ways to decode quantum audio:
 
-- If the result obtained from a Hardware follow the format of [qiskit.result.Result](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Result) or [qiskit.primitives.PrimitiveResult](https://docs.quantum.ibm.com/api/qiskit/qiskit.primitives.PrimitiveResult):
-  - The audio can be decoded using ```scheme.decode_result(result_object)``` method. In this case, relevant metadata information is preserved and applied at decoding. 
-
-- If the result is in form of a **Counts** dictionary or [qiskit.result.Counts](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Counts) object with keys representing classical measurement outcomes and values indicating the number of times the outcome was observed:
-  - The audio can be decoded using ```scheme.reconstruct_data(counts)``` method. In this case, metadata information can be manually passed as arguments.
+- **Results Object:** If the result obtained follow the format of [qiskit.result.Result](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Result) or [qiskit.primitives.PrimitiveResult](https://docs.quantum.ibm.com/api/qiskit/qiskit.primitives.PrimitiveResult),
+  - The audio can be decoded with ```scheme.decode_result(result_object)``` method.
+  - In this case, relevant metadata information is automatically extracted and applied at decoding. It can also be manually passed using `metadata=` parameter.
+<br><br>
+- **Counts Dictionary:** If the result is in form of a counts dictionary or [qiskit.result.Counts](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Counts) object,
+  - The audio can be decoded using ```scheme.decode_counts(counts, metadata)``` method.
+  - In this case, the metadata dictionary can be accessed from the encoded circuit using `circuit.metadata`
+    
+> [!Tip]
+> Dictionaries are data type in python to store {key : value} pairs.
+> Counts Dicitonary contains keys representing classical measurement outcomes and values indicating the number of times the outcome was observed.
+> Example: {'00': 77, '01': 79, '10': 84, '11': 72}.
+> Metadata Dictionary is the key information that is required at decoding, which is commonly the original dimensions of the data. For QPAM Scheme, `shots` information used at execution is additionally required and can be passed as an argument. 
  
 ## 📘 Additional Resources <a id="materials"></a>
 ### Notebook Examples
@@ -202,7 +210,7 @@ For more information on contributing to Code and Documentation, please review [C
 
 ## 🚩 Future Releases <a id="future-releases"></a>
 We're excited to keep the package updated with features and improvements as the community evolves!<br> Quantum Audio Package `v0.1.0` is a upgrade from `v0.0.2` with a focus on the core architectural changes. 
-In future releases, we plan to introduce other schemes from Quantum Audio Literature along with Base Scheme Classes to support a generic structure for future research contributions.
+In future releases, we plan to introduce other schemes from Quantum Audio Literature along with Base Scheme Class Categories to support a generic structure for further contributions.
 
 ## ✅ Citing <a id="citing"></a>
 If you use this code or find it useful in your research, please consider citing: [DOI]()
