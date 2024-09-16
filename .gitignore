@@ -4,5 +4,5 @@
 media/*
 !media/qsm_example.png
 !media/audio_example.mp3
+!docs/_build/singlehtml/
 docs/*
-/docs/_build
