@@ -395,7 +395,7 @@ to contact Moth Quantum at hello@mothquantum.com
 .. |Open in Colab| image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd
 
-Quantum Audio documentation
+Quantum Audio Documentation
 ===========================
 
 .. toctree::
