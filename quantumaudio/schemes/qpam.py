@@ -252,10 +252,50 @@ class QPAM(Scheme):
         data = self.restore(probabilities, norm, shots)
         return data
 
+    def decode_counts(
+        self,
+        counts: Union[dict, qiskit.result.Counts],
+        metadata: dict,
+        shots: Optional[int] = 4000,
+        norm: Optional[float] = None,
+        keep_padding: bool = False,
+    ) -> np.ndarray:
+        """Given a Qiskit Result object, Extract components and restore the
+        conversion did at encoding stage.
+
+        Args:
+            counts: a qiskit Counts object or Dictionary obtained from a job result.
+            metadata: metadata required for decoding.
+            shots : total number of times the quantum circuit is measured.
+            norm  : Override the norm factor used to normalize the decoding.
+            keep_padding: Undos the padding set at Encoding stage if set to False.
+
+        Return:
+            data: Array of restored values with original dimensions
+        """
+        shots = metadata.get("shots", shots)
+        norm = norm if norm else metadata["norm_factor"]
+
+        if "num_samples" in metadata:
+            original_num_samples = metadata["num_samples"]
+        else:
+            original_num_samples = None
+
+        # reconstruct
+        data = self.reconstruct_data(counts=counts, shots=shots, norm=norm)
+
+        # undo padding
+        if not keep_padding and original_num_samples:
+            data = data[:original_num_samples]
+
+        return data
+
+
     def decode_result(
         self,
         result: qiskit.result.Result,
         metadata: Optional[dict] = None,
+        shots: Optional[int] = 4000,
         norm: Optional[float] = None,
         keep_padding: bool = False,
     ) -> np.ndarray:
@@ -276,21 +316,7 @@ class QPAM(Scheme):
         counts = utils.get_counts(result)
         metadata = utils.get_metadata(result) if not metadata else metadata
 
-        shots = metadata["shots"]
-        norm = norm if norm else metadata["norm_factor"]
-
-        if "num_samples" in metadata:
-            original_num_samples = metadata["num_samples"]
-        else:
-            original_num_samples = None
-
-        # reconstruct
-        data = self.reconstruct_data(counts=counts, shots=shots, norm=norm)
-
-        # undo padding
-        if not keep_padding and original_num_samples:
-            data = data[:original_num_samples]
-
+        data = self.decode_counts(counts=counts,metadata=metadata,shots=shots,norm=norm,keep_padding=keep_padding)
         return data
 
     # ----- Default Decode Function -----
