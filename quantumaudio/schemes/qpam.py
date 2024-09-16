@@ -255,6 +255,7 @@ class QPAM(Scheme):
     def decode_result(
         self,
         result: qiskit.result.Result,
+        metadata: Optional[dict] = None,
         norm: Optional[float] = None,
         keep_padding: bool = False,
     ) -> np.ndarray:
@@ -271,8 +272,9 @@ class QPAM(Scheme):
         Return:
             data: Array of restored values with original dimensions
         """
+        counts = utils.get_counts(result)
+        metadata = utils.get_metadata(result) if not metadata else metadata
 
-        counts, metadata = utils.get_counts_and_metadata(result)
         shots = metadata["shots"]
         norm = norm if norm else metadata["norm_factor"]
 

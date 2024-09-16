@@ -62,7 +62,7 @@ def tune(
             plt.plot(x, ref.squeeze()[: len(x)], label="Original")
         plt.xlabel("Shots")
         plt.ylabel("Values")
-        plt.ylim(0, 1.5)
+        plt.ylim(-1.0, 1.0)
         plt.legend(fontsize=14)
         plt.grid(True)
         plt.show()

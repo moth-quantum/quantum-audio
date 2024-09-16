@@ -293,6 +293,7 @@ class QSM(Scheme):
     def decode_result(
         self,
         result: qiskit.result.Result,
+        metadata: Optional[dict] = None,
         keep_padding: bool = False,
     ) -> np.ndarray:
         """Given a result object. Extract components and restore the conversion
@@ -306,8 +307,8 @@ class QSM(Scheme):
         Return:
                 data: Array of restored values with original dimensions
         """
-
-        counts, metadata = utils.get_counts_and_metadata(result)
+        counts = utils.get_counts(result)
+        metadata = utils.get_metadata(result) if not metadata else metadata
         index_position, amplitude_position = self.positions
 
         # decoding x-axis
@@ -316,7 +317,7 @@ class QSM(Scheme):
         original_num_samples = metadata["num_samples"]
 
         # decoding y-axis
-        qubit_depth = metadata["num_qubits"][0]
+        qubit_depth = metadata["num_qubits"][1]
         data = self.reconstruct_data(counts, num_samples, qubit_depth)
 
         # undo padding

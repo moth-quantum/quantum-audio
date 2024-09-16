@@ -296,6 +296,7 @@ class SQPAM(Scheme):
     def decode_result(
         self,
         result: qiskit.result.Result,
+        metadata: Optional[dict] = None,
         inverted: bool = False,
         keep_padding: bool = False,
     ) -> np.ndarray:
@@ -311,7 +312,8 @@ class SQPAM(Scheme):
         Return:
                 data: Array of restored values with original dimensions
         """
-        counts, metadata = utils.get_counts_and_metadata(result)
+        counts = utils.get_counts(result)
+        metadata = utils.get_metadata(result) if not metadata else metadata
 
         # decoding x-axis
         index_position, _ = self.positions

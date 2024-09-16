@@ -61,6 +61,61 @@ def execute(circuit, backend=None, shots=4000, memory=False):
     result = job.result()
     return result
 
+def get_counts(results_obj, result_id=0):
+    """
+    Extract counts from a results object.
+
+    Args:
+        results_obj: An instance of `PrimitiveResult` or `Result` object from which to extract counts.
+        result_id: The index of the result to extract if the results object contains multiple results.
+
+    Returns:
+        counts: The counts of measurements from the results object.
+    """
+    counts = {}
+
+    if isinstance(results_obj, qiskit.primitives.PrimitiveResult):
+        results_obj = results_obj[result_id]
+
+    if isinstance(results_obj, qiskit.primitives.SamplerPubResult):
+        counts = results_obj.data.meas.get_counts()
+
+    elif isinstance(results_obj, qiskit.result.Result):
+        counts = results_obj.get_counts()
+
+    else:
+        raise TypeError("Unsupported result object type.")
+
+    return counts
+
+def get_metadata(results_obj, result_id=0):
+    """
+    Extract metadata from a results object.
+
+    Args:
+        results_obj: An instance of `PrimitiveResult` or `Result` object from which to extract metadata.
+        result_id: The index of the result to extract if the results object contains multiple results.
+
+    Returns:
+        metadata: The metadata associated with the result.
+    """
+    metadata = {}
+
+    if isinstance(results_obj, qiskit.primitives.PrimitiveResult):
+        results_obj = results_obj[result_id]
+
+    if isinstance(results_obj, qiskit.primitives.SamplerPubResult):
+        metadata = results_obj.metadata["circuit_metadata"]
+        metadata["shots"] = results_obj.metadata["shots"]
+
+    elif isinstance(results_obj, qiskit.result.Result):
+        metadata = results_obj.results[result_id].header.metadata
+        metadata["shots"] = results_obj.results[result_id].shots
+
+    else:
+        raise TypeError("Unsupported result object type.")
+
+    return metadata
 
 def get_counts_and_metadata(results_obj, result_id=0):
     """
@@ -74,25 +129,8 @@ def get_counts_and_metadata(results_obj, result_id=0):
         counts: The counts of measurements from the results object.
         metadata: The metadata associated with the result.
     """
-    counts = {}
-    metadata = {}
-
-    if isinstance(results_obj, qiskit.primitives.PrimitiveResult):
-        results_obj = results_obj[result_id]
-
-    if isinstance(results_obj, qiskit.primitives.SamplerPubResult):
-        counts = results_obj.data.meas.get_counts()
-        metadata = results_obj.metadata["circuit_metadata"]
-        metadata["shots"] = results_obj.metadata["shots"]
-
-    elif isinstance(results_obj, qiskit.result.Result):
-        counts = results_obj.get_counts()
-        metadata = results_obj.results[result_id].header.metadata
-        metadata["shots"] = results_obj.results[result_id].shots
-
-    else:
-        raise TypeError("Unsupported result object type.")
-
+    counts = get_counts(results_obj, result_id)
+    metadata = get_metadata(results_obj, result_id)
     return counts, metadata
 
 
