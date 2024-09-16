@@ -236,7 +236,6 @@ class MQSM(Scheme):
             circuit: Encoded Qiskit Circuit
         """
         if not circuit.cregs:
-            circuit.barrier()
             circuit.measure_all()
 
     # ----- Default Encode Function -----
