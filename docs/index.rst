@@ -10,12 +10,13 @@ Quantum Audio
       :name: quantum-audio
 
    |Python version| |PyPI| |Read the Docs (version)| |LICENSE| |DOI|
+   |Open in Colab|
 
    An open-source Python package for building Quantum Representations of
    Digital Audio using *Qiskit* circuits.
 
 💿 What is Quantum Audio ?
-==========================
+--------------------------
 
 Audio plays a vital role in carrying information and music, traversing
 through domains — from analog and digital formats to engaging our senses
@@ -25,10 +26,10 @@ new explorations in artistic and research contexts 💫
 
 The Quantum Audio Package provides fundamental operations for
 representing audio as Quantum States that can be processed on a Quantum
-computer (or Simulator) and played back in the classical world 🔊
+computer (or Simulator) and played back 🔊
 
 🗒️ Table of Contents
-====================
+--------------------
 
 -  `Overview <#overview>`__
 -  `Version Information <#version>`__
@@ -40,7 +41,7 @@ computer (or Simulator) and played back in the classical world 🔊
 -  `Citing <#citing>`__
 
 🔍 Overview 
-============
+------------
 
 Modulation Schemes are essential methods for encoding Audio in both
 Analog (such as **FM** 📻) and Digital (such as **PCM** 💻) formats. The
@@ -75,11 +76,18 @@ schemes to encode audio and necessary utilities as follows:
 -  ``utils`` : Common Utilary functions for Data Processing, Analysis,
    Circuit Preparation, etc.
 
-🧩 Version Information 
-=======================
+Additionaly, ``tools`` is provided in the repository which extends the
+core functionality to support Audio and Visual Examples.
 
-Acknowledgment of Previous Version ``v0.0.2``
----------------------------------------------
+   For a quick tour of Quantum Audio, try
+   `Colab <https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd>`__
+   🚀
+
+🧩 Version Information 
+-----------------------
+
+Pre-release original version: ``v0.0.2``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This project is derived from research output on Quantum Representations
 of Audio, carried by Interdisciplinary Centre for Computer Music
@@ -97,8 +105,8 @@ Research (ICCMR), University of Plymouth, UK, namely:
    Expression. Thesis. University of Plymouth. Available at:
    https://doi.org/10.24382/5119
 
-Key Changes in the Redeveloped Version ``v0.1.0``
--------------------------------------------------
+Redevelopment: ``v0.1.0``
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This project has been completely redeveloped and is now maintained by
 Moth Quantum. https://mothquantum.com
@@ -107,7 +115,7 @@ Moth Quantum. https://mothquantum.com
 
    -  This project has been restructured for better flexibility and
       scalability.
-   -  Instead of *QuantumAudio* Instances, the package operates at the
+   -  Instead of *QuantumAudio* Instances, the package begins at the
       level of *Scheme* Instances that perform encoding and decoding
       functions independent of the data.
 
@@ -120,7 +128,7 @@ Moth Quantum. https://mothquantum.com
 
 -  **Dependency Change:**
 
-   -  Support for *Qiskit* is updated from ``v0.22`` to ``v0.46``
+   -  Support for *Qiskit* is updated from ``v0.22`` to ``v1.0+``
 
 -  **Improvements:**
 
@@ -133,15 +141,15 @@ Moth Quantum. https://mothquantum.com
    -  The License is updated from **MIT** to **Apache 2.0**
 
 Migration Guide
----------------
+~~~~~~~~~~~~~~~
 
 If you’re transitioning from the previous version, please check the
 `Migration
-Guide <https://github.com/moth-quantum/quantum-audio/blob/pre-release-docs/MIGRATION.md>`__
+Guide <https://github.com/moth-quantum/quantum-audio/blob/main/MIGRATION.md>`__
 for an overview of the package usability.
 
 🪄 Installation 
-================
+----------------
 
 To install the Quantum Audio Package, you can use ``pip`` (included with
 Python) which installs it from
@@ -159,17 +167,16 @@ navigate to the cloned directory in Terminal or Command Prompt and run:
 
    [!Note] When using ``pip`` commands to install packages and
    dependencies, it’s recommended to use a **virtual environment** to
-   keep them isolated from the system’s Python. This will avoid
-   dependency conflicts especially if you have *Qiskit* version ``1.0``
-   or later installed. Instructions on using a virtual environment are
+   keep them isolated from the system’s Python. This will avoid any
+   dependency conflicts. Instructions on using a virtual environment are
    provided
-   `here <https://github.com/moth-quantum/quantum-audio/blob/pre-release-docs/ENVIRONMENT.md>`__.
+   `here <https://github.com/moth-quantum/quantum-audio/blob/main/ENVIRONMENT.md>`__.
 
 Optional Dependencies
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 **Digital Audio Dependencies**
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The core package operates with *numpy* arrays. Dependencies for audio
 file handling to run audio examples in notebook and scripts in the
@@ -184,10 +191,10 @@ cloned directory: ``pip install .[audio_io]`` or manually with
    Stereo Audio of ``N`` samples.
 
 **Notebook Dependencies**
-~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The `Demo
-Notebook <https://github.com/moth-quantum/quantum-audio/blob/pre-release-docs/DEMO.ipynb>`__
+Notebook <https://github.com/moth-quantum/quantum-audio/blob/main/DEMO.ipynb>`__
 features interactive elements that require additional dependencies. It
 can be installed using ``pip``: ``pip install quantumaudio[notebook]``
 For local installation from the cloned directory:
@@ -195,7 +202,7 @@ For local installation from the cloned directory:
 ``pip install -r requirements-notebook.txt``
 
 🎨 Usage 
-=========
+---------
 
 Get started on creating Quantum Audio Representations with just a few
 lines of code.
@@ -204,10 +211,10 @@ lines of code.
 
    # An instance of a scheme can be created using:
    import quantumaudio
-   qpam = quantumaudio.schemes.QPAM() # or simply quantumaudio.QPAM()
+   qpam = quantumaudio.load_scheme('qpam') # or directly access from quantumaudio.schemes.QPAM()
 
    # Define an Input
-   original_data = [ ] # an array of samples
+   original_data = quantumaudio.utils.test_signal() # for a random array of samples (range: -1.0 to 1.0)
 
    # Encoding
    encoded_circuit = qpam.encode(original_data)
@@ -230,80 +237,107 @@ lines of code.
    short length of samples per Circuit. The functions provided in
    ``tools/stream.py`` facilitate the processing of Long arrays in
    chunks. Examples of the usage can be found in the `Demo
-   Notebook <https://github.com/moth-quantum/quantum-audio/blob/pre-release-docs/DEMO.ipynb>`__
+   Notebook <https://github.com/moth-quantum/quantum-audio/blob/main/DEMO.ipynb>`__
    and ``scripts`` provided in the repository.
 
-Running on Simulator
---------------------
+Running on Native Backends
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The default ``scheme.decode()`` uses local
 `AerSimulator <https://github.com/Qiskit/qiskit-aer>`__ as the default
-backend. Internally, the function performs ``qiskit.execute()`` method
-similar to ``v0.0.2`` and a compatible backend object can be specified
-by passing the ``backend=`` parameter.
+backend. Internally, the function performs ``backend.run()`` method (in
+``quantumaudio.utils.execute``) and any compatible backend object can be
+specified by passing the ``backend=`` parameter.
 
-Running on Quantum Hardware
----------------------------
+Running on External Quantum Backends
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The package allows flexible use of Quantum Hardware from different
-Providers for executing the circuits.
+Providers as the execution of circuits can be done independently.
+Depending on the results, there are two ways to decode quantum audio:
 
--  If the result obtained from a Hardware follow the format of
+-  **Results Object:** If the result obtained follow the format of
    `qiskit.result.Result <https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Result>`__
-   object:
+   or
+   `qiskit.primitives.PrimitiveResult <https://docs.quantum.ibm.com/api/qiskit/qiskit.primitives.PrimitiveResult>`__,
+
+   -  The audio can be decoded with
+      ``scheme.decode_result(result_object)`` method.
+   -  In this case, relevant metadata information is automatically
+      extracted and applied at decoding. It can also be manually passed
+      using ``metadata=`` parameter.
+
+-  **Counts Dictionary:** If the result is in form of a counts
+   dictionary or
+   `qiskit.result.Counts <https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Counts>`__
+   object,
 
    -  The audio can be decoded using
-      ``scheme.decode_result(result_object)`` method. In this case,
-      relevant metadata information is preserved and applied at
-      decoding.
+      ``scheme.decode_counts(counts, metadata)`` method.
+   -  In this case, the metadata dictionary can be accessed from the
+      encoded circuit using ``circuit.metadata``
 
--  If the result is in form of a **Counts** dictionary or
-   `qiskit.result.Counts <https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Counts>`__
-   object with keys representing classical measurement outcomes and
-   values indicating the number of times the outcome was observed:
+..
 
-   -  The audio can be decoded using ``scheme.reconstruct_data(counts)``
-      method. In this case, metadata information can be manually passed
-      as arguments.
+   [!Tip] **Dictionaries** are data type in python to store {key :
+   value} pairs. - **Counts Dicitonary** contains keys representing
+   classical measurement outcomes and values indicating the number of
+   times the outcome was observed. Example:
+   ``{'00': 77, '01': 79, '10': 84, '11': 72}``. - **Metadata
+   Dictionary** stores the key information that is required at decoding,
+   which is commonly the original data dimensions to restore.
+
+   [!Note] When passing metadata manually in the above decode functions,
+   QPAM Scheme additionaly requires ``shots`` information used at
+   execution as metadata which can also be passed through the parameter
+   ``shots=``.
 
 📘 Additional Resources 
-========================
+------------------------
 
 Notebook Examples
------------------
+~~~~~~~~~~~~~~~~~
 
 For examples of circuit preparation, signals reconstruction, and
 interactive demonstrations, please check the `Demo
-Notebook <https://github.com/moth-quantum/quantum-audio/blob/pre-release-docs/DEMO.ipynb>`__.
+Notebook <https://github.com/moth-quantum/quantum-audio/blob/main/DEMO.ipynb>`__.
 It combines the core package with useful functions from the ``tools``
 folder to go through Visual and Digital Audio examples.
 
 Quick Export ⚡️
----------------
+~~~~~~~~~~~~~~~
 
 To quickly export quantumaudio from any audio file (e.g., mp3, ogg,
 flac, m4a), a script ``export.py`` is provided in the ``scripts``
 folder. Navigate with ``cd scripts`` and run:
-``bash   python export.py -i path/to/input/audio/file`` \```console
-usage: export.py [-h] -i [-o] [-v] [–scheme] [–shots] [–sr] [–stereo]
-[–buffer_size]
 
-Process quantum audio and export as .wav file.
+.. code-block:: console
 
-options: -h, –help show this help message and exit -i, –input Path to
-the input audio file. -o, –output Path to the output audio file.
-(default: saves in same directory with a prefix ``qa_``) -v, –verbose
-Enable verbose mode. –scheme Quantum Audio Scheme (default: ``qpam`` for
-mono audio, ``mqsm`` for stereo audio). –shots Number of shots for
-measurement (default: 8000) –sr Sample rate of Digital audio (default:
-22050) –stereo Enable stereo –buffer_size Length of each audio chunk
-(default: 256) \``\`
+    python export.py -i path/to/input/audio/file
 
-   [!Note] Digital Audio `Dependencies <#installation>`__ must be
-   installed to run this script and it currently uses *AerSimulator*.
+    usage: export.py [-h] -i [-o] [-v] [–scheme] [–shots] [–sr] [–stereo]
+                      [–buffer_size]
+
+    Process quantum audio and export as .wav file.
+
+    options:
+      -h, –help        show this help message and exit
+      -i, –input       Path to the input audio file.
+                       (default: saves in same directory with a prefix ``qa_``)
+      -o, –output      Path to the output audio file.
+      -v, –verbose     Enable verbose mode.
+      –scheme          Quantum Audio Scheme (default: ``qpam`` for mono audio,
+                       ``mqsm`` for stereo audio).
+      –shots           Number of shots for measurement (default: 8000)
+      –sr              Sample rate of Digital audio (default: 22050)
+      –stereo          Enable stereo
+      –buffer_size     Length of each audio chunk (default: 256)
+
+[!Note] Digital Audio `Dependencies <#installation>`__ must be
+installed to run this script and it currently uses *AerSimulator*.
 
 🤝 Contributing 
-================
+----------------
 
 Contributions to Quantum Audio are welcome! This package is designed to
 be a versatile tool for both research and artistic exploration.
@@ -323,21 +357,20 @@ an issue or submit a pull request on the GitHub repository.
 
 For more information on contributing to Code and Documentation, please
 review `Contributing
-Guidelines <https://github.com/moth-quantum/quantum-audio/blob/pre-release-docs/CONTRIBUTING.md>`__
+Guidelines <https://github.com/moth-quantum/quantum-audio/blob/main/CONTRIBUTING.md>`__
 
 🚩 Future Releases 
-===================
+-------------------
 
 We’re excited to keep the package updated with features and improvements
-as the community evolves! Quantum Audio Package ``v0.1.0`` is a gradual
-upgrade from ``v0.0.2`` with a focus on the core architectural changes.
-In future releases, we plan to extend support to Qiskit ``v1.0+``. We
-also plan to introduce other schemes from Quantum Audio Literature along
-with Base Scheme Classes to support a generic structure for future
-contributions.
+as the community evolves! Quantum Audio Package ``v0.1.0`` is a upgrade
+from ``v0.0.2`` with a focus on the core architectural changes. In
+future releases, we plan to introduce other schemes from Quantum Audio
+Literature along with Base Scheme Class Categories to support a generic
+structure for further contributions.
 
 ✅ Citing 
-==========
+----------
 
 If you use this code or find it useful in your research, please consider
 citing: `DOI <>`__
@@ -345,7 +378,7 @@ citing: `DOI <>`__
 --------------
 
 📜 Copyright
-============
+------------
 
 Copyright 2024 Moth Quantum
 
@@ -360,7 +393,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 📧 Contact
-==========
+----------
 
 If you have any questions or need further assistance, please feel free
 to contact Moth Quantum at hello@mothquantum.com
@@ -369,10 +402,11 @@ to contact Moth Quantum at hello@mothquantum.com
 .. |PyPI| image:: https://img.shields.io/pypi/v/quantumaudio
 .. |Read the Docs (version)| image:: https://img.shields.io/readthedocs/quantumaudio/latest?label=API%20docs
 .. |LICENSE| image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
-   :target: https://github.com/moth-quantum/quantum-audio/blob/pre-release-docs/LICENSE
+   :target: https://github.com/moth-quantum/quantum-audio/blob/main/LICENSE
 .. |DOI| image:: https://zenodo.org/badge/DOI/10.1234/zenodo.123456.svg
    :target: https://doi.org/
-
+.. |Open in Colab| image:: https://colab.research.google.com/assets/colab-badge.svg
+   :target: https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd
 
 Quantum Audio documentation
 ===========================

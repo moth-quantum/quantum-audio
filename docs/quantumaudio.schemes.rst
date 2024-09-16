@@ -1,49 +1,46 @@
-quantumaudio.schemes package
-============================
+quantumaudio.schemes
+====================
 
 .. automodule:: quantumaudio.schemes
-   :members:
+   :members: Scheme
    :undoc-members:
    :show-inheritance:
    :noindex: __all__, QSM, QPAM, MQSM, SQPAM, MSQPAM
 
-Submodules
-----------
-
-quantumaudio.schemes.qpam module
---------------------------------
+quantumaudio.schemes.qpam
+-------------------------
 
 .. automodule:: quantumaudio.schemes.qpam
    :members:
    :undoc-members:
    :show-inheritance:
 
-quantumaudio.schemes.sqpam module
----------------------------------
+quantumaudio.schemes.sqpam
+--------------------------
 
 .. automodule:: quantumaudio.schemes.sqpam
    :members:
    :undoc-members:
    :show-inheritance:
 
-quantumaudio.schemes.qsm module
--------------------------------
+quantumaudio.schemes.qsm
+------------------------
 
 .. automodule:: quantumaudio.schemes.qsm
    :members:
    :undoc-members:
    :show-inheritance:
 
-quantumaudio.schemes.mqsm module
---------------------------------
+quantumaudio.schemes.mqsm
+-------------------------
 
 .. automodule:: quantumaudio.schemes.mqsm
    :members:
    :undoc-members:
    :show-inheritance:
 
-quantumaudio.schemes.msqpam module
-----------------------------------
+quantumaudio.schemes.msqpam
+---------------------------
 
 .. automodule:: quantumaudio.schemes.msqpam
    :members:

@@ -2,7 +2,7 @@ quantumaudio package
 ====================
 
 .. automodule:: quantumaudio
-   :members:
+   :members: load_scheme
    :undoc-members:
    :show-inheritance:
 
