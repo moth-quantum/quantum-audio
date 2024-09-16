@@ -81,6 +81,8 @@ def plot(
         samples = [samples]
     if label and not isinstance(label, tuple):
         label = (label,)
+    if len(samples) > len(label):
+        label = [f'signal_{i+1}' for i in range(len(samples))]
 
     num_samples = samples[0].shape[-1]
     num_channels = 1 if samples[0].ndim == 1 else samples[0].shape[-2]
