@@ -145,11 +145,11 @@ decoded_data  = qpam.decode(encoded_circuit,shots=4000)
 > [!Tip]
 > The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent a short length of samples per Circuit. The functions provided in `tools/stream.py` facilitate the processing of Long arrays in chunks. Examples of the usage can be found in the [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/DEMO.ipynb) and `scripts` provided in the repository.
 
-### Running on Simulator
+### Running on Native Backends
 
-The default ```scheme.decode()``` uses local [_AerSimulator_](https://github.com/Qiskit/qiskit-aer) as the default backend. Internally, the function performs ```backend.run()``` method and any compatible backend object can be specified by passing the ```backend=``` parameter.
+The default ```scheme.decode()``` uses local [_AerSimulator_](https://github.com/Qiskit/qiskit-aer) as the default backend. Internally, the function performs ```backend.run()``` method (in `quantumaudio.utils.execute`) and any compatible backend object can be specified by passing the ```backend=``` parameter.
 
-### Running on Quantum Hardware
+### Running on External Quantum Backends
 
 The package allows flexible use of Quantum Hardware from different Providers as the execution of circuits can be done independently. Depending on the results, there are two ways to decode quantum audio:
 
