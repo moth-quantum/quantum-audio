@@ -290,25 +290,23 @@ class QSM(Scheme):
         data = self.restore(data, qubit_depth)
         return data
 
-    def decode_result(
+    def decode_counts(
         self,
-        result: qiskit.result.Result,
-        metadata: Optional[dict] = None,
+        counts: Union[dict, qiskit.result.Counts],
+        metadata: dict,
         keep_padding: bool = False,
     ) -> np.ndarray:
         """Given a result object. Extract components and restore the conversion
         did in encoding stage.
 
         Args:
-                result: a qiskit Result object that contains counts along
-                        with metadata that was held by the original circuit.
+                counts: a qiskit Counts object or Dictionary obtained from a job result.
+                metadata: metadata required for decoding.
                 keep_padding: Undo the padding set at Encoding stage if set False.
 
         Return:
                 data: Array of restored values with original dimensions
         """
-        counts = utils.get_counts(result)
-        metadata = utils.get_metadata(result) if not metadata else metadata
         index_position, amplitude_position = self.positions
 
         # decoding x-axis
@@ -323,6 +321,29 @@ class QSM(Scheme):
         # undo padding
         if not keep_padding:
             data = data[:original_num_samples]
+        return data
+
+    def decode_result(
+        self,
+        result: qiskit.result.Result,
+        metadata: Optional[dict] = None,
+        keep_padding: bool = False,
+    ) -> np.ndarray:
+        """Given a result object. Extract components and restore the conversion
+        did in encoding stage.
+
+        Args:
+                result: a qiskit Result object that contains counts along
+                        with metadata that was held by the original circuit.
+                metadata: optionally pass metadata as argument.
+                keep_padding: Undo the padding set at Encoding stage if set False.
+
+        Return:
+                data: Array of restored values with original dimensions
+        """
+        counts = utils.get_counts(result)
+        metadata = utils.get_metadata(result) if not metadata else metadata
+        data = self.decode_counts(counts=counts,metadata=metadata,keep_padding=keep_padding)
         return data
 
     # ----- Default Decode Function -----
