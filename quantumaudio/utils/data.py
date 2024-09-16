@@ -36,7 +36,7 @@ def test_signal(
         A numpy array of simulated data.
     """
     np.random.seed(seed)
-    data = np.random.rand(num_samples, num_channels)
+    data = np.random.rand(num_channels, num_samples)
     data = 2.0 * data - 1.0
     if num_channels == 1:
         data = data.squeeze()
