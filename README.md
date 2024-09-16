@@ -143,7 +143,7 @@ decoded_data  = qpam.decode(encoded_circuit,shots=4000)
 > The `encode` function returns a circuit with attached classical measurements by default. In Qiskit, it is not possible to directly modify a circuit after these measurements are added. If you wish to return a circuit without measurements, you can specify `measure=False` while encoding.
 
 > [!Tip]
-> The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent a short length of samples per Circuit. The functions provided in `tools/stream.py` facilitate the processing of Long arrays in chunks. Examples of the usage can be found in the [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/DEMO.ipynb) and `scripts` provided in the repository.
+> The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent a short length of samples per Circuit. The functions provided in `tools/stream.py` facilitate the processing of Long arrays in chunks. Examples of the usage can be found in the [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/DEMO.ipynb) and [`scripts`](https://github.com/moth-quantum/quantum-audio/tree/main/scripts) provided in the repository.
 
 ### Running on Native Backends
 
@@ -162,12 +162,12 @@ The package allows flexible use of Quantum Hardware from different Providers as 
   - In this case, the metadata dictionary can be accessed from the encoded circuit using `circuit.metadata`
     
 > [!Tip]
-> **Dictionaries** are data type in python to store {key : value} pairs.
+> **Dictionaries** are data type in python to store {key : _value_} pairs.
 > - **Counts Dicitonary** contains keys representing classical measurement outcomes and values indicating the number of times the outcome was observed. Example: `{'00': 77, '01': 79, '10': 84, '11': 72}`.
 > - **Metadata Dictionary** stores the key information that is required at decoding, which is commonly the original data dimensions to restore.
 
 > [!Note]
-> When passing metadata manually in the above decode functions, QPAM Scheme additionaly requires `shots` information used at execution as metadata which can also be passed through the parameter `shots=`. 
+> When passing metadata manually in the above decode functions, _QPAM_ Scheme additionaly requires `shots` information used at execution as metadata which can also be passed through the parameter `shots=`. 
 
  
 ## 📘 Additional Resources <a id="materials"></a>
@@ -175,7 +175,7 @@ The package allows flexible use of Quantum Hardware from different Providers as 
 For examples of circuit preparation, signals reconstruction, and interactive demonstrations, please check the [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/DEMO.ipynb). It combines the core package with useful functions from the `tools` folder to go through Visual and Digital Audio examples.
 
 ### Quick Export ⚡️
-To quickly export quantumaudio from any audio file (e.g., mp3, ogg, flac, m4a), a script ```export.py``` is provided in the `scripts` folder. Navigate with `cd scripts` and run:
+To quickly export quantumaudio from any audio file (e.g., _mp3_, _ogg_, _flac_, _m4a_), a script ```export.py``` is provided in the `scripts` folder. Navigate with `cd scripts` and run:
   ```bash
   python export.py -i path/to/input/audio/file
   ```
