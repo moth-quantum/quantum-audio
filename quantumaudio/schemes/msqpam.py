@@ -351,19 +351,19 @@ class MSQPAM(Scheme):
         data = self.restore(cosine_amps, sine_amps, inverted)
         return data
 
-    def decode_result(
+    def decode_counts(
         self,
-        result: qiskit.result.Result,
-        metadata: Optional[dict] = None,
+        counts: Union[dict, qiskit.result.Counts],
+        metadata: dict,
         inverted: bool = False,
         keep_padding: tuple[int, int] = (False, False),
     ) -> np.ndarray:
-        """Given a result object. Extract components and restore the conversion
-        did in the encoding stage.
+        """Given a Qiskit counts object or Dictionary, Extract components and restore the
+        conversion did at encoding stage.
 
         Args:
-                result: a qiskit Result object that contains counts along
-                        with metadata that was held by the original circuit.
+                counts: a qiskit Counts object or Dictionary obtained from a job result.
+                metadata: metadata required for decoding.
                 inverted : retrieves cosine components of the signal.
                 keep_padding: Undo the padding set at Encoding stage if set to False.
                               Dimension 0: for channels
@@ -372,9 +372,6 @@ class MSQPAM(Scheme):
         Return:
                 data: Array of restored values with original dimensions
         """
-        counts = utils.get_counts(result)
-        metadata = utils.get_metadata(result) if not metadata else metadata
-
         # decoding x-axis
         index_position, channel_position, _ = self.positions
         num_index_qubits = metadata["num_qubits"][0]
@@ -403,6 +400,33 @@ class MSQPAM(Scheme):
         if not keep_padding[1]:
             data = data[:, :original_num_samples]
 
+        return data
+
+    def decode_result(
+        self,
+        result: qiskit.result.Result,
+        metadata: Optional[dict] = None,
+        inverted: bool = False,
+        keep_padding: tuple[int, int] = (False, False),
+    ) -> np.ndarray:
+        """Given a result object. Extract components and restore the conversion
+        did in the encoding stage.
+
+        Args:
+                result: a qiskit Result object that contains counts along
+                        with metadata that was held by the original circuit.
+                metadata: optionally pass metadata as argument.
+                inverted : retrieves cosine components of the signal.
+                keep_padding: Undo the padding set at Encoding stage if set to False.
+                              Dimension 0: for channels
+                              Dimension 1: for time
+
+        Return:
+                data: Array of restored values with original dimensions
+        """
+        counts = utils.get_counts(result)
+        metadata = utils.get_metadata(result) if not metadata else metadata
+        data = self.decode_counts(counts=counts,metadata=metadata,inverted=inverted,keep_padding=keep_padding)
         return data
 
     # ----- Default Decode Function -----

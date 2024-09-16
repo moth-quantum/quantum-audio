@@ -252,30 +252,28 @@ class QPAM(Scheme):
         data = self.restore(probabilities, norm, shots)
         return data
 
-    def decode_result(
+    def decode_counts(
         self,
-        result: qiskit.result.Result,
-        metadata: Optional[dict] = None,
+        counts: Union[dict, qiskit.result.Counts],
+        metadata: dict,
+        shots: Optional[int] = 4000,
         norm: Optional[float] = None,
         keep_padding: bool = False,
     ) -> np.ndarray:
-        """Given a Qiskit Result object, Extract components and restore the
+        """Given a Qiskit counts object or Dictionary, Extract components and restore the
         conversion did at encoding stage.
 
         Args:
-            result: a qiskit Result object that contains counts along
-                    with metadata that was held by the original circuit.
+            counts: a qiskit Counts object or Dictionary obtained from a job result.
+            metadata: metadata required for decoding.
             shots : total number of times the quantum circuit is measured.
-            norm  : the norm factor used to normalize the decoding.
+            norm  : Override the norm factor used to normalize the decoding.
             keep_padding: Undos the padding set at Encoding stage if set to False.
 
         Return:
             data: Array of restored values with original dimensions
         """
-        counts = utils.get_counts(result)
-        metadata = utils.get_metadata(result) if not metadata else metadata
-
-        shots = metadata["shots"]
+        shots = metadata.get("shots", shots)
         norm = norm if norm else metadata["norm_factor"]
 
         if "num_samples" in metadata:
@@ -290,6 +288,35 @@ class QPAM(Scheme):
         if not keep_padding and original_num_samples:
             data = data[:original_num_samples]
 
+        return data
+
+
+    def decode_result(
+        self,
+        result: qiskit.result.Result,
+        metadata: Optional[dict] = None,
+        shots: Optional[int] = 4000,
+        norm: Optional[float] = None,
+        keep_padding: bool = False,
+    ) -> np.ndarray:
+        """Given a Qiskit Result object, Extract components and restore the
+        conversion did at encoding stage.
+
+        Args:
+            result: a qiskit Result object that contains counts along
+                    with metadata that was held by the original circuit.
+            metadata: optionally pass metadata as argument.
+            shots : total number of times the quantum circuit is measured.
+            norm  : Override the norm factor used to normalize the decoding.
+            keep_padding: Undos the padding set at Encoding stage if set to False.
+
+        Return:
+            data: Array of restored values with original dimensions
+        """
+        counts = utils.get_counts(result)
+        metadata = utils.get_metadata(result) if not metadata else metadata
+
+        data = self.decode_counts(counts=counts,metadata=metadata,shots=shots,norm=norm,keep_padding=keep_padding)
         return data
 
     # ----- Default Decode Function -----
