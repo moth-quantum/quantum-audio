@@ -19,6 +19,7 @@ import matplotlib.pyplot as plt
 import qiskit
 import qiskit_aer
 from qiskit import transpile
+from qiskit.primitives import PrimitiveResult, SamplerPubResult
 
 # ======================
 # Measurement
@@ -75,10 +76,10 @@ def get_counts(results_obj, result_id=0):
     """
     counts = {}
 
-    if isinstance(results_obj, qiskit.primitives.PrimitiveResult):
+    if isinstance(results_obj, PrimitiveResult):
         results_obj = results_obj[result_id]
 
-    if isinstance(results_obj, qiskit.primitives.SamplerPubResult):
+    if isinstance(results_obj, SamplerPubResult):
         counts = results_obj.data.meas.get_counts()
 
     elif isinstance(results_obj, qiskit.result.Result):
