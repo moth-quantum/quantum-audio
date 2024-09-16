@@ -126,10 +126,10 @@ Get started on creating Quantum Audio Representations with just a few lines of c
 ```python
 # An instance of a scheme can be created using:
 import quantumaudio
-qpam = quantumaudio.load_scheme('qpam') # or direct access from quantumaudio.schemes.QPAM()
+qpam = quantumaudio.load_scheme('qpam') # or directly access from quantumaudio.schemes.QPAM()
 
 # Define an Input
-original_data = [ ] # an array of samples
+original_data = quantumaudio.utils.test_signal() # for a random array of samples (range: -1.0 to 1.0)
 
 # Encoding
 encoded_circuit = qpam.encode(original_data)
