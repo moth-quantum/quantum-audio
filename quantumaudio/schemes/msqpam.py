@@ -364,6 +364,7 @@ class MSQPAM(Scheme):
         Args:
                 result: a qiskit Result object that contains counts along
                         with metadata that was held by the original circuit.
+                metadata: optionally pass metadata as argument.
                 inverted : retrieves cosine components of the signal.
                 keep_padding: Undo the padding set at Encoding stage if set to False.
                               Dimension 0: for channels

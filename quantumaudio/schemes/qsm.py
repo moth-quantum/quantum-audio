@@ -302,6 +302,7 @@ class QSM(Scheme):
         Args:
                 result: a qiskit Result object that contains counts along
                         with metadata that was held by the original circuit.
+                metadata: optionally pass metadata as argument.
                 keep_padding: Undo the padding set at Encoding stage if set False.
 
         Return:

@@ -265,6 +265,7 @@ class QPAM(Scheme):
         Args:
             result: a qiskit Result object that contains counts along
                     with metadata that was held by the original circuit.
+            metadata: optionally pass metadata as argument.
             shots : total number of times the quantum circuit is measured.
             norm  : Override the norm factor used to normalize the decoding.
             keep_padding: Undos the padding set at Encoding stage if set to False.
