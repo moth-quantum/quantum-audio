@@ -101,7 +101,7 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
  > When using `pip` commands to install packages and dependencies, it's recommended to use a **virtual environment** to keep them isolated from the system's Python. This will avoid any dependency conflicts. Instructions on using a virtual environment are provided [here](https://github.com/moth-quantum/quantum-audio/blob/main/ENVIRONMENT.md).
 
 ### Optional Dependencies
-All additional dependencies  in the notebooks and script provided in the repository can be installed using `pip`:
+All additional dependencies can be installed using `pip`:
   ```
   pip install quantumaudio[all]
   ```
