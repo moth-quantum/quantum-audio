@@ -31,15 +31,15 @@ def get_chunks(
     """
     Splits a NumPy array into smaller chunks of specified size.
 
-    This function takes a long array and divides it into smaller chunks, 
+    This function takes a long array and divides it into smaller chunks,
     which can be useful for processing large datasets in manageable pieces.
 
     Args:
-        data (np.ndarray): The input array to be split. The array can be one-dimensional 
-                           or two-dimensional. If one-dimensional, it will be reshaped 
+        data: The input array to be split. The array can be one-dimensional
+                           or two-dimensional. If one-dimensional, it will be reshaped
                            into two dimensions.
-        chunk_size (int, optional): The size of each chunk. Default is 256.
-        verbose (bool, optional): If True, prints detailed information about the data 
+        chunk_size: The size of each chunk. Default is 256.
+        verbose: If True, prints detailed information about the data
                                   and chunks. Default is False.
 
     Returns:
@@ -64,9 +64,9 @@ def process(chunk: np.ndarray, scheme: Any, shots: int) -> np.ndarray:
     """Process a chunk of data according to a specified scheme.
 
     Parameters:
-    chunk (np.ndarray): Data chunk to be processed.
-    scheme (any): Processing scheme.
-    shots (int): Number of shots.
+    chunk: Data chunk to be processed.
+    scheme: Processing scheme.
+    shots: Number of shots.
 
     Returns:
     None
@@ -84,9 +84,9 @@ def process_chunks(
     """Process chunks of data in an iteration according to a specified scheme.
 
     Parameters:
-    chunks (np.ndarray): Data chunks to be processed.
-    scheme (any): Processing scheme.
-    shots (int): Number of shots.
+    chunks: Data chunks to be processed.
+    scheme: Processing scheme.
+    shots: Number of shots.
 
     Returns:
     None
@@ -98,7 +98,15 @@ def process_chunks(
     return processed_chunks
 
 
-def combine_chunks(chunks):
+def combine_chunks(chunks: list[np.ndarray]) -> np.ndarray:
+    """Combine a list of NumPy arrays along a specified axis.
+
+    Parameters:
+    chunks: A list of NumPy arrays to be combined.
+
+    Returns:
+    np.ndarray
+    """
     if chunks[0].ndim != 1:
         output = np.concatenate(chunks, axis=1)
     else:
@@ -113,6 +121,18 @@ def stream_data(
     chunk_size: int = 64,
     verbose: bool = False,
 ) -> np.ndarray:
+    """Processes data by dividing it into chunks, applying a Quantum Audio scheme, and combining the results.
+
+    Args:
+        data: The input data array to be processed.
+        scheme: The quantum audio scheme to be applied to each chunk.
+        shots: The number of shots for circuit measurement. Defaults to 8000.
+        chunk_size: The size of each chunk. Defaults to 64.
+        verbose: If True, enables verbose logging. Defaults to False.
+
+    Returns:
+        np.ndarray
+    """
     assert (
         chunk_size < data.shape[-1]
     ), f"Chunk size ({chunk_size}) cant be smaller than number of samples ({data.shape[-1]})"

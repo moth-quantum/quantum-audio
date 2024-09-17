@@ -20,9 +20,10 @@ import qiskit
 from bitstring import BitArray
 
 from quantumaudio import utils
+from .base_scheme import Scheme
 
 
-class QSM:
+class QSM(Scheme):
     """Quantum State Modulation (QSM).
 
     QSM class implements an encoding and decoding scheme where the
@@ -156,7 +157,7 @@ class QSM:
         )
         # Arranging Registers from Top to Bottom
         circuit = qiskit.QuantumCircuit(
-            value_register, index_register, name=self.name
+            value_register, index_register, name=self.__class__.__name__
         )
         circuit.h(index_register)
         return circuit
@@ -176,13 +177,11 @@ class QSM:
             index: position to set the value
             value: value to be set at the index
         """
-        a_bitstring = []
         value_register, index_register = circuit.qregs
         for i, areg_qubit in enumerate(value_register):
             a_bit = (value >> i) & 1
-            a_bitstring.append(a_bit)
             if a_bit:
-                circuit.mct(index_register, areg_qubit)
+                circuit.mcx(index_register, areg_qubit)
 
     def measure(self, circuit: qiskit.QuantumCircuit) -> None:
         """Adds classical measurements to all registers of the Quantum Circuit
@@ -192,7 +191,8 @@ class QSM:
             circuit: Encoded Qiskit Circuit
         """
         if not circuit.cregs:
-            utils.measure(circuit)
+            circuit.barrier()
+            circuit.measure_all()
 
     # ----- Default Encode Function -----
 
@@ -228,7 +228,10 @@ class QSM:
             self.value_setting(circuit=circuit, index=i, value=sample)
 
         # additional information for decoding
-        circuit.metadata = {"num_samples": num_samples}
+        circuit.metadata = {
+            "num_samples": num_samples,
+            "num_qubits": (num_index_qubits, num_value_qubits),
+        }
 
         # measure, print and return
         if measure:
@@ -256,11 +259,13 @@ class QSM:
             Array of components for further decoding.
         """
         data = np.zeros(num_components, int)
+        num_index_qubits = int(np.log2(num_components))
         for state in counts:
-            (t_bits, a_bits) = state.split()
-            t = int(t_bits, 2)
-            a = BitArray(bin=a_bits).int
-            data[t] = a
+            index_bits = state[:num_index_qubits]
+            value_bits = state[num_index_qubits:]
+            index = int(index_bits, 2)
+            value = BitArray(bin=value_bits).int
+            data[index] = value
         return data
 
     def reconstruct_data(
@@ -285,9 +290,43 @@ class QSM:
         data = self.restore(data, qubit_depth)
         return data
 
+    def decode_counts(
+        self,
+        counts: Union[dict, qiskit.result.Counts],
+        metadata: dict,
+        keep_padding: bool = False,
+    ) -> np.ndarray:
+        """Given a result object. Extract components and restore the conversion
+        did in encoding stage.
+
+        Args:
+                counts: a qiskit Counts object or Dictionary obtained from a job result.
+                metadata: metadata required for decoding.
+                keep_padding: Undo the padding set at Encoding stage if set False.
+
+        Return:
+                data: Array of restored values with original dimensions
+        """
+        index_position, amplitude_position = self.positions
+
+        # decoding x-axis
+        num_index_qubits = metadata["num_qubits"][0]
+        num_samples = 2**num_index_qubits
+        original_num_samples = metadata["num_samples"]
+
+        # decoding y-axis
+        qubit_depth = metadata["num_qubits"][1]
+        data = self.reconstruct_data(counts, num_samples, qubit_depth)
+
+        # undo padding
+        if not keep_padding:
+            data = data[:original_num_samples]
+        return data
+
     def decode_result(
         self,
         result: qiskit.result.Result,
+        metadata: Optional[dict] = None,
         keep_padding: bool = False,
     ) -> np.ndarray:
         """Given a result object. Extract components and restore the conversion
@@ -296,28 +335,17 @@ class QSM:
         Args:
                 result: a qiskit Result object that contains counts along
                         with metadata that was held by the original circuit.
+                metadata: optionally pass metadata as argument.
                 keep_padding: Undo the padding set at Encoding stage if set False.
 
         Return:
                 data: Array of restored values with original dimensions
         """
-        counts = result.get_counts()
-        header = result.results[0].header
-
-        index_position, amplitude_position = self.positions
-
-        # decoding x-axis
-        num_index_qubits = header.qreg_sizes[index_position][-1]
-        num_samples = 2**num_index_qubits
-        original_num_samples = header.metadata["num_samples"]
-
-        # decoding y-axis
-        qubit_depth = header.qreg_sizes[amplitude_position][-1]
-        data = self.reconstruct_data(counts, num_samples, qubit_depth)
-
-        # undo padding
-        if not keep_padding:
-            data = data[:original_num_samples]
+        counts = utils.get_counts(result)
+        metadata = utils.get_metadata(result) if not metadata else metadata
+        data = self.decode_counts(
+            counts=counts, metadata=metadata, keep_padding=keep_padding
+        )
         return data
 
     # ----- Default Decode Function -----

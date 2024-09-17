@@ -20,9 +20,10 @@ import qiskit
 from bitstring import BitArray
 
 from quantumaudio import utils
+from .base_scheme import Scheme
 
 
-class MQSM:
+class MQSM(Scheme):
     """Multi-channel Quantum State Modulation (MQSM).
 
     MQSM class implements an encoding and decoding scheme where the
@@ -190,7 +191,10 @@ class MQSM:
         )
 
         circuit = qiskit.QuantumCircuit(
-            value_register, channel_register, index_register, name=self.name
+            value_register,
+            channel_register,
+            index_register,
+            name=self.__class__.__name__,
         )
         circuit.h(channel_register)
         circuit.h(index_register)
@@ -216,13 +220,11 @@ class MQSM:
             at its corresponding index.
 
         """
-        a_bitstring = []
         value_register, channel_register, index_register = circuit.qregs
         for i, areg_qubit in enumerate(value_register):
             a_bit = (value >> i) & 1
-            a_bitstring.append(a_bit)
             if a_bit:
-                circuit.mct(
+                circuit.mcx(
                     channel_register[:] + index_register[:], areg_qubit
                 )
 
@@ -234,7 +236,7 @@ class MQSM:
             circuit: Encoded Qiskit Circuit
         """
         if not circuit.cregs:
-            utils.measure(circuit)
+            circuit.measure_all()
 
     # ----- Default Encode Function -----
 
@@ -278,6 +280,7 @@ class MQSM:
         circuit.metadata = {
             "num_samples": num_samples,
             "num_channels": num_channels,
+            "num_qubits": num_qubits,
         }
 
         # measure
@@ -307,8 +310,15 @@ class MQSM:
             for further decoding.
         """
         data = np.zeros(num_components, int)
+        num_index_qubits = int(np.log2(num_components[1]))
+        num_channel_qubits = int(np.log2(num_components[0]))
+
         for state in counts:
-            (t_bits, c_bits, a_bits) = state.split()
+            t_bits = state[:num_index_qubits]
+            c_bits = state[
+                num_index_qubits : -(num_index_qubits + num_channel_qubits)
+            ]
+            a_bits = state[-(num_index_qubits + num_channel_qubits) :]
             t = int(t_bits, 2)
             c = int(c_bits, 2)
             a = BitArray(bin=a_bits).int
@@ -337,17 +347,18 @@ class MQSM:
         data = self.restore(data, qubit_depth)
         return data
 
-    def decode_result(
+    def decode_counts(
         self,
-        result: qiskit.result.Result,
+        counts: Union[dict, qiskit.result.Counts],
+        metadata: dict,
         keep_padding: tuple[int, int] = (False, False),
     ) -> np.ndarray:
-        """Given a result object. Extract components and restore the conversion
-        did in the encoding stage.
+        """Given a Qiskit counts object or Dictionary, Extract components and restore the
+        conversion did at encoding stage.
 
         Args:
-                result: a qiskit Result object that contains counts along
-                        with metadata that was held by the original circuit.
+                counts: a qiskit Counts object or Dictionary obtained from a job result.
+                metadata:  metadata required for decoding.
                 keep_padding: Undo the padding set at Encoding stage if set to False.
                               Dimension 0: for channels
                               Dimension 1: for time
@@ -355,30 +366,27 @@ class MQSM:
         Return:
                 data: Array of restored values with original dimensions
         """
-        counts = result.get_counts()
-        header = result.results[0].header
-
         index_position, channel_position, amplitude_position = self.positions
 
         # decoding x-axis
-        num_index_qubits = header.qreg_sizes[index_position][1]
-        num_channel_qubits = header.qreg_sizes[channel_position][1]
+        num_index_qubits = metadata["num_qubits"][0]
+        num_channel_qubits = metadata["num_qubits"][1]
 
         num_samples = 2**num_index_qubits
         num_channels = 2**num_channel_qubits
         num_components = (num_channels, num_samples)
 
-        original_num_samples = header.metadata["num_samples"]
-        original_num_channels = header.metadata["num_channels"]
+        original_num_samples = metadata["num_samples"]
+        original_num_channels = metadata["num_channels"]
 
         # decoding y-axis
-        bit_depth = header.qreg_sizes[amplitude_position][-1]
+        qubit_depth = metadata["num_qubits"][2]
 
         # decoding data
         data = self.reconstruct_data(
             counts=counts,
             num_components=num_components,
-            qubit_depth=bit_depth,
+            qubit_depth=qubit_depth,
         )
 
         # reconstruct
@@ -390,6 +398,33 @@ class MQSM:
         if not keep_padding[1]:
             data = data[:, :original_num_samples]
 
+        return data
+
+    def decode_result(
+        self,
+        result: qiskit.result.Result,
+        metadata: Optional[dict] = None,
+        keep_padding: tuple[int, int] = (False, False),
+    ) -> np.ndarray:
+        """Given a result object. Extract components and restore the conversion
+        did in the encoding stage.
+
+        Args:
+                result: a qiskit Result object that contains counts along
+                        with metadata that was held by the original circuit.
+                metadata: optionally pass metadata as argument.
+                keep_padding: Undo the padding set at Encoding stage if set to False.
+                              Dimension 0: for channels
+                              Dimension 1: for time
+
+        Return:
+                data: Array of restored values with original dimensions
+        """
+        counts = utils.get_counts(result)
+        metadata = utils.get_metadata(result) if not metadata else metadata
+        data = self.decode_counts(
+            counts=counts, metadata=metadata, keep_padding=keep_padding
+        )
         return data
 
     # ----- Default Decode Function -----

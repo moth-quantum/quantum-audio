@@ -25,7 +25,24 @@ import importlib
 
 
 def load_scheme(name, *args, **kwargs):
-    """Dynamically load and instantiate a class from a scheme string."""
+    """
+    Load and instantiate a quantum audio representation (or scheme) class from a string.
+
+    Args:
+        name (str): The name of the scheme to load. It can be one of the following:
+            `qpam`, `sqpam`, `qsm`, `msqpam`, or `mqsm`.
+        *args: Optional positional arguments to pass to the scheme class.
+        **kwargs: Optional keyword arguments to pass to the scheme class such as:
+
+            - ``qubit_depth`` (int): For `qsm` and `mqsm` to manually set the number of qubits
+              to represent the amplitude of audio.
+            - ``num_channels`` (int): For `msqpam` and `mqsm` to manually set the number
+              of channels to represent.
+
+    Returns:
+        quantumaudio.schemes.Scheme:
+            An instance of the Quantum Audio Scheme.
+    """
     try:
         scheme = importlib.import_module(
             f"quantumaudio.schemes.{name.lower()}"

@@ -1,40 +1,37 @@
-quantumaudio.utils package
-==========================
+quantumaudio.utils
+==================
 
 .. automodule:: quantumaudio.utils
    :members:
    :undoc-members:
    :show-inheritance:
 
-Submodules
-----------
-
-quantumaudio.utils.circuit module
----------------------------------
+quantumaudio.utils.circuit
+--------------------------
 
 .. automodule:: quantumaudio.utils.circuit
    :members:
    :undoc-members:
    :show-inheritance:
 
-quantumaudio.utils.convert module
----------------------------------
+quantumaudio.utils.convert
+--------------------------
 
 .. automodule:: quantumaudio.utils.convert
    :members:
    :undoc-members:
    :show-inheritance:
 
-quantumaudio.utils.data module
-------------------------------
+quantumaudio.utils.data
+-----------------------
 
 .. automodule:: quantumaudio.utils.data
    :members:
    :undoc-members:
    :show-inheritance:
 
-quantumaudio.utils.qiskit\_helpers module
------------------------------------------
+quantumaudio.utils.qiskit\_helpers
+----------------------------------
 
 .. automodule:: quantumaudio.utils.qiskit_helpers
    :members:

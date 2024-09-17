@@ -19,9 +19,10 @@ import numpy as np
 import qiskit
 
 from quantumaudio import utils
+from .base_scheme import Scheme
 
 
-class SQPAM:
+class SQPAM(Scheme):
     """Single-Qubit Probability Amplitude Modulation (SQPAM).
 
     SQPAM class implements an encoding and decoding scheme where the
@@ -144,7 +145,7 @@ class SQPAM:
         )
         # Arranging Registers from Top to Bottom
         circuit = qiskit.QuantumCircuit(
-            value_register, index_register, name=self.name
+            value_register, index_register, name=self.__class__.__name__
         )
         circuit.h(index_register)
         return circuit
@@ -189,7 +190,7 @@ class SQPAM:
             circuit: Encoded Qiskit Circuit
         """
         if not circuit.cregs:
-            utils.measure(circuit)
+            circuit.measure_all()
 
     # ----- Default Encode Function -----
 
@@ -224,7 +225,10 @@ class SQPAM:
         for i, value in enumerate(values):
             self.value_setting(circuit=circuit, index=i, value=value)
         # additional information for decoding
-        circuit.metadata = {"num_samples": num_samples}
+        circuit.metadata = {
+            "num_samples": num_samples,
+            "num_qubits": (num_index_qubits, num_value_qubits),
+        }
         # measure, print and return
         if measure:
             self.measure(circuit)
@@ -256,7 +260,8 @@ class SQPAM:
 
         # getting components from counts
         for state in counts:
-            (index_bits, value_bits) = state.split()
+            value_bits = state[-1]
+            index_bits = state[:-1]
             i = int(index_bits, 2)
             a = counts[state]
             if value_bits == "0":
@@ -288,32 +293,30 @@ class SQPAM:
         data = self.restore(cosine_amps, sine_amps, inverted)
         return data
 
-    def decode_result(
+    def decode_counts(
         self,
-        result: qiskit.result.Result,
+        counts: Union[dict, qiskit.result.Counts],
+        metadata: dict,
         inverted: bool = False,
         keep_padding: bool = False,
     ) -> np.ndarray:
-        """Given a result object. Extract components and restore the conversion
-        did in encoding stage.
+        """Given a Qiskit counts object or Dictionary, Extract components and restore the
+        conversion did at encoding stage.
 
         Args:
-                result: a qiskit Result object that contains counts along
-                        with metadata that was held by the original circuit.
+                counts: a qiskit Counts object or Dictionary obtained from a job result.
+                metadata: metadata required for decoding.
                 inverted: retrieves cosine components of the signal.
                 keep_padding: Undo the padding set at Encoding stage if set False.
 
         Return:
                 data: Array of restored values with original dimensions
         """
-        counts = result.get_counts()
-        header = result.results[0].header
-
         # decoding x-axis
         index_position, _ = self.positions
-        num_index_qubits = header.qreg_sizes[index_position][1]
+        num_index_qubits = metadata["num_qubits"][0]
         num_samples = 2**num_index_qubits
-        original_num_samples = header.metadata["num_samples"]
+        original_num_samples = metadata["num_samples"]
 
         # decoding y-axis
         data = self.reconstruct_data(
@@ -324,6 +327,37 @@ class SQPAM:
         if not keep_padding:
             data = data[:original_num_samples]
 
+        return data
+
+    def decode_result(
+        self,
+        result: qiskit.result.Result,
+        metadata: Optional[dict] = None,
+        inverted: bool = False,
+        keep_padding: bool = False,
+    ) -> np.ndarray:
+        """Given a result object. Extract components and restore the conversion
+        did in encoding stage.
+
+        Args:
+                result: a qiskit Result object that contains counts along
+                        with metadata that was held by the original circuit.
+                metadata: optionally pass metadata as argument.
+                inverted: retrieves cosine components of the signal.
+                keep_padding: Undo the padding set at Encoding stage if set False.
+
+        Return:
+                data: Array of restored values with original dimensions
+        """
+        counts = utils.get_counts(result)
+        metadata = utils.get_metadata(result) if not metadata else metadata
+
+        data = self.decode_counts(
+            counts=counts,
+            metadata=metadata,
+            inverted=inverted,
+            keep_padding=keep_padding,
+        )
         return data
 
     # ----- Default Decode Function -----
