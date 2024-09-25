@@ -355,6 +355,7 @@ class QSM(Scheme):
     def decode(
         self,
         circuit: qiskit.QuantumCircuit,
+        metadata: Optional[dict] = None,
         backend: Optional[str] = None,
         shots: int = 4000,
         keep_padding: bool = False,
@@ -372,5 +373,5 @@ class QSM(Scheme):
         """
         self.measure(circuit)
         result = utils.execute(circuit=circuit, backend=backend, shots=shots)
-        data = self.decode_result(result=result, keep_padding=keep_padding)
+        data = self.decode_result(result=result, metadata=metadata, keep_padding=keep_padding)
         return data

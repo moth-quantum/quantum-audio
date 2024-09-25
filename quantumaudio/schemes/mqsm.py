@@ -261,7 +261,7 @@ class MQSM(Scheme):
             A Qiskit Circuit representing the Digital Audio
         """
         data = utils.validate_data(data)
-        
+
         (num_channels, num_samples), num_qubits = self.calculate(
             data, verbose=verbose
         )
@@ -436,6 +436,7 @@ class MQSM(Scheme):
     def decode(
         self,
         circuit: qiskit.QuantumCircuit,
+        metadata: Optional[dict] = None,
         backend: Optional[str] = None,
         shots: int = 4000,
         keep_padding: tuple[int, int] = (False, False),
@@ -453,5 +454,5 @@ class MQSM(Scheme):
         """
         self.measure(circuit)
         result = utils.execute(circuit=circuit, backend=backend, shots=shots)
-        data = self.decode_result(result=result, keep_padding=keep_padding)
+        data = self.decode_result(result=result, metadata=metadata, keep_padding=keep_padding)
         return data

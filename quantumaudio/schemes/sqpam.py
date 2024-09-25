@@ -213,7 +213,7 @@ class SQPAM(Scheme):
             A Qiskit Circuit representing the Digital Audio
         """
         data = utils.validate_data(data)
-        
+
         num_samples, (num_index_qubits, num_value_qubits) = self.calculate(
             data, verbose=bool(verbose)
         )
@@ -367,6 +367,7 @@ class SQPAM(Scheme):
     def decode(
         self,
         circuit: qiskit.QuantumCircuit,
+        metadata: Optional[dict] = None,
         backend: Optional[str] = None,
         shots: int = 4000,
         inverted: bool = False,
@@ -387,6 +388,6 @@ class SQPAM(Scheme):
         self.measure(circuit)
         result = utils.execute(circuit=circuit, backend=backend, shots=shots)
         data = self.decode_result(
-            result=result, inverted=inverted, keep_padding=keep_padding
+            result=result, metadata=metadata, inverted=inverted, keep_padding=keep_padding
         )
         return data
