@@ -155,7 +155,7 @@ def print_num_qubits(
     """
     print(f"Number of qubits required: {sum(num_qubits)}\n")
     for i, qubits in enumerate(num_qubits):
-        print(f"{qubits} for {labels[i]}")
+        print(f"{qubits} qubits for {labels[i]}")
 
 
 def draw_circuit(circuit: qiskit.QuantumCircuit, decompose: int = 0) -> None:

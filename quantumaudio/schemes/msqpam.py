@@ -76,7 +76,9 @@ class MSQPAM(Scheme):
 
         self.convert = utils.convert_to_angles
         self.restore = utils.convert_from_angles
+        
         print(self.name)
+        if self.num_channels: print(f'Num channels: {self.num_channels}')
 
     # ------------------- Encoding Helpers ---------------------------
 
