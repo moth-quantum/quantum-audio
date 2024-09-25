@@ -258,6 +258,8 @@ class MSQPAM(Scheme):
         Returns:
             A Qiskit Circuit representing the Digital Audio
         """
+        data = utils.validate_data(data)
+        
         (num_channels, num_samples), num_qubits = self.calculate(
             data, verbose=verbose
         )
