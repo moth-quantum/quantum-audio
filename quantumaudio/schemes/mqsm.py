@@ -79,9 +79,9 @@ class MQSM(Scheme):
 
         self.convert = utils.quantize
         self.restore = utils.de_quantize
-        
+
         print(self.name)
-        if self.num_channels: print(f'Num channels: {self.num_channels}')
+        if self.num_channels: print(f"Num channels: {self.num_channels}")
 
     # ------------------- Encoding Helpers ---------------------------
 

@@ -318,7 +318,7 @@ class SQPAM(Scheme):
         # decoding x-axis
         index_position, _ = self.positions
         num_qubits = metadata["num_qubits"]
-        
+
         original_num_samples = metadata["num_samples"]
 
         # decoding y-axis

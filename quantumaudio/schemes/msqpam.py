@@ -76,9 +76,9 @@ class MSQPAM(Scheme):
 
         self.convert = utils.convert_to_angles
         self.restore = utils.convert_from_angles
-        
+
         print(self.name)
-        if self.num_channels: print(f'Num channels: {self.num_channels}')
+        if self.num_channels: print(f"Num channels: {self.num_channels}")
 
     # ------------------- Encoding Helpers ---------------------------
 
@@ -381,7 +381,7 @@ class MSQPAM(Scheme):
         # decoding x-axis
         index_position, channel_position, _ = self.positions
         num_qubits = metadata["num_qubits"]
-        
+
         num_channel_qubits = num_qubits[1]
         num_channels = 2**num_channel_qubits
 
