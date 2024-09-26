@@ -261,21 +261,19 @@ class QSM(Scheme):
             Array of components for further decoding.
         """
         num_index_qubits = num_qubits[0]
-        num_components = 2 ** num_index_qubits
+        num_components = 2**num_index_qubits
 
         data = np.zeros(num_components, int)
 
         for state in counts:
-            index_bits, value_bits = utils.split_string(state,num_qubits)
+            index_bits, value_bits = utils.split_string(state, num_qubits)
             index = int(index_bits, 2)
             value = BitArray(bin=value_bits).int
             data[index] = value
         return data
 
     def reconstruct_data(
-        self,
-        counts: Union[dict, qiskit.result.Counts],
-        num_qubits: int
+        self, counts: Union[dict, qiskit.result.Counts], num_qubits: int
     ) -> np.ndarray:
         """Given counts, Extract components and restore the conversion did at
         encoding stage.
@@ -372,5 +370,7 @@ class QSM(Scheme):
         """
         self.measure(circuit)
         result = utils.execute(circuit=circuit, backend=backend, shots=shots)
-        data = self.decode_result(result=result, metadata=metadata, keep_padding=keep_padding)
+        data = self.decode_result(
+            result=result, metadata=metadata, keep_padding=keep_padding
+        )
         return data

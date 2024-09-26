@@ -81,7 +81,8 @@ class MQSM(Scheme):
         self.restore = utils.de_quantize
 
         print(self.name)
-        if self.num_channels: print(f"Num channels: {self.num_channels}")
+        if self.num_channels:
+            print(f"Num channels: {self.num_channels}")
 
     # ------------------- Encoding Helpers ---------------------------
 
@@ -313,14 +314,16 @@ class MQSM(Scheme):
             2-D Array of shape (num_channels, num_samples)
             for further decoding.
         """
-        num_samples  = 2 ** num_qubits[0]
+        num_samples = 2 ** num_qubits[0]
         num_channels = 2 ** num_qubits[1]
         num_components = (num_channels, num_samples)
 
         data = np.zeros(num_components, int)
 
         for state in counts:
-            index_bits, channel_bits, value_bits = utils.split_string(state,num_qubits)
+            index_bits, channel_bits, value_bits = utils.split_string(
+                state, num_qubits
+            )
             index = int(index_bits, 2)
             channel = int(channel_bits, 2)
             value = BitArray(bin=value_bits).int
@@ -371,10 +374,10 @@ class MQSM(Scheme):
 
         # decoding x-axis
         num_qubits = metadata["num_qubits"]
-        num_index_qubits   = num_qubits[0]
+        num_index_qubits = num_qubits[0]
         num_channel_qubits = num_qubits[1]
 
-        num_samples  = 2**num_index_qubits
+        num_samples = 2**num_index_qubits
         num_channels = 2**num_channel_qubits
         num_components = (num_channels, num_samples)
 
@@ -385,10 +388,7 @@ class MQSM(Scheme):
         qubit_depth = num_qubits[2]
 
         # decoding data
-        data = self.reconstruct_data(
-            counts=counts,
-            num_qubits=num_qubits
-        )
+        data = self.reconstruct_data(counts=counts, num_qubits=num_qubits)
 
         # reconstruct
         data = utils.restore_channels(data, num_channels)
@@ -451,5 +451,7 @@ class MQSM(Scheme):
         """
         self.measure(circuit)
         result = utils.execute(circuit=circuit, backend=backend, shots=shots)
-        data = self.decode_result(result=result, metadata=metadata, keep_padding=keep_padding)
+        data = self.decode_result(
+            result=result, metadata=metadata, keep_padding=keep_padding
+        )
         return data

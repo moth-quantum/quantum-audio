@@ -258,13 +258,13 @@ class SQPAM(Scheme):
         """
         # initialising components
         num_index_qubits = num_qubits[0]
-        num_components = 2 ** num_index_qubits
+        num_components = 2**num_index_qubits
         cosine_amps = np.zeros(num_components)
         sine_amps = np.zeros(num_components)
 
         # getting components from counts
         for state in counts:
-            index_bits, value_bits = utils.split_string(state,num_qubits)
+            index_bits, value_bits = utils.split_string(state, num_qubits)
             index = int(index_bits, 2)
             value = counts[state]
             if value_bits == "0":
@@ -389,6 +389,9 @@ class SQPAM(Scheme):
         self.measure(circuit)
         result = utils.execute(circuit=circuit, backend=backend, shots=shots)
         data = self.decode_result(
-            result=result, metadata=metadata, inverted=inverted, keep_padding=keep_padding
+            result=result,
+            metadata=metadata,
+            inverted=inverted,
+            keep_padding=keep_padding,
         )
         return data

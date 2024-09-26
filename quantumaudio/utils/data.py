@@ -149,6 +149,7 @@ def restore_channels(array: np.ndarray, num_channels: int) -> np.ndarray:
     """
     return np.vstack([array[i::num_channels] for i in range(num_channels)])
 
+
 def split_string(input_str, lengths):
     """
     Splits the input string into segments based on the specified lengths.
@@ -160,13 +161,15 @@ def split_string(input_str, lengths):
     Returns:
     A list of substrings split according to the specified lengths.
     """
-    assert len(input_str) == sum(lengths), "Sum of qubits doesn't match the state length"
+    assert len(input_str) == sum(
+        lengths
+    ), "Sum of qubits doesn't match the state length"
     res = []
     start = 0
 
     for length in lengths:
         # Slicing the string and appending to the result list
-        res.append(input_str[start:start + length])
+        res.append(input_str[start : start + length])
         start += length
 
     return res

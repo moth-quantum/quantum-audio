@@ -78,7 +78,8 @@ class MSQPAM(Scheme):
         self.restore = utils.convert_from_angles
 
         print(self.name)
-        if self.num_channels: print(f"Num channels: {self.num_channels}")
+        if self.num_channels:
+            print(f"Num channels: {self.num_channels}")
 
     # ------------------- Encoding Helpers ---------------------------
 
@@ -312,10 +313,10 @@ class MSQPAM(Scheme):
             for further decoding.
         """
         # initialising components
-        num_index_qubits   = num_qubits[0]
+        num_index_qubits = num_qubits[0]
         num_channel_qubits = num_qubits[1]
 
-        num_samples  = 2**num_index_qubits
+        num_samples = 2**num_index_qubits
         num_channels = 2**num_channel_qubits
         num_components = (num_channels, num_samples)
 
@@ -324,7 +325,9 @@ class MSQPAM(Scheme):
 
         # getting components from counts
         for state in counts:
-            index_bits, channel_bits, value_bits = utils.split_string(state,num_qubits)
+            index_bits, channel_bits, value_bits = utils.split_string(
+                state, num_qubits
+            )
             index = int(index_bits, 2)
             channel = int(channel_bits, 2)
             value = counts[state]
@@ -464,5 +467,7 @@ class MSQPAM(Scheme):
         """
         self.measure(circuit)
         result = utils.execute(circuit=circuit, backend=backend, shots=shots)
-        data = self.decode_result(result=result, metadata=metadata, keep_padding=keep_padding)
+        data = self.decode_result(
+            result=result, metadata=metadata, keep_padding=keep_padding
+        )
         return data
