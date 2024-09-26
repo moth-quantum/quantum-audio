@@ -286,6 +286,7 @@ class MQSM(Scheme):
             "num_samples": num_samples,
             "num_channels": num_channels,
             "num_qubits": num_qubits,
+            "scheme": circuit.name,
         }
 
         # measure

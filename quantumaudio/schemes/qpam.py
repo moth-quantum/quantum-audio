@@ -207,7 +207,11 @@ class QPAM(Scheme):
         # encode values
         self.value_setting(circuit=circuit, values=values)
         # additional information for decoding
-        circuit.metadata = {"num_samples": num_samples, "norm_factor": norm}
+        circuit.metadata = {
+            "num_samples": num_samples,
+            "norm_factor": norm,
+            "scheme": circuit.name,
+        }
         if measure:
             self.measure(circuit)
         if verbose == 2:

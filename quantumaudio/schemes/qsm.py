@@ -233,6 +233,7 @@ class QSM(Scheme):
         circuit.metadata = {
             "num_samples": num_samples,
             "num_qubits": (num_index_qubits, num_value_qubits),
+            "scheme": circuit.name,
         }
 
         # measure, print and return
