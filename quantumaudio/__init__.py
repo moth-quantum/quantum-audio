@@ -85,6 +85,7 @@ __all__ = [
     "load_scheme",
     "schemes",
     "utils",
+    "tools",
     "QPAM",
     "SQPAM",
     "QSM",
