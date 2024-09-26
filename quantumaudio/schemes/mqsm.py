@@ -299,7 +299,7 @@ class MQSM(Scheme):
     def decode_components(
         self,
         counts: Union[dict, qiskit.result.Counts],
-        num_components: tuple[int, int],
+        num_qubits: tuple[int, int, int],
     ) -> np.ndarray:
         """The first stage of decoding is extracting the required components from
         counts.
@@ -307,33 +307,30 @@ class MQSM(Scheme):
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_components: number of (channels, samples) to get.
+            num_qubits: tuple to determine the number of (channels, samples) to get.
 
         Returns:
             2-D Array of shape (num_channels, num_samples)
             for further decoding.
         """
+        num_samples  = 2 ** num_qubits[0]
+        num_channels = 2 ** num_qubits[1]
+        num_components = (num_channels, num_samples)
+
         data = np.zeros(num_components, int)
-        num_index_qubits = int(np.log2(num_components[1]))
-        num_channel_qubits = int(np.log2(num_components[0]))
 
         for state in counts:
-            t_bits = state[:num_index_qubits]
-            c_bits = state[
-                num_index_qubits : -(num_index_qubits + num_channel_qubits)
-            ]
-            a_bits = state[-(num_index_qubits + num_channel_qubits) :]
-            t = int(t_bits, 2)
-            c = int(c_bits, 2)
-            a = BitArray(bin=a_bits).int
-            data[c][t] = a
+            index_bits, channel_bits, value_bits = utils.split_string(state,num_qubits)
+            index = int(index_bits, 2)
+            channel = int(channel_bits, 2)
+            value = BitArray(bin=value_bits).int
+            data[channel][index] = value
         return data
 
     def reconstruct_data(
         self,
         counts: Union[dict, qiskit.result.Counts],
-        num_components: tuple[int, int],
-        qubit_depth: int,
+        num_qubits: tuple[int, int, int],
     ) -> np.ndarray:
         """Given counts, Extract components and restore the conversion at
         encoding stage.
@@ -341,14 +338,14 @@ class MQSM(Scheme):
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_components: number of (channels, samples) to get.
+            num_qubits: tuple to determine the number of (channels, samples) to get.
             qubit_depth : number of qubits in amplitude register.
 
         Return:
             data: Array of restored values
         """
-        data = self.decode_components(counts, num_components)
-        data = self.restore(data, qubit_depth)
+        data = self.decode_components(counts, num_qubits)
+        data = self.restore(data, bit_depth=num_qubits[-1])
         return data
 
     def decode_counts(
@@ -373,10 +370,11 @@ class MQSM(Scheme):
         index_position, channel_position, amplitude_position = self.positions
 
         # decoding x-axis
-        num_index_qubits = metadata["num_qubits"][0]
-        num_channel_qubits = metadata["num_qubits"][1]
+        num_qubits = metadata["num_qubits"]
+        num_index_qubits   = num_qubits[0]
+        num_channel_qubits = num_qubits[1]
 
-        num_samples = 2**num_index_qubits
+        num_samples  = 2**num_index_qubits
         num_channels = 2**num_channel_qubits
         num_components = (num_channels, num_samples)
 
@@ -384,13 +382,12 @@ class MQSM(Scheme):
         original_num_channels = metadata["num_channels"]
 
         # decoding y-axis
-        qubit_depth = metadata["num_qubits"][2]
+        qubit_depth = num_qubits[2]
 
         # decoding data
         data = self.reconstruct_data(
             counts=counts,
-            num_components=num_components,
-            qubit_depth=qubit_depth,
+            num_qubits=num_qubits
         )
 
         # reconstruct

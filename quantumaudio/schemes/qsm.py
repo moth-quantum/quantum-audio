@@ -247,7 +247,7 @@ class QSM(Scheme):
     def decode_components(
         self,
         counts: Union[dict, qiskit.result.Counts],
-        num_components: int,
+        num_qubits: [int, int],
     ) -> np.ndarray:
         """The first stage of decoding is extracting required components from
         counts.
@@ -255,16 +255,18 @@ class QSM(Scheme):
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_components: number of components to get.
+            num_qubits: tuple to determine the number of components to get.
 
         Returns:
             Array of components for further decoding.
         """
+        num_index_qubits = num_qubits[0]
+        num_components = 2 ** num_index_qubits
+
         data = np.zeros(num_components, int)
-        num_index_qubits = int(np.log2(num_components))
+
         for state in counts:
-            index_bits = state[:num_index_qubits]
-            value_bits = state[num_index_qubits:]
+            index_bits, value_bits = utils.split_string(state,num_qubits)
             index = int(index_bits, 2)
             value = BitArray(bin=value_bits).int
             data[index] = value
@@ -273,8 +275,7 @@ class QSM(Scheme):
     def reconstruct_data(
         self,
         counts: Union[dict, qiskit.result.Counts],
-        num_components: int,
-        qubit_depth: int,
+        num_qubits: int
     ) -> np.ndarray:
         """Given counts, Extract components and restore the conversion did at
         encoding stage.
@@ -282,14 +283,14 @@ class QSM(Scheme):
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_components: number of components to get.
+            num_qubits: tuple to determine the number of components to get.
             qubit_depth : number of qubits in amplitude register.
 
         Return:
             data: Array of restored values
         """
-        data = self.decode_components(counts, num_components)
-        data = self.restore(data, qubit_depth)
+        data = self.decode_components(counts, num_qubits)
+        data = self.restore(data, bit_depth=num_qubits[-1])
         return data
 
     def decode_counts(
@@ -310,15 +311,13 @@ class QSM(Scheme):
                 data: Array of restored values with original dimensions
         """
         index_position, amplitude_position = self.positions
+        num_qubits = metadata["num_qubits"]
 
         # decoding x-axis
-        num_index_qubits = metadata["num_qubits"][0]
-        num_samples = 2**num_index_qubits
         original_num_samples = metadata["num_samples"]
 
         # decoding y-axis
-        qubit_depth = metadata["num_qubits"][1]
-        data = self.reconstruct_data(counts, num_samples, qubit_depth)
+        data = self.reconstruct_data(counts, num_qubits)
 
         # undo padding
         if not keep_padding:

@@ -297,7 +297,7 @@ class MSQPAM(Scheme):
     def decode_components(
         self,
         counts: Union[dict, qiskit.result.Counts],
-        num_components: tuple[int, int],
+        num_qubits: tuple[int, int],
     ) -> np.ndarray:
         """The first stage of decoding is extracting required components from
         counts.
@@ -305,38 +305,40 @@ class MSQPAM(Scheme):
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_components: number of (channels, samples) to get.
+            num_qubits: tuple to determine the number of (channels, samples) to get.
 
         Returns:
             2-D Array of shape (num_channels, num_samples)
             for further decoding.
         """
         # initialising components
-        num_channels, num_samples = num_components
-        cosine_amps = np.zeros((num_channels, num_samples))
-        sine_amps = np.zeros((num_channels, num_samples))
+        num_index_qubits   = num_qubits[0]
+        num_channel_qubits = num_qubits[1]
 
-        num_index_qubits = int(np.log2(num_samples))
+        num_samples  = 2**num_index_qubits
+        num_channels = 2**num_channel_qubits
+        num_components = (num_channels, num_samples)
+
+        cosine_amps = np.zeros(num_components)
+        sine_amps = np.zeros(num_components)
 
         # getting components from counts
         for state in counts:
-            index_bits = state[:num_index_qubits]
-            channel_bits = state[num_index_qubits:-1]
-            value_bits = state[-1]
-            i = int(index_bits, 2)
-            j = int(channel_bits, 2)
-            a = counts[state]
+            index_bits, channel_bits, value_bits = utils.split_string(state,num_qubits)
+            index = int(index_bits, 2)
+            channel = int(channel_bits, 2)
+            value = counts[state]
             if value_bits == "0":
-                cosine_amps[j][i] = a
+                cosine_amps[channel][index] = value
             elif value_bits == "1":
-                sine_amps[j][i] = a
+                sine_amps[channel][index] = value
 
         return cosine_amps, sine_amps
 
     def reconstruct_data(
         self,
         counts: Union[dict, qiskit.result.Counts],
-        num_components: tuple[int, int],
+        num_qubits: tuple[int, int],
         inverted: bool = False,
     ) -> np.ndarray:
         """Given counts, Extract components and restore the conversion did at
@@ -345,13 +347,13 @@ class MSQPAM(Scheme):
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_components: number of (channels, samples) to get.
+            num_qubits: tuple to determine the number of (channels, samples) to get.
             inverted : retrieves cosine components of the signal.
 
         Return:
             data: Array of restored values
         """
-        cosine_amps, sine_amps = self.decode_components(counts, num_components)
+        cosine_amps, sine_amps = self.decode_components(counts, num_qubits)
         data = self.restore(cosine_amps, sine_amps, inverted)
         return data
 
@@ -378,12 +380,10 @@ class MSQPAM(Scheme):
         """
         # decoding x-axis
         index_position, channel_position, _ = self.positions
-        num_index_qubits = metadata["num_qubits"][0]
-        num_channel_qubits = metadata["num_qubits"][1]
-
-        num_samples = 2**num_index_qubits
+        num_qubits = metadata["num_qubits"]
+        
+        num_channel_qubits = num_qubits[1]
         num_channels = 2**num_channel_qubits
-        num_components = (num_channels, num_samples)
 
         original_num_samples = metadata["num_samples"]
         original_num_channels = metadata["num_channels"]
@@ -391,7 +391,7 @@ class MSQPAM(Scheme):
         # decoding y-axis
         data = self.reconstruct_data(
             counts=counts,
-            num_components=num_components,
+            num_qubits=num_qubits,
             inverted=False,
         )
 
