@@ -16,13 +16,6 @@ Audio plays a vital role in carrying information and music, traversing through d
 
 The Quantum Audio Package provides fundamental operations for representing audio as Quantum States that can be processed on a Quantum computer (or Simulator) and played back 🔊
 
-
-import quantumaudio
-
-quantumaudio.encode(array)    # returns a Quantum Audio Circuit!
-quantumaudio.decode(circuit)  # returns the Original data back!
-```
-
 ## 🗒️ Table of Contents
 
 - [Overview](#overview)
@@ -135,14 +128,13 @@ It includes the following collection of dependencies:
 ## 🎨 Usage <a id="usage"></a>
 
 Get started on creating Quantum Audio Representations with just a few lines of code.
-
 ```python
 # An instance of a scheme can be created using:
 import quantumaudio
 qpam = quantumaudio.load_scheme('qpam') # or directly access from quantumaudio.schemes.QPAM()
 
 # Define an Input
-original_data = quantumaudio.tools.test_signal() # for a random array of samples (range: -1.0 to 1.0)
+original_data = quantumaudio.utils.test_signal() # for a random array of samples (range: -1.0 to 1.0)
 
 # Encoding
 encoded_circuit = qpam.encode(original_data)
