@@ -4,6 +4,7 @@ from quantumaudio.tools import stream_data
 
 # ------------------- Helper Functions ---------------------------
 
+
 def _split_kwargs(kwargs):
     """Splits keyword arguments between scheme loading and encoding operations.
 
@@ -13,8 +14,11 @@ def _split_kwargs(kwargs):
     Returns:
         Two dictionaries for scheme-related keyword arguments, and remaining keyword arguments.
     """
-    scheme_args = ('qubit_depth', 'num_channels')
-    return {arg: kwargs.pop(arg) for arg in scheme_args if arg in kwargs}, kwargs
+    scheme_args = ("qubit_depth", "num_channels")
+    return {
+        arg: kwargs.pop(arg) for arg in scheme_args if arg in kwargs
+    }, kwargs
+
 
 def _fetch_kwargs(instance, kwargs):
     """Fetches scheme at decoding and splits keyword arguments accordingly.
@@ -29,12 +33,16 @@ def _fetch_kwargs(instance, kwargs):
     scheme = pick_key(kwargs, instance, key="scheme")
     scheme_kwargs = {}
     num_channels = pick_key(kwargs, instance, key="num_channels")
-    if num_channels: scheme_kwargs["num_channels"] = num_channels
+    if num_channels:
+        scheme_kwargs["num_channels"] = num_channels
     num_qubits = pick_key(kwargs, instance, key="num_qubits")
-    if num_qubits and "qsm" in scheme: scheme_kwargs["qubit_depth"] = num_qubits[-1]
+    if num_qubits and "qsm" in scheme:
+        scheme_kwargs["qubit_depth"] = num_qubits[-1]
     return scheme, scheme_kwargs, kwargs
 
+
 # ------------------- Main Functions ---------------------------
+
 
 def encode(data, scheme, **kwargs):
     """Encodes data using a specified quantum scheme.
@@ -50,6 +58,7 @@ def encode(data, scheme, **kwargs):
     scheme_kwargs, kwargs = _split_kwargs(kwargs)
     return load_scheme(scheme, **scheme_kwargs).encode(data, **kwargs)
 
+
 def decode(circuit, **kwargs):
     """Decodes a quantum circuit using a specified scheme.
 
@@ -62,6 +71,7 @@ def decode(circuit, **kwargs):
     """
     scheme, scheme_kwargs, kwargs = _fetch_kwargs(circuit, kwargs)
     return load_scheme(scheme, **scheme_kwargs).decode(circuit, **kwargs)
+
 
 def stream(data, scheme, **kwargs):
     """Streams data through a quantum encoding scheme for longer arrays.
@@ -78,7 +88,9 @@ def stream(data, scheme, **kwargs):
     scheme = load_scheme(scheme, **scheme_kwargs)
     return stream_data(data=data, scheme=scheme, **kwargs)
 
+
 # ------------------- Additional Decode Options ---------------------------
+
 
 def decode_result(result, **kwargs):
     """Decodes a quantum result object.
@@ -91,7 +103,10 @@ def decode_result(result, **kwargs):
         Decoded data from the result object.
     """
     scheme, scheme_kwargs, kwargs = _fetch_kwargs(result, kwargs)
-    return load_scheme(scheme, **scheme_kwargs).decode_result(circuit, **kwargs)
+    return load_scheme(scheme, **scheme_kwargs).decode_result(
+        circuit, **kwargs
+    )
+
 
 def decode_counts(counts, metadata, **kwargs):
     """Decodes quantum counts using metadata.
@@ -104,6 +119,6 @@ def decode_counts(counts, metadata, **kwargs):
     Returns:
         Decoded data from the counts.
     """
-    kwargs['metadata'] = metadata
+    kwargs["metadata"] = metadata
     scheme, scheme_kwargs, kwargs = _fetch_kwargs(counts, kwargs)
     return load_scheme(scheme, **scheme_kwargs).decode_counts(counts, **kwargs)
