@@ -63,10 +63,10 @@ def __getattr__(name):
                 f".schemes.{name.lower()}", package=__name__
             )
             return getattr(module, name.upper())
-        
+
         elif name.lower() in _api_calls:
             module = importlib.import_module(
-                f".interfaces.api", package=__name__
+                ".interfaces.api", package=__name__
             )
             return getattr(module, name.lower())
 
@@ -74,7 +74,7 @@ def __getattr__(name):
             module = importlib.import_module(
                 f".{name.lower()}", package=__name__
             )
-            return module            
+            return module
     except (ImportError, AttributeError) as e:
         raise AttributeError(
             f"module {__name__} has no attribute {name}"
@@ -87,7 +87,7 @@ def __dir__():
 
 
 _all_schemes = ["QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM"]
-_api_calls   = ["encode", "decode", "stream", "decode_result", "decode_counts"]
+_api_calls = ["encode", "decode", "stream", "decode_result", "decode_counts"]
 
 __all__ = [
     "load_scheme",

@@ -108,11 +108,9 @@ def plot(
     else:
         plt.figure(figsize=figsize)
         for i, y_axis in enumerate(samples):
-            if isinstance(y_axis, np.ndarray): 
+            if isinstance(y_axis, np.ndarray):
                 y_axis = y_axis.squeeze()
-            plt.plot(
-                x_axis, y_axis, label=None if not label else label[i]
-            )
+            plt.plot(x_axis, y_axis, label=None if not label else label[i])
             plt.xlabel("Index")
             plt.ylabel("Values")
             if label:

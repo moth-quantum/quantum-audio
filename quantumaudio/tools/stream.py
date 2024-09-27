@@ -88,7 +88,7 @@ def process_chunks(
     chunks: Data chunks to be processed.
     scheme: Processing scheme.
     shots: Number of shots.
-    process_function: Function to process each chunk (default is 'process'). 
+    process_function: Function to process each chunk (default is 'process').
 
     Returns:
     None
@@ -142,7 +142,10 @@ def stream_data(
     ), f"Chunk size ({chunk_size}) cant be smaller than number of samples ({data.shape[-1]})"
     chunks = get_chunks(data=data, chunk_size=chunk_size, verbose=verbose)
     processed_chunks = process_chunks(
-        chunks=chunks, scheme=scheme, shots=shots, process_function=process_function,
+        chunks=chunks,
+        scheme=scheme,
+        shots=shots,
+        process_function=process_function,
     )
     output = combine_chunks(processed_chunks)
     return output

@@ -44,7 +44,7 @@ def _fetch_kwargs(instance, kwargs):
 # ------------------- Main Functions ---------------------------
 
 
-def encode(data, scheme = 'qpam', **kwargs):
+def encode(data, scheme="qpam", **kwargs):
     """Encodes data using a specified quantum scheme.
 
     Args:
@@ -103,9 +103,7 @@ def decode_result(result, **kwargs):
         Decoded data from the result object.
     """
     scheme, scheme_kwargs, kwargs = _fetch_kwargs(result, kwargs)
-    return load_scheme(scheme, **scheme_kwargs).decode_result(
-        result, **kwargs
-    )
+    return load_scheme(scheme, **scheme_kwargs).decode_result(result, **kwargs)
 
 
 def decode_counts(counts, metadata, **kwargs):

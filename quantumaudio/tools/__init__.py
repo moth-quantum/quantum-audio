@@ -3,7 +3,9 @@ from .plot import plot
 
 from typing import Optional
 import numpy as np
+
 np.random.seed(42)
+
 
 def test_signal(
     num_channels: int = 1, num_samples: int = 8, seed: Optional[int] = None
@@ -20,11 +22,13 @@ def test_signal(
     Returns:
         A numpy array of simulated data.
     """
-    if seed: np.random.seed(seed)
+    if seed:
+        np.random.seed(seed)
     data = np.random.rand(num_channels, num_samples)
     data = 2.0 * data - 1.0
     if num_channels == 1:
         data = data.squeeze()
     return data
+
 
 __all__ = ["plot", "stream", "stream_data", "test_signal"]

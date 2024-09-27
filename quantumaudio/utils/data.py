@@ -19,6 +19,7 @@ import numpy as np
 # Data processing utils
 # ======================
 
+
 def apply_index_padding(
     array: np.ndarray, num_index_qubits: int
 ) -> np.ndarray:
