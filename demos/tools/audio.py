@@ -14,9 +14,10 @@
 # ==========================================================================
 
 from typing import Any
+import numpy.typing as np
 
-from quantum_audio import stream
-from . import audio_io
+from quantumaudio.tools import stream
+from .audio_io import *
 
 # ======================
 # Export Helper function
@@ -46,7 +47,7 @@ def stream_audio(
     Returns:
     np.ndarray, int
     """
-    digital_audio, sr = audio_io.read(file_path=file_path, sr=sr, mono=mono)
+    digital_audio, sr = read(file_path=file_path, sr=sr, mono=mono)
     print(f"Sample Rate: {sr}")
     quantum_audio = stream.stream_data(
         data=digital_audio,
@@ -90,7 +91,7 @@ def save_audio(
     Returns:
     None
     """
-    quantum_audio, sr = get_quantumaudio(
+    quantum_audio, sr = stream_audio(
         file_path=file_path,
         sr=sr,
         mono=mono,
@@ -99,7 +100,7 @@ def save_audio(
         chunk_size=chunk_size,
         verbose=verbose,
     )
-    audio_io.write(
+    write(
         data=quantum_audio,
         sr=sr,
         output_filepath=output_filepath,
