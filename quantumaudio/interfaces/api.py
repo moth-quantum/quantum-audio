@@ -104,7 +104,7 @@ def decode_result(result, **kwargs):
     """
     scheme, scheme_kwargs, kwargs = _fetch_kwargs(result, kwargs)
     return load_scheme(scheme, **scheme_kwargs).decode_result(
-        circuit, **kwargs
+        result, **kwargs
     )
 
 
