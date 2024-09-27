@@ -45,7 +45,7 @@ def get_chunks(
     Returns:
         None
     """
-    if verbose: print(f"Shape: {data.shape}")
+    if verbose: print(f"\nShape: {data.shape}")
     if data.ndim == 1:
         data = data.reshape(1, -1)
     y_chunks = []
@@ -58,7 +58,7 @@ def get_chunks(
             f"Num samples: {data.shape[-1]}, Num channels: {data.shape[0]}, Buffer size: {chunk_size}"
         )
         print(f"Number of chunks: {len(y_chunks)}")
-        print(f"Shape per buffer: {y_chunks[0].shape}")
+        print(f"Shape per buffer: {y_chunks[0].shape}\n")
     return y_chunks
 
 
@@ -82,7 +82,7 @@ def process_chunks(
     scheme: Any,
     shots: int,
     process_function: Callable[[np.ndarray, Any, int], np.ndarray] = process,
-    show_progress: bool = True,
+    verbose: bool = True,
 ) -> list:
     """Process chunks of data in an iteration according to a specified scheme.
 
@@ -91,12 +91,13 @@ def process_chunks(
     scheme: Processing scheme.
     shots: Number of shots.
     process_function: Function to process each chunk (default is 'process').
+    verbose: If True, enables verbose logging. Defaults to False.
 
     Returns:
     None
     """
     processed_chunks = []
-    for chunk in tqdm(chunks, disable=not show_progress):
+    for chunk in tqdm(chunks, disable=not verbose):
         processed_chunk = process_function(chunk, scheme, shots)
         processed_chunks.append(processed_chunk)
     return processed_chunks
@@ -124,7 +125,7 @@ def stream_data(
     shots: int = 8000,
     process_function: Callable[[np.ndarray, Any, int], np.ndarray] = process,
     chunk_size: int = 64,
-    verbose: bool = False,
+    verbose: bool = True,
 ) -> np.ndarray:
     """Processes data by dividing it into chunks, applying a Quantum Audio scheme, and combining the results.
 
@@ -149,6 +150,7 @@ def stream_data(
         scheme=scheme,
         shots=shots,
         process_function=process_function,
+        verbose=verbose,
     )
     output = combine_chunks(processed_chunks)
     return output
