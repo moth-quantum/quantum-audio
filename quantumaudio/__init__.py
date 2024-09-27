@@ -58,16 +58,23 @@ def load_scheme(name, *args, **kwargs):
 def __getattr__(name):
     """Dynamically load and instantiate a class from a scheme attribute."""
     try:
-        if name.upper() not in _all_schemes:
-            module = importlib.import_module(
-                f".{name.lower()}", package=__name__
-            )
-            return module
-        else:
+        if name.upper() in _all_schemes:
             module = importlib.import_module(
                 f".schemes.{name.lower()}", package=__name__
             )
             return getattr(module, name.upper())
+        
+        elif name.lower() in _api_calls:
+            module = importlib.import_module(
+                f".interfaces.api", package=__name__
+            )
+            return getattr(module, name.lower())
+
+        else:
+            module = importlib.import_module(
+                f".{name.lower()}", package=__name__
+            )
+            return module            
     except (ImportError, AttributeError) as e:
         raise AttributeError(
             f"module {__name__} has no attribute {name}"
@@ -80,6 +87,7 @@ def __dir__():
 
 
 _all_schemes = ["QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM"]
+_api_calls   = ["encode", "decode", "stream"]
 
 __all__ = [
     "load_scheme",

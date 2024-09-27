@@ -175,3 +175,64 @@ def draw_circuit(circuit: qiskit.QuantumCircuit, decompose: int = 0) -> None:
         display(fig)
     except NameError:
         plt.show()
+
+
+# ======================
+# Find encoded metadata keys
+# ======================
+
+
+def pick_key_from_instance(instance, key):
+    """Search for given key in an instance used at decoding.
+
+    Args:
+        instance: Can be Qiskit Circuit or Result object.
+        key: Key to find in the encoded metadata.
+
+    """
+    if isinstance(instance, qiskit.circuit.QuantumCircuit):
+        if key == "scheme" and instance.name.upper() in [
+            "QPAM",
+            "SQPAM",
+            "QSM",
+            "MSQPAM",
+            "MQSM",
+        ]:
+            return instance.name.upper()
+        elif key in instance.metadata:
+            return instance.metadata[key]
+
+    elif isinstance(
+        instance, (qiskit.result.Result, PrimitiveResult, SamplerPubResult)
+    ):
+        metadata = get_metadata(instance)
+        if key in metadata:
+            return metadata[key]
+
+    if key == "scheme":
+        raise ValueError(f"{key} is missing")  # Scheme is essential
+
+    # If the key was not found in the instance
+    return None
+
+
+def pick_key(kwargs, instance, key):
+    """Search for given key in key words dictionary first if user manually specified or
+    continue searching for key using instances
+
+    Args:
+        kwargs: Keyword arguments dictionary.
+        instance: Can be Qiskit Circuit or Result object.
+        key: Key to find in the encoded metadata.
+
+    """
+    # Check if the key exists in kwargs
+    if key in kwargs:
+        return kwargs.pop(key)
+
+    # Check if metadata exists in kwargs and the key is inside it
+    if "metadata" in kwargs and key in kwargs["metadata"]:
+        return kwargs["metadata"][key]
+
+    # Delegate the search to pick_key_with_instance
+    return pick_key_from_instance(instance, key)
