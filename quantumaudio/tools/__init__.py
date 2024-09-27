@@ -8,7 +8,7 @@ np.random.seed(42)
 
 
 def test_signal(
-    num_channels: int = 1, num_samples: int = 8, seed: Optional[int] = None
+    num_samples: int = 8, num_channels: int = 1, seed: Optional[int] = None
 ) -> np.ndarray:
     """Simulates sythetic data for quick testing and plots. Typically, Audio data
        contains several thousands of samples per second which is difficult to
