@@ -87,7 +87,7 @@ def __dir__():
 
 
 _all_schemes = ["QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM"]
-_api_calls   = ["encode", "decode", "stream"]
+_api_calls   = ["encode", "decode", "stream", "decode_result", "decode_counts"]
 
 __all__ = [
     "load_scheme",
