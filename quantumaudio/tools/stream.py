@@ -45,18 +45,20 @@ def get_chunks(
     Returns:
         None
     """
-    print(f"Shape: {data.shape}")
+    if verbose: print(f"Shape: {data.shape}")
     if data.ndim == 1:
         data = data.reshape(1, -1)
-    print(
-        f"Num samples: {data.shape[-1]}, Num channels: {data.shape[0]}, Buffer size: {chunk_size}"
-    )
     y_chunks = []
     for i in range(0, data.shape[-1], chunk_size):
         chunk = data[:, i : i + chunk_size]
         y_chunks.append(chunk)
-    print(f"Number of chunks: {len(y_chunks)}")
-    print(f"Shape per buffer: {y_chunks[0].shape}")
+    
+    if verbose:
+        print(
+            f"Num samples: {data.shape[-1]}, Num channels: {data.shape[0]}, Buffer size: {chunk_size}"
+        )
+        print(f"Number of chunks: {len(y_chunks)}")
+        print(f"Shape per buffer: {y_chunks[0].shape}")
     return y_chunks
 
 
@@ -139,8 +141,9 @@ def stream_data(
     """
     assert (
         chunk_size < data.shape[-1]
-    ), f"Chunk size ({chunk_size}) cant be smaller than number of samples ({data.shape[-1]})"
+    ), f"Chunk size ({chunk_size}) is too large for the number of available samples ({data.shape[-1]}). Please adjust chunk_size."
     chunks = get_chunks(data=data, chunk_size=chunk_size, verbose=verbose)
+    if verbose: scheme.calculate(chunks[0])
     processed_chunks = process_chunks(
         chunks=chunks,
         scheme=scheme,
