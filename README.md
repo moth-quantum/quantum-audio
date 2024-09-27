@@ -134,7 +134,7 @@ import quantumaudio
 qpam = quantumaudio.load_scheme('qpam') # or directly access from quantumaudio.schemes.QPAM()
 
 # Define an Input
-original_data = quantumaudio.utils.test_signal() # for a random array of samples (range: -1.0 to 1.0)
+original_data = quantumaudio.tools.test_signal() # for a random array of samples (range: -1.0 to 1.0)
 
 # Encoding
 encoded_circuit = qpam.encode(original_data)
