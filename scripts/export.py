@@ -21,7 +21,7 @@ from params import all_schemes, defaults
 
 sys.path.insert(0, os.path.dirname(os.getcwd()))
 import quantumaudio
-import tools
+from tools import audio
 
 
 def set_output_path(input_path, prefix="qa_", suffix=""):
@@ -107,7 +107,7 @@ if __name__ == "__main__":
     scheme = quantumaudio.load_scheme(scheme)
 
     # Export
-    tools.audio.save_quantumaudio(
+    audio.save_audio(
         file_path=input_path,
         output_filepath=output_path,
         sr=sr,

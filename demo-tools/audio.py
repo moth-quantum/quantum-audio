@@ -15,67 +15,15 @@
 
 from typing import Any
 
-import librosa
-import numpy.typing as np
-import soundfile as sf
-
-from . import stream
+from quantum_audio import stream
+from . import audio_io
 
 # ======================
-# I/O handling functions
+# Export Helper function
 # ======================
 
 
-def read(
-    file_path: str,
-    sr: int = 22050,
-    mono: bool = True,
-) -> None:
-    """Generate audio chunks from a file.
-
-    Parameters:
-    file_path (str): Path to the audio file.
-    sr (int, optional): Sampling rate (default is 22050).
-    chunk_size (int, optional): Size of each chunk (default is 256).
-    mono (bool, optional): Whether to load audio in mono (default is True).
-    preview (bool, optional): Whether to preview each chunk (default is False).
-
-    Returns:
-    None
-    """
-    y, sr = librosa.load(file_path, sr=sr, mono=mono)
-    return y, sr
-
-
-def write(
-    data: np.NDArray,
-    sr: int,
-    output_filepath: str = "audio.wav",
-    audio_format: str = "WAV",
-) -> None:
-    """Export processed audio chunks into a single WAV file.
-
-    Parameters:
-    processed_chunks (list of np.ndarray): List containing arrays of processed audio chunks.
-    sr (int): Sampling rate of the audio data.
-    output_filepath (str, optional): Filepath to save the reconstructed audio.
-
-    Returns:
-    None
-    """
-    data = data.squeeze()
-    if data.ndim == 2 and data.shape[0] < data.shape[1]:
-        data = data.T  # Soundfile requires 'Channels Last' format for writing
-    sf.write(output_filepath, data, sr, format=audio_format)
-    print(output_filepath)
-
-
-# ======================
-# Main Processing function
-# ======================
-
-
-def get_quantumaudio(
+def stream_audio(
     file_path: str,
     scheme: Any,
     shots: int = 8000,
@@ -98,7 +46,7 @@ def get_quantumaudio(
     Returns:
     np.ndarray, int
     """
-    digital_audio, sr = read(file_path=file_path, sr=sr, mono=mono)
+    digital_audio, sr = audio_io.read(file_path=file_path, sr=sr, mono=mono)
     print(f"Sample Rate: {sr}")
     quantum_audio = stream.stream_data(
         data=digital_audio,
@@ -115,7 +63,7 @@ def get_quantumaudio(
 # ======================
 
 
-def save_quantumaudio(
+def save_audio(
     file_path: str,
     scheme: Any,
     sr: int = 22050,
@@ -151,7 +99,7 @@ def save_quantumaudio(
         chunk_size=chunk_size,
         verbose=verbose,
     )
-    write(
+    audio_io.write(
         data=quantum_audio,
         sr=sr,
         output_filepath=output_filepath,

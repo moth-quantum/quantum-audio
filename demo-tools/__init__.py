@@ -30,4 +30,4 @@ def __dir__():
     return __all__
 
 
-__all__ = ["audio", "interactive", "stream"]
+__all__ = ["audio", "audio_io", "interactive"]
