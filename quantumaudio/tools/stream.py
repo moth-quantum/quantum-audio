@@ -79,6 +79,7 @@ def process_chunks(
     chunks: list[np.ndarray],
     scheme: Any,
     shots: int,
+    process_function: Callable[[np.ndarray, Any, int], np.ndarray] = process,
     show_progress: bool = True,
 ) -> list:
     """Process chunks of data in an iteration according to a specified scheme.
@@ -87,13 +88,14 @@ def process_chunks(
     chunks: Data chunks to be processed.
     scheme: Processing scheme.
     shots: Number of shots.
+    process_function: Function to process each chunk (default is 'process'). 
 
     Returns:
     None
     """
     processed_chunks = []
     for chunk in tqdm(chunks, disable=not show_progress):
-        processed_chunk = process(chunk, scheme, shots)
+        processed_chunk = process_function(chunk, scheme, shots)
         processed_chunks.append(processed_chunk)
     return processed_chunks
 
@@ -118,6 +120,7 @@ def stream_data(
     data: np.ndarray,
     scheme: Any,
     shots: int = 8000,
+    process_function: Callable[[np.ndarray, Any, int], np.ndarray] = process,
     chunk_size: int = 64,
     verbose: bool = False,
 ) -> np.ndarray:
@@ -127,6 +130,7 @@ def stream_data(
         data: The input data array to be processed.
         scheme: The quantum audio scheme to be applied to each chunk.
         shots: The number of shots for circuit measurement. Defaults to 8000.
+        process_function: Function to process each chunk (default is 'process').
         chunk_size: The size of each chunk. Defaults to 64.
         verbose: If True, enables verbose logging. Defaults to False.
 
@@ -138,7 +142,7 @@ def stream_data(
     ), f"Chunk size ({chunk_size}) cant be smaller than number of samples ({data.shape[-1]})"
     chunks = get_chunks(data=data, chunk_size=chunk_size, verbose=verbose)
     processed_chunks = process_chunks(
-        chunks=chunks, scheme=scheme, shots=shots
+        chunks=chunks, scheme=scheme, shots=shots, process_function=process_function,
     )
     output = combine_chunks(processed_chunks)
     return output
