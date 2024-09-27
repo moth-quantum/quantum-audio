@@ -78,8 +78,6 @@ class MSQPAM(Scheme):
         self.restore = utils.convert_from_angles
 
         print(self.name)
-        if self.num_channels:
-            print(f"Num channels: {self.num_channels}")
 
     # ------------------- Encoding Helpers ---------------------------
 
@@ -245,7 +243,7 @@ class MSQPAM(Scheme):
         self,
         data: np.ndarray,
         measure: bool = True,
-        verbose: Union[int, bool] = 2,
+        verbose: Union[int, bool] = 1,
     ) -> qiskit.QuantumCircuit:
         """Given audio data, prepares a Qiskit Circuit representing it.
 

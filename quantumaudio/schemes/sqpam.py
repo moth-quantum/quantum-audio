@@ -198,7 +198,7 @@ class SQPAM(Scheme):
         self,
         data: np.ndarray,
         measure: bool = True,
-        verbose: Union[int, bool] = 2,
+        verbose: Union[int, bool] = 1,
     ) -> qiskit.QuantumCircuit:
         """Given an audio data, prepares a Qiskit Circuit representing it.
 
