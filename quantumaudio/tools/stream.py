@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==========================================================================
 
-from typing import Any
+from typing import Any, Callable
 
 import numpy as np
 from tqdm import tqdm
