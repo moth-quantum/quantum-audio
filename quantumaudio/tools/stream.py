@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==========================================================================
 
-from typing import Any, Callable
+from typing import Any, Callable, Union
 
 import numpy as np
 from tqdm import tqdm
@@ -127,7 +127,7 @@ def stream_data(
     shots: int = 8000,
     process_function: Callable[[np.ndarray, Any, int], np.ndarray] = process,
     chunk_size: int = 64,
-    verbose: bool = True,
+    verbose: Union[int, bool] = 2,
 ) -> np.ndarray:
     """Processes data by dividing it into chunks, applying a Quantum Audio scheme, and combining the results.
 
@@ -137,16 +137,18 @@ def stream_data(
         shots: The number of shots for circuit measurement. Defaults to 8000.
         process_function: Function to process each chunk (default is 'process').
         chunk_size: The size of each chunk. Defaults to 64.
-        verbose: If True, enables verbose logging. Defaults to False.
+        verbose: If True, enables verbose logging. Defaults to 2.
+                 < 1 shows progress bar
+                 < 2 shows additional information such as buffer size and number of qubits.
 
     Returns:
         np.ndarray
     """
     if chunk_size > data.shape[-1]:
         chunk_size = data.shape[-1]
-        print(f"Chunk size set to {data.shape[-1]}.")
-    chunks = get_chunks(data=data, chunk_size=chunk_size, verbose=verbose)
-    if verbose: scheme.calculate(chunks[0])
+        if verbose == 2: print(f"Chunk size set to {data.shape[-1]}.")
+    chunks = get_chunks(data=data, chunk_size=chunk_size, verbose=(verbose==2))
+    if verbose==2: scheme.calculate(chunks[0])
     processed_chunks = process_chunks(
         chunks=chunks,
         scheme=scheme,
