@@ -2,44 +2,6 @@ from quantumaudio import load_scheme
 from quantumaudio.utils import pick_key
 from quantumaudio.tools import stream_data
 
-# ------------------- Helper Functions ---------------------------
-
-
-def _split_kwargs(kwargs):
-    """Splits keyword arguments between scheme loading and encoding operations.
-
-    Args:
-        kwargs (dict): Dictionary containing keyword arguments.
-
-    Returns:
-        Two dictionaries for scheme-related keyword arguments, and remaining keyword arguments.
-    """
-    scheme_args = ("qubit_depth", "num_channels")
-    return {
-        arg: kwargs.pop(arg) for arg in scheme_args if arg in kwargs
-    }, kwargs
-
-
-def _fetch_kwargs(instance, kwargs):
-    """Fetches scheme at decoding and splits keyword arguments accordingly.
-
-    Args:
-        instance (object): Qiskit circuit or Results object.
-        kwargs (dict): Dictionary containing keyword arguments.
-
-    Returns:
-        Tuple of Scheme name, scheme-related keyword arguments, and remaining keyword arguments.
-    """
-    scheme = pick_key(kwargs, instance, key="scheme")
-    scheme_kwargs = {}
-    num_channels = pick_key(kwargs, instance, key="num_channels")
-    if num_channels:
-        scheme_kwargs["num_channels"] = num_channels
-    num_qubits = pick_key(kwargs, instance, key="num_qubits")
-    if num_qubits and "qsm" in scheme:
-        scheme_kwargs["qubit_depth"] = num_qubits[-1]
-    return scheme, scheme_kwargs, kwargs
-
 
 # ------------------- Main Functions ---------------------------
 
@@ -120,3 +82,41 @@ def decode_counts(counts, metadata, **kwargs):
     kwargs["metadata"] = metadata
     scheme, scheme_kwargs, kwargs = _fetch_kwargs(counts, kwargs)
     return load_scheme(scheme, **scheme_kwargs).decode_counts(counts, **kwargs)
+
+
+# ------------------- Helper Functions ---------------------------
+
+def _split_kwargs(kwargs):
+    """Splits keyword arguments between scheme loading and encoding operations.
+
+    Args:
+        kwargs (dict): Dictionary containing keyword arguments.
+
+    Returns:
+        Two dictionaries for scheme-related keyword arguments, and remaining keyword arguments.
+    """
+    scheme_args = ("qubit_depth", "num_channels")
+    return {
+        arg: kwargs.pop(arg) for arg in scheme_args if arg in kwargs
+    }, kwargs
+
+
+def _fetch_kwargs(instance, kwargs):
+    """Fetches scheme at decoding and splits keyword arguments accordingly.
+
+    Args:
+        instance (object): Qiskit circuit or Results object.
+        kwargs (dict): Dictionary containing keyword arguments.
+
+    Returns:
+        Tuple of Scheme name, scheme-related keyword arguments, and remaining keyword arguments.
+    """
+    scheme = pick_key(kwargs, instance, key="scheme")
+    scheme_kwargs = {}
+    num_channels = pick_key(kwargs, instance, key="num_channels")
+    if num_channels:
+        scheme_kwargs["num_channels"] = num_channels
+    num_qubits = pick_key(kwargs, instance, key="num_qubits")
+    if num_qubits and "qsm" in scheme:
+        scheme_kwargs["qubit_depth"] = num_qubits[-1]
+    return scheme, scheme_kwargs, kwargs
