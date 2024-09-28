@@ -62,7 +62,7 @@ def get_chunks(
     return y_chunks
 
 
-def process(chunk: np.ndarray, scheme: Any, shots: int) -> np.ndarray:
+def process(chunk: np.ndarray, scheme: Any, backend: Any, shots: int) -> np.ndarray:
     """Process a chunk of data according to a specified scheme.
 
     Parameters:
@@ -73,13 +73,14 @@ def process(chunk: np.ndarray, scheme: Any, shots: int) -> np.ndarray:
     Returns:
     None
     """
-    chunk = scheme.decode(scheme.encode(chunk, verbose=0), shots=shots)
+    chunk = scheme.decode(scheme.encode(chunk, verbose=0), backend=backend, shots=shots)
     return chunk
 
 
 def process_chunks(
     chunks: list[np.ndarray],
     scheme: Any,
+    backend: Any,
     shots: int,
     process_function: Callable[[np.ndarray, Any, int], np.ndarray] = process,
     verbose: bool = True,
@@ -98,7 +99,7 @@ def process_chunks(
     """
     processed_chunks = []
     for chunk in tqdm(chunks, disable=not verbose):
-        processed_chunk = process_function(chunk, scheme, shots)
+        processed_chunk = process_function(chunk, scheme, backend, shots)
         processed_chunks.append(processed_chunk)
     return processed_chunks
 
@@ -122,6 +123,7 @@ def combine_chunks(chunks: list[np.ndarray]) -> np.ndarray:
 def stream_data(
     data: np.ndarray,
     scheme: Any,
+    backend: Any = None,
     shots: int = 8000,
     process_function: Callable[[np.ndarray, Any, int], np.ndarray] = process,
     chunk_size: int = 64,
@@ -148,6 +150,7 @@ def stream_data(
     processed_chunks = process_chunks(
         chunks=chunks,
         scheme=scheme,
+        backend=backend,
         shots=shots,
         process_function=process_function,
         verbose=verbose,
