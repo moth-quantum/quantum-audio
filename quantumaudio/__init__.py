@@ -76,7 +76,7 @@ def __getattr__(name):
             )
             return getattr(module, name.upper())
 
-        elif name.lower() in _api_calls:
+        elif name.lower() in _function_calls:
             module = importlib.import_module(
                 ".interfaces.api", package=__name__
             )
@@ -99,7 +99,7 @@ def __dir__():
 
 
 _all_schemes = ["QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM"]
-_api_calls = ["encode", "decode", "stream", "decode_result", "decode_counts"]
+_function_calls = ["encode", "decode", "stream", "calculate", "decode_result", "decode_counts"]
 
 __all__ = [
     "load_scheme",
