@@ -21,7 +21,7 @@ def encode(data, scheme="qpam", **kwargs):
 
 
 def decode(circuit, **kwargs):
-    """Decodes a quantum circuit using a specified scheme.
+    """Decodes a quantum circuit using the scheme it was encoded with.
 
     Args:
         circuit (object): Qiskit circuit object to decode.
