@@ -17,8 +17,6 @@ from typing import Union
 
 import matplotlib.pyplot as plt
 import qiskit
-import qiskit_aer
-from qiskit import transpile
 from qiskit.primitives import PrimitiveResult, SamplerPubResult
 
 # ======================
@@ -41,26 +39,6 @@ def pad_counts(counts: Union[dict, qiskit.result.Counts]) -> dict:
     ]
     complete_counts = {state: counts.get(state, 0) for state in all_states}
     return complete_counts
-
-
-def execute(circuit, backend=None, shots=4000, memory=False):
-    """
-    Executes a quantum circuit on a given backend and return the results.
-
-    Args:
-        circuit: The quantum circuit to be executed.
-        backend: The backend on which to run the circuit. If None, the default backend `qiskit_aer.AerSimulator()` is used.
-        shots: Total number of times the quantum circuit is measured.
-        memory: Whether to return the memory (quantum state) of each shot.
-
-    Returns:
-        Result: The result of the execution, containing the counts and other metadata.
-    """
-    backend = qiskit_aer.AerSimulator() if not backend else backend
-    circuit = transpile(circuit, backend)
-    job = backend.run(circuit, shots=shots, memory=memory)
-    result = job.result()
-    return result
 
 
 def get_counts(results_obj, result_id=0):
@@ -108,8 +86,9 @@ def get_metadata(results_obj, result_id=0):
         results_obj = results_obj[result_id]
 
     if isinstance(results_obj, SamplerPubResult):
-        metadata = results_obj.metadata["circuit_metadata"]
-        metadata["shots"] = results_obj.metadata["shots"]
+        metadata = results_obj.metadata.get("circuit_metadata", {})
+        if "shots" in results_obj.metadata:
+            metadata["shots"] = results_obj.metadata["shots"]
 
     elif isinstance(results_obj, qiskit.result.Result):
         metadata = results_obj.results[result_id].header.metadata
@@ -118,6 +97,9 @@ def get_metadata(results_obj, result_id=0):
     else:
         raise TypeError("Unsupported result object type.")
 
+    if not metadata:
+        raise ValueError(f"No metadata found in Results")
+    
     return metadata
 
 
