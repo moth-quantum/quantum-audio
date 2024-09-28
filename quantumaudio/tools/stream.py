@@ -142,9 +142,9 @@ def stream_data(
     Returns:
         np.ndarray
     """
-    assert (
-        chunk_size < data.shape[-1]
-    ), f"Chunk size ({chunk_size}) is too large for the number of available samples ({data.shape[-1]}). Please adjust chunk_size."
+    if chunk_size > data.shape[-1]:
+        chunk_size = data.shape[-1]
+        print(f"Chunk size set to {data.shape[-1]}.")
     chunks = get_chunks(data=data, chunk_size=chunk_size, verbose=verbose)
     if verbose: scheme.calculate(chunks[0])
     processed_chunks = process_chunks(
