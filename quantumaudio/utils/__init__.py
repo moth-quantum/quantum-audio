@@ -24,5 +24,6 @@
 from .circuit import *
 from .convert import *
 from .data import *
-from .qiskit_helpers import *
 from .execute import *
+from .results import *
+from .preview import *
