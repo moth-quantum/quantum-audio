@@ -148,10 +148,9 @@ def pick_key_from_instance(instance, key):
         if key in metadata:
             return metadata[key]
 
+    # If the key was not found in the instance
     if key == "scheme":
         raise ValueError(f"{key} is missing")  # Scheme is essential
-
-    # If the key was not found in the instance
     return None
 
 
@@ -173,5 +172,5 @@ def pick_key(kwargs, instance, key):
     if "metadata" in kwargs and key in kwargs["metadata"]:
         return kwargs["metadata"][key]
 
-    # Delegate the search to pick_key_with_instance
+    # Send the search to pick_key_with_instance
     return pick_key_from_instance(instance, key)
