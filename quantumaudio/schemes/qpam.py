@@ -345,6 +345,7 @@ class QPAM(Scheme):
 
         Args:
             circuit: A Qiskit Circuit representing the Digital Audio.
+            metadata: optionally pass metadata as argument.
             backend: A backend string compatible with qiskit.execute method.
             shots  : Total number of times the quantum circuit is measured.
             norm   : The norm factor used to normalize the decoding in QPAM.
