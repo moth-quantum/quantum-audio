@@ -20,15 +20,17 @@ necessary utilities.
 __version__ = "0.1.0b"
 
 import importlib
-from packaging import version
+from importlib.metadata import version
+from packaging.version import parse
 
 # --------------------------- Qiskit Version Assertion ---------------------------
 
 _minimum_version = "1.0.0"
-_qiskit = importlib.import_module("qiskit")
-if version.parse(_qiskit.__version__) < version.parse(_minimum_version):
+_current_version = version("qiskit")
+
+if parse(_current_version) < parse(_minimum_version):
     raise ImportError(
-        f"Quantum Audio {__version__} requires Qiskit >= {_minimum_version} but found {_qiskit.__version__}"
+        f"Quantum Audio {__version__} requires Qiskit >= {_minimum_version} but found {_current_version}"
     )
 
 # --------------------------- Lazy Loader ---------------------------
