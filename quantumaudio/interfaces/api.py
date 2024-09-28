@@ -10,7 +10,7 @@ def encode(data, scheme="qpam", **kwargs):
 
     Args:
         data (any): The data to encode.
-        scheme (str): Name of the encoding scheme to use.
+        scheme (str): Name of the encoding scheme to use. Defaults to "qpam".
         **kwargs: Additional keyword arguments passed to the encoding method.
 
     Returns:
