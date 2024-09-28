@@ -33,7 +33,7 @@ def decode(circuit, **kwargs):
     scheme, scheme_kwargs, kwargs = _fetch_kwargs(circuit, kwargs)
     return _load_scheme(scheme, **scheme_kwargs).decode(circuit, **kwargs)
 
-# ------------------- Tools Functions ---------------------------
+# ------------------- Tool Function ---------------------------
 
 def stream(data, scheme, **kwargs):
     """Streams data through a quantum encoding scheme for longer arrays.
@@ -51,7 +51,17 @@ def stream(data, scheme, **kwargs):
     return stream_data(data=data, scheme=scheme, **kwargs)
 
 
-# ------------------- Additional Decode Options ---------------------------
+# ------------------- Additional Functions ---------------------------
+
+def calculate(data, scheme="qpam", **kwargs):
+    """Estimates and Prints the resources required (number of qubits) according to a scheme.
+
+    Args:
+        data (any): The data to encode.
+        scheme (str): Name of the encoding scheme to use. Defaults to "qpam".
+        **kwargs: Additional keyword arguments passed to the scheme class.
+    """
+    _load_scheme(scheme, **kwargs).calculate(data)
 
 def decode_result(result, **kwargs):
     """Decodes a quantum result object.
