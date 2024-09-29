@@ -1,5 +1,6 @@
 import qiskit_aer
 from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
+from typing import Type, Any
 
 _default_backend = qiskit_aer.AerSimulator()
 
@@ -20,9 +21,21 @@ def execute(circuit, shots=4000, backend=None, keep_memory=False, optimization_l
     """
     backend = _default_backend if not backend else backend
     
-    transpiler = generate_preset_pass_manager(backend=backend, optimization_level=optimization_level)
+    transpiler = _load_instance(generate_preset_pass_manager,backend=backend,optimization_level=optimization_level)
     transpiled_circuit = transpiler.run(circuit)
     
     job = backend.run(transpiled_circuit, shots=shots, memory=keep_memory)
     result = job.result()
     return result
+
+
+# ---- Helper Functions ----
+
+_cache = {}
+
+def _load_instance(cls: Type, **kwargs: Any) -> Any:
+    cache_key = (cls, frozenset(kwargs.items()))
+    if cache_key not in _cache:
+        print('loading first time')
+        _cache[cache_key] = cls(**kwargs)
+    return _cache[cache_key]
