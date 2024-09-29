@@ -129,7 +129,7 @@ def tune_audio(
             chunks=obj[offset:limit],
             scheme=scheme,
             shots=shots,
-            show_progress=False,
+            verbose=False,
         )
         if y:
             y = np.concatenate(y)

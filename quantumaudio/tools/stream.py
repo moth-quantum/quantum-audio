@@ -80,7 +80,7 @@ def process(chunk: np.ndarray, scheme: Any, backend: Any = None, shots: int = 80
 def process_chunks(
     chunks: list[np.ndarray],
     scheme: Any,
-    process_function: Callable[[np.ndarray, Any, dict], list],
+    process_function: Callable[[np.ndarray, Any, dict], list] = process,
     verbose: bool = True,
     **kwargs,
 ) -> list:
