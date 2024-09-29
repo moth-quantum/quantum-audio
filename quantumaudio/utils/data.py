@@ -48,10 +48,10 @@ def assert_data(data: Union[list, tuple, np.ndarray]) -> np.ndarray:
     Raises:
         TypeError: If the input data type is not supported
     """
-    if isinstance(data, (list, tuple)):
-        return np.array(data)
-    elif isinstance(data, np.ndarray):
+    if isinstance(data, np.ndarray):
         return data
+    elif isinstance(data, (list, tuple)):
+        return np.array(data)
     else:
         raise TypeError("Input data must be a list, tuple, or NumPy array")
 
