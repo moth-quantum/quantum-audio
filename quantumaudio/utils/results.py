@@ -96,7 +96,7 @@ def get_metadata(results_obj, result_id=0):
         raise TypeError("Unsupported result object type.")
 
     if not metadata:
-        raise ValueError(f"No metadata found in Results")
+        print(f"No metadata found in Results. Try accessing from encoded_circuit's `.metadata` attribute")
     
     return metadata
 
