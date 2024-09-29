@@ -17,6 +17,7 @@ from typing import Any, Callable, Union
 
 import numpy as np
 from tqdm import tqdm
+import inspect
 
 # ======================
 # Buffering Utils
@@ -62,7 +63,7 @@ def get_chunks(
     return y_chunks
 
 
-def process(chunk: np.ndarray, scheme: Any, backend: Any, shots: int) -> np.ndarray:
+def process(chunk: np.ndarray, scheme: Any, backend: Any = None, shots: int = 8000) -> np.ndarray:
     """Process a chunk of data according to a specified scheme.
 
     Parameters:
@@ -80,26 +81,28 @@ def process(chunk: np.ndarray, scheme: Any, backend: Any, shots: int) -> np.ndar
 def process_chunks(
     chunks: list[np.ndarray],
     scheme: Any,
-    backend: Any,
-    shots: int,
-    process_function: Callable[[np.ndarray, Any, int], np.ndarray] = process,
+    process_function: Callable[[np.ndarray, Any, dict], list],
     verbose: bool = True,
+    **kwargs,
 ) -> list:
     """Process chunks of data in an iteration according to a specified scheme.
 
     Parameters:
     chunks: Data chunks to be processed.
     scheme: Processing scheme.
-    shots: Number of shots.
     process_function: Function to process each chunk (default is 'process').
     verbose: If True, enables verbose logging. Defaults to False.
 
     Returns:
     None
     """
+    sig = inspect.signature(process_function)
+    process_kwargs = {k: v for k, v in kwargs.items() if k in sig.parameters}
+    print(process_kwargs)
+    
     processed_chunks = []
     for chunk in tqdm(chunks, disable=not verbose):
-        processed_chunk = process_function(chunk, scheme, backend, shots)
+        processed_chunk = process_function(chunk, scheme, **kwargs)
         processed_chunks.append(processed_chunk)
     return processed_chunks
 
@@ -122,21 +125,19 @@ def combine_chunks(chunks: list[np.ndarray]) -> np.ndarray:
 
 def stream_data(
     data: np.ndarray,
-    scheme: Any,
-    backend: Any = None,
-    shots: int = 8000,
-    process_function: Callable[[np.ndarray, Any, int], np.ndarray] = process,
+    scheme: Any = 'qpam',
     chunk_size: int = 64,
+    process_function: Callable[[np.ndarray, Any, int], np.ndarray] = process,
     verbose: Union[int, bool] = 2,
+    **kwargs,
 ) -> np.ndarray:
     """Processes data by dividing it into chunks, applying a Quantum Audio scheme, and combining the results.
 
     Args:
         data: The input data array to be processed.
         scheme: The quantum audio scheme to be applied to each chunk.
-        shots: The number of shots for circuit measurement. Defaults to 8000.
-        process_function: Function to process each chunk (default is 'process').
         chunk_size: The size of each chunk. Defaults to 64.
+        process_function: Function to process each chunk (default is 'process').
         verbose: If True, enables verbose logging. Defaults to 2.
                  < 1 shows progress bar
                  < 2 shows additional information such as buffer size and number of qubits.
@@ -152,10 +153,9 @@ def stream_data(
     processed_chunks = process_chunks(
         chunks=chunks,
         scheme=scheme,
-        backend=backend,
-        shots=shots,
         process_function=process_function,
         verbose=verbose,
+        **kwargs,
     )
     output = combine_chunks(processed_chunks)
     return output
