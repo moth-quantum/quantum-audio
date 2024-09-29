@@ -3,12 +3,12 @@ from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
 from typing import Type, Any
 import importlib
 
+# Optional Import if exists
 _Sampler = (
     getattr(importlib.import_module("qiskit_ibm_runtime"), "SamplerV2", None)
     if importlib.util.find_spec("qiskit_ibm_runtime")
     else None
 )
-
 
 # Default Backend
 _default_backend = qiskit_aer.AerSimulator()
