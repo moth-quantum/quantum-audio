@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==========================================================================
 
-from typing import Optional, Union
+from typing import Optional, Union, Callable, Any
 
 import numpy as np
 import qiskit
@@ -336,18 +336,16 @@ class QPAM(Scheme):
         self,
         circuit: qiskit.QuantumCircuit,
         metadata: Optional[dict] = None,
-        backend: Optional[str] = None,
-        shots: int = 4000,
         norm: Optional[float] = None,
         keep_padding: bool = False,
+        execute_function: Callable[[qiskit.QuantumCircuit, dict], Any] = utils.execute,
+        **kwargs,
     ) -> np.ndarray:
         """Given a qiskit circuit, decodes and returns back the Original Audio Array.
 
         Args:
             circuit: A Qiskit Circuit representing the Digital Audio.
             metadata: optionally pass metadata as argument.
-            backend: A backend string compatible with qiskit.execute method.
-            shots  : Total number of times the quantum circuit is measured.
             norm   : The norm factor used to normalize the decoding in QPAM.
             keep_padding: Undo the padding set at Encoding stage if set to False.
 
@@ -355,8 +353,12 @@ class QPAM(Scheme):
             data: Array of decoded values
         """
         self.measure(circuit)
-        result = utils.execute(circuit=circuit, backend=backend, shots=shots)
+        result = execute_function(circuit=circuit, **kwargs)
         data = self.decode_result(
-            result=result, metadata=metadata, keep_padding=keep_padding
+            result=result, 
+            metadata=metadata,
+            shots=kwargs.get("shots"),
+            norm=norm, 
+            keep_padding=keep_padding
         )
         return data

@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==========================================================================
 
-from typing import Optional, Union
+from typing import Optional, Union, Callable, Any
 
 import numpy as np
 import qiskit
@@ -354,9 +354,9 @@ class QSM(Scheme):
         self,
         circuit: qiskit.QuantumCircuit,
         metadata: Optional[dict] = None,
-        backend: Optional[str] = None,
-        shots: int = 4000,
         keep_padding: bool = False,
+        execute_function: Callable[[qiskit.QuantumCircuit, dict], Any] = utils.execute,
+        **kwargs,
     ) -> np.ndarray:
         """Given a qiskit circuit, decodes and returns back the Original Audio Array.
 
@@ -370,7 +370,7 @@ class QSM(Scheme):
                 data: Array of decoded values
         """
         self.measure(circuit)
-        result = utils.execute(circuit=circuit, backend=backend, shots=shots)
+        result = execute_function(circuit=circuit, **kwargs)
         data = self.decode_result(
             result=result, metadata=metadata, keep_padding=keep_padding
         )
