@@ -17,7 +17,6 @@ from typing import Any, Callable, Union
 
 import numpy as np
 from tqdm import tqdm
-import inspect
 
 # ======================
 # Buffering Utils
@@ -96,10 +95,6 @@ def process_chunks(
     Returns:
     None
     """
-    sig = inspect.signature(process_function)
-    process_kwargs = {k: v for k, v in kwargs.items() if k in sig.parameters}
-    print(process_kwargs)
-    
     processed_chunks = []
     for chunk in tqdm(chunks, disable=not verbose):
         processed_chunk = process_function(chunk, scheme, **kwargs)
