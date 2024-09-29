@@ -1,7 +1,7 @@
+import quantumaudio
 from quantumaudio import load_scheme
 from quantumaudio.utils import pick_key
 from quantumaudio.tools import stream_data
-
 
 # ------------------- Core Functions ---------------------------
 
@@ -108,6 +108,9 @@ def _load_scheme(scheme, **scheme_kwargs):
     Returns:
         The loaded or cached scheme object.
     """
+    if isinstance(scheme, quantumaudio.schemes.Scheme):
+        return scheme
+    
     cache_key = (scheme, frozenset(scheme_kwargs.items()))
     if cache_key not in _cache:
         _cache[cache_key] = load_scheme(scheme, **scheme_kwargs)
@@ -138,6 +141,10 @@ def _fetch_kwargs(instance, kwargs):
     Returns:
         Tuple of Scheme name, scheme-related keyword arguments, and remaining keyword arguments.
     """
+    scheme = kwargs.pop('scheme', None)
+    if scheme and isinstance(scheme, quantumaudio.schemes.Scheme):
+        return scheme, {}, kwargs
+    
     scheme = pick_key(kwargs, instance, key="scheme")
     scheme_kwargs = {}
     num_channels = pick_key(kwargs, instance, key="num_channels")
