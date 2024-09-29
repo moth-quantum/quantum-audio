@@ -36,6 +36,5 @@ _cache = {}
 def _load_instance(cls: Type, **kwargs: Any) -> Any:
     cache_key = (cls, frozenset(kwargs.items()))
     if cache_key not in _cache:
-        print('loading first time')
         _cache[cache_key] = cls(**kwargs)
     return _cache[cache_key]
