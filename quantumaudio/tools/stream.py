@@ -81,6 +81,7 @@ def process_chunks(
     chunks: list[np.ndarray],
     scheme: Any,
     process_function: Callable[[np.ndarray, Any, dict], list] = process,
+    single_job: bool = False,
     verbose: bool = True,
     **kwargs,
 ) -> list:
@@ -96,9 +97,12 @@ def process_chunks(
     None
     """
     processed_chunks = []
-    for chunk in tqdm(chunks, disable=not verbose):
-        processed_chunk = process_function(chunk, scheme, **kwargs)
-        processed_chunks.append(processed_chunk)
+    if not single_job: # process one by one
+        for chunk in tqdm(chunks, disable=not verbose):
+            processed_chunk = process_function(chunk, scheme, **kwargs)
+            processed_chunks.append(processed_chunk)
+    else: # process all at once
+        processed_chunks = process_function(chunks, scheme, **kwargs)
     return processed_chunks
 
 
@@ -123,6 +127,7 @@ def stream_data(
     scheme: Any = 'qpam',
     chunk_size: int = 64,
     process_function: Callable[[np.ndarray, Any, dict], list] = process,
+    single_job: bool = False,
     verbose: Union[int, bool] = 2,
     **kwargs,
 ) -> np.ndarray:
@@ -149,6 +154,7 @@ def stream_data(
         chunks=chunks,
         scheme=scheme,
         process_function=process_function,
+        single_job=single_job,
         verbose=verbose,
         **kwargs,
     )
