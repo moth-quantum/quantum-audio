@@ -96,8 +96,10 @@ def get_metadata(results_obj, result_id=0):
         raise TypeError("Unsupported result object type.")
 
     if not metadata:
-        raise ValueError(f"No metadata found in Results object {type(results_obj)}. Try accessing from encoded circuit's `.metadata` attribute")
-    
+        raise ValueError(
+            f"No metadata found in Results object {type(results_obj)}. Try manually passing `metadata=` in the decode function. (Metadata can be accessed from the encoded circuit's `.metadata` attribute)"
+        )
+
     return metadata
 
 
@@ -117,9 +119,11 @@ def get_counts_and_metadata(results_obj, result_id=0):
     metadata = get_metadata(results_obj, result_id)
     return counts, metadata
 
+
 # ======================
-# Retrieve Metadata 
+# Retrieve Metadata
 # ======================
+
 
 def pick_key_from_instance(instance, key):
     """Search for given key in an instance used at decoding.
