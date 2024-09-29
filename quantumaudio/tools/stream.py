@@ -122,7 +122,7 @@ def stream_data(
     data: np.ndarray,
     scheme: Any = 'qpam',
     chunk_size: int = 64,
-    process_function: Callable[[np.ndarray, Any, int], np.ndarray] = process,
+    process_function: Callable[[np.ndarray, Any, dict], list] = process,
     verbose: Union[int, bool] = 2,
     **kwargs,
 ) -> np.ndarray:
