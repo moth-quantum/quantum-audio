@@ -56,6 +56,7 @@ def load_scheme(name, *args, **kwargs):
             An instance of the Quantum Audio Scheme.
     """
     try:
+        assert isinstance(name, str), "Name of the scheme to load must be a string"
         scheme = importlib.import_module(
             f"quantumaudio.schemes.{name.lower()}"
         )
