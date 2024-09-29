@@ -80,10 +80,14 @@ def get_metadata(results_obj, result_id=0):
     """
     metadata = {}
 
-    if isinstance(results_obj, (PrimitiveResult, SamplerPubResult)):
+    if isinstance(results_obj, PrimitiveResult):
         metadata.update(results_obj.metadata)
+        results_obj = results_obj[result_id]
+
+    if isinstance(results_obj, (PrimitiveResult, SamplerPubResult)):
         if "circuit_metadata" in results_obj.metadata:
             metadata.update(results_obj.metadata["circuit_metadata"])
+        metadata["shots"] = results_obj.data.meas.num_shots
 
     elif isinstance(results_obj, qiskit.result.Result):
         metadata = results_obj.results[result_id].header.metadata
