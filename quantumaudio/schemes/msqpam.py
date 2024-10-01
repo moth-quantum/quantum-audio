@@ -122,11 +122,11 @@ class MSQPAM(Scheme):
         )  # apply constraint of minimum 2 channels
         num_value_qubits = self.qubit_depth
 
-        num_qubits = (num_index_qubits, num_channel_qubits, num_value_qubits)
+        qubit_shape = (num_index_qubits, num_channel_qubits, num_value_qubits)
         # print
         if verbose:
-            utils.print_num_qubits(num_qubits, labels=self.labels)
-        return data_shape, num_qubits
+            utils.print_num_qubits(qubit_shape, labels=self.labels)
+        return data_shape, qubit_shape
 
     def prepare_data(
         self, data: np.ndarray, num_index_qubits: int, num_channel_qubits: int
@@ -259,10 +259,10 @@ class MSQPAM(Scheme):
         """
         data = utils.validate_data(data)
 
-        (num_channels, num_samples), num_qubits = self.calculate(
+        (num_channels, num_samples), qubit_shape = self.calculate(
             data, verbose=verbose
         )
-        num_index_qubits, num_channel_qubits, num_value_qubits = num_qubits
+        num_index_qubits, num_channel_qubits, num_value_qubits = qubit_shape
 
         # prepare data
         data = self.prepare_data(data, num_index_qubits, num_channel_qubits)
@@ -281,7 +281,7 @@ class MSQPAM(Scheme):
         circuit.metadata = {
             "num_samples": num_samples,
             "num_channels": num_channels,
-            "num_qubits": num_qubits,
+            "qubit_shape": qubit_shape,
             "scheme": circuit.name,
         }
 
@@ -297,7 +297,7 @@ class MSQPAM(Scheme):
     def decode_components(
         self,
         counts: Union[dict, qiskit.result.Counts],
-        num_qubits: tuple[int, int],
+        qubit_shape: tuple[int, int],
     ) -> np.ndarray:
         """The first stage of decoding is extracting required components from
         counts.
@@ -305,15 +305,15 @@ class MSQPAM(Scheme):
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_qubits: tuple to determine the number of (channels, samples) to get.
+            qubit_shape: tuple to determine the number of (channels, samples) to get.
 
         Returns:
             2-D Array of shape (num_channels, num_samples)
             for further decoding.
         """
         # initialising components
-        num_index_qubits = num_qubits[0]
-        num_channel_qubits = num_qubits[1]
+        num_index_qubits = qubit_shape[0]
+        num_channel_qubits = qubit_shape[1]
 
         num_samples = 2**num_index_qubits
         num_channels = 2**num_channel_qubits
@@ -325,7 +325,7 @@ class MSQPAM(Scheme):
         # getting components from counts
         for state in counts:
             index_bits, channel_bits, value_bits = utils.split_string(
-                state, num_qubits
+                state, qubit_shape
             )
             index = int(index_bits, 2)
             channel = int(channel_bits, 2)
@@ -340,7 +340,7 @@ class MSQPAM(Scheme):
     def reconstruct_data(
         self,
         counts: Union[dict, qiskit.result.Counts],
-        num_qubits: tuple[int, int],
+        qubit_shape: tuple[int, int],
         inverted: bool = False,
     ) -> np.ndarray:
         """Given counts, Extract components and restore the conversion did at
@@ -349,13 +349,13 @@ class MSQPAM(Scheme):
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_qubits: tuple to determine the number of (channels, samples) to get.
+            qubit_shape: tuple to determine the number of (channels, samples) to get.
             inverted : retrieves cosine components of the signal.
 
         Return:
             data: Array of restored values
         """
-        cosine_amps, sine_amps = self.decode_components(counts, num_qubits)
+        cosine_amps, sine_amps = self.decode_components(counts, qubit_shape)
         data = self.restore(cosine_amps, sine_amps, inverted)
         return data
 
@@ -382,9 +382,9 @@ class MSQPAM(Scheme):
         """
         # decoding x-axis
         index_position, channel_position, _ = self.positions
-        num_qubits = metadata["num_qubits"]
+        qubit_shape = metadata["qubit_shape"]
 
-        num_channel_qubits = num_qubits[1]
+        num_channel_qubits = qubit_shape[1]
         num_channels = 2**num_channel_qubits
 
         original_num_samples = metadata["num_samples"]
@@ -393,7 +393,7 @@ class MSQPAM(Scheme):
         # decoding y-axis
         data = self.reconstruct_data(
             counts=counts,
-            num_qubits=num_qubits,
+            qubit_shape=qubit_shape,
             inverted=False,
         )
 

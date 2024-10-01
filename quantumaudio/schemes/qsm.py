@@ -106,10 +106,10 @@ class QSM(Scheme):
             else self.qubit_depth
         )
 
-        num_qubits = (num_index_qubits, num_value_qubits)
+        qubit_shape = (num_index_qubits, num_value_qubits)
         if verbose:
-            utils.print_num_qubits(num_qubits, labels=self.labels)
-        return num_samples, num_qubits
+            utils.print_num_qubits(qubit_shape, labels=self.labels)
+        return num_samples, qubit_shape
 
     def prepare_data(
         self, data: np.ndarray, num_index_qubits: int
@@ -232,7 +232,7 @@ class QSM(Scheme):
         # additional information for decoding
         circuit.metadata = {
             "num_samples": num_samples,
-            "num_qubits": (num_index_qubits, num_value_qubits),
+            "qubit_shape": (num_index_qubits, num_value_qubits),
             "scheme": circuit.name,
         }
 
@@ -248,7 +248,7 @@ class QSM(Scheme):
     def decode_components(
         self,
         counts: Union[dict, qiskit.result.Counts],
-        num_qubits: [int, int],
+        qubit_shape: [int, int],
     ) -> np.ndarray:
         """The first stage of decoding is extracting required components from
         counts.
@@ -256,25 +256,25 @@ class QSM(Scheme):
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_qubits: tuple to determine the number of components to get.
+            qubit_shape: tuple to determine the number of components to get.
 
         Returns:
             Array of components for further decoding.
         """
-        num_index_qubits = num_qubits[0]
+        num_index_qubits = qubit_shape[0]
         num_components = 2**num_index_qubits
 
         data = np.zeros(num_components, int)
 
         for state in counts:
-            index_bits, value_bits = utils.split_string(state, num_qubits)
+            index_bits, value_bits = utils.split_string(state, qubit_shape)
             index = int(index_bits, 2)
             value = BitArray(bin=value_bits).int
             data[index] = value
         return data
 
     def reconstruct_data(
-        self, counts: Union[dict, qiskit.result.Counts], num_qubits: int
+        self, counts: Union[dict, qiskit.result.Counts], qubit_shape: int
     ) -> np.ndarray:
         """Given counts, Extract components and restore the conversion did at
         encoding stage.
@@ -282,14 +282,14 @@ class QSM(Scheme):
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_qubits: tuple to determine the number of components to get.
+            qubit_shape: tuple to determine the number of components to get.
             qubit_depth : number of qubits in amplitude register.
 
         Return:
             data: Array of restored values
         """
-        data = self.decode_components(counts, num_qubits)
-        data = self.restore(data, bit_depth=num_qubits[-1])
+        data = self.decode_components(counts, qubit_shape)
+        data = self.restore(data, bit_depth=qubit_shape[-1])
         return data
 
     def decode_counts(
@@ -310,13 +310,13 @@ class QSM(Scheme):
                 data: Array of restored values with original dimensions
         """
         index_position, amplitude_position = self.positions
-        num_qubits = metadata["num_qubits"]
+        qubit_shape = metadata["qubit_shape"]
 
         # decoding x-axis
         original_num_samples = metadata["num_samples"]
 
         # decoding y-axis
-        data = self.reconstruct_data(counts, num_qubits)
+        data = self.reconstruct_data(counts, qubit_shape)
 
         # undo padding
         if not keep_padding:

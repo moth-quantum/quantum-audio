@@ -94,10 +94,10 @@ class SQPAM(Scheme):
         ), "Multi-channel not supported in SQPAM"
         num_value_qubits = self.qubit_depth
 
-        num_qubits = (num_index_qubits, num_value_qubits)
+        qubit_shape = (num_index_qubits, num_value_qubits)
         if verbose:
-            utils.print_num_qubits(num_qubits, labels=self.labels)
-        return num_samples, num_qubits
+            utils.print_num_qubits(qubit_shape, labels=self.labels)
+        return num_samples, qubit_shape
 
     def prepare_data(
         self, data: np.ndarray, num_index_qubits: int
@@ -229,7 +229,7 @@ class SQPAM(Scheme):
         # additional information for decoding
         circuit.metadata = {
             "num_samples": num_samples,
-            "num_qubits": (num_index_qubits, num_value_qubits),
+            "qubit_shape": (num_index_qubits, num_value_qubits),
             "scheme": circuit.name,
         }
         # measure, print and return
@@ -244,7 +244,7 @@ class SQPAM(Scheme):
     def decode_components(
         self,
         counts: Union[dict, qiskit.result.Counts],
-        num_qubits: [int, int],
+        qubit_shape: [int, int],
     ) -> np.ndarray:
         """The first stage of decoding is extracting required components from
         counts.
@@ -252,20 +252,20 @@ class SQPAM(Scheme):
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_qubits: tuple to determine the number of cosine and sine components to get.
+            qubit_shape: tuple to determine the number of cosine and sine components to get.
 
         Returns:
             Array of components for further decoding.
         """
         # initialising components
-        num_index_qubits = num_qubits[0]
+        num_index_qubits = qubit_shape[0]
         num_components = 2**num_index_qubits
         cosine_amps = np.zeros(num_components)
         sine_amps = np.zeros(num_components)
 
         # getting components from counts
         for state in counts:
-            index_bits, value_bits = utils.split_string(state, num_qubits)
+            index_bits, value_bits = utils.split_string(state, qubit_shape)
             index = int(index_bits, 2)
             value = counts[state]
             if value_bits == "0":
@@ -278,7 +278,7 @@ class SQPAM(Scheme):
     def reconstruct_data(
         self,
         counts: Union[dict, qiskit.result.Counts],
-        num_qubits: [int, int],
+        qubit_shape: [int, int],
         inverted: bool = False,
     ) -> np.ndarray:
         """Given counts, Extract components and restore the conversion did at
@@ -287,13 +287,13 @@ class SQPAM(Scheme):
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_qubits: tuple to determine the number of cosine and sine components to get.
+            qubit_shape: tuple to determine the number of cosine and sine components to get.
             inverted : retrieves cosine components of the signal.
 
         Return:
             data: Array of restored values
         """
-        cosine_amps, sine_amps = self.decode_components(counts, num_qubits)
+        cosine_amps, sine_amps = self.decode_components(counts, qubit_shape)
         data = self.restore(cosine_amps, sine_amps, inverted)
         return data
 
@@ -318,13 +318,13 @@ class SQPAM(Scheme):
         """
         # decoding x-axis
         index_position, _ = self.positions
-        num_qubits = metadata["num_qubits"]
+        qubit_shape = metadata["qubit_shape"]
 
         original_num_samples = metadata["num_samples"]
 
         # decoding y-axis
         data = self.reconstruct_data(
-            counts=counts, num_qubits=num_qubits, inverted=False
+            counts=counts, qubit_shape=qubit_shape, inverted=False
         )
 
         # undo padding

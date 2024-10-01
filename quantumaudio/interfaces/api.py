@@ -150,7 +150,7 @@ def _fetch_kwargs(instance, kwargs):
     num_channels = pick_key(kwargs, instance, key="num_channels")
     if num_channels:
         scheme_kwargs["num_channels"] = num_channels
-    num_qubits = pick_key(kwargs, instance, key="num_qubits")
-    if num_qubits and "qsm" in scheme:
-        scheme_kwargs["qubit_depth"] = num_qubits[-1]
+    qubit_shape = pick_key(kwargs, instance, key="qubit_shape")
+    if qubit_shape and "qsm" in scheme:
+        scheme_kwargs["qubit_depth"] = qubit_shape[-1]
     return scheme, scheme_kwargs, kwargs

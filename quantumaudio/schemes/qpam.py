@@ -95,12 +95,12 @@ class QPAM(Scheme):
         ), "Multi-channel not supported in QPAM"
         num_value_qubits = self.qubit_depth
 
-        num_qubits = (num_index_qubits, num_value_qubits)
+        qubit_shape = (num_index_qubits, num_value_qubits)
 
         # print
         if verbose:
-            utils.print_num_qubits(num_qubits, labels=self.labels)
-        return num_samples, num_qubits
+            utils.print_num_qubits(qubit_shape, labels=self.labels)
+        return num_samples, qubit_shape
 
     def prepare_data(
         self, data: np.ndarray, num_index_qubits: int
