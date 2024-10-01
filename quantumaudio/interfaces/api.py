@@ -35,7 +35,7 @@ def decode(circuit, **kwargs):
 
 # ------------------- Tool Function ---------------------------
 
-def stream(data, scheme, **kwargs):
+def stream(data, scheme="qpam", **kwargs):
     """Streams data through a quantum encoding scheme for longer arrays.
 
     Args:
