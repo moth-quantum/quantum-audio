@@ -186,7 +186,6 @@ def _fetch_kwargs(
     scheme = kwargs.pop("scheme", None)
     if scheme and isinstance(scheme, quantumaudio.schemes.Scheme):
         return scheme, {}, kwargs
-
     scheme = pick_key(kwargs, instance, key="scheme")
     scheme_kwargs = {}
     num_channels = pick_key(kwargs, instance, key="num_channels")
