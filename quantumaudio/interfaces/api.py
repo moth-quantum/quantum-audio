@@ -6,7 +6,12 @@ from typing import Union
 
 # ------------------- Core Functions ---------------------------
 
-def encode(data: 'np.ndarray', scheme: Union[str, quantumaudio.schemes.Scheme] = "qpam", **kwargs):
+
+def encode(
+    data: "np.ndarray",
+    scheme: Union[str, quantumaudio.schemes.Scheme] = "qpam",
+    **kwargs,
+):
     """Encodes data using a specified quantum scheme.
 
     Args:
@@ -21,7 +26,7 @@ def encode(data: 'np.ndarray', scheme: Union[str, quantumaudio.schemes.Scheme] =
     return _load_scheme(scheme, **scheme_kwargs).encode(data, **kwargs)
 
 
-def decode(circuit: 'qiskit.QuantumCircuit', **kwargs):
+def decode(circuit: "qiskit.QuantumCircuit", **kwargs):
     """Decodes a quantum circuit using the scheme it was encoded with.
 
     Args:
@@ -34,9 +39,15 @@ def decode(circuit: 'qiskit.QuantumCircuit', **kwargs):
     scheme, scheme_kwargs, kwargs = _fetch_kwargs(circuit, kwargs)
     return _load_scheme(scheme, **scheme_kwargs).decode(circuit, **kwargs)
 
+
 # ------------------- Tool Function ---------------------------
 
-def stream(data: 'np.ndarray', scheme: Union[str, quantumaudio.schemes.Scheme] = "qpam", **kwargs):
+
+def stream(
+    data: "np.ndarray",
+    scheme: Union[str, quantumaudio.schemes.Scheme] = "qpam",
+    **kwargs,
+):
     """Streams data through a quantum encoding scheme for longer arrays.
 
     Args:
@@ -54,7 +65,12 @@ def stream(data: 'np.ndarray', scheme: Union[str, quantumaudio.schemes.Scheme] =
 
 # ------------------- Additional Functions ---------------------------
 
-def calculate(data: 'np.ndarray', scheme: Union[str, quantumaudio.schemes.Scheme] = "qpam", **kwargs):
+
+def calculate(
+    data: "np.ndarray",
+    scheme: Union[str, quantumaudio.schemes.Scheme] = "qpam",
+    **kwargs,
+):
     """Estimates and Prints the resources required (number of qubits) according to a scheme.
 
     Args:
@@ -64,7 +80,15 @@ def calculate(data: 'np.ndarray', scheme: Union[str, quantumaudio.schemes.Scheme
     """
     _load_scheme(scheme, **kwargs).calculate(data)
 
-def decode_result(result: Union['qiskit.result.Result','qiskit.primitives.PrimitiveResult','qiskit.primitives.SamplerPubResult'], **kwargs):
+
+def decode_result(
+    result: Union[
+        "qiskit.result.Result",
+        "qiskit.primitives.PrimitiveResult",
+        "qiskit.primitives.SamplerPubResult",
+    ],
+    **kwargs,
+):
     """Decodes a quantum result object.
 
     Args:
@@ -75,7 +99,9 @@ def decode_result(result: Union['qiskit.result.Result','qiskit.primitives.Primit
         Decoded data from the result object.
     """
     scheme, scheme_kwargs, kwargs = _fetch_kwargs(result, kwargs)
-    return _load_scheme(scheme, **scheme_kwargs).decode_result(result, **kwargs)
+    return _load_scheme(scheme, **scheme_kwargs).decode_result(
+        result, **kwargs
+    )
 
 
 def decode_counts(counts: dict, metadata: dict, **kwargs):
@@ -91,15 +117,20 @@ def decode_counts(counts: dict, metadata: dict, **kwargs):
     """
     kwargs["metadata"] = metadata
     scheme, scheme_kwargs, kwargs = _fetch_kwargs(counts, kwargs)
-    return _load_scheme(scheme, **scheme_kwargs).decode_counts(counts, **kwargs)
+    return _load_scheme(scheme, **scheme_kwargs).decode_counts(
+        counts, **kwargs
+    )
 
 
 # ------------------- API Helpers ---------------------------
 
 _cache = {}
 
-def _load_scheme(scheme: Union[str, quantumaudio.schemes.Scheme], **scheme_kwargs):
-    """Load a scheme with specified keyword arguments, caching the result to 
+
+def _load_scheme(
+    scheme: Union[str, quantumaudio.schemes.Scheme], **scheme_kwargs
+):
+    """Load a scheme with specified keyword arguments, caching the result to
     avoid repeated loading for the same parameters.
 
     Args:
@@ -111,11 +142,12 @@ def _load_scheme(scheme: Union[str, quantumaudio.schemes.Scheme], **scheme_kwarg
     """
     if isinstance(scheme, quantumaudio.schemes.Scheme):
         return scheme
-    
+
     cache_key = (scheme, frozenset(scheme_kwargs.items()))
     if cache_key not in _cache:
         _cache[cache_key] = load_scheme(scheme, **scheme_kwargs)
     return _cache[cache_key]
+
 
 def _split_kwargs(kwargs: dict):
     """Splits keyword arguments between scheme loading and encoding operations.
@@ -132,7 +164,16 @@ def _split_kwargs(kwargs: dict):
     }, kwargs
 
 
-def _fetch_kwargs(instance: Union['dict','qiskit.QuantumCircuit','qiskit.result.Result','qiskit.primitives.PrimitiveResult','qiskit.primitives.SamplerPubResult'], kwargs: dict):
+def _fetch_kwargs(
+    instance: Union[
+        "dict",
+        "qiskit.QuantumCircuit",
+        "qiskit.result.Result",
+        "qiskit.primitives.PrimitiveResult",
+        "qiskit.primitives.SamplerPubResult",
+    ],
+    kwargs: dict,
+):
     """Fetches scheme at decoding and splits keyword arguments accordingly.
 
     Args:
@@ -142,10 +183,10 @@ def _fetch_kwargs(instance: Union['dict','qiskit.QuantumCircuit','qiskit.result.
     Returns:
         Tuple of Scheme name, scheme-related keyword arguments, and remaining keyword arguments.
     """
-    scheme = kwargs.pop('scheme', None)
+    scheme = kwargs.pop("scheme", None)
     if scheme and isinstance(scheme, quantumaudio.schemes.Scheme):
         return scheme, {}, kwargs
-    
+
     scheme = pick_key(kwargs, instance, key="scheme")
     scheme_kwargs = {}
     num_channels = pick_key(kwargs, instance, key="num_channels")
