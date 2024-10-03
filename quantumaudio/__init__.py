@@ -103,14 +103,16 @@ _all_schemes = ["QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM"]
 _function_calls = ["encode", "decode", "stream", "calculate", "decode_result", "decode_counts"]
 
 __all__ = [
-    "load_scheme",
     "schemes",
     "utils",
     "tools",
+    "load_scheme",
     "encode",
     "decode",
     "stream",
     "calculate",
+    "decode_result",
+    "decode_counts",
     "QPAM",
     "SQPAM",
     "QSM",
