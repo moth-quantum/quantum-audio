@@ -1,7 +1,10 @@
 quantumaudio
 ============
 
-.. toctree::
-   :maxdepth: 4
+Module contents
+---------------
 
-   quantumaudio
+.. automodule:: quantumaudio
+   :members: encode, decode, stream, calculate, load_scheme
+   :undoc-members:
+   :show-inheritance:
