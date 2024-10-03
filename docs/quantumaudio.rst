@@ -1,10 +1,11 @@
 quantumaudio package
 ====================
 
-.. automodule:: quantumaudio
-   :members: load_scheme
-   :undoc-members:
-   :show-inheritance:
+Module contents
+---------------
+
+.. toctree::
+   :maxdepth: 4
 
 Subpackages
 -----------
@@ -13,4 +14,7 @@ Subpackages
    :maxdepth: 4
 
    quantumaudio.schemes
+   quantumaudio.tools
    quantumaudio.utils
+
+

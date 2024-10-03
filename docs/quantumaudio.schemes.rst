@@ -2,10 +2,17 @@ quantumaudio.schemes
 ====================
 
 .. automodule:: quantumaudio.schemes
-   :members: Scheme
    :undoc-members:
    :show-inheritance:
    :noindex: __all__, QSM, QPAM, MQSM, SQPAM, MSQPAM
+
+quantumaudio.schemes.Scheme
+-------------------------
+
+.. automodule:: quantumaudio.schemes.base_scheme
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 quantumaudio.schemes.qpam
 -------------------------
