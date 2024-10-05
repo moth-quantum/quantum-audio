@@ -33,6 +33,8 @@ quantumaudio.utils.data module
 quantumaudio.utils.execute module
 ---------------------------------
 
+.. _execute:
+
 .. automodule:: quantumaudio.utils.execute
    :members:
    :undoc-members:
