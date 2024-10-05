@@ -1,5 +1,5 @@
-quantumaudio.tools
-==================
+quantumaudio.tools module
+=========================
 
 .. automodule:: quantumaudio.tools
    :members: test_signal

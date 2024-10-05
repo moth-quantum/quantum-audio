@@ -1,5 +1,5 @@
-quantumaudio
-============
+quantumaudio module
+===================
 
 .. automodule:: quantumaudio
    :members: load_scheme, encode, decode, stream, calculate, decode_result, decode_counts

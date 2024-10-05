@@ -1,37 +1,37 @@
-quantumaudio.utils
-==================
+quantumaudio.utils module
+=========================
 
 .. automodule:: quantumaudio.utils
    :members:
    :undoc-members:
    :show-inheritance:
 
-quantumaudio.utils.circuit module
----------------------------------
+quantumaudio.utils.circuit
+--------------------------
 
 .. automodule:: quantumaudio.utils.circuit
    :members:
    :undoc-members:
    :show-inheritance:
 
-quantumaudio.utils.convert module
----------------------------------
+quantumaudio.utils.convert
+--------------------------
 
 .. automodule:: quantumaudio.utils.convert
    :members:
    :undoc-members:
    :show-inheritance:
 
-quantumaudio.utils.data module
-------------------------------
+quantumaudio.utils.data
+-----------------------
 
 .. automodule:: quantumaudio.utils.data
    :members:
    :undoc-members:
    :show-inheritance:
 
-quantumaudio.utils.execute module
----------------------------------
+quantumaudio.utils.execute
+--------------------------
 
 .. _execute:
 
@@ -40,16 +40,16 @@ quantumaudio.utils.execute module
    :undoc-members:
    :show-inheritance:
 
-quantumaudio.utils.preview module
----------------------------------
+quantumaudio.utils.preview
+--------------------------
 
 .. automodule:: quantumaudio.utils.preview
    :members:
    :undoc-members:
    :show-inheritance:
 
-quantumaudio.utils.results module
----------------------------------
+quantumaudio.utils.results
+--------------------------
 
 .. automodule:: quantumaudio.utils.results
    :members:

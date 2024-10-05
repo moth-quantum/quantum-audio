@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==========================================================================
 
-"""This subpackage contains the following utility modules that support the encoding and decoding schemes:
+"""This subpackage contains the following utility modules that support core operations of schemes:
 
 - **circuit.py**: Helper functions for quantum audio circuit preparations with Qiskit.
 - **convert.py**: Data pre-processing functions required for encoding values into the quantum circuit.

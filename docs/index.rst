@@ -1,11 +1,30 @@
+Quantum Audio
+=============
+.. include:: readme.rst
+
 Quantum Audio Documentation
 ===========================
+.. toctree::
+   :maxdepth: 1
+   :caption: Quantum Audio
+
+   quantumaudio
 
 .. toctree::
-   :maxdepth: 4
-   :caption: Contents:
+   :maxdepth: 2
+   :caption: Schemes
 
-   modules
+   schemes
    quantumaudio.schemes
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Utilities
+
    quantumaudio.utils
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Tools
+
    quantumaudio.tools

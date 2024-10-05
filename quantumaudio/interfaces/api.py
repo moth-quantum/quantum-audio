@@ -12,7 +12,7 @@ def encode(
     scheme: Union[str, quantumaudio.schemes.Scheme] = "qpam",
     **kwargs,
 ):
-    """Encodes data using a specified quantum scheme.
+    """Encodes data and prepares circuit using a specified quantum scheme.
 
     Args:
         data: The data to encode.
@@ -20,7 +20,7 @@ def encode(
         **kwargs: Additional keyword arguments passed required for encoding method and scheme initialisation.
 
     Returns:
-        Encoded data according to the provided scheme.
+        Qiskit circuit encoding the data.
     """
     scheme_kwargs, kwargs = _split_kwargs(kwargs)
     return _load_scheme(scheme, **scheme_kwargs).encode(data, **kwargs)
@@ -89,7 +89,7 @@ def decode_result(
     ],
     **kwargs,
 ):
-    """Decodes a quantum result object.
+    """Decodes a quantum result object using the scheme it was encoded with.
 
     Args:
         result: Qiskit result object to decode.
