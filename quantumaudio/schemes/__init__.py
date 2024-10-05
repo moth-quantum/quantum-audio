@@ -13,55 +13,103 @@
 # limitations under the License.
 # ==========================================================================
 
-"""This subpackage contains different schemes. The common information for using any scheme is detailed below.
+"""A **Scheme** denotes one of the **Quantum Audio Representation Methods**. 
+This subpackage provides different schemes. The common information
+for using any scheme is detailed below.
 
-A scheme denotes one of the Quantum Audio Representation Methods. The core functions of a scheme are encoding and decoding.
+===========
+Basic Usage
+===========
 
-- **Encoding**: Takes in a digital audio array, performs necessary pre-processing, and prepares a quantum circuit. The quantum circuit can be used to create a state that represents the original digital audio.
+The core functions of a scheme are encoding and decoding.
 
-- **Decoding**: Takes in the quantum circuit measurements, performs necessary post-processing, and reconstructs the original digital audio.
+- `Encoding`: Takes in a digital audio array, performs necessary pre-processing, 
+  and prepares a quantum circuit. The quantum circuit can be used to create a state
+  that represents the original digital audio. 
 
-The simplest form of interaction with a scheme object is to use the `scheme.encode()` and `scheme.decode()` methods. This interaction is mandated by the base abstract class `quantumaudio.scheme.Scheme`.
+- `Decoding`: Takes in the quantum circuit measurements, performs necessary 
+  post-processing, and reconstructs the original digital audio.
 
-However, these operations can involve several stages that can be manually used for research and debugging purposes. The stages of schemes implemented in the package are listed below:
+The simplest form of interaction with a `Scheme` object is to use the 
+``encode()`` and ``decode()`` methods, as indicated by the base class
+:ref:`quantumaudio.scheme.Scheme <base-scheme>`.
 
-- **Calculate**: Calculates the necessary number of qubits for each quantum register with respect to the data shape, type of scheme, and any user-defined values valid for some schemes.
+==============
+Detailed Steps
+==============
 
-- **Data Pre-Processing**:
+The Encoding and Decoding operations of a scheme can involve several stages
+that can be manually used for research and debugging purposes. The stages 
+of schemes implemented in the package are listed below.
 
-    - **Prepare Data**: Prepares the data by padding and reshaping.
+Encoding
+========
 
-    - **Convert**: Converts the data to values suitable for encoding.
+- **Analysis**
 
-- **Circuit Preparation**:
+    - `Calculate`: Calculates the necessary number of qubits for each quantum register
+      with respect to the data shape, type of scheme, and any user-defined values valid
+      for some schemes. (``calculate()``)
 
-    - **Initialize Circuit**: Initializes the circuit with the calculated number of qubits for each quantum register representing a different aspect of the audio data (e.g., time register, value register, channel register, etc.).
+- **Data Pre-Processing**
+    - `Prepare Data`: Prepares the data dimension by padding and reshaping. 
+      For multi-channel schemes, it also handles the arrangement of samples. (``prepare_data()``)
+    - `Convert`: Converts the data to values suitable for encoding. (``convert()``)
 
-    - **Value Setting**: Encodes or sets the converted values to the circuit.
+- **Circuit Preparation**
+    - `Initialize Circuit`: Initializes the circuit with the calculated 
+      number of qubits for each quantum register representing a different 
+      aspect of the audio data (i.e. time, value and channel). (``initialize_circuit()``)
+    - `Value Setting`: Encodes or sets the converted values to the circuit. (``value_setting()``)
+    
+- **Adding Metadata**
+    - To keep encode and decode functions independent, key information lost during encoding 
+      (e.g., original sample length) is preserved as a Python Dictionary. This can be manually attached to
+      `Qiskit` circuit's ``.metadata`` attribute or passed separately as argument ``metadata=`` in a decode function.
 
-    - **Add Metadata**: To keep encode and decode functions independent, key information lost during encoding (e.g., original sample length) can be preserved by manually attaching them as a dictionary to Qiskit's `circuit.metadata`. This is done by default in the `scheme.encode()` method.
+Intermediate
+============
 
-    - **Measure (Optional)**: Adds appropriate classical registers for measurement.
+- **Measure**
+    - Add appropriate classical registers to the encoded circuit for measurement.
+      This can be implemented with a scheme's ``measure()`` method or simply with 
+      `Qiskit` circuit's ``measure_all()`` attribute. 
+    - By default, ``encode()`` method returns measured circuit unless specified ``measure=False`` when calling it. 
 
-- **Encode**: Combines all the above steps.
+- **Execute**
+    - The measured and encoded circuit can be executed externally with any provider.
+    - By default, the ``decode()`` method executes with IBM's `AerSimulator` by calling :ref:`quantumaudio.utils.execute <execute>` method.  
+    
 
-- **Execute (Optional)**: The circuit can be executed externally with any provider or internally using Qiskit's `execute` method, included in the `scheme.decode()` method, which uses the Aer simulator by default.
+Decoding
+========
 
-- **Decoding Stages**:
+- **Decoding Stages**
+    1. `Decode Components`: Extracts required components directly from 
+       the counts (i.e., a dictionary with the outcome of measurements performed on the quantum circuit).
+       (``decode_components()``)
 
-    1. **Decode Components**: Extracts required components directly from the counts (i.e., a dictionary with the outcome of measurements performed on the quantum circuit).
+    2. `Undo Conversion`: Undoes the data conversion done during encoding. 
+       This can be done using the ``restore()`` method. (It performs the inverse of ``convert()`` method)
 
-    2. **Undo Conversion**: Undoes the data conversion done during encoding. This can be done using the `scheme.restore()` method.
+    3. `Undo Preparation`: Undoes the data preparation, such as padding, done 
+       during encoding. This can be done manually using NumPy slicing and reshape methods.
+       For multi-channel schemes, the arrangement of samples must also be restored.
 
-    3. **Undo Preparation**: Undoes the data preparation, such as padding, done during encoding. This can be done manually using NumPy slicing and reshape methods.
+- **Reconstruct Data**
+    - Takes in a counts dictionary for decoding, combining Decoding Stages 1 and 2.
 
-- **Reconstruct Data**: Takes in a counts dictionary for decoding, combining Decoding Stages 1 and 2.
+- **Decode Counts** 
+    - Takes in a counts dictionary for decoding, combining Decoding Stages 1 and 2. 
+      Additionally, it requires metadata, to restore the original dimensions of data.
 
-- **Decode Counts**: Takes in a counts dictionary for decoding, combining Decoding Stages 1 and 2. Additionally, It accepts metadata, to restore the original dimensions of data.
+- **Decode Result**
+    - Takes in a Qiskit `result` object for decoding, combining Decoding Stages 1, 2, and 3. 
+      It considers additional metadata, such as the original sample length, to undo the padding done at the data preparation stage.
 
-- **Decode Result**: Takes in a Qiskit `result` object for decoding, combining Decoding Stages 1, 2, and 3. It considers additional metadata, such as the original sample length, to undo the padding done at the data preparation stage.
-
-- **Decode**: Takes in a Qiskit `circuit` object for decoding, performs measurement (if needed), and default execution, followed by all stages of decoding.
+- **Decode**
+    - Takes in a Qiskit `circuit` object for decoding, performs measurement (if needed), and 
+      default execution, followed by all stages of decoding.
 """
 
 import importlib
