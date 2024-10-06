@@ -1,5 +1,10 @@
-quantumaudio.schemes module
-===========================
+quantumaudio.schemes
+====================
+
+.. _schemes:
+
+.. automodule:: quantumaudio.schemes
+   :undoc-members:
 
 quantumaudio.schemes.Scheme
 ---------------------------

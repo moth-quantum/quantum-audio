@@ -1,10 +1,9 @@
-quantumaudio.tools module
-=========================
+quantumaudio.tools
+==================
 
 .. automodule:: quantumaudio.tools
    :members: test_signal
-   :undoc-members:
-   :show-inheritance:
+   :no-index:
 
 quantumaudio.tools.plot module
 ------------------------------

@@ -1,10 +1,10 @@
-quantumaudio.utils module
-=========================
+quantumaudio.utils
+==================
+
+.. _utils:
 
 .. automodule:: quantumaudio.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   :no-index:
 
 quantumaudio.utils.circuit
 --------------------------
