@@ -35,7 +35,6 @@ if parse(_current_version) < parse(_minimum_version):
 
 # --------------------------- Lazy Loader ---------------------------
 
-
 def load_scheme(name, *args, **kwargs):
     """
     Load and instantiate a quantum audio representation (or scheme) class from a string.
@@ -52,7 +51,7 @@ def load_scheme(name, *args, **kwargs):
               of channels to represent.
 
     Returns:
-        quantumaudio.schemes.Scheme:
+        :ref:`quantumaudio.scheme.Scheme <base-scheme>`:
             An instance of the Quantum Audio Scheme.
     """
     try:
