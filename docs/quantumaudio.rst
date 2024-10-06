@@ -7,7 +7,8 @@ quantumaudio
 Using Schemes
 -------------
 
-Schemes can be directly accessed from :ref:`quantumaudio.schemes <schemes>` or by using the `load_scheme` method.
+Schemes can be directly accessed from :ref:`quantumaudio.schemes <schemes>` or by using the 
+``load_scheme`` method.
 
 .. autofunction:: quantumaudio.load_scheme
 

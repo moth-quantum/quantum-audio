@@ -1,22 +1,15 @@
 quantumaudio.tools
 ==================
 
+.. _tools:
+
 .. automodule:: quantumaudio.tools
-   :members: test_signal
-   :no-index:
+   :no-members:
 
-quantumaudio.tools.plot module
-------------------------------
+Contents
+--------
 
-.. automodule:: quantumaudio.tools.plot
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. toctree::
+   :maxdepth: 4
 
-quantumaudio.tools.stream module
---------------------------------
-
-.. automodule:: quantumaudio.tools.stream
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   quantumaudio.tools_modules

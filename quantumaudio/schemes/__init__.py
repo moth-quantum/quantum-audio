@@ -17,7 +17,6 @@
 This subpackage provides different schemes. The common information
 for using any scheme is detailed below.
 
-===========
 Basic Usage
 ===========
 
@@ -34,7 +33,6 @@ The simplest form of interaction with a `Scheme` object is to use the
 ``encode()`` and ``decode()`` methods, as indicated by the base class
 :ref:`quantumaudio.scheme.Scheme <base-scheme>`.
 
-==============
 Detailed Steps
 ==============
 
@@ -43,7 +41,7 @@ that can be manually used for research and debugging purposes. The stages
 of schemes implemented in the package are listed below.
 
 Encoding
-========
+--------
 
 - **Analysis**
 
@@ -68,7 +66,7 @@ Encoding
       `Qiskit` circuit's ``.metadata`` attribute or passed separately as argument ``metadata=`` in a decode function.
 
 Intermediate
-============
+------------
 
 - **Measure**
     - Add appropriate classical registers to the encoded circuit for measurement.
@@ -82,7 +80,7 @@ Intermediate
     
 
 Decoding
-========
+--------
 
 - **Decoding Stages**
     1. `Decode Components`: Extracts required components directly from 
@@ -94,22 +92,23 @@ Decoding
 
     3. `Undo Preparation`: Undoes the data preparation, such as padding, done 
        during encoding. This can be done manually using NumPy slicing and reshape methods.
-       For multi-channel schemes, the arrangement of samples must also be restored.
+       For multi-channel schemes, the arrangement of samples is also restored.
 
 - **Reconstruct Data**
-    - Takes in a counts dictionary for decoding, combining Decoding Stages 1 and 2.
+    - Takes in a counts dictionary for decoding, combining Decoding Stages 1 and 2. (``reconstruct_data()``)
 
 - **Decode Counts** 
-    - Takes in a counts dictionary for decoding, combining Decoding Stages 1 and 2. 
-      Additionally, it requires metadata, to restore the original dimensions of data.
+    - Takes in a counts dictionary for decoding, combining Decoding Stages 1, 2, and 3. 
+      It requires metadata to restore the original dimensions of data. (``decode_counts()``)
 
 - **Decode Result**
     - Takes in a Qiskit `result` object for decoding, combining Decoding Stages 1, 2, and 3. 
       It considers additional metadata, such as the original sample length, to undo the padding done at the data preparation stage.
+      (``decode_result()``)
 
 - **Decode**
     - Takes in a Qiskit `circuit` object for decoding, performs measurement (if needed), and 
-      default execution, followed by all stages of decoding.
+      default execution, followed by all stages of decoding. (``decode()``)
 """
 
 import importlib
