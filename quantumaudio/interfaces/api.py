@@ -13,8 +13,8 @@
 # limitations under the License.
 # ==========================================================================
 
-"""This module provides easy access to some of the core functions without explicitly
-instantiating a Scheme class.
+"""The `quantumaudio.interfaces.api` module provides easy access to some of the core functions 
+without explicitly instantiating a Scheme class. They are directly accessible from `quantumaudio`.
 """
 
 import quantumaudio
