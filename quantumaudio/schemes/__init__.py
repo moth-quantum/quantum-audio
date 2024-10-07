@@ -117,8 +117,7 @@ Decoding
 """
 
 import importlib
-from .base_scheme import Scheme
-
+from .base_scheme import Scheme #holds the type `quantumaudio.schemes.Scheme`
 
 def __getattr__(name):
     """Dynamically load and instantiate a scheme class."""

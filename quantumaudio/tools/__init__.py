@@ -45,7 +45,7 @@ def test_signal(
         seed: The seed for the random number generator. Defaults to 42.
 
     Returns:
-        A numpy array of simulated data.
+        A `numpy` array of simulated data.
     """
     if seed:
         np.random.seed(seed)

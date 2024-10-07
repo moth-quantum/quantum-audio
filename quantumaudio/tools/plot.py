@@ -69,7 +69,7 @@ def plot(
     """Plots the given samples. It accepts multi-dimensional array and also multiple plots for comparisons.
 
     Args:
-        samples: The samples to plot. Can be a single numpy array or a list of numpy arrays.
+        samples: The samples to plot. Can be a single `numpy` array or a list of `numpy` arrays.
         title: Title for the plot. Defaults to None.
         label: Labels for the samples. Defaults to ("original", "reconstructed").
         figsize: Set the width and height for matplotlib plot
