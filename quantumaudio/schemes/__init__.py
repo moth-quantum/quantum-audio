@@ -13,7 +13,12 @@
 # limitations under the License.
 # ==========================================================================
 
-"""A **Scheme** denotes one of the **Quantum Audio Representation Methods**. 
+"""
+========
+Overview
+========
+
+A **Scheme** denotes one of the **Quantum Audio Representation Methods**. 
 This subpackage provides different schemes. The common information
 for using any scheme is detailed below.
 

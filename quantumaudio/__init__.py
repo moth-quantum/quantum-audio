@@ -35,12 +35,12 @@ if parse(_current_version) < parse(_minimum_version):
 
 # --------------------------- Lazy Loader ---------------------------
 
-def load_scheme(name, *args, **kwargs):
+def load_scheme(name: str, *args, **kwargs):
     """
     Load and instantiate a quantum audio representation (or scheme) class from a string.
 
     Args:
-        name (str): The name of the scheme to load. It can be one of the following:
+        name: The name of the scheme to load. It can be one of the following:
             `qpam`, `sqpam`, `qsm`, `msqpam`, or `mqsm`.
         *args: Optional positional arguments to pass to the scheme class.
         **kwargs: Optional keyword arguments to pass to the scheme class such as:

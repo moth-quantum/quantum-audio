@@ -13,10 +13,15 @@
 # limitations under the License.
 # ==========================================================================
 
-"""This subpackage contains the following tools that extends the functionality of core package:
+"""
+========
+Overview
+========
 
-- **plot.py**: Functions to plot and compare signals with any number of channels.
-- **stream.py**: Functions to efficiently process long arrays as chunks.
+This subpackage contains the following tools that extends the functionality of core package:
+
+- **plot**: Functions to plot and compare signals with any number of channels.
+- **stream**: Functions to efficiently process long arrays as chunks.
 """
 
 from .stream import stream_data
