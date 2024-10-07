@@ -108,7 +108,7 @@ Decoding
 
 - **Decode Result**
     - Takes in a Qiskit `result` object for decoding, combining Decoding Stages 1, 2, and 3.
-      It considers additional metadata, such as the original sample length, to undo the padding done at the data preparation stage.
+      It automatically gets additional metadata, such as the original sample length, to undo the padding done at the data preparation stage.
       (``decode_result()``)
 
 - **Decode**

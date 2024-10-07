@@ -52,7 +52,7 @@ def load_scheme(name: str, *args, **kwargs):
               of channels to represent.
 
     Returns:
-        :ref:`quantumaudio.scheme.Scheme <base-scheme>`:
+        :ref:`quantumaudio.schemes.Scheme <base-scheme>`:
             An instance of the Quantum Audio Scheme.
     """
     try:

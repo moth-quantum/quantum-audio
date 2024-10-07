@@ -377,8 +377,9 @@ class MSQPAM(Scheme):
                 metadata: metadata required for decoding.
                 inverted : retrieves cosine components of the signal.
                 keep_padding: Undo the padding set at Encoding stage if set to False.
-                              Dimension 0: for channels
-                              Dimension 1: for time
+                
+                  - Dimension 0 for Channels.
+                  - Dimension 1 for Time.
 
         Return:
                 Array of restored values with original dimensions
@@ -427,8 +428,9 @@ class MSQPAM(Scheme):
                 metadata: optionally pass metadata as argument.
                 inverted : retrieves cosine components of the signal.
                 keep_padding: Undo the padding set at Encoding stage if set to False.
-                              Dimension 0: for channels
-                              Dimension 1: for time
+                
+                  - Dimension 0 for Channels.
+                  - Dimension 1 for Time.
 
         Return:
                 Array of restored values with original dimensions
@@ -463,8 +465,9 @@ class MSQPAM(Scheme):
                 metadata: optionally pass metadata as argument.
                 inverted: retrieves cosine components of the signal.
                 keep_padding: Undo the padding set at Encoding stage if set to False.
-                              Dimension 0: for channels
-                              Dimension 1: for time
+                
+                  - Dimension 0 for Channels.
+                  - Dimension 1 for Time.
                 execute_function: Function to execute the circuit for decoding.
         Return:
                 Array of decoded values
