@@ -358,10 +358,10 @@ class QPAM(Scheme):
         self.measure(circuit)
         result = execute_function(circuit=circuit, **kwargs)
         data = self.decode_result(
-            result=result, 
+            result=result,
             metadata=metadata,
             shots=kwargs.get("shots"),
-            norm=norm, 
+            norm=norm,
             keep_padding=keep_padding
         )
         return data

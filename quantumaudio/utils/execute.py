@@ -17,7 +17,7 @@ _default_backend = qiskit_aer.AerSimulator()
 
 
 def execute(
-    circuit: 'qiskit.QuantumCircuit', shots: int = 4000, backend: Any = None, keep_memory: bool = False, optimization_level: int = 3
+    circuit: "qiskit.QuantumCircuit", shots: int = 4000, backend: Any = None, keep_memory: bool = False, optimization_level: int = 3
 ):
     """
     Executes a quantum circuit on a given backend and return the results.
@@ -50,7 +50,7 @@ def execute(
 
 
 def execute_with_sampler(
-    circuit: 'qiskit.QuantumCircuit', backend: Any = None, shots: int = 4000, optimization_level: int = 3
+    circuit: "qiskit.QuantumCircuit", backend: Any = None, shots: int = 4000, optimization_level: int = 3
 ):
     """
     Executes a quantum circuit on a given backend using `Sampler Primitive` and return the results.

@@ -52,7 +52,7 @@ def get_chunks(
     for i in range(0, data.shape[-1], chunk_size):
         chunk = data[:, i : i + chunk_size]
         y_chunks.append(chunk)
-    
+
     if verbose:
         print(
             f"Num samples: {data.shape[-1]}, Num channels: {data.shape[0]}, Buffer size: {chunk_size}"
@@ -124,7 +124,7 @@ def combine_chunks(chunks: list[np.ndarray]) -> np.ndarray:
 
 def stream_data(
     data: np.ndarray,
-    scheme: Any = 'qpam',
+    scheme: Any = "qpam",
     chunk_size: int = 64,
     process_function: Callable[[np.ndarray, Any, dict], list] = process,
     batch_process: bool = False,
