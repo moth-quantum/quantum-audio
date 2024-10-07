@@ -68,13 +68,13 @@ def process(
 ) -> np.ndarray:
     """Process a chunk of data according to a specified scheme.
 
-    Parameters:
-    chunk: Data chunk to be processed.
-    scheme: Processing scheme.
-    shots: Number of shots.
+    Args:
+        chunk: Data chunk to be processed.
+        scheme: Processing scheme.
+        shots: Number of shots.
 
     Returns:
-    None
+        None
     """
     chunk = scheme.decode(
         scheme.encode(chunk, verbose=0), backend=backend, shots=shots
@@ -92,14 +92,14 @@ def process_chunks(
 ) -> list:
     """Process chunks of data in an iteration according to a specified scheme.
 
-    Parameters:
-    chunks: Data chunks to be processed.
-    scheme: Processing scheme.
-    process_function: Function to process each chunk (default is 'process').
-    verbose: If True, enables verbose logging. Defaults to False.
+    Args:
+        chunks: Data chunks to be processed.
+        scheme: Processing scheme.
+        process_function: Function to process each chunk (default is 'process').
+        verbose: If True, enables verbose logging. Defaults to False.
 
     Returns:
-    None
+        None
     """
     processed_chunks = []
     if not batch_process:  # process one by one
@@ -114,11 +114,11 @@ def process_chunks(
 def combine_chunks(chunks: list[np.ndarray]) -> np.ndarray:
     """Combine a list of NumPy arrays along a specified axis.
 
-    Parameters:
-    chunks: A list of NumPy arrays to be combined.
+    Args:
+        chunks: A list of NumPy arrays to be combined.
 
     Returns:
-    np.ndarray
+        np.ndarray
     """
     if chunks[0].ndim != 1:
         output = np.concatenate(chunks, axis=1)

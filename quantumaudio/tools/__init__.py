@@ -37,8 +37,8 @@ def test_signal(
     num_samples: int = 8, num_channels: int = 1, seed: Optional[int] = None
 ) -> np.ndarray:
     """Simulates sythetic data for quick testing and plots. Typically, Audio data
-       contains several thousands of samples per second which is difficult to
-       visualise as circuit and plot"
+    contains several thousands of samples per second which is difficult to
+    visualise as circuit and plot.
 
     Args:
         num_channels: The number of channels for each sample. Defaults to 1.
