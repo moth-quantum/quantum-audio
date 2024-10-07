@@ -17,7 +17,7 @@ _default_backend = qiskit_aer.AerSimulator()
 
 
 def execute(
-    circuit, shots=4000, backend=None, keep_memory=False, optimization_level=3
+    circuit: 'qiskit.QuantumCircuit', shots: int = 4000, backend: Any = None, keep_memory: bool = False, optimization_level: int = 3
 ):
     """
     Executes a quantum circuit on a given backend and return the results.
@@ -26,7 +26,8 @@ def execute(
         circuit: The quantum circuit to be executed.
         backend: The backend on which to run the circuit. If None, the default backend `qiskit_aer.AerSimulator()` is used.
         shots: Total number of times the quantum circuit is measured.
-        memory: Whether to return the memory (quantum state) of each shot.
+        keep_memory: Whether to return the memory (quantum state) of each shot.
+        optimization_level: Optimization level for transpiling the circuit.
 
     Returns:
         Result: The result of the execution, containing the counts and other metadata.
@@ -49,8 +50,20 @@ def execute(
 
 
 def execute_with_sampler(
-    circuit, backend=None, shots=4000, optimization_level=3
+    circuit: 'qiskit.QuantumCircuit', backend: Any = None, shots: int = 4000, optimization_level: int = 3
 ):
+    """
+    Executes a quantum circuit on a given backend using `Sampler Primitive` and return the results.
+
+    Args:
+        circuit: The quantum circuit to be executed.
+        backend: The backend on which to run the circuit. If None, the default backend `qiskit_aer.AerSimulator()` is used.
+        shots: Total number of times the quantum circuit is measured.
+        optimization_level: Optimization level for transpiling the circuit.
+
+    Returns:
+        Result: The result of the execution, containing the counts and other metadata.
+    """
     assert _Sampler, "IBM runtime is not installed to use Sampler. It can be installed using `pip install qiskit-ibm-runtime`"
     if not isinstance(circuit, list):
         circuit = [circuit]

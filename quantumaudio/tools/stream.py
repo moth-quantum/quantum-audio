@@ -139,8 +139,9 @@ def stream_data(
         chunk_size: The size of each chunk. Defaults to 64.
         process_function: Function to process each chunk (default is 'process').
         verbose: If True, enables verbose logging. Defaults to 2.
-                 < 1 shows progress bar
-                 < 2 shows additional information such as buffer size and number of qubits.
+
+              - >1: Shows progress bar.
+              - >2: Shows additional information such as buffer size and number of qubits.
 
     Returns:
         np.ndarray
