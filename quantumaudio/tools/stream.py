@@ -19,7 +19,7 @@ import numpy as np
 from tqdm import tqdm
 
 # ======================
-# Buffering Utils
+# Buffering Functions
 # ======================
 
 
