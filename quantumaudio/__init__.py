@@ -51,6 +51,8 @@ def load_scheme(name: str, *args, **kwargs):
             - ``num_channels`` (int): For `msqpam` and `mqsm` to manually set the number
               of channels to represent.
 
+            By default, these values are set to `None`, which means they adapt flexibly to the input data.
+
     Returns:
         :ref:`quantumaudio.schemes.Scheme <base-scheme>`:
             An instance of the Quantum Audio Scheme.
