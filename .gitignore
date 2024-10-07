@@ -6,3 +6,4 @@ media/*
 !media/audio_example.mp3
 !docs/_build/singlehtml/
 docs/*
+!docs/*.rst

@@ -13,12 +13,12 @@
 # limitations under the License.
 # ==========================================================================
 
-"""This subpackage contains the following utility modules that support core operations of schemes:
+"""This subpackage contains the following utility modules that support the core operations of schemes:
 
-- **circuit.py**: Helper functions for quantum audio circuit preparations with Qiskit.
+- **circuit.py**: Helper functions for quantum audio circuit preparations with `Qiskit`.
 - **convert.py**: Data pre-processing functions required for encoding values into the quantum circuit.
 - **data.py**: Data preparation and calculation functions.
-- **execute.py**: Helper Functions for executing circuits. Uses AerSimulator as Default backend.
+- **execute.py**: Helper Functions for executing circuits. Uses `AerSimulator` as Default backend.
 - **preview.py**: Functions to draw and print information of a circuit.
 - **results.py**: Common helper functions for obtaining circuit results.
 """
