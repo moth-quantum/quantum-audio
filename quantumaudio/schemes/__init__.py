@@ -69,6 +69,7 @@ Encoding
     - To keep encode and decode functions independent, key information lost during encoding
       (e.g., original sample length) is preserved as a Python Dictionary. This can be manually attached to
       `Qiskit` circuit's ``.metadata`` attribute or passed separately as argument ``metadata=`` in a decode function.
+    - The list of metadata keys essential to any specific scheme can be accessed from the scheme's ``.keys`` attribute.
 
 Intermediate
 ------------
