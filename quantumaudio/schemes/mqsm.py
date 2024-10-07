@@ -62,7 +62,7 @@ class MQSM(Scheme):
                           of input at Encoding.
             restore:      Function that restores the conversion at Decoding.
             
-            keys:         Essential metadata keys required for decoding.
+            keys:         Reference to essential metadata keys for decoding.
 
         Args:
             qubit_depth:  If None, the qubit_depth is adapted to the data.

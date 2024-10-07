@@ -52,7 +52,7 @@ class QPAM(Scheme):
             convert:      Function that applies a mathematical conversion of input at Encoding.
             restore:      Function that restores the conversion at Decoding.
 
-            keys:         Essential metadata keys required for decoding.
+            keys:         Reference to essential metadata keys for decoding.
         """
         self.name = "Quantum Probability Amplitude Modulation"
         self.qubit_depth = 0
