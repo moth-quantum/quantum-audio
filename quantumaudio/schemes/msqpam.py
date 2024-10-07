@@ -56,6 +56,8 @@ class MSQPAM(Scheme):
             convert:      Function that applies a mathematical conversion
                           of input at Encoding.
             restore:      Function that restores the conversion at Decoding.
+            
+            keys:         Essential metadata keys required for decoding.
 
         Args:
             num_channels: If None, the num_channels is adapted to the data.
@@ -77,6 +79,7 @@ class MSQPAM(Scheme):
         self.convert = utils.convert_to_angles
         self.restore = utils.convert_from_angles
 
+        self.keys = ("num_samples", "num_channels", "qubit_shape")
         print(self.name)
 
     # ------------------- Encoding Helpers ---------------------------

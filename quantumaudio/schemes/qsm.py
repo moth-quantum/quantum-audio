@@ -52,6 +52,8 @@ class QSM(Scheme):
             convert:      Function that applies a mathematical conversion
                           of input at Encoding.
             restore:      Function that restores the conversion at Decoding.
+            
+            keys:         Essential metadata keys required for decoding.
 
         Args:
             qubit_depth:  If None, the qubit_depth is adapted to the data.
@@ -68,6 +70,8 @@ class QSM(Scheme):
 
         self.convert = utils.quantize
         self.restore = utils.de_quantize
+
+        self.keys = ("num_samples", "qubit_shape")
         print(self.name)
 
     # ------------------- Encoding Helpers ---------------------------

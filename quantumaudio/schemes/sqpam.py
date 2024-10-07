@@ -50,6 +50,8 @@ class SQPAM(Scheme):
 
             convert:      Function that applies a mathematical conversion of input at Encoding.
             restore:      Function that restores the conversion at Decoding.
+            
+            keys:         Essential metadata keys required for decoding.
         """
         self.name = "Single-Qubit Probability Amplitude Modulation"
         self.qubit_depth = 1
@@ -60,6 +62,8 @@ class SQPAM(Scheme):
 
         self.convert = utils.convert_to_angles
         self.restore = utils.convert_from_angles
+
+        self.keys = ("num_samples", "qubit_shape")
         print(self.name)
 
     # ------------------- Encoding Helpers ---------------------------
