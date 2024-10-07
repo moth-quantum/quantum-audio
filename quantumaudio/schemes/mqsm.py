@@ -366,9 +366,9 @@ class MQSM(Scheme):
                 counts: a qiskit Counts object or Dictionary obtained from a job result.
                 metadata:  metadata required for decoding.
                 keep_padding: Undo the padding set at Encoding stage if set to False.
-                
+
                   - Dimension 0 for Channels.
-                  - Dimension 1 for Time.        
+                  - Dimension 1 for Time.
 
         Return:
                 Array of restored values with original dimensions
@@ -418,7 +418,7 @@ class MQSM(Scheme):
                         with metadata that was held by the original circuit.
                 metadata: optionally pass metadata as argument.
                 keep_padding: Undo the padding set at Encoding stage if set to False.
-                
+
                   - Dimension 0 for Channels.
                   - Dimension 1 for Time.
 

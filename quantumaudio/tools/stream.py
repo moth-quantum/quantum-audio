@@ -148,7 +148,7 @@ def stream_data(
 
               - >1: Shows progress bar.
               - >2: Shows additional information such as buffer size and number of qubits.
-        
+
     Returns:
         np.ndarray
     """
