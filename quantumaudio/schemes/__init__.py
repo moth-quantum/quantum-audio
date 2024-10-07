@@ -96,7 +96,7 @@ Decoding
        This can be done using the ``restore()`` method. (It performs the inverse of ``convert()`` method)
 
     3. `Undo Preparation`: Undoes the data preparation, such as padding, done
-       during encoding. This can be done manually using NumPy slicing and reshape methods.
+       during encoding. This can be done manually using `numpy` slicing and reshape methods.
        For multi-channel schemes, the arrangement of samples is also restored.
 
 - **Reconstruct Data**

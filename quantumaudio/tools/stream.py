@@ -29,7 +29,7 @@ def get_chunks(
     verbose: bool = False,
 ) -> None:
     """
-    Splits a NumPy array into smaller chunks of specified size.
+    Splits a `numpy` array into smaller chunks of specified size.
 
     This function takes a long array and divides it into smaller chunks,
     which can be useful for processing large datasets in manageable pieces.
@@ -112,10 +112,10 @@ def process_chunks(
 
 
 def combine_chunks(chunks: list[np.ndarray]) -> np.ndarray:
-    """Combine a list of NumPy arrays along a specified axis.
+    """Combine a list of `numpy` arrays along a specified axis.
 
     Args:
-        chunks: A list of NumPy arrays to be combined.
+        chunks: A list of `numpy` arrays to be combined.
 
     Returns:
         np.ndarray
