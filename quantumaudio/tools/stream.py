@@ -143,11 +143,12 @@ def stream_data(
         scheme: The quantum audio scheme to be applied to each chunk.
         chunk_size: The size of each chunk. Defaults to 64.
         process_function: Function to process each chunk (default is 'process').
+        batch_process: Boolean value to inidicate whether the provided `process_function` applies to a single chunk or a batch.
         verbose: If True, enables verbose logging. Defaults to 2.
 
               - >1: Shows progress bar.
               - >2: Shows additional information such as buffer size and number of qubits.
-
+        
     Returns:
         np.ndarray
     """
