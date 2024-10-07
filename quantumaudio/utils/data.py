@@ -20,6 +20,7 @@ from typing import Union
 # Assertions
 # ======================
 
+
 def is_within_range(arr: np.ndarray, min_val: float, max_val: float) -> bool:
     """Checks if all elements in the array are within the specified range.
 
@@ -75,9 +76,11 @@ def validate_data(data: Union[list, tuple, np.ndarray]) -> np.ndarray:
         raise ValueError("Data not in the digital audio range (-1.0 to 1.0).")
     return data
 
+
 # ==============
 # Decoding utils
 # ==============
+
 
 def split_string(input_str, lengths):
     """Splits the input string into segments based on the specified lengths.
@@ -102,9 +105,11 @@ def split_string(input_str, lengths):
 
     return res
 
+
 # ======================
 # Data processing utils
 # ======================
+
 
 def apply_index_padding(
     array: np.ndarray, num_index_qubits: int

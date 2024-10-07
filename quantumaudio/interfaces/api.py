@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==========================================================================
 
-"""The `quantumaudio.interfaces.api` module provides easy access to some of the core functions 
+"""The `quantumaudio.interfaces.api` module provides easy access to some of the core functions
 without explicitly instantiating a Scheme class. They are made directly accessible from `quantumaudio`.
 """
 
@@ -24,6 +24,7 @@ from quantumaudio.tools import stream_data
 from typing import Union
 
 # ------------------- Core Functions ---------------------------
+
 
 def encode(
     data: "np.ndarray",

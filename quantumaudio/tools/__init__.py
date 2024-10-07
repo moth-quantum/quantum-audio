@@ -32,6 +32,7 @@ import numpy as np
 
 np.random.seed(42)
 
+
 def test_signal(
     num_samples: int = 8, num_channels: int = 1, seed: Optional[int] = None
 ) -> np.ndarray:

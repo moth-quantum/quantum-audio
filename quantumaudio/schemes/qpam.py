@@ -108,7 +108,7 @@ class QPAM(Scheme):
     ) -> np.ndarray:
         """Prepares the data with appropriate dimensions for encoding:
 
-         - It pads the length of data with zeros to fit the number of states 
+         - It pads the length of data with zeros to fit the number of states
            that can be represented with `num_index_qubits`.
          - It also removes redundant dimension if the shape is (1,num_samples).
 
@@ -340,7 +340,9 @@ class QPAM(Scheme):
         metadata: Optional[dict] = None,
         norm: Optional[float] = None,
         keep_padding: bool = False,
-        execute_function: Callable[[qiskit.QuantumCircuit, dict], Any] = utils.execute,
+        execute_function: Callable[
+            [qiskit.QuantumCircuit, dict], Any
+        ] = utils.execute,
         **kwargs,
     ) -> np.ndarray:
         """Given a qiskit circuit, decodes and returns back the Original Audio Array.
@@ -362,6 +364,6 @@ class QPAM(Scheme):
             metadata=metadata,
             shots=kwargs.get("shots"),
             norm=norm,
-            keep_padding=keep_padding
+            keep_padding=keep_padding,
         )
         return data

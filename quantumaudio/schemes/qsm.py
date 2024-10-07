@@ -357,7 +357,9 @@ class QSM(Scheme):
         circuit: qiskit.QuantumCircuit,
         metadata: Optional[dict] = None,
         keep_padding: bool = False,
-        execute_function: Callable[[qiskit.QuantumCircuit, dict], Any] = utils.execute,
+        execute_function: Callable[
+            [qiskit.QuantumCircuit, dict], Any
+        ] = utils.execute,
         **kwargs,
     ) -> np.ndarray:
         """Given a qiskit circuit, decodes and returns back the Original Audio Array.

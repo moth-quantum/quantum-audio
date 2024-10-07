@@ -45,7 +45,8 @@ def get_chunks(
     Returns:
         None
     """
-    if verbose: print(f"\nShape: {data.shape}")
+    if verbose:
+        print(f"\nShape: {data.shape}")
     if data.ndim == 1:
         data = data.reshape(1, -1)
     y_chunks = []
@@ -62,7 +63,9 @@ def get_chunks(
     return y_chunks
 
 
-def process(chunk: np.ndarray, scheme: Any, backend: Any = None, shots: int = 8000) -> np.ndarray:
+def process(
+    chunk: np.ndarray, scheme: Any, backend: Any = None, shots: int = 8000
+) -> np.ndarray:
     """Process a chunk of data according to a specified scheme.
 
     Parameters:
@@ -73,7 +76,9 @@ def process(chunk: np.ndarray, scheme: Any, backend: Any = None, shots: int = 80
     Returns:
     None
     """
-    chunk = scheme.decode(scheme.encode(chunk, verbose=0), backend=backend, shots=shots)
+    chunk = scheme.decode(
+        scheme.encode(chunk, verbose=0), backend=backend, shots=shots
+    )
     return chunk
 
 
@@ -97,11 +102,11 @@ def process_chunks(
     None
     """
     processed_chunks = []
-    if not batch_process: # process one by one
+    if not batch_process:  # process one by one
         for chunk in tqdm(chunks, disable=not verbose):
             processed_chunk = process_function(chunk, scheme, **kwargs)
             processed_chunks.append(processed_chunk)
-    else: # process all at once
+    else:  # process all at once
         processed_chunks = process_function(chunks, scheme, **kwargs)
     return processed_chunks
 
@@ -148,9 +153,13 @@ def stream_data(
     """
     if chunk_size > data.shape[-1]:
         chunk_size = data.shape[-1]
-        if verbose == 2: print(f"Chunk size set to {data.shape[-1]}.")
-    chunks = get_chunks(data=data, chunk_size=chunk_size, verbose=(verbose==2))
-    if verbose==2: scheme.calculate(chunks[0])
+        if verbose == 2:
+            print(f"Chunk size set to {data.shape[-1]}.")
+    chunks = get_chunks(
+        data=data, chunk_size=chunk_size, verbose=(verbose == 2)
+    )
+    if verbose == 2:
+        scheme.calculate(chunks[0])
     processed_chunks = process_chunks(
         chunks=chunks,
         scheme=scheme,

@@ -137,7 +137,7 @@ class MSQPAM(Scheme):
 
          - It pads the length of data with zeros on both dimensions to fit the
            number of states that can be represented with time and channel registers.
-         - It flattens the array for encoding. The default arrangement of samples is 
+         - It flattens the array for encoding. The default arrangement of samples is
            made in an alternating manner using `utils.interleave_channels`.
 
         Args:
@@ -451,7 +451,9 @@ class MSQPAM(Scheme):
         metadata: Optional[dict] = None,
         inverted: bool = False,
         keep_padding: Tuple[int, int] = (False, False),
-        execute_function: Callable[[qiskit.QuantumCircuit, dict], Any] = utils.execute,
+        execute_function: Callable[
+            [qiskit.QuantumCircuit, dict], Any
+        ] = utils.execute,
         **kwargs,
     ) -> np.ndarray:
         """Given a qiskit circuit, decodes and returns the Original Audio Array.
@@ -470,6 +472,9 @@ class MSQPAM(Scheme):
         self.measure(circuit)
         result = utils.execute(circuit=circuit, **kwargs)
         data = self.decode_result(
-            result=result, metadata=metadata, inverted=inverted, keep_padding=keep_padding
+            result=result,
+            metadata=metadata,
+            inverted=inverted,
+            keep_padding=keep_padding,
         )
         return data

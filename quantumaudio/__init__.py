@@ -35,6 +35,7 @@ if parse(_current_version) < parse(_minimum_version):
 
 # --------------------------- Lazy Loader ---------------------------
 
+
 def load_scheme(name: str, *args, **kwargs):
     """
     Load and instantiate a quantum audio representation (or scheme) class from a string.
@@ -55,7 +56,9 @@ def load_scheme(name: str, *args, **kwargs):
             An instance of the Quantum Audio Scheme.
     """
     try:
-        assert isinstance(name, str), "Name of the scheme to load must be a string"
+        assert isinstance(
+            name, str
+        ), "Name of the scheme to load must be a string"
         scheme = importlib.import_module(
             f"quantumaudio.schemes.{name.lower()}"
         )
@@ -99,7 +102,14 @@ def __dir__():
 
 
 _all_schemes = ["QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM"]
-_function_calls = ["encode", "decode", "stream", "calculate", "decode_result", "decode_counts"]
+_function_calls = [
+    "encode",
+    "decode",
+    "stream",
+    "calculate",
+    "decode_result",
+    "decode_counts",
+]
 
 __all__ = [
     "schemes",

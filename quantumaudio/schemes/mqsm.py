@@ -437,7 +437,9 @@ class MQSM(Scheme):
         circuit: qiskit.QuantumCircuit,
         metadata: Optional[dict] = None,
         keep_padding: Tuple[int, int] = (False, False),
-        execute_function: Callable[[qiskit.QuantumCircuit, dict], Any] = utils.execute,
+        execute_function: Callable[
+            [qiskit.QuantumCircuit, dict], Any
+        ] = utils.execute,
         **kwargs,
     ) -> np.ndarray:
         """Given a qiskit circuit, decodes and returns the Original Audio Array.
