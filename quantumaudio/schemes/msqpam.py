@@ -47,7 +47,7 @@ class MSQPAM(Scheme):
                           E.g. (2,8) denotes stereo audio of length 8.
                           (Note: MSQPAM works with at least 2 channels.)
 
-            n_fold:       Term for a fixed number of indexed registers used in a scheme.
+            n_fold:       Term for a fixed number of indexed registers used.
             labels:       Name of the Quantum registers
             positions:    Index position of Quantum registers
                           (In a Qiskit circuit the registers are arranged
