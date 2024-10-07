@@ -42,7 +42,7 @@ class SQPAM(Scheme):
                           (Note: In SQPAM, the qubit depth
                           is 1 denoting the "Single-Qubit".)
 
-            n_fold:       Term for fixed number of registers used in a representation.
+            n_fold:       Term for a fixed number of indexed registers used in a scheme.
             labels:       Name of the Quantum registers
             positions:    Index position of Quantum registers
                           (In Qiskit circuit the registers are arranged

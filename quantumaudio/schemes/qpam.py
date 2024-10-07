@@ -43,7 +43,7 @@ class QPAM(Scheme):
                           (Note: In QPAM, no additional qubit is
                           required to represent amplitude.)
 
-            n_fold:       Term for fixed number of registers used in a representation.
+            n_fold:       Term for a fixed number of indexed registers used in a scheme.
             labels:       Name of the Quantum registers
             positions:    Index position of Quantum registers
                           (In Qiskit circuit the registers are arranged

@@ -52,7 +52,7 @@ class MQSM(Scheme):
                           For e.g. (2,8) denotes stereo audio of length 8.
                           (Note: MQSM works with at least 2 channels.)
 
-            n_fold:       Term for a fixed number of registers used.
+            n_fold:       Term for a fixed number of indexed registers used in a scheme.
             labels:       Name of the Quantum registers
             positions:    Index position of Quantum registers
                           (In a Qiskit circuit the registers are arranged

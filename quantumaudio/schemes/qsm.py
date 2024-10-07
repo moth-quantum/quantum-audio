@@ -43,7 +43,7 @@ class QSM(Scheme):
                           (Note: In QSM, this is a variable
                           that depends on the bit depth of audio)
 
-            n_fold:       Term for fixed number of registers used.
+            n_fold:       Term for a fixed number of indexed registers used in a scheme.
             labels:       Name of the Quantum registers
             positions:    Index position of Quantum registers
                           (In Qiskit circuit the registers are arranged
