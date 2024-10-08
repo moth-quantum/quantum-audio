@@ -12,7 +12,7 @@ An open-source Python package for building Quantum Representations of Digital Au
 
 ## 💿 What is Quantum Audio ?
 
-Quantum Audio refers to standard methods of encoding Digital Audio Information as Quantum Information, leveraging principles of Quantum mechanics for audio signal processing.
+Quantum Audio refers to standard methods of encoding Digital Audio Information as Quantum Information, leveraging principles of Quantum mechanics for audio signal processing. (a new way of representing information that uses quantum bits, or qubits, instead of classical bits)
 
 #### New Paradigm 🎵
 
