@@ -12,9 +12,20 @@ An open-source Python package for building Quantum Representations of Digital Au
 
 ## 💿 What is Quantum Audio ?
 
-Audio plays a vital role in carrying information and music, traversing through domains — from analog and digital formats to engaging our senses in a profound way. With the advent of Quantum Computing, we formulate ways of representing Audio Information in the Quantum Domain, enabling new explorations in artistic and research contexts 💫
+Quantum Audio refers to standard methods of encoding Digital Audio Information as Quantum Information, leveraging principles of Quantum mechanics for audio signal processing.
 
-The Quantum Audio Package provides fundamental operations for representing audio as Quantum States that can be processed on a Quantum computer (or Simulator) and played back 🔊
+#### New Paradigm 🎵
+
+Audio plays a vital role in carrying information and music, traversing through domains — from **Analog** and **Digital** formats to engaging our senses in a profound way. With the advent of Quantum Computing, **Quantum Audio** formulate ways of representing Audio in the Quantum Domain, enabling new explorations in artistic and research contexts 💫
+
+#### The Package 📦
+
+The `quantumaudio` package provides fundamental operations for representing audio as Quantum States that can be processed on a Quantum computer (or Simulator) and played back 🔊
+
+```python
+quantumaudio.encode(audio)   #returns a circuit
+quantumaudio.decode(circuit) #returns audio samples
+```
 
 ## 🗒️ Table of Contents
 
