@@ -64,7 +64,7 @@ def get_chunks(
 
 
 def process(
-    chunk: np.ndarray, scheme: Any, backend: Any = None, shots: int = 8000
+    chunk: np.ndarray, scheme: "quantumaudio.schemes.Scheme", backend: Any = None, shots: int = 8000
 ) -> np.ndarray:
     """Process a chunk of data according to a specified scheme by encoding it and decoding it back.
 
@@ -86,7 +86,7 @@ def process(
 
 def process_chunks(
     chunks: list[np.ndarray],
-    scheme: Any,
+    scheme: "quantumaudio.schemes.Scheme",
     process_function: Callable[[np.ndarray, Any, dict], list] = process,
     batch_process: bool = False,
     verbose: bool = True,
@@ -131,7 +131,7 @@ def combine_chunks(chunks: list[np.ndarray]) -> np.ndarray:
 
 def stream_data(
     data: np.ndarray,
-    scheme: Any = "qpam",
+    scheme: "quantumaudio.schemes.Scheme",
     chunk_size: int = 64,
     process_function: Callable[[np.ndarray, Any, dict], list] = process,
     batch_process: bool = False,
