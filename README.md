@@ -123,13 +123,13 @@ All additional dependencies required that support the demos provided can be inst
 It includes the following collection of dependencies also mentioned in the folder ``demos/requirements``:
 
   - **Digital Audio Dependencies**
-    The core package operates with _numpy_ arrays. Dependencies for audio file handling to run audio examples in notebook and scripts in the repository can be additionally installed using ```pip install soundfile librosa```
+    The core package operates with _numpy_ arrays. Dependencies for audio file handling to run audio examples in notebook and scripts in the repository can be separately installed using ```pip install soundfile librosa```
   
 > [!Tip]
 > If using your own choice of libraries for digital audio processing, please be aware that Multi-channel Quantum Audio is processed with _Channels First_ data structure. e.g. `(2, N)` for a Stereo Audio of `N` samples.
   
   - **Notebook Dependencies**
-    The [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/DEMO.ipynb) features interactive elements that require additional dependencies. It can be installed using ```pip install ipywidgets```
+    The [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/DEMO.ipynb) features interactive elements that require additional dependency. It can be installed using ```pip install ipywidgets```
 
 
 ## 🎨 Usage <a id="usage"></a>
