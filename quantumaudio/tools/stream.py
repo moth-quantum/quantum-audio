@@ -114,7 +114,7 @@ def process_chunks(
 
 
 def combine_chunks(chunks: list[np.ndarray]) -> np.ndarray:
-    """Combine a list of `numpy` arrays along a specified axis.
+    """Combine a list of `numpy` arrays along an axis based on the data dimension.
 
     Args:
         chunks: A list of `numpy` arrays to be combined.
