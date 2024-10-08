@@ -13,7 +13,7 @@ An open-source Python package for building Quantum Representations of Digital Au
 ## 💿 What is Quantum Audio ?
 
 Quantum Audio refers to standard methods of encoding Digital Audio Information as Quantum Information, leveraging principles of Quantum mechanics for Audio Signal Processing. 
-Here, the information is processed using <i>quantum bits</i>, or <i>qubits</i>, instead of classical bits (<0s and 1s).
+Here, the information is processed using <i>quantum bits</i>, or <i>qubits</i>, instead of classical bits (0s and 1s).
 #### New Paradigm 🎵
 
 Audio plays a vital role in carrying information and music, traversing through domains — from **Analog** and **Digital** formats to engaging our senses in a profound way. With the advent of Quantum Computing, **Quantum Audio** formulate ways of representing Audio in the Quantum Domain, enabling new explorations in artistic and research contexts 💫
@@ -43,7 +43,7 @@ quantumaudio.decode(circuit) #returns audio samples
 Modulation Schemes are essential methods for encoding Audio in both Analog (such as **FM** 📻) and Digital (such as **PCM** 💻) formats. The same is extended for Quantum Audio.
 The package contains different schemes to encode audio and necessary utilities as follows:
 
-- ```schemes``` : Quantum Audio Representation Methods
+- ```schemes``` : Quantum Audio Representation Methods found in ```quantumaudio.schemes```
   
 | Acronym | Representation Name | Original Reference |
 |---------|---------------------|--------------------|
