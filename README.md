@@ -16,7 +16,7 @@ Quantum Audio refers to standard methods of encoding Digital Audio Information a
 Here, the information is processed using <i>quantum bits</i>, or <i>qubits</i>, instead of classical bits (0s and 1s).
 #### New Paradigm 🎵
 
-Audio plays a vital role in carrying information and music, traversing through domains — from **Analog** and **Digital** formats to engaging our senses in a profound way. With the advent of Quantum Computing, **Quantum Audio** formulate bways of representing Audio in the Quantum Domain, enabling new explorations in artistic and research contexts 💫
+Audio plays a vital role in carrying information and music, traversing through domains — from **Analog** and **Digital** formats to engaging our senses in a profound way. With the advent of Quantum Computing, **Quantum Audio** formulate ways of representing Audio in the Quantum Domain, enabling new explorations in artistic and research contexts 💫
 
 #### The Package 📦
 
