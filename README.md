@@ -20,7 +20,7 @@ Audio plays a vital role in carrying information and music, traversing through d
 
 #### The Package 📦
 
-The `quantumaudio` package provides fundamental operations for representing audio as Quantum States that can be processed on a Quantum computer (or Simulator) and played back 🔊
+The `quantumaudio` package provides fundamental operations for representing audio samples as Quantum States that can be processed on a Quantum computer (or a Simulator) and played back 🔊
 
 ```python
 quantumaudio.encode(audio)   #returns a circuit
