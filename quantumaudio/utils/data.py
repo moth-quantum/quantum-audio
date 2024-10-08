@@ -20,6 +20,7 @@ from typing import Union
 # Assertions
 # ======================
 
+
 def is_within_range(arr: np.ndarray, min_val: float, max_val: float) -> bool:
     """Checks if all elements in the array are within the specified range.
 
@@ -35,15 +36,15 @@ def is_within_range(arr: np.ndarray, min_val: float, max_val: float) -> bool:
 
 
 def assert_data(data: Union[list, tuple, np.ndarray]) -> np.ndarray:
-    """Ensure the data is a NumPy array. If the data is not a NumPy array,
+    """Ensure the data is a `numpy` array. If the data is not a `numpy` array,
     it will be converted to one. Raises a TypeError if the input is not
-    a list, tuple, or NumPy array.
+    a list, tuple, or `numpy` array.
 
     Args:
-        data: Input data (could be a list, tuple, or NumPy array)
+        data: Input data (could be a list, tuple, or `numpy` array)
 
     Returns:
-        A NumPy array
+        A `numpy` array
 
     Raises:
         TypeError: If the input data type is not supported
@@ -53,18 +54,18 @@ def assert_data(data: Union[list, tuple, np.ndarray]) -> np.ndarray:
     elif isinstance(data, (list, tuple)):
         return np.array(data)
     else:
-        raise TypeError("Input data must be a list, tuple, or NumPy array")
+        raise TypeError("Input data must be a list, tuple, or `numpy` array")
 
 
 def validate_data(data: Union[list, tuple, np.ndarray]) -> np.ndarray:
-    """Ensure the input data is a NumPy array and verify that its values
-    are within the digital audio range (-1.0 to 1.0).
+    """Ensure the input data is a `numpy` array and verify that its values
+    are within the digital audio range: -1.0 to 1.0.
 
     Args:
-        data: Input data, which can be a list, tuple, or NumPy array.
+        data: Input data, which can be a list, tuple, or `numpy` array.
 
     Returns:
-        A NumPy array with values within the digital audio range.
+        A `numpy` array with values within the digital audio range.
 
     Raises:
         ValueError: If the data type is not supported or contains values
@@ -75,9 +76,40 @@ def validate_data(data: Union[list, tuple, np.ndarray]) -> np.ndarray:
         raise ValueError("Data not in the digital audio range (-1.0 to 1.0).")
     return data
 
+
+# ==============
+# Decoding utils
+# ==============
+
+
+def split_string(input_str, lengths):
+    """Splits the input string into segments based on the specified lengths.
+
+    Args:
+        input_str: The string to be split.
+        lengths: A list of integers representing the lengths of each segment.
+
+    Returns:
+        A list of substrings split according to the specified lengths.
+    """
+    assert len(input_str) == sum(
+        lengths
+    ), "Sum of qubits doesn't match the state length"
+    res = []
+    start = 0
+
+    for length in lengths:
+        # Slicing the string and appending to the result list
+        res.append(input_str[start : start + length])
+        start += length
+
+    return res
+
+
 # ======================
 # Data processing utils
 # ======================
+
 
 def apply_index_padding(
     array: np.ndarray, num_index_qubits: int
@@ -184,28 +216,3 @@ def restore_channels(array: np.ndarray, num_channels: int) -> np.ndarray:
         The array with shape (samples, channels).
     """
     return np.vstack([array[i::num_channels] for i in range(num_channels)])
-
-
-def split_string(input_str, lengths):
-    """
-    Splits the input string into segments based on the specified lengths.
-
-    Parameters:
-    input_str: The string to be split.
-    lengths: A list of integers representing the lengths of each segment.
-
-    Returns:
-    A list of substrings split according to the specified lengths.
-    """
-    assert len(input_str) == sum(
-        lengths
-    ), "Sum of qubits doesn't match the state length"
-    res = []
-    start = 0
-
-    for length in lengths:
-        # Slicing the string and appending to the result list
-        res.append(input_str[start : start + length])
-        start += length
-
-    return res

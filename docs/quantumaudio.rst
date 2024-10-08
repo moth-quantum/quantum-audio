@@ -1,16 +1,26 @@
-quantumaudio package
-====================
+quantumaudio
+============
 
 .. automodule:: quantumaudio
-   :members: load_scheme
-   :undoc-members:
-   :show-inheritance:
+   :no-members:
 
-Subpackages
------------
+Using Schemes
+-------------
 
-.. toctree::
-   :maxdepth: 4
+Schemes can be directly accessed from :ref:`quantumaudio.schemes <schemes>` or by using the 
+``load_scheme`` method.
 
-   quantumaudio.schemes
-   quantumaudio.utils
+.. autofunction:: quantumaudio.load_scheme
+
+Top-level Functions
+-------------------
+
+.. automodule:: quantumaudio.interfaces.api
+   :no-members:
+
+.. autofunction:: quantumaudio.encode
+.. autofunction:: quantumaudio.decode
+.. autofunction:: quantumaudio.stream
+.. autofunction:: quantumaudio.calculate
+.. autofunction:: quantumaudio.decode_result
+.. autofunction:: quantumaudio.decode_counts

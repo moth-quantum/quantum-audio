@@ -19,7 +19,7 @@ import numpy as np
 from tqdm import tqdm
 
 # ======================
-# Buffering Utils
+# Buffering Functions
 # ======================
 
 
@@ -29,7 +29,7 @@ def get_chunks(
     verbose: bool = False,
 ) -> None:
     """
-    Splits a NumPy array into smaller chunks of specified size.
+    Splits a `numpy` array into smaller chunks of specified size.
 
     This function takes a long array and divides it into smaller chunks,
     which can be useful for processing large datasets in manageable pieces.
@@ -45,14 +45,15 @@ def get_chunks(
     Returns:
         None
     """
-    if verbose: print(f"\nShape: {data.shape}")
+    if verbose:
+        print(f"\nShape: {data.shape}")
     if data.ndim == 1:
         data = data.reshape(1, -1)
     y_chunks = []
     for i in range(0, data.shape[-1], chunk_size):
         chunk = data[:, i : i + chunk_size]
         y_chunks.append(chunk)
-    
+
     if verbose:
         print(
             f"Num samples: {data.shape[-1]}, Num channels: {data.shape[0]}, Buffer size: {chunk_size}"
@@ -62,18 +63,22 @@ def get_chunks(
     return y_chunks
 
 
-def process(chunk: np.ndarray, scheme: Any, backend: Any = None, shots: int = 8000) -> np.ndarray:
+def process(
+    chunk: np.ndarray, scheme: Any, backend: Any = None, shots: int = 8000
+) -> np.ndarray:
     """Process a chunk of data according to a specified scheme.
 
-    Parameters:
-    chunk: Data chunk to be processed.
-    scheme: Processing scheme.
-    shots: Number of shots.
+    Args:
+        chunk: Data chunk to be processed.
+        scheme: Processing scheme.
+        shots: Number of shots.
 
     Returns:
-    None
+        None
     """
-    chunk = scheme.decode(scheme.encode(chunk, verbose=0), backend=backend, shots=shots)
+    chunk = scheme.decode(
+        scheme.encode(chunk, verbose=0), backend=backend, shots=shots
+    )
     return chunk
 
 
@@ -87,33 +92,33 @@ def process_chunks(
 ) -> list:
     """Process chunks of data in an iteration according to a specified scheme.
 
-    Parameters:
-    chunks: Data chunks to be processed.
-    scheme: Processing scheme.
-    process_function: Function to process each chunk (default is 'process').
-    verbose: If True, enables verbose logging. Defaults to False.
+    Args:
+        chunks: Data chunks to be processed.
+        scheme: Processing scheme.
+        process_function: Function to process each chunk (default is 'process').
+        verbose: If True, enables verbose logging. Defaults to False.
 
     Returns:
-    None
+        None
     """
     processed_chunks = []
-    if not batch_process: # process one by one
+    if not batch_process:  # process one by one
         for chunk in tqdm(chunks, disable=not verbose):
             processed_chunk = process_function(chunk, scheme, **kwargs)
             processed_chunks.append(processed_chunk)
-    else: # process all at once
+    else:  # process all at once
         processed_chunks = process_function(chunks, scheme, **kwargs)
     return processed_chunks
 
 
 def combine_chunks(chunks: list[np.ndarray]) -> np.ndarray:
-    """Combine a list of NumPy arrays along a specified axis.
+    """Combine a list of `numpy` arrays along a specified axis.
 
-    Parameters:
-    chunks: A list of NumPy arrays to be combined.
+    Args:
+        chunks: A list of `numpy` arrays to be combined.
 
     Returns:
-    np.ndarray
+        np.ndarray
     """
     if chunks[0].ndim != 1:
         output = np.concatenate(chunks, axis=1)
@@ -124,7 +129,7 @@ def combine_chunks(chunks: list[np.ndarray]) -> np.ndarray:
 
 def stream_data(
     data: np.ndarray,
-    scheme: Any = 'qpam',
+    scheme: Any = "qpam",
     chunk_size: int = 64,
     process_function: Callable[[np.ndarray, Any, dict], list] = process,
     batch_process: bool = False,
@@ -138,18 +143,24 @@ def stream_data(
         scheme: The quantum audio scheme to be applied to each chunk.
         chunk_size: The size of each chunk. Defaults to 64.
         process_function: Function to process each chunk (default is 'process').
+        batch_process: Boolean value to inidicate whether the provided `process_function` applies to a single chunk or a batch.
         verbose: If True, enables verbose logging. Defaults to 2.
-                 < 1 shows progress bar
-                 < 2 shows additional information such as buffer size and number of qubits.
+
+              - >1: Shows progress bar.
+              - >2: Shows additional information such as buffer size and number of qubits.
 
     Returns:
         np.ndarray
     """
     if chunk_size > data.shape[-1]:
         chunk_size = data.shape[-1]
-        if verbose == 2: print(f"Chunk size set to {data.shape[-1]}.")
-    chunks = get_chunks(data=data, chunk_size=chunk_size, verbose=(verbose==2))
-    if verbose==2: scheme.calculate(chunks[0])
+        if verbose == 2:
+            print(f"Chunk size set to {data.shape[-1]}.")
+    chunks = get_chunks(
+        data=data, chunk_size=chunk_size, verbose=(verbose == 2)
+    )
+    if verbose == 2:
+        scheme.calculate(chunks[0])
     processed_chunks = process_chunks(
         chunks=chunks,
         scheme=scheme,

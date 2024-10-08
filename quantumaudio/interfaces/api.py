@@ -1,3 +1,22 @@
+# Copyright 2024 Moth Quantum
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ==========================================================================
+
+"""The `quantumaudio.interfaces.api` module provides easy access to some of the core functions
+without explicitly instantiating a Scheme class. They are made directly accessible from `quantumaudio`.
+"""
+
 import quantumaudio
 from quantumaudio import load_scheme
 from quantumaudio.utils import pick_key
@@ -12,7 +31,7 @@ def encode(
     scheme: Union[str, quantumaudio.schemes.Scheme] = "qpam",
     **kwargs,
 ):
-    """Encodes data using a specified quantum scheme.
+    """Encodes data and prepares circuit using a specified quantum scheme.
 
     Args:
         data: The data to encode.
@@ -20,7 +39,7 @@ def encode(
         **kwargs: Additional keyword arguments passed required for encoding method and scheme initialisation.
 
     Returns:
-        Encoded data according to the provided scheme.
+        Qiskit circuit encoding the data.
     """
     scheme_kwargs, kwargs = _split_kwargs(kwargs)
     return _load_scheme(scheme, **scheme_kwargs).encode(data, **kwargs)
@@ -89,7 +108,7 @@ def decode_result(
     ],
     **kwargs,
 ):
-    """Decodes a quantum result object.
+    """Decodes a quantum result object using the scheme it was encoded with.
 
     Args:
         result: Qiskit result object to decode.

@@ -1,39 +1,14 @@
 quantumaudio.utils
 ==================
 
+.. _utils:
+
 .. automodule:: quantumaudio.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   :no-index:
 
-quantumaudio.utils.circuit
---------------------------
+Contents
+--------
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: quantumaudio.utils.circuit
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-quantumaudio.utils.convert
---------------------------
-
-.. automodule:: quantumaudio.utils.convert
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-quantumaudio.utils.data
------------------------
-
-.. automodule:: quantumaudio.utils.data
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-quantumaudio.utils.qiskit\_helpers
-----------------------------------
-
-.. automodule:: quantumaudio.utils.qiskit_helpers
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   quantumaudio.utils_modules
