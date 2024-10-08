@@ -42,7 +42,7 @@ quantumaudio.decode(circuit) #returns audio samples
 
 ## 🔍 Overview <a id="overview"></a>
 
-Modulation Schemes are essential methods for encoding Audio in both Analog (such as **FM** 📻) and Digital (such as **PCM** 💻) formats. The same is extended for Quantum Audio.
+Modulation Schemes are essential methods for encoding Audio signals in both Analog (such as **FM** 📻) and Digital (such as **PCM** 💻) formats. The same is extended for Quantum Audio.
 The package contains different schemes to encode audio and necessary utilities. 
 
 The following subpackages can be accessed from ``quantumaudio``:
