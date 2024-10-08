@@ -75,7 +75,7 @@ This project is derived from research output on Quantum Representations of Audio
 - Itaboraí, P. V. (2023) Towards Quantum Computing for Audio and Music Expression. Thesis. University of Plymouth. Available at: https://doi.org/10.24382/5119
 
 ### Redevelopment: ```v0.1.0```
-This project has been completely redeveloped and is now maintained by <b>[Moth Quantum](https://mothquantum.com)</b>.
+This project has been completely re-developed and is now maintained by <b>[Moth Quantum](https://mothquantum.com)</b>.
 
 - **New Architecture:**
 
@@ -93,7 +93,7 @@ This project has been completely redeveloped and is now maintained by <b>[Moth Q
     
 - **Improvements:**
   
-  - Improved organisation of code for Readability and Modularity
+  - Improved organisation of code for Readability and Modularity.
   - Key metadata information is preserved during the encoding operation, making the decoding process independent.
     
 - **License Change:**
@@ -106,7 +106,7 @@ If you're transitioning from the previous version, please check the [Migration G
 
 ##  🪄 Installation <a id="installation"></a>
 To install the Quantum Audio Package, you can use ```pip``` (included with Python) which installs it from [PyPI](https://pypi.org/project/quantumaudio/) package manager. Run the following command in Terminal or Command Prompt: 
-```
+```console
 pip install quantumaudio
 ```
 For local installation by [cloning](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository), navigate to the cloned directory in Terminal or Command Prompt and run:<br>
