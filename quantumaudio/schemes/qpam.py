@@ -63,7 +63,7 @@ class QPAM(Scheme):
 
         self.convert = utils.convert_to_probability_amplitudes
         self.restore = utils.convert_from_probability_amplitudes
-        
+
         self.keys = ("num_samples", "norm_factor", "shots")
         print(self.name)
 
@@ -306,7 +306,7 @@ class QPAM(Scheme):
         self,
         result: qiskit.result.Result,
         metadata: Optional[dict] = None,
-        shots: Optional[int] = 4000,
+        shots: Optional[int] = 8000,
         norm: Optional[float] = None,
         keep_padding: bool = False,
     ) -> np.ndarray:
@@ -358,6 +358,11 @@ class QPAM(Scheme):
             keep_padding: Undo the padding set at Encoding stage if set to False.
             execute_function: Function to execute the circuit for decoding.
 
+              - Defaults to :ref:`utils.execute <execute>` which accepts any additional `**kwargs`.
+              - **shots** (int) - Total number of times to measure the quantum circuit.
+                It is a keyword argument essential for QPAM decoding, and accepted by the default
+                `execute_function`. Defaults to **8000**.
+
         Return:
             Array of decoded values
         """
@@ -366,7 +371,7 @@ class QPAM(Scheme):
         data = self.decode_result(
             result=result,
             metadata=metadata,
-            shots=kwargs.get("shots"),
+            shots=kwargs["shots"],
             norm=norm,
             keep_padding=keep_padding,
         )

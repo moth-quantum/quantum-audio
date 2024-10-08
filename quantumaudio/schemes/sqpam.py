@@ -391,6 +391,8 @@ class SQPAM(Scheme):
                 inverted: retrieves cosine components of the signal.
                 keep_padding: Undo the padding set at Encoding stage if set False.
                 execute_function: Function to execute the circuit for decoding.
+                 
+                  - Defaults to :ref:`utils.execute <execute>` which accepts any additional `**kwargs`.
 
         Return:
                 Array of decoded values

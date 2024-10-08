@@ -453,7 +453,9 @@ class MQSM(Scheme):
                 circuit: A Qiskit Circuit representing the Digital Audio.
                 metadata: optionally pass metadata as argument.
                 keep_padding: Undo the padding set at Encoding stage if set False.
-                execute_function: Function to execute the circuit for decoding.
+                execute_function: Function to execute the circuit for decoding. 
+                  
+                  - Defaults to :ref:`utils.execute <execute>` which accepts any additional `**kwargs`.
 
         Return:
                 Array of decoded values
