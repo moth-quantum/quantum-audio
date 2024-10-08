@@ -66,11 +66,13 @@ def get_chunks(
 def process(
     chunk: np.ndarray, scheme: Any, backend: Any = None, shots: int = 8000
 ) -> np.ndarray:
-    """Process a chunk of data according to a specified scheme.
+    """Process a chunk of data according to a specified scheme by encoding it and decoding it back.
 
     Args:
         chunk: Data chunk to be processed.
         scheme: Processing scheme.
+        backend: A valid Backend object accepted by the :ref:`execute function <execute>` at `decode`.
+                 Defaults to `qiskit_aer.AerSimulator()`.
         shots: Number of shots.
 
     Returns:
@@ -142,7 +144,10 @@ def stream_data(
         data: The input data array to be processed.
         scheme: The quantum audio scheme to be applied to each chunk.
         chunk_size: The size of each chunk. Defaults to 64.
-        process_function: Function to process each chunk (default is 'process').
+        process_function: Function to process each chunk.
+
+              - Defaults to :func:`process` which accepts any additional `**kwargs`.
+
         batch_process: Boolean value to inidicate whether the provided `process_function` applies to a single chunk or a batch.
         verbose: If True, enables verbose logging. Defaults to 2.
 
