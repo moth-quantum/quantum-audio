@@ -41,21 +41,23 @@ quantumaudio.decode(circuit) #returns audio samples
 ## 🔍 Overview <a id="overview"></a>
 
 Modulation Schemes are essential methods for encoding Audio in both Analog (such as **FM** 📻) and Digital (such as **PCM** 💻) formats. The same is extended for Quantum Audio.
-The package contains different schemes to encode audio and necessary utilities as follows:
+The package contains different schemes to encode audio and necessary utilities. 
 
-- ```schemes``` : Quantum Audio Representation Methods found in ```quantumaudio.schemes```
+The following subpackages can be accessed from ``quantumaudio``:
+
+- ``schemes``: Quantum Audio Representation Methods.
   
 | Acronym | Representation Name | Original Reference |
 |---------|---------------------|--------------------|
-| **QPAM**    | Quantum Probability Amplitude Modulation | Real-Ket          |
+| **QPAM**    | Quantum Probability Amplitude Modulation | [Real-Ket](https://doi.org/10.1007/s11128-015-1208-5)          |
 | **SQPAM**   | Single-Qubit Probability Amplitude Modulation | [FRQI](http://dx.doi.org/10.1007/s11128-010-0177-y)  |
 | **MSQPAM**  | Multi-channel Single-Qubit Probability Amplitude Modulation | [PMQA](https://doi.org/10.1007/s11128-022-03435-7)  |
 | **QSM**     | Quantum State Modulation | [FRQA](https://doi.org/10.1016/j.tcs.2017.12.025) |
 | **MQSM**    | Multi-channel Quantum State Modulation | [QRMA](https://doi.org/10.1007/s11128-019-2317-3)  |
 
-- `utils` : Common Utilary functions for Data Processing, Analysis, Circuit Preparation, etc.
+- ``utils`` : Common utilary functions for data processing, analysis, circuit preparation, etc.
 
-Additionaly, `tools` is provided in the repository which extends the core functionality to support Audio and Visual Examples.
+Additionally, ``tools`` contain extension functions that support basic visual analysis and audio processing.
 
 > For a quick tour of Quantum Audio, try [Colab](https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd) 🚀
 
