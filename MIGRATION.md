@@ -50,7 +50,7 @@ For manually implementing each step of the ```encode()``` operation, please chec
 
 **v0.1.0**
   ```python
-  digital_audio = qpam.decode(cirucit, shot=4000)
+  digital_audio = qpam.decode(circuit, shot=4000)
   ```
   The ```scheme.decode()``` function uses local _AerSimulator_ as default backend. It performs ```backend.run()``` method internally. Any backend object compatible with this method can be passed with ```backend=``` parameter. 
   
