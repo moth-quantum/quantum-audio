@@ -175,8 +175,8 @@ For faster processing of longer arrays, the `quantumaudio.stream(data)` method i
 
 A Scheme's ```decode()``` method uses local [_AerSimulator_](https://github.com/Qiskit/qiskit-aer) as the default backend. Internally, the function calls `quantumaudio.utils.execute` method to perform ```backend.run()``` method. Any compatible backend object can be specified by passing the ```backend=``` parameter in the `decode()` function.  
 
-> [!Tip]
-> This default execute function can be overriden by passing a custom function to the `execute_function=` as an argument for `decode()`. An example of such function is provided in the package which uses Sampler primitive for executing a circuit: `quantumaudio.utils.execute_with_sampler`.  
+> [!Tip - Custom Function]
+> The default execute function for `decode()` can be overriden by passing a custom function to the `execute_function=` as an argument. An example of such function is provided in the package which uses Sampler primitive for executing a circuit: `quantumaudio.utils.execute_with_sampler`.  
 
 
 ### Running on External Quantum Backends
