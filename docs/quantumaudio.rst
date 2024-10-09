@@ -15,6 +15,8 @@ Schemes can be directly accessed from :ref:`quantumaudio.schemes <schemes>` or b
 Top-level Functions
 -------------------
 
+.. _functions:
+
 .. automodule:: quantumaudio.interfaces.api
    :no-members:
 
