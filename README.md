@@ -47,7 +47,7 @@ The package contains different schemes to encode audio and necessary utilities.
 
 The following subpackages can be accessed from ``quantumaudio``:
 
-- ``schemes``: Quantum Audio Representation Methods.
+- ``schemes``: Quantum Audio Representation Methods. The following are included in the package:
   
 | Acronym | Representation Name | Original Reference |
 |---------|---------------------|--------------------|
