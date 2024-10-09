@@ -36,7 +36,7 @@
 
   # or circuit = qpam.encode(digital_audio, measure=False) # Return circuit without measurement
   ```
-For manually implementing each step of the ```encode()``` operation, please check [Documentation]()
+For manually implementing each step of the ```encode()``` operation, please check [Documentation]().
 
 ### 3. Decoding Digital Audio Array from a Quantum Circuit
 
@@ -50,8 +50,8 @@ For manually implementing each step of the ```encode()``` operation, please chec
 
 **v0.1.0**
   ```python
-  digital_audio = qpam.decode(cirucit, shot=4000)
+  digital_audio = qpam.decode(circuit, shot=4000)
   ```
   The ```scheme.decode()``` function uses local _AerSimulator_ as default backend. It performs ```backend.run()``` method internally. Any backend object compatible with this method can be passed with ```backend=``` parameter. 
   
-  For manually implementing each step of the ```decode()``` operation, please check [Documentation]()
+  For manually implementing each step of the ```decode()``` operation, please check [Documentation]().

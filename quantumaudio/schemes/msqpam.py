@@ -105,9 +105,9 @@ class MSQPAM(Scheme):
                 - `num_samples`
                 - `num_channels`
             `qubit_shape` is a Tuple (int, int, int) consisting of:
-                - `num_index_qubits` to encode Time Information (x-axis).
-                - `num_channel_qubits` to encode Channel Information (y-axis).
-                - `num_value_qubits` to encode Amplitude Information (y-axis).
+                - `num_index_qubits` to encode Time Information.
+                - `num_channel_qubits` to encode Channel Information.
+                - `num_value_qubits` to encode Amplitude Information.
         """
         # x-axis
         num_samples = data.shape[-1]
