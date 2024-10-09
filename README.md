@@ -198,10 +198,10 @@ The package allows flexible use of Quantum Hardware from different Providers as 
 ### Viewing Metadata
 The Metadata Information can be viewed from the encoded circuit's `.metadata` attribute. The common keys found in a metadata are: 
  - **num_samples** (_int_) : Original sample length to restore.
- - **num_channels** (_int_): Original number of channels to restore. (Only preserved in multi-channel schemes)
+ - **num_channels** (_int_): Original number of channels to restore. (Applicable for multi-channel schemes)
  - **qubit_shape** (_tuple_): Stores the arrangement and number of qubits that encode each aspect of the audio information i.e. _Time_, _Channel_ (if applicable) and _Amplitude_. <br>
 
-QPAM schemes only preserves **num_samples** (_int_) and additionally a normalization factor - **norm** (_float_) which is required to restore the values.
+The _QPAM_ schemes only preserves **num_samples** (_int_) and additionally a normalization factor - **norm** (_float_) which is required to restore the values.
 > [!Note]
 > When passing metadata manually in any of the decode functions, _QPAM_ Scheme additionaly requires **shots** (_int_) information used for executing the circuit which can also be passed through the argument `shots=`.
 
