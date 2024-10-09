@@ -151,15 +151,17 @@ encoded_circuit = qpam.encode(original_data)
 # Decoding
 decoded_data  = qpam.decode(encoded_circuit,shots=4000)    
 ```
+
+> [!Note]
+> The `encode` function returns a circuit with attached classical measurements by default. In Qiskit, it is not possible to directly modify a circuit after these measurements are added. If you wish to return a circuit without measurements, you can specify `measure=False` while encoding.
+
 The core functions are also directly accessible without declaring a Scheme object .
 ```python
 import quantumaudio
-circuit = quantumaudio.encode(original_data, scheme="qpam")
+circuit = quantumaudio.encode(data, scheme="qpam")
 decoded_data = quantumaudio.decode(circuit)
 ```
-Here, the rest of the arguments
-> [!Note]
-> The `encode` function returns a circuit with attached classical measurements by default. In Qiskit, it is not possible to directly modify a circuit after these measurements are added. If you wish to return a circuit without measurements, you can specify `measure=False` while encoding.
+Here, the rest of the arguments can be passed as keywords such as ```quantumaudio.encode(data, scheme="qsm", measure="False")```
 
 > [!Tip]
 > The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent a short length of samples per Circuit when using the `encode()` method.<br>
@@ -168,7 +170,9 @@ For faster processing of longer arrays, the `quantumaudio.stream(data)` method i
 
 ### Running on Native Backends
 
-The default ```scheme.decode()``` uses local [_AerSimulator_](https://github.com/Qiskit/qiskit-aer) as the default backend. Internally, the function performs ```backend.run()``` method (in `quantumaudio.utils.execute`) and any compatible backend object can be specified by passing the ```backend=``` parameter.
+The default ```scheme.decode()``` uses local [_AerSimulator_](https://github.com/Qiskit/qiskit-aer) as the default backend. Any Qiskit compatible backend object can be specified by passing the ```backend=``` parameter.
+
+Internally, the function performs IBM's ```backend.run()``` method (in the module `quantumaudio.utils.execute`) and any compatible backend object can be specified by passing the 
 
 ### Running on External Quantum Backends
 
