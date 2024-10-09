@@ -7,3 +7,4 @@ media/*
 !docs/_build/singlehtml/
 docs/*
 !docs/*.rst
+!docs/*.md
