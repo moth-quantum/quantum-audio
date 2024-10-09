@@ -134,7 +134,7 @@ It includes the following collection of dependencies also mentioned in the folde
 
 ## 🎨 Usage <a id="usage"></a>
 
-#### Using Schemes
+### Using Schemes
 Get started on creating Quantum Audio Representations with just a few lines of code.
 ```python
 # An instance of a scheme can be created using:
@@ -156,7 +156,7 @@ decoded_data  = qpam.decode(encoded_circuit,shots=4000)
 > [!Note]
 > The `encode` function returns a circuit with attached classical measurements by default. In Qiskit, it is not possible to directly modify a circuit after these measurements are added. If you wish to return a circuit without measurements, you can specify `measure=False` while encoding.
 
-#### Using Functions
+### Using Functions
 The core functions are also directly accessible without declaring a Scheme object. (Refer to [Documentation]() for all the available functions)
 ```python
 import quantumaudio
@@ -168,7 +168,7 @@ Here, any remaining arguments can be passed as keywords such as ```quantumaudio.
 > [!Note]
 > The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent a short length of samples per Circuit when using the `encode()` method.<br>
 
-#### Working with Digital Audio
+### Working with Digital Audio
 For faster processing of longer arrays, the `quantumaudio.stream(data)` method is preferred. It wraps the functions provided in the module `quantumaudio.tools.stream` that help process large arrays as chunks for efficient handling. Examples of its usage can be found in the [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/demos/demo.ipynb) and [`scripts`](https://github.com/moth-quantum/quantum-audio/tree/demo/scripts) provided in the repository.
 
 > [!Tip]
