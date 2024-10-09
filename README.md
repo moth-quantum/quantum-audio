@@ -173,7 +173,7 @@ For faster processing of longer arrays, the `quantumaudio.stream(data)` method i
 
 > [!Tip]
 > The default process function of `stream()` simply encodes and decodes a chunk of data with default parameters. It can be overriden by passing a custom function to the `process_function=` parameter.<br>
-> - The custom function must satisfy: ```processed_data = custom_function(data, scheme, **kwargs)``` <br>
+> The custom function must satisfy: ```processed_data = custom_function(data, scheme, **kwargs)``` <br>
 
 ### Running on Native Backends
 
@@ -181,8 +181,8 @@ A Scheme's ```decode()``` method uses local [_AerSimulator_](https://github.com/
 
 > [!Tip]
 > The default execute function for `decode()` can be overriden by passing a custom function to the `execute_function=` parameter.<br>
-> - The custom function must satisfy: ```result = custom_function(circuit, **kwargs)``` <br>
-> - An example of such function is provided in the package which uses [Sampler Primitive](https://docs.quantum.ibm.com/api/qiskit-ibm-runtime/qiskit_ibm_runtime.SamplerV2): `quantumaudio.utils.execute_with_sampler`.<br>
+> The custom function must satisfy: ```result = custom_function(circuit, **kwargs)``` <br>
+> An example of such function is provided in the package which uses [Sampler Primitive](https://docs.quantum.ibm.com/api/qiskit-ibm-runtime/qiskit_ibm_runtime.SamplerV2): `quantumaudio.utils.execute_with_sampler`.<br>
 
 ### Running on External Quantum Backends
 
