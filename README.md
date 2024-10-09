@@ -199,18 +199,18 @@ The package allows flexible use of Quantum Hardware from different Providers as 
 > When passing metadata manually in the above decode functions, _QPAM_ Scheme additionaly requires `shots` information used at execution as metadata which can also be passed through the parameter `shots=`. 
 
 ### Using Custom Functions
-Some of the default operations can be configured by custom functions. They require few mandatory arguments followed by custom preceding keyword arguments (i.e.  `**kwargs`).
+The `decode` and `stream` operations can be configured with the following custom functions. They require few mandatory arguments followed by custom preceding keyword arguments (i.e.  `**kwargs`).
 - **Process Function**:
-The default process function of `stream()` simply encodes and decodes a chunk of data with default parameters. It can be overriden by passing a custom function to the `process_function=` parameter. The mandatory arguments for the custom process function are `data=` and `scheme=`.
+The default process function of `stream()` simply encodes and decodes a chunk of data with default parameters. It can be overriden by passing a custom function to the `process_function=` parameter. The mandatory arguments for the custom process function are `data=` and `scheme=`:
 ```python
 processed_data = process_function(data, scheme, **kwargs)
 ```
 - **Execute Function**:
-The default execute function for `decode()` can be overriden by passing a custom function to the `execute_function=` parameter. The mandatory argument for the custom execute function is `circuit=`.
+The default execute function for `decode()` can be overriden by passing a custom function to the `execute_function=` parameter. The mandatory argument for the custom execute function is `circuit=`:
 ```python
 result = execute_function(circuit, **kwargs)
 ``` 
-An example of execute function in included in the package which uses [Sampler Primitive](https://docs.quantum.ibm.com/api/qiskit-ibm-runtime/qiskit_ibm_runtime.SamplerV2): `quantumaudio.utils.execute_with_sampler`.<br>
+**Example**: An optional execute function is included in the package which uses [Sampler Primitive](https://docs.quantum.ibm.com/api/qiskit-ibm-runtime/qiskit_ibm_runtime.SamplerV2): `quantumaudio.utils.execute_with_sampler` that can be passed to the `decode()` method.<br>
  
 ## 📘 Additional Resources <a id="materials"></a>
 ### Notebook Examples
