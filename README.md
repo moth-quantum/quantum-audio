@@ -193,7 +193,7 @@ The package allows flexible use of Quantum Hardware from different Providers as 
 > [!Tip]
 > **Dictionaries** are data type in python to store {key : _value_} pairs.
 > - **Counts Dicitonary** contains keys representing classical measurement outcomes and values indicating the number of times the outcome was observed. Example: `{'00': 77, '01': 79, '10': 84, '11': 72}`.
-> - **Metadata Dictionary** stores the key information that is required at decoding, which is commonly the original data dimensions to restore and layout of qubits. Both are obtained from `scheme.calculate()` method.
+> - **Metadata Dictionary** stores the key information that is required at decoding, which is commonly the original data dimensions to restore and layout of qubits. Both can be obtained from `scheme.calculate()` method.
 
 ### Viewing Metadata
 The Metadata Information can be viewed from the encoded circuit's `.metadata` attribute. The common keys found in a metadata are: 
