@@ -164,9 +164,7 @@ Here, the rest of the arguments
 > [!Tip]
 > The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent a short length of samples per Circuit when using the `encode()` method.<br>
 
-For faster processing of longer arrays, the `quantumaudio.stream(data)` method is preferred. It wraps the functions provided in the module `quantumaudio.tools.stream` that help process large arrays as chunks for efficient handling. <br>
-
-Examples of the usage can be found in the [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/demos/demo.ipynb) and [`scripts`](https://github.com/moth-quantum/quantum-audio/tree/demo/scripts) provided in the repository.
+For faster processing of longer arrays, the `quantumaudio.stream(data)` method is preferred. It wraps the functions provided in the module `quantumaudio.tools.stream` that help process large arrays as chunks for efficient handling. Examples of the usage can be found in the [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/demos/demo.ipynb) and [`scripts`](https://github.com/moth-quantum/quantum-audio/tree/demo/scripts) provided in the repository.
 
 ### Running on Native Backends
 
