@@ -25,8 +25,8 @@ Audio plays a vital role in carrying information and music, traversing through d
 The `quantumaudio` package provides fundamental operations for representing audio samples as Quantum States that can be processed on a Quantum computer (or a Simulator) and played back 🔊
 
 ```python
-quantumaudio.encode(audio)   #returns a quantum circuit
-quantumaudio.decode(circuit) #returns audio samples
+quantumaudio.encode(audio)   # returns a quantum circuit
+quantumaudio.decode(circuit) # returns audio samples
 ```
 
 ## 🗒️ Table of Contents
@@ -162,7 +162,7 @@ The core functions are also directly accessible without declaring a Scheme objec
 circuit = quantumaudio.encode(data, scheme="qpam")
 decoded_data = quantumaudio.decode(circuit)
 ```
-Here, any remaining arguments can be passed as keywords such as ```quantumaudio.encode(data, scheme="qsm", measure="False")```.
+Here, any remaining arguments can be passed as keywords e.g. ```quantumaudio.encode(data, scheme="qsm", measure="False")```.
 
 > [!Note]
 > The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent a short length of samples per Circuit when using the `encode()` method.<br>
@@ -188,15 +188,25 @@ The package allows flexible use of Quantum Hardware from different Providers as 
 <br><br>
 - **Counts Dictionary:** If the result is in form of a counts dictionary or [qiskit.result.Counts](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Counts) object,
   - The audio can be decoded using ```scheme.decode_counts(counts, metadata)``` method.
-  - The metadata dictionary can be accessed from the encoded circuit using `circuit.metadata`.
+  - Here, the metadata dictionary is required which can be obtained from the encoded circuit's `.metadata` attribute.
     
 > [!Tip]
 > **Dictionaries** are data type in python to store {key : _value_} pairs.
 > - **Counts Dicitonary** contains keys representing classical measurement outcomes and values indicating the number of times the outcome was observed. Example: `{'00': 77, '01': 79, '10': 84, '11': 72}`.
-> - **Metadata Dictionary** stores the key information that is required at decoding, which is commonly the original data dimensions to restore. It is obtained from `scheme.calculate()` method.
+> - **Metadata Dictionary** stores the key information that is required at decoding, which is commonly the original data dimensions to restore and layout of qubits. Both can be obtained from `scheme.calculate()` method.
 
+### Viewing Metadata
+The Metadata Information can be viewed from the encoded circuit's `.metadata` attribute. The common keys found in a metadata are: 
+ - **num_samples** (_int_) : Original sample length to restore.
+ - **num_channels** (_int_): Original number of channels to restore. (Applicable for multi-channel schemes)
+ - **qubit_shape** (_tuple_): Stores the arrangement and number of qubits that encode each aspect of the audio information i.e. _Time_, _Channel_ (if applicable) and _Amplitude_. <br>
+
+The _QPAM_ schemes only preserves **num_samples** (_int_) and additionally a normalization factor - **norm** (_float_) which is required to restore the values.
 > [!Note]
-> When passing metadata manually in the above decode functions, _QPAM_ Scheme additionaly requires `shots` information used at execution as metadata which can also be passed through the parameter `shots=`. 
+> When passing metadata manually in any of the decode functions, _QPAM_ Scheme additionaly requires **shots** (_int_) information used for executing the circuit which can also be passed through the argument `shots=`.
+
+> [!Tip]
+> The essential keys required for decoding with any scheme can be checked from the scheme's `.keys` attribute.
 
 ### Using Custom Functions
 The `decode` and `stream` operations can be configured with the following custom functions. They require few mandatory arguments followed by custom preceding keyword arguments (denoted as `**kwargs`).
