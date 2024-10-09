@@ -199,7 +199,7 @@ The package allows flexible use of Quantum Hardware from different Providers as 
 > When passing metadata manually in the above decode functions, _QPAM_ Scheme additionaly requires `shots` information used at execution as metadata which can also be passed through the parameter `shots=`. 
 
 ### Using Custom Functions
-The `decode` and `stream` operations can be configured with the following custom functions. They require few mandatory arguments followed by custom preceding keyword arguments (i.e.  `**kwargs`).
+The `decode` and `stream` operations can be configured with the following custom functions. They require few mandatory arguments followed by custom preceding keyword arguments (denoted as `**kwargs`).
 - **Process Function**:
 The default process function of `stream()` simply encodes and decodes a chunk of data with default parameters. It can be overriden by passing a custom function to the `process_function=` parameter. The mandatory arguments for the custom process function are `data=` and `scheme=`.
 ```python
