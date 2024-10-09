@@ -193,10 +193,20 @@ The package allows flexible use of Quantum Hardware from different Providers as 
 > [!Tip]
 > **Dictionaries** are data type in python to store {key : _value_} pairs.
 > - **Counts Dicitonary** contains keys representing classical measurement outcomes and values indicating the number of times the outcome was observed. Example: `{'00': 77, '01': 79, '10': 84, '11': 72}`.
-> - **Metadata Dictionary** stores the key information that is required at decoding, which is commonly the original data dimensions to restore. It is obtained from `scheme.calculate()` method.
+> - **Metadata Dictionary** stores the key information that is required at decoding, which is commonly the original data dimensions to restore and layout of qubits. Both are obtained from `scheme.calculate()` method.
+
+### Metadata keys
+The Metadata Information can be viewed from the encoded circuit's `.metadata` attribute. The following keys can be found in a metadata: 
+ - **num_samples** (_int_) : Original sample length to restore.
+ - **num_channels** (_int_): Original number of channels to restore.
+ - **qubit_shape** (_tuple_): Stores the arrangement and number of qubits that encode each aspect of the audio information i.e. time, channel and amplitude. <br>
+ 
+The presence of keys varies with the type of scheme. The essential ones for decoding can be viewed from a schemes `.keys` attribute.
+ - The channel information is preserved only in the multi-channel schemes.
+ - A circuit encoded using _QPAM_ only preserves **num_samples** (_int_) and the normalization factor **norm** (_float_) which is required to restore the values.
 
 > [!Note]
-> When passing metadata manually in the above decode functions, _QPAM_ Scheme additionaly requires `shots` information used at execution as metadata which can also be passed through the parameter `shots=`. 
+> When passing metadata manually in any of the decode functions, _QPAM_ Scheme additionaly requires **shots** (_int_) information used for executing the circuit which can also be passed through the parameter `shots=`. 
 
 ### Using Custom Functions
 The `decode` and `stream` operations can be configured with the following custom functions. They require few mandatory arguments followed by custom preceding keyword arguments (denoted as `**kwargs`).
