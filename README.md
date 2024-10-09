@@ -132,7 +132,7 @@ It includes the following collection of dependencies also mentioned in the folde
     The [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/demos/demo.ipynb) features interactive elements that require additional dependency. It can be installed using ```pip install ipywidgets```
 
 
-## 🎨 Usage <a id="usage"></a>
+## 🎛️ Usage <a id="usage"></a>
 
 ### Using Schemes
 Get started on creating Quantum Audio Representations with just a few lines of code.
