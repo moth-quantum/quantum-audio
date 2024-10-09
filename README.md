@@ -188,7 +188,7 @@ The package allows flexible use of Quantum Hardware from different Providers as 
 <br><br>
 - **Counts Dictionary:** If the result is in form of a counts dictionary or [qiskit.result.Counts](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Counts) object,
   - The audio can be decoded using ```scheme.decode_counts(counts, metadata)``` method.
-  - Here, the metadata dictionary is mandatory and can be obtained from the encoded circuit's `.metadata`.
+  - Here, the metadata dictionary is required which can be obtained from the encoded circuit's `.metadata` attribute.
     
 > [!Tip]
 > **Dictionaries** are data type in python to store {key : _value_} pairs.
