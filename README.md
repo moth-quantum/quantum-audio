@@ -159,7 +159,6 @@ decoded_data  = qpam.decode(encoded_circuit,shots=4000)
 ### Using Functions
 The core functions are also directly accessible without declaring a Scheme object. (Refer to [Documentation]() for all the available functions)
 ```python
-import quantumaudio
 circuit = quantumaudio.encode(data, scheme="qpam")
 decoded_data = quantumaudio.decode(circuit)
 ```
@@ -169,17 +168,15 @@ Here, any remaining arguments can be passed as keywords such as ```quantumaudio.
 > The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent a short length of samples per Circuit when using the `encode()` method.<br>
 
 ### Working with Digital Audio
-For faster processing of longer arrays, the `quantumaudio.stream(data)` method is preferred. It wraps the functions provided in the module `quantumaudio.tools.stream` that help process large arrays as chunks for efficient handling. Examples of its usage can be found in the [Demos](https://github.com/moth-quantum/quantum-audio/blob/demos/) provided in the repository.
-
-> [!Tip]
-> The default process function of `stream()` simply encodes and decodes a chunk of data with default parameters. It can be overriden by passing a custom function to the `process_function=` parameter. The mandatory keyword arguments for the custom process function are `data=` and `scheme=`.
+For faster processing of longer arrays, the `stream` method is preferred. 
+```python
+quantumaudio.stream(data)
+```
+It wraps the functions provided in the module `quantumaudio.tools.stream` that help process large arrays as chunks for efficient handling. Examples of its usage can be found in the [Demos](https://github.com/moth-quantum/quantum-audio/blob/demos/) provided in the repository.
 
 ### Running on Native Backends
 
-A Scheme's ```decode()``` method uses local [_AerSimulator_](https://github.com/Qiskit/qiskit-aer) as the default backend. Internally, the function calls `quantumaudio.utils.execute` method to perform ```backend.run()``` method. Any Qiskit compatible backend object can be specified by passing the ```backend=``` parameter to the `decode()` function.  
-
-> [!Tip]
-> The default execute function for `decode()` can be overriden by passing a custom function to the `execute_function=` parameter. The mandatory keyword argument for the custom execute_function is `circuit=`. An example function is provided in the package which uses [Sampler Primitive](https://docs.quantum.ibm.com/api/qiskit-ibm-runtime/qiskit_ibm_runtime.SamplerV2): `quantumaudio.utils.execute_with_sampler`.<br>
+A Scheme's ```decode()``` method uses local [_AerSimulator_](https://github.com/Qiskit/qiskit-aer) as the default backend. Internally, the function calls `quantumaudio.utils.execute` method to perform ```backend.run()``` method. Any Qiskit compatible backend object can be specified by passing the ```backend=``` parameter to the `decode()` function.
 
 ### Running on External Quantum Backends
 
@@ -201,6 +198,19 @@ The package allows flexible use of Quantum Hardware from different Providers as 
 > [!Note]
 > When passing metadata manually in the above decode functions, _QPAM_ Scheme additionaly requires `shots` information used at execution as metadata which can also be passed through the parameter `shots=`. 
 
+### Using Custom Functions
+Some of the default operations can be configured by custom functions. They require few mandatory arguments followed by custom preceding keyword arguments (i.e.  `**kwargs`).
+- **Process Function**:
+The default process function of `stream()` simply encodes and decodes a chunk of data with default parameters. It can be overriden by passing a custom function to the `process_function=` parameter. The mandatory arguments for the custom process function are `data=` and `scheme=`.
+```python
+processed_data = process_function(data, scheme, **kwargs)
+```
+- **Execute Function**:
+The default execute function for `decode()` can be overriden by passing a custom function to the `execute_function=` parameter. The mandatory argument for the custom execute function is `circuit=`.
+```python
+result = execute_function(circuit, **kwargs)
+``` 
+An example of execute function in included in the package which uses [Sampler Primitive](https://docs.quantum.ibm.com/api/qiskit-ibm-runtime/qiskit_ibm_runtime.SamplerV2): `quantumaudio.utils.execute_with_sampler`.<br>
  
 ## 📘 Additional Resources <a id="materials"></a>
 ### Notebook Examples
