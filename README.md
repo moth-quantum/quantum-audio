@@ -198,16 +198,15 @@ The package allows flexible use of Quantum Hardware from different Providers as 
 ### Viewing Metadata
 The Metadata Information can be viewed from the encoded circuit's `.metadata` attribute. The common keys found in a metadata are: 
  - **num_samples** (_int_) : Original sample length to restore.
- - **num_channels** (_int_): Original number of channels to restore.
- - **qubit_shape** (_tuple_): Stores the arrangement and number of qubits that encode each aspect of the audio information i.e. _Time_, _Channel_ and _Amplitude_. <br>
- 
-They are present based on the type of scheme:
- - The channel information is preserved only in the multi-channel schemes.
- - A circuit encoded using _QPAM_ preserves **num_samples** (_int_) and additionally the normalization factor - **norm** (_float_) which is required to restore the values.
-The essential keys for decoding using any scheme can be checked from the scheme's `.keys` attribute.
+ - **num_channels** (_int_): Original number of channels to restore. (Only preserved in multi-channel schemes)
+ - **qubit_shape** (_tuple_): Stores the arrangement and number of qubits that encode each aspect of the audio information i.e. _Time_, _Channel_ (if applicable) and _Amplitude_. <br>
 
+QPAM schemes only preserves **num_samples** (_int_) and additionally a normalization factor - **norm** (_float_) which is required to restore the values.
 > [!Note]
-> When passing metadata manually in any of the decode functions, _QPAM_ Scheme additionaly requires **shots** (_int_) information used for executing the circuit which can also be passed through the argument `shots=`. 
+> When passing metadata manually in any of the decode functions, _QPAM_ Scheme additionaly requires **shots** (_int_) information used for executing the circuit which can also be passed through the argument `shots=`.
+
+> [!Tip]
+> The essential keys required for decoding with any scheme can be checked from the scheme's `.keys` attribute.
 
 ### Using Custom Functions
 The `decode` and `stream` operations can be configured with the following custom functions. They require few mandatory arguments followed by custom preceding keyword arguments (denoted as `**kwargs`).
