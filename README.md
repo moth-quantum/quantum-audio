@@ -171,13 +171,15 @@ Here, any remaining arguments can be passed as keywords such as ```quantumaudio.
 #### Working with Digital Audio
 For faster processing of longer arrays, the `quantumaudio.stream(data)` method is preferred. It wraps the functions provided in the module `quantumaudio.tools.stream` that help process large arrays as chunks for efficient handling. Examples of its usage can be found in the [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/demos/demo.ipynb) and [`scripts`](https://github.com/moth-quantum/quantum-audio/tree/demo/scripts) provided in the repository.
 
+> [!Tip]
+> The default process function of `stream()` simply encodes and decodes a chunk of data with default parameters. It can be overriden by passing a custom function to the `process_function=` parameter.<br>
+
 ### Running on Native Backends
 
 A Scheme's ```decode()``` method uses local [_AerSimulator_](https://github.com/Qiskit/qiskit-aer) as the default backend. Internally, the function calls `quantumaudio.utils.execute` method to perform ```backend.run()``` method. Any Qiskit compatible backend object can be specified by passing the ```backend=``` parameter to the `decode()` function.  
 
 > [!Tip]
-> The default execute function for `decode()` can be overriden by passing a custom function to the `execute_function=` parameter. An example of such function is provided in the package which uses [Sampler Primitive](https://docs.quantum.ibm.com/api/qiskit-ibm-runtime/qiskit_ibm_runtime.SamplerV2) for executing a circuit: `quantumaudio.utils.execute_with_sampler`.  
-
+> The default execute function for `decode()` can be overriden by passing a custom function to the `execute_function=` parameter. An example of such function is provided in the package which uses [Sampler Primitive](https://docs.quantum.ibm.com/api/qiskit-ibm-runtime/qiskit_ibm_runtime.SamplerV2) for executing a circuit: `quantumaudio.utils.execute_with_sampler`.<br>
 
 ### Running on External Quantum Backends
 
