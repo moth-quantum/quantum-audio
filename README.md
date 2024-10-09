@@ -199,7 +199,7 @@ The package allows flexible use of Quantum Hardware from different Providers as 
 The Metadata Information can be viewed from the encoded circuit's `.metadata` attribute. The common keys found in a metadata are: 
  - **num_samples** (_int_) : Original sample length to restore.
  - **num_channels** (_int_): Original number of channels to restore.
- - **qubit_shape** (_tuple_): Stores the arrangement and number of qubits that encode each aspect of the audio information i.e. time, channel and amplitude. <br>
+ - **qubit_shape** (_tuple_): Stores the arrangement and number of qubits that encode each aspect of the audio information i.e. _Time_, _Channel_ and _Amplitude_. <br>
  
 They are present based on the type of scheme:
  - The channel information is preserved only in the multi-channel schemes.
