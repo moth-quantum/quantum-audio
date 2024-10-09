@@ -161,7 +161,7 @@ import quantumaudio
 circuit = quantumaudio.encode(data, scheme="qpam")
 decoded_data = quantumaudio.decode(circuit)
 ```
-Here, the rest of the arguments can be passed as keywords such as ```quantumaudio.encode(data, scheme="qsm", measure="False")```
+Here, any remaining arguments can be passed as keywords such as ```quantumaudio.encode(data, scheme="qsm", measure="False")```
 
 > [!Tip]
 > The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent a short length of samples per Circuit when using the `encode()` method.<br>
