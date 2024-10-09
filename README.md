@@ -203,7 +203,7 @@ The Metadata Information can be viewed from the encoded circuit's `.metadata` at
  
 They are present based on the type of scheme:
  - The channel information is preserved only in the multi-channel schemes.
- - A circuit encoded using _QPAM_ preserves **num_samples** (_int_) and additionally the normalization factor **norm** (_float_) which is required to restore the values.
+ - A circuit encoded using _QPAM_ preserves **num_samples** (_int_) and additionally the normalization factor - **norm** (_float_) which is required to restore the values.
 The essential keys for decoding using any scheme can be checked from the scheme's `.keys` attribute.
 
 > [!Note]
