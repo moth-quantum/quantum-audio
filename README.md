@@ -155,7 +155,7 @@ decoded_data  = qpam.decode(encoded_circuit,shots=4000)
 > [!Note]
 > The `encode` function returns a circuit with attached classical measurements by default. In Qiskit, it is not possible to directly modify a circuit after these measurements are added. If you wish to return a circuit without measurements, you can specify `measure=False` while encoding.
 
-The core functions are also directly accessible without declaring a Scheme object .
+The core functions are also directly accessible without declaring a Scheme object. (Refer to [Documentation]() for all the available functions)
 ```python
 import quantumaudio
 circuit = quantumaudio.encode(data, scheme="qpam")
