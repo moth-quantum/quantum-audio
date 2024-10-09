@@ -201,7 +201,7 @@ The Metadata Information can be viewed from the encoded circuit's `.metadata` at
  - **num_channels** (_int_): Original number of channels to restore. (Applicable for multi-channel schemes)
  - **qubit_shape** (_tuple_): Stores the arrangement and number of qubits that encode each aspect of the audio information i.e. _Time_, _Channel_ (if applicable) and _Amplitude_. <br>
 
-The _QPAM_ schemes only preserves **num_samples** (_int_) and additionally a normalization factor - **norm** (_float_) which is required to restore the values.
+The _QPAM_ scheme's encoding only preserves **num_samples** (_int_) and the normalization factor - **norm_factor** (_float_) which is required to restore the values.
 > [!Note]
 > When passing metadata manually in any of the decode functions, _QPAM_ Scheme additionaly requires **shots** (_int_) information used for executing the circuit which can also be passed through the argument `shots=`.
 
