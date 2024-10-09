@@ -12,9 +12,22 @@ An open-source Python package for building Quantum Representations of Digital Au
 
 ## 💿 What is Quantum Audio ?
 
-Audio plays a vital role in carrying information and music, traversing through domains — from analog and digital formats to engaging our senses in a profound way. With the advent of Quantum Computing, we formulate ways of representing Audio Information in the Quantum Domain, enabling new explorations in artistic and research contexts 💫
+Quantum Audio refers to standard methods of encoding Digital Audio Information as Quantum Information, leveraging principles of Quantum mechanics for Audio Signal Processing. 
 
-The Quantum Audio Package provides fundamental operations for representing audio as Quantum States that can be processed on a Quantum computer (or Simulator) and played back 🔊
+> Here, the information is processed using <i>quantum bits</i>, or <i>qubits</i>, instead of classical bits (0s and 1s).
+
+#### New Paradigm 🎵
+
+Audio plays a vital role in carrying information and music, traversing through domains — from **Analog** and **Digital** formats to engaging our senses in a profound way. With the advent of Quantum Computing, **Quantum Audio** formulate ways of representing Audio in the Quantum Domain, enabling new explorations in artistic and research contexts 💫
+
+#### The Package 📦
+
+The `quantumaudio` package provides fundamental operations for representing audio samples as Quantum States that can be processed on a Quantum computer (or a Simulator) and played back 🔊
+
+```python
+quantumaudio.encode(audio)   #returns a quantum circuit
+quantumaudio.decode(circuit) #returns audio samples
+```
 
 ## 🗒️ Table of Contents
 
@@ -29,22 +42,24 @@ The Quantum Audio Package provides fundamental operations for representing audio
 
 ## 🔍 Overview <a id="overview"></a>
 
-Modulation Schemes are essential methods for encoding Audio in both Analog (such as **FM** 📻) and Digital (such as **PCM** 💻) formats. The same is extended for Quantum Audio.
-The package contains different schemes to encode audio and necessary utilities as follows:
+Modulation Schemes are essential methods for encoding Audio signals in both Analog (such as **FM** 📻) and Digital (such as **PCM** 💻) formats. The same is extended for Quantum Audio.
+The package contains different schemes to encode audio and necessary utilities. 
 
-- ```schemes``` : Quantum Audio Representation Methods
+The following subpackages can be accessed from ``quantumaudio``:
+
+- ``schemes``: Quantum Audio Representation Methods. The following are included in the package:
   
 | Acronym | Representation Name | Original Reference |
 |---------|---------------------|--------------------|
-| **QPAM**    | Quantum Probability Amplitude Modulation | Real-Ket          |
+| **QPAM**    | Quantum Probability Amplitude Modulation | [Real-Ket](https://doi.org/10.1007/s11128-015-1208-5)          |
 | **SQPAM**   | Single-Qubit Probability Amplitude Modulation | [FRQI](http://dx.doi.org/10.1007/s11128-010-0177-y)  |
 | **MSQPAM**  | Multi-channel Single-Qubit Probability Amplitude Modulation | [PMQA](https://doi.org/10.1007/s11128-022-03435-7)  |
 | **QSM**     | Quantum State Modulation | [FRQA](https://doi.org/10.1016/j.tcs.2017.12.025) |
 | **MQSM**    | Multi-channel Quantum State Modulation | [QRMA](https://doi.org/10.1007/s11128-019-2317-3)  |
 
-- `utils` : Common Utilary functions for Data Processing, Analysis, Circuit Preparation, etc.
+- ``utils`` : Common utilary functions for data processing, analysis, circuit preparation, etc.
 
-Additionaly, `tools` is provided in the repository which extends the core functionality to support Audio and Visual Examples.
+Additionally, ``tools`` contain extension functions that support basic visual analysis and audio processing.
 
 > For a quick tour of Quantum Audio, try [Colab](https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd) 🚀
 
@@ -60,7 +75,7 @@ This project is derived from research output on Quantum Representations of Audio
 - Itaboraí, P. V. (2023) Towards Quantum Computing for Audio and Music Expression. Thesis. University of Plymouth. Available at: https://doi.org/10.24382/5119
 
 ### Redevelopment: ```v0.1.0```
-This project has been completely redeveloped and is now maintained by <b>[Moth Quantum](https://mothquantum.com)</b>.
+This project has been completely re-developed and is now maintained by <b>[Moth Quantum](https://mothquantum.com)</b>.
 
 - **New Architecture:**
 
@@ -78,7 +93,7 @@ This project has been completely redeveloped and is now maintained by <b>[Moth Q
     
 - **Improvements:**
   
-  - Improved organisation of code for Readability and Modularity
+  - Improved organisation of code for Readability and Modularity.
   - Key metadata information is preserved during the encoding operation, making the decoding process independent.
     
 - **License Change:**
@@ -91,7 +106,7 @@ If you're transitioning from the previous version, please check the [Migration G
 
 ##  🪄 Installation <a id="installation"></a>
 To install the Quantum Audio Package, you can use ```pip``` (included with Python) which installs it from [PyPI](https://pypi.org/project/quantumaudio/) package manager. Run the following command in Terminal or Command Prompt: 
-```
+```console
 pip install quantumaudio
 ```
 For local installation by [cloning](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository), navigate to the cloned directory in Terminal or Command Prompt and run:<br>
@@ -101,28 +116,20 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
  > When using `pip` commands to install packages and dependencies, it's recommended to use a **virtual environment** to keep them isolated from the system's Python. This will avoid any dependency conflicts. Instructions on using a virtual environment are provided [here](https://github.com/moth-quantum/quantum-audio/blob/main/ENVIRONMENT.md).
 
 ### Optional Dependencies
-All additional dependencies can be installed using `pip`:
+All additional dependencies required that support the demos provided can be installed using `pip`:
   ```
-  pip install "quantumaudio[all]"
+  pip install "quantumaudio[demos]"
   ```
-It includes the following collection of dependencies:
+It includes the following collection of dependencies also mentioned in the folder ``demos/requirements``:
 
   - **Digital Audio Dependencies**
-    The core package operates with _numpy_ arrays. Dependencies for audio file handling to run audio examples in notebook and scripts in the repository can be additionally installed using `pip`:
-    ```
-    pip install "quantumaudio[audio_io]"
-    ```
-    For local installation from the cloned directory: ```pip install .[audio_io]``` or manually with ```pip install -r requirements-audio.txt```<br>
+    The core package operates with _numpy_ arrays. Dependencies for audio file handling to run audio examples in notebook and scripts in the repository can be separately installed using ```pip install soundfile librosa```
   
 > [!Tip]
 > If using your own choice of libraries for digital audio processing, please be aware that Multi-channel Quantum Audio is processed with _Channels First_ data structure. e.g. `(2, N)` for a Stereo Audio of `N` samples.
   
   - **Notebook Dependencies**
-    The [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/DEMO.ipynb) features interactive elements that require additional dependencies. It can be installed using `pip`:
-    ```
-    pip install "quantumaudio[notebook]"
-    ```
-    For local installation from the cloned directory: ```pip install .[notebook]``` or manually with ```pip install -r requirements-notebook.txt``` <br>
+    The [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/DEMO.ipynb) features interactive elements that require additional dependency. It can be installed using ```pip install ipywidgets```
 
 
 ## 🎨 Usage <a id="usage"></a>
