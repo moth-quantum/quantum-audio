@@ -116,7 +116,7 @@ For local installation by [cloning](https://docs.github.com/en/repositories/crea
  > When using `pip` commands to install packages and dependencies, it's recommended to use a **virtual environment** to keep them isolated from the system's Python. This will avoid any dependency conflicts. Instructions on using a virtual environment are provided [here](https://github.com/moth-quantum/quantum-audio/blob/main/ENVIRONMENT.md).
 
 ### Optional Dependencies
-All additional dependencies required that support the demos provided can be installed using `pip`:
+All additional dependencies required that support the demos provided in the repository can be installed using `pip`:
   ```
   pip install "quantumaudio[demos]"
   ```
@@ -129,7 +129,7 @@ It includes the following collection of dependencies also mentioned in the folde
 > If using your own choice of libraries for digital audio processing, please be aware that Multi-channel Quantum Audio is processed with _Channels First_ data structure. e.g. `(2, N)` for a Stereo Audio of `N` samples.
   
   - **Notebook Dependencies**
-    The [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/DEMO.ipynb) features interactive elements that require additional dependency. It can be installed using ```pip install ipywidgets```
+    The [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/demos/demo.ipynb) features interactive elements that require additional dependency. It can be installed using ```pip install ipywidgets```
 
 
 ## 🎨 Usage <a id="usage"></a>
@@ -155,7 +155,7 @@ decoded_data  = qpam.decode(encoded_circuit,shots=4000)
 > The `encode` function returns a circuit with attached classical measurements by default. In Qiskit, it is not possible to directly modify a circuit after these measurements are added. If you wish to return a circuit without measurements, you can specify `measure=False` while encoding.
 
 > [!Tip]
-> The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent a short length of samples per Circuit. The functions provided in `tools/stream.py` facilitate the processing of Long arrays in chunks. Examples of the usage can be found in the [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/DEMO.ipynb) and [`scripts`](https://github.com/moth-quantum/quantum-audio/tree/main/scripts) provided in the repository.
+> The circuit depth can grow complex for a long array of samples which is the case with Digital Audio. It is optimal to represent a short length of samples per Circuit when using the `encode()` method. For faster processing of longer arrays, the `quantumaudio.stream()` method is preferred. It wraps the functions provided in the module `quantumaudio.tools.stream` that help process large arrays as chunks for efficient handling. Examples of the usage can be found in the [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/demos/demo.ipynb) and [`scripts`](https://github.com/moth-quantum/quantum-audio/tree/demo/scripts) provided in the repository.
 
 ### Running on Native Backends
 
