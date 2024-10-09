@@ -214,7 +214,7 @@ result = execute_function(circuit, **kwargs)
  
 ## 📘 Additional Resources <a id="materials"></a>
 ### Notebook Examples
-For examples of circuit preparation, signals reconstruction, and interactive demonstrations, please check the [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/DEMO.ipynb). It combines the core package with useful functions from the `tools` folder to go through Visual and Digital Audio examples.
+For examples of circuit preparation, signals reconstruction, and interactive demonstrations, please check the [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/DEMO.ipynb). It combines the core package with additional functions from the `demos/tools` folder to go through Visual and Digital Audio examples.
 
 ### Quick Export ⚡️
 To quickly export quantumaudio from any audio file (e.g., _mp3_, _ogg_, _flac_, _m4a_), a script ```export.py``` is provided in the `scripts` folder. Navigate with `cd scripts` and run:
