@@ -201,12 +201,12 @@ The package allows flexible use of Quantum Hardware from different Providers as 
 ### Using Custom Functions
 The `decode` and `stream` operations can be configured with the following custom functions. They require few mandatory arguments followed by custom preceding keyword arguments (i.e.  `**kwargs`).
 - **Process Function**:
-The default process function of `stream()` simply encodes and decodes a chunk of data with default parameters. It can be overriden by passing a custom function to the `process_function=` parameter. The mandatory arguments for the custom process function are `data=` and `scheme=`:
+The default process function of `stream()` simply encodes and decodes a chunk of data with default parameters. It can be overriden by passing a custom function to the `process_function=` parameter. The mandatory arguments for the custom process function are `data=` and `scheme=`.
 ```python
 processed_data = process_function(data, scheme, **kwargs)
 ```
 - **Execute Function**:
-The default execute function for `decode()` can be overriden by passing a custom function to the `execute_function=` parameter. The mandatory argument for the custom execute function is `circuit=`:
+The default execute function for `decode()` can be overriden by passing a custom function to the `execute_function=` parameter. The mandatory argument for the custom execute function is `circuit=`.
 ```python
 result = execute_function(circuit, **kwargs)
 ``` 
