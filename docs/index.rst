@@ -1,6 +1,6 @@
 Quantum Audio
 =============
-.. include:: readme.rst
+.. include:: front_page.rst
 
 Documentation
 =============
