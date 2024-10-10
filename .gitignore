@@ -8,3 +8,4 @@ media/*
 docs/*
 !docs/*.rst
 !docs/guides/
+!docs/contents/
