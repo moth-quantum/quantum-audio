@@ -216,7 +216,7 @@ The default process function of `stream()` simply encodes and decodes a chunk of
 processed_data = process_function(data, scheme, **kwargs)
 ```
 - **Execute Function**:
-The default execute function for `decode()` can be overriden by passing a custom function to the `execute_function=` parameter. The mandatory argument for the custom execute function is `circuit=`.
+The default execute function for `decode()` can be overriden by passing a custom function to the `execute_function=` parameter. The mandatory argument for the custom execute function is `circuit=`. (QPAM also expects `shots=` since it's a metadata)
 ```python
 result = execute_function(circuit, **kwargs)
 ``` 
