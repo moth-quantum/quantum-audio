@@ -9,3 +9,4 @@ docs/*
 !docs/*.rst
 !docs/guides/
 !docs/contents/
+!docs/Makefile
