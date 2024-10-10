@@ -1,6 +1,6 @@
 Quantum Audio
 =============
-.. include:: front_page.rst
+.. include:: contents/front_page.rst
 
 Documentation
 =============
@@ -8,8 +8,8 @@ Documentation
    :maxdepth: 1
    :caption: Modules
 
-   quantumaudio
-   quantumaudio.schemes
-   quantumaudio.utils
-   quantumaudio.tools
+   contents/quantumaudio
+   contents/quantumaudio.schemes
+   contents/quantumaudio.utils
+   contents/quantumaudio.tools
    

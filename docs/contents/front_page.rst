@@ -262,7 +262,7 @@ Citing
 ------
 
 If you use this code or find it useful in your research, please consider
-citing: `DOI <>`__
+citing: `DOI <https://www.doi.org>`__
 
 --------------
 
