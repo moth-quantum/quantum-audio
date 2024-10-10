@@ -342,6 +342,7 @@ class QPAM(Scheme):
         self,
         circuit: qiskit.QuantumCircuit,
         metadata: Optional[dict] = None,
+        shots: Optional[int] = 8000,
         norm: Optional[float] = None,
         keep_padding: bool = False,
         execute_function: Callable[
@@ -354,24 +355,25 @@ class QPAM(Scheme):
         Args:
             circuit: A Qiskit Circuit representing the Digital Audio.
             metadata: optionally pass metadata as argument.
+            shots : Total number of times the quantum circuit is measured.
             norm   : The norm factor used to normalize the decoding in QPAM.
             keep_padding: Undo the padding set at Encoding stage if set to False.
             execute_function: Function to execute the circuit for decoding.
 
               - Defaults to :ref:`utils.execute <execute>` which accepts any additional `**kwargs`.
-              - **shots** (int) - Total number of times to measure the quantum circuit.
-                It is a keyword argument essential for QPAM decoding, and accepted by the default
-                `execute_function`. Defaults to **8000**.
+              - The keyword argument **shots** (int) is essential for QPAM decoding and accepted 
+                by `execute_function`. (Defaults to **8000**)
 
         Return:
             Array of decoded values
         """
         self.measure(circuit)
+        kwargs["shots"] = shots
         result = execute_function(circuit=circuit, **kwargs)
         data = self.decode_result(
             result=result,
             metadata=metadata,
-            shots=kwargs["shots"],
+            shots=shots,
             norm=norm,
             keep_padding=keep_padding,
         )
