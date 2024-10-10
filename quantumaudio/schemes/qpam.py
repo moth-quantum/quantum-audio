@@ -361,7 +361,7 @@ class QPAM(Scheme):
             execute_function: Function to execute the circuit for decoding.
 
               - Defaults to :ref:`utils.execute <execute>` which accepts any additional `**kwargs`.
-              - The keyword argument **shots** (int) is essential for QPAM decoding and accepted 
+              - The keyword argument **shots** (int) is a metadata for QPAM decoding and accepted 
                 by `execute_function`. (Defaults to **8000**)
 
         Return:
