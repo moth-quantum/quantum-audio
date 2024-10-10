@@ -1,8 +1,5 @@
 .. container::
 
-   .. rubric:: Quantum Audio
-      :name: quantum-audio
-
    |Python version| |PyPI| |Read the Docs (version)| |LICENSE| |DOI|
    |Open in Colab|
 
@@ -17,18 +14,6 @@ Information as Quantum Information, leveraging principles of Quantum
 mechanics for Audio Signal Processing. Here, the information is processed 
 using quantum bits, or qubits, instead of classical bits (0s and 1s).
 
-New Paradigm
-^^^^^^^^^^^^
-
-Audio plays a vital role in carrying information and music, traversing
-through domains — from **Analog** and **Digital** formats to engaging
-our senses in a profound way. With the advent of Quantum Computing,
-**Quantum Audio** formulate ways of representing Audio in the Quantum
-Domain, enabling new explorations in artistic and research contexts.
-
-The Package
-^^^^^^^^^^^
-
 The ``quantumaudio`` package provides fundamental operations for
 representing audio samples as Quantum States that can be processed on a
 Quantum computer (or a Simulator) and played back.
@@ -38,16 +23,27 @@ Quantum computer (or a Simulator) and played back.
    quantumaudio.encode(audio)   #returns a quantum circuit
    quantumaudio.decode(circuit) #returns audio samples
 
-Table of Contents
------------------
+Installation 
+------------
 
--  `Overview <#overview>`__
--  `Installation <#installation>`__
--  `Usage <#usage>`__
--  `Additional Resources <#materials>`__
--  `Contributing <#contributing>`__
--  `Future Releases <#future-releases>`__
--  `Citing <#citing>`__
+To install the Quantum Audio Package, run the 
+following command in Terminal or Command Prompt:
+
+.. code:: console
+
+   pip install quantumaudio
+
+
+Additional dependencies required for the demos provided in
+the GitHub repository can be installed using ``pip``:
+
+.. code:: console
+
+   pip install "quantumaudio[demos]"
+
+This includes Digital Audio Dependencies (`soundfile` and `librosa`) and 
+an Interative notebook dependency (`ipywidgets`). 
+
 
 Overview 
 --------
@@ -76,51 +72,6 @@ The following subpackages can be accessed from ``quantumaudio``:
 
 Additionally, ``tools`` contain extension functions that support basic
 visual analysis and audio processing.
-
-   For a quick tour of Quantum Audio, try
-   `Colab <https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd>`__
-
-🪄 Installation 
-----------------
-
-To install the Quantum Audio Package, you can use ``pip`` (included with
-Python) which installs it from
-`PyPI <https://pypi.org/project/quantumaudio/>`__ package manager. Run
-the following command in Terminal or Command Prompt:
-
-.. code:: console
-
-   pip install quantumaudio
-
-For local installation by
-`cloning <https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository>`__,
-navigate to the cloned directory in Terminal or Command Prompt and run:
-``pip install .`` or ``pip install -r requirements.txt``
-
-Optional Dependencies
-^^^^^^^^^^^^^^^^^^^^^
-
-All additional dependencies required that support the demos provided in
-the repository can be installed using ``pip``:
-
-.. code:: console
-
-   pip install "quantumaudio[demos]"
-
-It includes the following
-collection of dependencies also mentioned in the folder
-``demos/requirements``:
-
--  **Digital Audio Dependencies** The core package operates with *numpy*
-   arrays. Dependencies for audio file handling to run audio examples in
-   notebook and scripts in the repository can be separately installed
-   using ``pip install soundfile librosa``
-
-
--  **Notebook Dependencies** The `Demo
-   Notebook <https://github.com/moth-quantum/quantum-audio/blob/main/demos/demo.ipynb>`__
-   features interactive elements that require additional dependency. It
-   can be installed using ``pip install ipywidgets``
 
 Usage 
 -----
@@ -153,7 +104,7 @@ Using Functions
 ^^^^^^^^^^^^^^^
 
 The core functions are also directly accessible without declaring a
-Scheme object. (Refer to `Documentation <>`__ for all the available
+Scheme object. (Refer to :ref:`Documentation <functions>` for all the available
 functions)
 
 .. code:: python
@@ -225,11 +176,9 @@ Using Custom Functions
 The ``decode`` and ``stream`` operations can be configured with the
 following custom functions. They require few mandatory arguments
 followed by custom preceding keyword arguments (denoted as
-``**kwargs``). - **Process Function**: The default process function of
-``stream()`` simply encodes and decodes a chunk of data with default
-parameters. It can be overriden by passing a custom function to the
-``process_function=`` parameter. The mandatory arguments for the custom
-process function are ``data=`` and ``scheme=``.
+``**kwargs``). 
+
+- **Process Function**: The default process function of ``stream()`` simply encodes and decodes a chunk of data with default parameters. It can be overriden by passing a custom function to the ``process_function=`` parameter. The mandatory arguments for the custom process function are ``data=`` and ``scheme=``.
 
 .. code:: python
 
@@ -250,6 +199,64 @@ Primitive <https://docs.quantum.ibm.com/api/qiskit-ibm-runtime/qiskit_ibm_runtim
 ``quantumaudio.utils.execute_with_sampler`` that can be passed to the
 ``decode()`` method.
 
+
+Version Information 
+-------------------
+
+Pre-release original version: ``v0.0.2``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This project is derived from research output on Quantum Representations
+of Audio, carried by Interdisciplinary Centre for Computer Music
+Research (`ICCMR <https://www.plymouth.ac.uk/research/iccmr>`__),
+University of Plymouth, UK, namely:
+
+-  Itaboraí, P.V., Miranda, E.R. (2022). Quantum Representations of
+   Sound: From Mechanical Waves to Quantum Circuits. In: Miranda, E.R.
+   (eds) Quantum Computer Music. Springer, Cham.
+   https://doi.org/10.1007/978-3-031-13909-3_10
+
+-  Itaboraí, P. V. (2022). Quantumaudio Module (Version 0.0.2) [Computer
+   software]. https://github.com/iccmr-quantum/quantumaudio
+
+-  Itaboraí, P. V. (2023) Towards Quantum Computing for Audio and Music
+   Expression. Thesis. University of Plymouth. Available at:
+   https://doi.org/10.24382/5119
+
+Redevelopment: ``v0.1.0``
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This project has been completely re-developed and is now maintained by
+\ `Moth Quantum <https://mothquantum.com>`__\ .
+
+-  **New Architecture:**
+
+   -  This project has been restructured for better flexibility and
+      scalability.
+   -  Instead of *QuantumAudio* Instances, the package begins at the
+      level of *Scheme* Instances that perform encoding and decoding
+      functions independent of the data.
+
+-  **Feature Updates:**
+
+   -  Introducing 2 Additional Schemes that can encode and decode
+      Multi-channel Audio.
+   -  Supports Faster encoding and decoding of long audio files using
+      Batch processing.
+
+-  **Dependency Change:**
+
+   -  Support for *Qiskit* is updated from ``v0.22`` to ``v1.0+``
+
+-  **Improvements:**
+
+   -  Improved organisation of code for Readability and Modularity.
+   -  Key metadata information is preserved during the encoding
+      operation, making the decoding process independent.
+
+-  **License Change:**
+
+   -  The License is updated from **MIT** to **Apache 2.0**
 
 Citing 
 ------
