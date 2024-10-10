@@ -101,7 +101,7 @@ This project has been completely re-developed and is now maintained by <b>[Moth 
   - The License is updated from **MIT** to **Apache 2.0**
 
 ### Migration Guide
-If you're transitioning from the previous version, please check the [Migration Guide](https://github.com/moth-quantum/quantum-audio/blob/main/MIGRATION.md) for an overview of the package usability.
+If you're transitioning from the previous version, please check the [Migration Guide](https://github.com/moth-quantum/quantum-audio/blob/main/docs/guides/MIGRATION.md) for an overview of the package usability.
 
 
 ##  🪄 Installation <a id="installation"></a>
@@ -224,7 +224,7 @@ result = execute_function(circuit, **kwargs)
  
 ## 📘 Additional Resources <a id="materials"></a>
 ### Notebook Examples
-For examples of circuit preparation, signal reconstruction, and interactive demonstrations, please check the [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/DEMO.ipynb). It combines the core package with additional functions from the `demos/tools` folder to go through Visual and Digital Audio examples.
+For examples of circuit preparation, signal reconstruction, and interactive demonstrations, please check the [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/demos/demo.ipynb). It combines the core package with additional functions from the `demos/tools` folder to go through Visual and Digital Audio examples.
 
 ### Quick Export ⚡️
 To quickly export quantumaudio from any audio file (e.g., _mp3_, _ogg_, _flac_, _m4a_), a script ```export.py``` is provided in the `demos/scripts` folder. Navigate to the directory and run:
@@ -261,13 +261,13 @@ If you find any issues or have suggestions for improvements, please open an issu
 - **Educational Use:** If you’re using this project for learning, teaching or research, we’d love to hear about your experiences and suggestions.
 - **Feedback and Ideas:** Share your thoughts, feature requests, or suggest improvements by opening an issue.
 
-For more information on contributing to Code and Documentation, please review [Contributing Guidelines](https://github.com/moth-quantum/quantum-audio/blob/main/CONTRIBUTING.md)
+For more information on contributing to Code and Documentation, please review [Contributing Guidelines](https://github.com/moth-quantum/quantum-audio/blob/main/docs/guides/CONTRIBUTING.md)
 
 ## 🚩 Future Releases <a id="future-releases"></a>
 We're excited to keep the package updated with features and improvements! In future releases, we plan to introduce other schemes from Quantum Audio Literature along with Base Scheme Class Categories to support a generic structure for further contributions.
 
 ## ✅ Citing <a id="citing"></a>
-If you use this code or find it useful in your research, please consider citing: [DOI]()
+If you use this code or find it useful in your research, please consider citing: [DOI](https://www.doi.org)
 
 ---
 
