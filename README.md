@@ -176,7 +176,7 @@ It wraps the functions provided in the module `quantumaudio.tools.stream` that h
 
 ### Running on Native Backends
 
-A Scheme's ```decode()``` method uses local [_AerSimulator_](https://github.com/Qiskit/qiskit-aer) as the default backend. Internally, the function calls `quantumaudio.utils.execute()` method that performs ```backend.run()```. Any such backend object compatible with Qiskit can be passed to the ```backend=``` parameter of the `decode()` function.
+A Scheme's ```decode()``` method uses local [_AerSimulator_](https://github.com/Qiskit/qiskit-aer) as the default backend. Internally, the function calls `utils.execute()` method that performs ```backend.run()```. Any such backend object compatible with Qiskit can be passed to the ```backend=``` parameter of the `decode()` function.
 
 ### Running on External Quantum Backends
 
