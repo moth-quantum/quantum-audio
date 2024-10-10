@@ -10,3 +10,4 @@ docs/*
 !docs/guides/
 !docs/contents/
 !docs/Makefile
+!docs/make.bat
