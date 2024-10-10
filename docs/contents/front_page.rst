@@ -9,10 +9,7 @@
 What is Quantum Audio ?
 -----------------------
 
-Quantum Audio refers to standard methods of encoding Digital Audio
-Information as Quantum Information, leveraging principles of Quantum
-mechanics for Audio Signal Processing. Here, the information is processed 
-using quantum bits, or qubits, instead of classical bits (0s and 1s).
+Quantum audio refers to the application of principles from quantum mechanics to the creation, processing, and analysis of sound or audio signals. Here, the information is processed using quantum bits, or qubits, instead of classical bits (0s and 1s).
 
 The ``quantumaudio`` package provides fundamental operations for
 representing audio samples as Quantum States that can be processed on a
