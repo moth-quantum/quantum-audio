@@ -7,4 +7,4 @@ media/*
 !docs/_build/singlehtml/
 docs/*
 !docs/*.rst
-!docs/guides/**
+!docs/guides/
