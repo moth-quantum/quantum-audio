@@ -21,14 +21,14 @@ import quantumaudio
 from quantumaudio import load_scheme
 from quantumaudio.utils import pick_key
 from quantumaudio.tools import stream_data
-from typing import Union
+from typing import Union, Optional
 
 # ------------------- Core Functions ---------------------------
 
 
 def encode(
     data: "np.ndarray",
-    scheme: Union[str, quantumaudio.schemes.Scheme] = "qpam",
+    scheme: Optional[Union[str, quantumaudio.schemes.Scheme]] = None,
     **kwargs,
 ):
     """Encodes data and prepares circuit using a specified quantum scheme.
@@ -41,6 +41,7 @@ def encode(
     Returns:
         Qiskit circuit encoding the data.
     """
+    if not scheme: scheme = _auto_pick_scheme(data)
     scheme_kwargs, kwargs = _split_kwargs(kwargs)
     return _load_scheme(scheme, **scheme_kwargs).encode(data, **kwargs)
 
@@ -64,7 +65,7 @@ def decode(circuit: "qiskit.QuantumCircuit", **kwargs):
 
 def stream(
     data: "np.ndarray",
-    scheme: Union[str, quantumaudio.schemes.Scheme] = "qpam",
+    scheme: Optional[Union[str, quantumaudio.schemes.Scheme]] = None,
     **kwargs,
 ):
     """Streams data through a quantum encoding scheme for longer arrays.
@@ -77,6 +78,7 @@ def stream(
     Returns:
         Processed stream data based on the quantum scheme.
     """
+    if not scheme: scheme = _auto_pick_scheme(data)
     scheme_kwargs, kwargs = _split_kwargs(kwargs)
     scheme = _load_scheme(scheme, **scheme_kwargs)
     return stream_data(data=data, scheme=scheme, **kwargs)
@@ -87,7 +89,7 @@ def stream(
 
 def calculate(
     data: "np.ndarray",
-    scheme: Union[str, quantumaudio.schemes.Scheme] = "qpam",
+    scheme: Optional[Union[str, quantumaudio.schemes.Scheme]] = None,
     **kwargs,
 ):
     """Estimates and Prints the resources required (number of qubits) according to a scheme.
@@ -97,6 +99,7 @@ def calculate(
         scheme: Name of the encoding scheme or a scheme object to use. Defaults to "qpam".
         **kwargs: Additional keyword arguments passed to the scheme class.
     """
+    if not scheme: scheme = _auto_pick_scheme(data)
     _load_scheme(scheme, **kwargs).calculate(data)
 
 
@@ -144,6 +147,17 @@ def decode_counts(counts: dict, metadata: dict, **kwargs):
 # ------------------- API Helpers ---------------------------
 
 _cache = {}
+
+def _auto_pick_scheme(data):
+    """Choose a default scheme based on the Input Data Dimensions.
+
+    Args:
+        data: Input data array.
+    """
+    if data.ndim > 1:
+        return "mqsm"
+    else:
+        return "qpam"
 
 
 def _load_scheme(
