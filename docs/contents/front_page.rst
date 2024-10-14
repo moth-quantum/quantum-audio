@@ -20,6 +20,10 @@ Quantum computer (or a Simulator) and played back.
    quantumaudio.encode(audio)   #returns a quantum circuit
    quantumaudio.decode(circuit) #returns audio samples
 
+.. note::
+
+   Quantum Audio represents Audio in terms of Quantum Circuits and does not require Quantum Memory for storage.
+
 Installation 
 ------------
 
@@ -184,7 +188,7 @@ followed by custom preceding keyword arguments (denoted as
 -  **Execute Function**: The default execute function for ``decode()``
    can be overriden by passing a custom function to the
    ``execute_function=`` parameter. The mandatory argument for the
-   custom execute function is ``circuit=``.
+   custom execute function is ``circuit=``. (QPAM also expects ``shots=`` since it's a metadata)
 
 .. code:: python
 
