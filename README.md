@@ -29,6 +29,8 @@ quantumaudio.encode(audio)   # returns a quantum circuit
 quantumaudio.decode(circuit) # returns audio samples
 ```
 
+>  Quantum Audio represents Audio in terms of Quantum Circuits and does not require Quantum Memory for storage.
+
 ## 🗒️ Table of Contents
 
 - [Overview](#overview)
