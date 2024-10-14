@@ -105,9 +105,13 @@ def process_chunks(
     """
     processed_chunks = []
     if not batch_process:  # process one by one
-        for chunk in tqdm(chunks, disable=not verbose):
-            processed_chunk = process_function(chunk, scheme, **kwargs)
-            processed_chunks.append(processed_chunk)
+        try:
+            for chunk in tqdm(chunks, disable=not verbose):
+                processed_chunk = process_function(chunk, scheme, **kwargs)
+                processed_chunks.append(processed_chunk)
+        except (KeyboardInterrupt, Exception) as e:
+            print(e)
+            return processed_chunks
     else:  # process all at once
         processed_chunks = process_function(chunks, scheme, **kwargs)
     return processed_chunks
