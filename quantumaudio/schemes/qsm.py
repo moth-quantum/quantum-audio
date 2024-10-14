@@ -220,7 +220,7 @@ class QSM(Scheme):
         Returns:
             A Qiskit Circuit representing the Digital Audio
         """
-        data = utils.validate_data(data)
+        utils.validate_data(data)
 
         num_samples, (num_index_qubits, num_value_qubits) = self.calculate(
             data, verbose=bool(verbose)

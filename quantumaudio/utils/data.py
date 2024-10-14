@@ -35,46 +35,17 @@ def is_within_range(arr: np.ndarray, min_val: float, max_val: float) -> bool:
     return np.all((arr >= min_val) & (arr <= max_val))
 
 
-def assert_data(data: Union[list, tuple, np.ndarray]) -> np.ndarray:
-    """Ensure the data is a `numpy` array. If the data is not a `numpy` array,
-    it will be converted to one. Raises a TypeError if the input is not
-    a list, tuple, or `numpy` array.
-
-    Args:
-        data: Input data (could be a list, tuple, or `numpy` array)
-
-    Returns:
-        A `numpy` array
-
-    Raises:
-        TypeError: If the input data type is not supported
-    """
-    if isinstance(data, np.ndarray):
-        return data
-    elif isinstance(data, (list, tuple)):
-        return np.array(data)
-    else:
-        raise TypeError("Input data must be a list, tuple, or `numpy` array")
-
-
-def validate_data(data: Union[list, tuple, np.ndarray]) -> np.ndarray:
-    """Ensure the input data is a `numpy` array and verify that its values
+def validate_data(data: Union[list, tuple, np.ndarray]) -> None:
+    """Ensure the input data is a `numpy` array and that its values
     are within the digital audio range: -1.0 to 1.0.
 
     Args:
-        data: Input data, which can be a list, tuple, or `numpy` array.
-
-    Returns:
-        A `numpy` array with values within the digital audio range.
-
-    Raises:
-        ValueError: If the data type is not supported or contains values
-        outside the range [-1.0, 1.0].
+        data: Input data array.
     """
-    data = assert_data(data)
+    if not isinstance(data, np.ndarray):
+        raise TypeError("Input data must be a `numpy` array")
     if not is_within_range(data, min_val=-1.0, max_val=1.0):
         raise ValueError("Data not in the digital audio range (-1.0 to 1.0).")
-    return data
 
 
 # ==============

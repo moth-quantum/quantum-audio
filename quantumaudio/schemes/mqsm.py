@@ -265,7 +265,7 @@ class MQSM(Scheme):
         Returns:
             A Qiskit Circuit representing the Digital Audio
         """
-        data = utils.validate_data(data)
+        utils.validate_data(data)
 
         (num_channels, num_samples), qubit_shape = self.calculate(
             data, verbose=verbose
