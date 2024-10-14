@@ -128,6 +128,16 @@ def combine_chunks(chunks: list[np.ndarray]) -> np.ndarray:
         output = np.concatenate(chunks, axis=0)
     return output
 
+def normalize(data: np.ndarray) -> np.ndarray:
+    """Normalize the input data to ensure it lies within the standard range [-1.0, 1.0].
+    
+    Args:
+        data: Input array containing audio data.
+    """
+    if not np.all((data >= -1.0) & (data <= 1.0)):
+        print("Warning: Values outside the digital audio range are clipped.")
+        data = np.clip(data, -1.0, 1.0)
+    return data
 
 def stream_data(
     data: np.ndarray,
@@ -157,6 +167,7 @@ def stream_data(
     Returns:
         np.ndarray
     """
+    data = normalize(data)
     if chunk_size > data.shape[-1]:
         chunk_size = data.shape[-1]
         if verbose == 2:
