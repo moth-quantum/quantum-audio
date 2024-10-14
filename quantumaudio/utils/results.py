@@ -14,15 +14,11 @@
 # ==========================================================================
 
 from typing import Union
-
-import matplotlib.pyplot as plt
 import qiskit
-import qiskit_aer
-from qiskit import transpile
 from qiskit.primitives import PrimitiveResult, SamplerPubResult
 
 # ======================
-# Measurement
+# Post-processing
 # ======================
 
 
@@ -41,26 +37,6 @@ def pad_counts(counts: Union[dict, qiskit.result.Counts]) -> dict:
     ]
     complete_counts = {state: counts.get(state, 0) for state in all_states}
     return complete_counts
-
-
-def execute(circuit, backend=None, shots=4000, memory=False):
-    """
-    Executes a quantum circuit on a given backend and return the results.
-
-    Args:
-        circuit: The quantum circuit to be executed.
-        backend: The backend on which to run the circuit. If None, the default backend `qiskit_aer.AerSimulator()` is used.
-        shots: Total number of times the quantum circuit is measured.
-        memory: Whether to return the memory (quantum state) of each shot.
-
-    Returns:
-        Result: The result of the execution, containing the counts and other metadata.
-    """
-    backend = qiskit_aer.AerSimulator() if not backend else backend
-    circuit = transpile(circuit, backend)
-    job = backend.run(circuit, shots=shots, memory=memory)
-    result = job.result()
-    return result
 
 
 def get_counts(results_obj, result_id=0):
@@ -105,11 +81,13 @@ def get_metadata(results_obj, result_id=0):
     metadata = {}
 
     if isinstance(results_obj, PrimitiveResult):
+        metadata.update(results_obj.metadata)
         results_obj = results_obj[result_id]
 
-    if isinstance(results_obj, SamplerPubResult):
-        metadata = results_obj.metadata["circuit_metadata"]
-        metadata["shots"] = results_obj.metadata["shots"]
+    if isinstance(results_obj, (PrimitiveResult, SamplerPubResult)):
+        if "circuit_metadata" in results_obj.metadata:
+            metadata.update(results_obj.metadata["circuit_metadata"])
+        metadata["shots"] = results_obj.data.meas.num_shots
 
     elif isinstance(results_obj, qiskit.result.Result):
         metadata = results_obj.results[result_id].header.metadata
@@ -117,6 +95,11 @@ def get_metadata(results_obj, result_id=0):
 
     else:
         raise TypeError("Unsupported result object type.")
+
+    if not metadata:
+        raise ValueError(
+            f"No metadata found in Results object {type(results_obj)}. Try manually passing `metadata=` in the decode function. (Metadata can be accessed from the encoded circuit's `.metadata` attribute)"
+        )
 
     return metadata
 
@@ -139,39 +122,60 @@ def get_counts_and_metadata(results_obj, result_id=0):
 
 
 # ======================
-# Preview Functions
+# Retrieve Metadata
 # ======================
 
 
-def print_num_qubits(
-    num_qubits: tuple[int, ...], labels: tuple[str, ...]
-) -> None:
-    """Prints the number of qubits required and their allocation per label.
+def pick_key_from_instance(instance, key):
+    """Search for given key in an instance used at decoding.
 
     Args:
-        num_qubits: List of integers representing the number of qubits.
-        labels: List of strings representing labels for each qubit allocation.
+        instance: Can be Qiskit Circuit or Result object.
+        key: Key to find in the encoded metadata.
 
     """
-    print(f"Number of qubits required: {sum(num_qubits)}\n")
-    for i, qubits in enumerate(num_qubits):
-        print(f"{qubits} for {labels[i]}")
+    if isinstance(instance, qiskit.circuit.QuantumCircuit):
+        if key == "scheme" and instance.name.upper() in [
+            "QPAM",
+            "SQPAM",
+            "QSM",
+            "MSQPAM",
+            "MQSM",
+        ]:
+            return instance.name.upper()
+        elif key in instance.metadata:
+            return instance.metadata[key]
+
+    elif isinstance(
+        instance, (qiskit.result.Result, PrimitiveResult, SamplerPubResult)
+    ):
+        metadata = get_metadata(instance)
+        if key in metadata:
+            return metadata[key]
+
+    # If the key was not found in the instance
+    if key == "scheme":
+        raise ValueError(f"{key} is missing")  # Scheme is essential
+    return None
 
 
-def draw_circuit(circuit: qiskit.QuantumCircuit, decompose: int = 0) -> None:
-    """Draws a quantum circuit diagram.
+def pick_key(kwargs, instance, key):
+    """Search for given key in key words dictionary first if user manually specified or
+    continue searching for key using instances
 
     Args:
-        circuit: The quantum circuit to draw.
-        decompose: Number of times to decompose the circuit. Defaults to 0.
+        kwargs: Keyword arguments dictionary.
+        instance: Can be Qiskit Circuit or Result object.
+        key: Key to find in the encoded metadata.
 
     """
-    for _i in range(decompose):
-        circuit = circuit.decompose()
+    # Check if the key exists in kwargs
+    if key in kwargs:
+        return kwargs.pop(key)
 
-    fig = circuit.draw("mpl", style="clifford")
+    # Check if metadata exists in kwargs and the key is inside it
+    if "metadata" in kwargs and key in kwargs["metadata"]:
+        return kwargs["metadata"][key]
 
-    try:  # Check if the code is running in Jupyter Notebook
-        display(fig)
-    except NameError:
-        plt.show()
+    # Send the search to pick_key_with_instance
+    return pick_key_from_instance(instance, key)

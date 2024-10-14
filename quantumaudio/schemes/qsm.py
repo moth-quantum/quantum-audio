@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==========================================================================
 
-from typing import Optional, Union
+from typing import Optional, Union, Callable, Any, Tuple
 
 import numpy as np
 import qiskit
@@ -43,7 +43,7 @@ class QSM(Scheme):
                           (Note: In QSM, this is a variable
                           that depends on the bit depth of audio)
 
-            n_fold:       Term for fixed number of registers used.
+            n_fold:       Term for a fixed number of indexed registers used.
             labels:       Name of the Quantum registers
             positions:    Index position of Quantum registers
                           (In Qiskit circuit the registers are arranged
@@ -52,6 +52,8 @@ class QSM(Scheme):
             convert:      Function that applies a mathematical conversion
                           of input at Encoding.
             restore:      Function that restores the conversion at Decoding.
+            
+            keys:         Reference to essential metadata keys for decoding.
 
         Args:
             qubit_depth:  If None, the qubit_depth is adapted to the data.
@@ -68,6 +70,8 @@ class QSM(Scheme):
 
         self.convert = utils.quantize
         self.restore = utils.de_quantize
+
+        self.keys = ("num_samples", "qubit_shape")
         print(self.name)
 
     # ------------------- Encoding Helpers ---------------------------
@@ -76,7 +80,7 @@ class QSM(Scheme):
 
     def calculate(
         self, data: np.ndarray, verbose: Union[int, bool] = True
-    ) -> tuple[int, tuple[int, int]]:
+    ) -> Tuple[int, Tuple[int, int]]:
         """Returns necessary information required for Encoding and Decoding:
 
          - Number of qubits required to encode both Time and Amplitude information.
@@ -87,10 +91,11 @@ class QSM(Scheme):
             verbose: Prints the Qubit information if True or int > 0.
 
         Returns:
-            A tuple of (num_samples, number_qubits)
-            number_qubits is a tuple (int, int) consisting of:
-            - num_index_qubits to encode Time Information (x-axis).
-            - num_value_qubits to encode Amplitude Information (y-axis).
+            A Tuple of (num_samples, qubit_shape).
+
+            `qubit_shape` is a Tuple (int, int) consisting of:
+                - `num_index_qubits` to encode Time Information (x-axis).
+                - `num_value_qubits` to encode Amplitude Information (y-axis).
         """
         # x-axis
         num_samples = data.shape[-1]
@@ -106,29 +111,29 @@ class QSM(Scheme):
             else self.qubit_depth
         )
 
-        num_qubits = (num_index_qubits, num_value_qubits)
+        qubit_shape = (num_index_qubits, num_value_qubits)
         if verbose:
-            utils.print_num_qubits(num_qubits, labels=self.labels)
-        return num_samples, num_qubits
+            utils.print_num_qubits(qubit_shape, labels=self.labels)
+        return num_samples, qubit_shape
 
     def prepare_data(
         self, data: np.ndarray, num_index_qubits: int
     ) -> np.ndarray:
         """Prepares the data with appropriate dimensions for encoding:
 
-        - It pads the length of data with zeros to fit the number of states
-          that can be represented with `num_index_qubits`.
-        - It also removes redundant dimension if the shape is (1,num_samples).
+         - It pads the length of data with zeros to fit the number of states
+           that can be represented with `num_index_qubits`.
+         - It also removes redundant dimension if the shape is (1,num_samples).
 
         Args:
             data: Array representing Digital Audio Samples
             num_index_qubits: Number of qubits used to encode the sample indices.
 
         Returns:
-            data: Array with dimensions suitable for encoding.
+            Array with dimensions suitable for encoding.
 
         Note:
-            This method should be followed by scheme.convert()
+            This method should be followed by `convert()` method
             to convert the values suitable for encoding.
         """
         data = utils.apply_index_padding(data, num_index_qubits)
@@ -147,7 +152,7 @@ class QSM(Scheme):
             num_value_qubits: Number of qubits used to encode the sample values.
 
         Returns:
-            circuit: Qiskit Circuit with the registers
+            Qiskit Circuit with the registers
         """
         index_register = qiskit.QuantumRegister(
             num_index_qubits, self.labels[0]
@@ -200,7 +205,7 @@ class QSM(Scheme):
         self,
         data: np.ndarray,
         measure: bool = True,
-        verbose: Union[int, bool] = 2,
+        verbose: Union[int, bool] = 1,
     ) -> qiskit.QuantumCircuit:
         """Given an audio data, prepares a Qiskit Circuit representing it.
 
@@ -208,12 +213,15 @@ class QSM(Scheme):
             data: Array representing Digital Audio Samples
             measure: Adds measurement to the circuit if set True or int > 0.
             verbose: Level of information to print.
-                     - >1: Prints number of qubits required.
-                     - >2: Displays the encoded circuit.
+
+              - >1: Prints number of qubits required.
+              - >2: Displays the encoded circuit.
 
         Returns:
             A Qiskit Circuit representing the Digital Audio
         """
+        data = utils.validate_data(data)
+
         num_samples, (num_index_qubits, num_value_qubits) = self.calculate(
             data, verbose=bool(verbose)
         )
@@ -230,7 +238,8 @@ class QSM(Scheme):
         # additional information for decoding
         circuit.metadata = {
             "num_samples": num_samples,
-            "num_qubits": (num_index_qubits, num_value_qubits),
+            "qubit_shape": (num_index_qubits, num_value_qubits),
+            "scheme": circuit.name,
         }
 
         # measure, print and return
@@ -245,7 +254,7 @@ class QSM(Scheme):
     def decode_components(
         self,
         counts: Union[dict, qiskit.result.Counts],
-        num_components: int,
+        qubit_shape: [int, int],
     ) -> np.ndarray:
         """The first stage of decoding is extracting required components from
         counts.
@@ -253,26 +262,25 @@ class QSM(Scheme):
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_components: number of components to get.
+            qubit_shape: Tuple to determine the number of components to get.
 
         Returns:
             Array of components for further decoding.
         """
+        num_index_qubits = qubit_shape[0]
+        num_components = 2**num_index_qubits
+
         data = np.zeros(num_components, int)
-        num_index_qubits = int(np.log2(num_components))
+
         for state in counts:
-            index_bits = state[:num_index_qubits]
-            value_bits = state[num_index_qubits:]
+            index_bits, value_bits = utils.split_string(state, qubit_shape)
             index = int(index_bits, 2)
             value = BitArray(bin=value_bits).int
             data[index] = value
         return data
 
     def reconstruct_data(
-        self,
-        counts: Union[dict, qiskit.result.Counts],
-        num_components: int,
-        qubit_depth: int,
+        self, counts: Union[dict, qiskit.result.Counts], qubit_shape: int
     ) -> np.ndarray:
         """Given counts, Extract components and restore the conversion did at
         encoding stage.
@@ -280,14 +288,14 @@ class QSM(Scheme):
         Args:
             counts: a dictionary with the outcome of measurements
                     performed on the quantum circuit.
-            num_components: number of components to get.
+            qubit_shape: Tuple to determine the number of components to get.
             qubit_depth : number of qubits in amplitude register.
 
         Return:
-            data: Array of restored values
+            Array of restored values
         """
-        data = self.decode_components(counts, num_components)
-        data = self.restore(data, qubit_depth)
+        data = self.decode_components(counts, qubit_shape)
+        data = self.restore(data, bit_depth=qubit_shape[-1])
         return data
 
     def decode_counts(
@@ -305,18 +313,16 @@ class QSM(Scheme):
                 keep_padding: Undo the padding set at Encoding stage if set False.
 
         Return:
-                data: Array of restored values with original dimensions
+                Array of restored values with original dimensions
         """
         index_position, amplitude_position = self.positions
+        qubit_shape = metadata["qubit_shape"]
 
         # decoding x-axis
-        num_index_qubits = metadata["num_qubits"][0]
-        num_samples = 2**num_index_qubits
         original_num_samples = metadata["num_samples"]
 
         # decoding y-axis
-        qubit_depth = metadata["num_qubits"][1]
-        data = self.reconstruct_data(counts, num_samples, qubit_depth)
+        data = self.reconstruct_data(counts, qubit_shape)
 
         # undo padding
         if not keep_padding:
@@ -339,7 +345,7 @@ class QSM(Scheme):
                 keep_padding: Undo the padding set at Encoding stage if set False.
 
         Return:
-                data: Array of restored values with original dimensions
+                Array of restored values with original dimensions
         """
         counts = utils.get_counts(result)
         metadata = utils.get_metadata(result) if not metadata else metadata
@@ -353,22 +359,29 @@ class QSM(Scheme):
     def decode(
         self,
         circuit: qiskit.QuantumCircuit,
-        backend: Optional[str] = None,
-        shots: int = 4000,
+        metadata: Optional[dict] = None,
         keep_padding: bool = False,
+        execute_function: Callable[
+            [qiskit.QuantumCircuit, dict], Any
+        ] = utils.execute,
+        **kwargs,
     ) -> np.ndarray:
         """Given a qiskit circuit, decodes and returns back the Original Audio Array.
 
         Args:
                 circuit: A Qiskit Circuit representing the Digital Audio.
-                backend: A backend string compatible with qiskit.execute method
-                shots  : Total number of times the quantum circuit is measured.
+                metadata: optionally pass metadata as argument.
                 keep_padding: Undo the padding set at Encoding stage if set False.
+                execute_function: Function to execute the circuit for decoding.
+
+                  - Defaults to :ref:`utils.execute <execute>` which accepts any additional `**kwargs`.
 
         Return:
-                data: Array of decoded values
+                Array of decoded values
         """
         self.measure(circuit)
-        result = utils.execute(circuit=circuit, backend=backend, shots=shots)
-        data = self.decode_result(result=result, keep_padding=keep_padding)
+        result = execute_function(circuit=circuit, **kwargs)
+        data = self.decode_result(
+            result=result, metadata=metadata, keep_padding=keep_padding
+        )
         return data

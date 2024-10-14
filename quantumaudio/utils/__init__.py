@@ -13,16 +13,25 @@
 # limitations under the License.
 # ==========================================================================
 
-"""This subpackage contains the following utility modules that support the encoding and decoding schemes:
+"""
+========
+Overview
+========
 
-- **data.py**: Data preparation and calculation functions.
-- **convert.py**: Data pre-processing functions required for encoding values into the quantum circuit.
-- **circuit.py**: Helper functions for quantum audio circuit preparations with Qiskit.
-- **qiskit_helpers.py**: Common helper functions for obtaining circuit results and preview information on the circuit. It includes Aer Simulator as the default backend if no backend is specified.
+This subpackage contains the utility modules that support the core operations of schemes.
+The contents of the following modules are directly accessible from the subpackage `quantumaudio.utils`.
+
+- **circuit**: Helper functions for quantum audio circuit preparations with `Qiskit`.
+- **convert**: Data pre-processing functions required for encoding values into the quantum circuit.
+- **data**: Data preparation and calculation functions.
+- **execute**: Helper Functions for executing circuits. Uses `AerSimulator` as Default backend.
+- **preview**: Functions to draw and print information of a circuit.
+- **results**: Common helper functions for obtaining circuit results.
 """
 
 from .circuit import *
 from .convert import *
 from .data import *
-from .qiskit_helpers import *
-from .plot import plot
+from .execute import *
+from .results import *
+from .preview import *

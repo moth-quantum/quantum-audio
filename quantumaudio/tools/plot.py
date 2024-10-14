@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # ======================
-# Plotting Utils
+# Plotting Functions
 # ======================
 
 
@@ -69,7 +69,7 @@ def plot(
     """Plots the given samples. It accepts multi-dimensional array and also multiple plots for comparisons.
 
     Args:
-        samples: The samples to plot. Can be a single numpy array or a list of numpy arrays.
+        samples: The samples to plot. Can be a single `numpy` array or a list of `numpy` arrays.
         title: Title for the plot. Defaults to None.
         label: Labels for the samples. Defaults to ("original", "reconstructed").
         figsize: Set the width and height for matplotlib plot
@@ -108,9 +108,9 @@ def plot(
     else:
         plt.figure(figsize=figsize)
         for i, y_axis in enumerate(samples):
-            plt.plot(
-                x_axis, y_axis.squeeze(), label=None if not label else label[i]
-            )
+            if isinstance(y_axis, np.ndarray):
+                y_axis = y_axis.squeeze()
+            plt.plot(x_axis, y_axis, label=None if not label else label[i])
             plt.xlabel("Index")
             plt.ylabel("Values")
             if label:

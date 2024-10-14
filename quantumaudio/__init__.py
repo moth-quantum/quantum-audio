@@ -20,16 +20,28 @@ necessary utilities.
 __version__ = "0.1.0b"
 
 import importlib
+from importlib.metadata import version
+from packaging.version import parse
+
+# --------------------------- Qiskit Version Assertion ---------------------------
+
+_minimum_version = "1.0.0"
+_current_version = version("qiskit")
+
+if parse(_current_version) < parse(_minimum_version):
+    raise ImportError(
+        f"Quantum Audio {__version__} requires Qiskit >= {_minimum_version} but found {_current_version}"
+    )
 
 # --------------------------- Lazy Loader ---------------------------
 
 
-def load_scheme(name, *args, **kwargs):
+def load_scheme(name: str, *args, **kwargs):
     """
     Load and instantiate a quantum audio representation (or scheme) class from a string.
 
     Args:
-        name (str): The name of the scheme to load. It can be one of the following:
+        name: The name of the scheme to load. It can be one of the following:
             `qpam`, `sqpam`, `qsm`, `msqpam`, or `mqsm`.
         *args: Optional positional arguments to pass to the scheme class.
         **kwargs: Optional keyword arguments to pass to the scheme class such as:
@@ -39,11 +51,16 @@ def load_scheme(name, *args, **kwargs):
             - ``num_channels`` (int): For `msqpam` and `mqsm` to manually set the number
               of channels to represent.
 
+            By default, these values are set to `None`, which means they adapt flexibly to the input data.
+
     Returns:
-        quantumaudio.schemes.Scheme:
+        :ref:`quantumaudio.schemes.Scheme <base-scheme>`:
             An instance of the Quantum Audio Scheme.
     """
     try:
+        assert isinstance(
+            name, str
+        ), "Name of the scheme to load must be a string"
         scheme = importlib.import_module(
             f"quantumaudio.schemes.{name.lower()}"
         )
@@ -58,16 +75,23 @@ def load_scheme(name, *args, **kwargs):
 def __getattr__(name):
     """Dynamically load and instantiate a class from a scheme attribute."""
     try:
-        if name.upper() not in _all_schemes:
-            module = importlib.import_module(
-                f".{name.lower()}", package=__name__
-            )
-            return module
-        else:
+        if name.upper() in _all_schemes:
             module = importlib.import_module(
                 f".schemes.{name.lower()}", package=__name__
             )
             return getattr(module, name.upper())
+
+        elif name.lower() in _function_calls:
+            module = importlib.import_module(
+                ".interfaces.api", package=__name__
+            )
+            return getattr(module, name.lower())
+
+        else:
+            module = importlib.import_module(
+                f".{name.lower()}", package=__name__
+            )
+            return module
     except (ImportError, AttributeError) as e:
         raise AttributeError(
             f"module {__name__} has no attribute {name}"
@@ -80,11 +104,26 @@ def __dir__():
 
 
 _all_schemes = ["QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM"]
+_function_calls = [
+    "encode",
+    "decode",
+    "stream",
+    "calculate",
+    "decode_result",
+    "decode_counts",
+]
 
 __all__ = [
-    "load_scheme",
     "schemes",
     "utils",
+    "tools",
+    "load_scheme",
+    "encode",
+    "decode",
+    "stream",
+    "calculate",
+    "decode_result",
+    "decode_counts",
     "QPAM",
     "SQPAM",
     "QSM",

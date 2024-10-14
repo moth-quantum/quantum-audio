@@ -19,9 +19,21 @@ import sys
 
 from params import all_schemes, defaults
 
+
+try:
+    # If importing from remote - PyPi
+    import quantumaudio
+except ImportError:
+    # If using the local Github version
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.getcwd())))
+    try:
+        import quantumaudio
+    except ImportError as e:
+        print(f"Failed to import 'quantumaudio': {e}")
+
+# try importing audio module from tools based on Github's folder structure
 sys.path.insert(0, os.path.dirname(os.getcwd()))
-import quantumaudio
-import tools
+from tools import audio
 
 
 def set_output_path(input_path, prefix="qa_", suffix=""):
@@ -51,7 +63,7 @@ if __name__ == "__main__":
         help="Path to the output audio file. (default: saves in same directory with a prefix `qa_`)",
     )
     parser.add_argument(
-        "-v", "--verbose", action="store_true", help="Enable verbose mode."
+        "-v", "--verbose", default=2, help="Enable verbose mode."
     )
 
     parser.add_argument(
@@ -107,7 +119,7 @@ if __name__ == "__main__":
     scheme = quantumaudio.load_scheme(scheme)
 
     # Export
-    tools.audio.save_quantumaudio(
+    audio.save_audio(
         file_path=input_path,
         output_filepath=output_path,
         sr=sr,

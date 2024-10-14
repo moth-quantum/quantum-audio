@@ -33,10 +33,10 @@ class Scheme(ABC):
         """Encode the input data using the scheme.
 
         Args:
-            data: A numpy array containing the data to be encoded.
+            data: A `numpy` array containing the data to be encoded.
 
         Returns:
-            A qiskit.QuantumCircuit representing the encoded data.
+            A `qiskit.QuantumCircuit` representing the encoded data.
         """
         pass
 
@@ -45,10 +45,10 @@ class Scheme(ABC):
         """Decode the quantum circuit using the scheme.
 
         Args:
-            circuit: A qiskit.QuantumCircuit that contains the encoded data.
+            circuit: A `qiskit.QuantumCircuit` that contains the encoded data.
 
         Returns:
-            A numpy array containing the decoded data.
+            A `numpy` array containing the decoded data.
         """
         pass
 

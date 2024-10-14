@@ -14,7 +14,6 @@
 # ==========================================================================
 
 import numpy as np
-from typing import Union
 
 # ======================
 # Conversions
@@ -42,7 +41,10 @@ def convert_to_probability_amplitudes(
 
 
 def convert_to_angles(array: np.ndarray) -> np.ndarray:
-    """Converts an array to angles using arcsin(sqrt((x + 1) / 2)).
+    """Converts an array of values to angles.
+    The conversion is done using the formula: 
+
+    `arcsin(sqrt((x + 1) / 2))`
 
     Args:
         array: The input array. Values must be in the range [-1, 1].
@@ -50,7 +52,6 @@ def convert_to_angles(array: np.ndarray) -> np.ndarray:
     Returns:
         The array of angles.
     """
-    assert is_within_range(array, min_val=-1, max_val=1), "Data not in range"
     return np.arcsin(np.sqrt((array.astype(float) + 1) / 2))
 
 
@@ -118,44 +119,3 @@ def de_quantize(array: np.ndarray, bit_depth: int) -> np.ndarray:
     """
     data = array / (2 ** (bit_depth - 1))
     return data
-
-
-# ======================
-# Assertions
-# ======================
-
-
-def is_within_range(arr: np.ndarray, min_val: float, max_val: float) -> bool:
-    """Checks if all elements in the array are within the specified range.
-
-    Args:
-        arr: The input array.
-        min_val: The minimum value of the range.
-        max_val: The maximum value of the range.
-
-    Returns:
-        True if all elements are within the range, False otherwise.
-    """
-    return np.all((arr >= min_val) & (arr <= max_val))
-
-
-def assert_data(data: Union[list, tuple, np.ndarray]) -> np.ndarray:
-    """Ensure the data is a NumPy array. If the data is not a NumPy array,
-    it will be converted to one. Raises a TypeError if the input is not
-    a list, tuple, or NumPy array.
-
-    Args:
-        data: Input data (could be a list, tuple, or NumPy array)
-
-    Returns:
-        A NumPy array
-
-    Raises:
-        TypeError: If the input data type is not supported
-    """
-    if isinstance(data, (list, tuple)):
-        return np.array(data)
-    elif isinstance(data, np.ndarray):
-        return data
-    else:
-        raise TypeError("Input data must be a list, tuple, or NumPy array")

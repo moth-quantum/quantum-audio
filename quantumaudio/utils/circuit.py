@@ -18,10 +18,9 @@ from typing import Callable
 
 import qiskit
 
-# ======================
+# =========================
 # Circuit Preparation Utils
-# ======================
-
+# =========================
 
 def apply_x_at_index(qc: qiskit.QuantumCircuit, i: int) -> None:
     """This function is used to encode an index value into control qubits of a circuit.
@@ -35,10 +34,8 @@ def apply_x_at_index(qc: qiskit.QuantumCircuit, i: int) -> None:
     else:
         _, treg = qc.qregs
         creg = []
-    bitstring = []
     for reg_index, reg_qubit in enumerate(creg[:] + treg[:]):
         bit = (i >> reg_index) & 1
-        bitstring.append(bit)
         if not bit:
             qc.x(reg_qubit)
 
