@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "quantumaudio"
-version = "0.1.0b1"
+version = "0.1.0"
 authors = [
     {name = "Moth Quantum", email = "hari@mothquantum.com"},
 ]
@@ -23,31 +23,24 @@ classifiers = [
  	"Programming Language :: Python :: 3.11"
 ]
 dependencies = [
-	"qiskit==0.46",
+	"qiskit",
 	"qiskit_aer==0.13.3",
 	"numpy",
 	"bitstring",
 	"matplotlib",
 	"pylatexenc",
-	"tqdm"
+	"tqdm",
+	"packaging"
 ]
 
 [project.urls]
 Homepage = "https://mothquantum.com"
-Repository (private) = "https://github.com/moth-quantum/quantum-audio"
-Documentation (private) = "https://drive.google.com/file/d/1iJDihL2Pk9jTydA0Z4fw4hgmi2KY8L2N/view?usp=sharing"
+Repository = "https://github.com/moth-quantum/quantum-audio"
+Documentation = "https://drive.google.com/file/d/18VU6wAsaXNs5UJWboGCz02vxOY-wJuoK"
 
 [project.optional-dependencies]
-audio_io = ["soundfile","librosa","tqdm"]
-notebook_examples = ["ipython","ipykernel","ipywidgets"]
-all = [
-	"soundfile",
- 	"librosa",
-  	"ipython",
-   	"ipykernel",
-    	"ipywidgets",
-        "tqdm"
+demos = [
+	"soundfile==0.12.1",
+ 	"librosa==0.10.2.post1",
+    "ipywidgets"
 ]
-
-[tool.setuptools]
-packages = ["quantumaudio"] 
