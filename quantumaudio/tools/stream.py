@@ -126,11 +126,15 @@ def combine_chunks(chunks: list[np.ndarray]) -> np.ndarray:
     Returns:
         np.ndarray
     """
-    if chunks[0].ndim != 1:
-        output = np.concatenate(chunks, axis=1)
-    else:
-        output = np.concatenate(chunks, axis=0)
-    return output
+    try:
+        if chunks[0].ndim != 1:
+            output = np.concatenate(chunks, axis=1)
+        else:
+            output = np.concatenate(chunks, axis=0)
+        return output
+    except:
+        print("Warning: Chunks cannot be combined.") # if different data type
+        return chunks
 
 def normalize(data: np.ndarray) -> np.ndarray:
     """Normalize the input data to ensure it lies within the standard range [-1.0, 1.0].
