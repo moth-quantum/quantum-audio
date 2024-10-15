@@ -51,6 +51,7 @@ def execute(
     Returns:
         Result: The result of the execution, containing the counts and other metadata.
     """
+    assert shots > 0, "Number of shots cannot be 0"
     backend = _default_backend if not backend else backend
 
     transpiler = _load_instance(
@@ -86,6 +87,7 @@ def execute_with_sampler(
     Returns:
         Result: The result of the execution, containing the counts and other metadata.
     """
+    assert shots > 0, "Number of shots cannot be 0"
     assert _Sampler, "IBM runtime is not installed to use Sampler. It can be installed using `pip install qiskit-ibm-runtime`"
     if not isinstance(circuit, list):
         circuit = [circuit]
