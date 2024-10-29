@@ -105,9 +105,13 @@ def process_chunks(
     """
     processed_chunks = []
     if not batch_process:  # process one by one
-        for chunk in tqdm(chunks, disable=not verbose):
-            processed_chunk = process_function(chunk, scheme, **kwargs)
-            processed_chunks.append(processed_chunk)
+        try:
+            for chunk in tqdm(chunks, disable=not verbose):
+                processed_chunk = process_function(chunk, scheme, **kwargs)
+                processed_chunks.append(processed_chunk)
+        except (KeyboardInterrupt, Exception) as e:
+            print(e)
+            return processed_chunks
     else:  # process all at once
         processed_chunks = process_function(chunks, scheme, **kwargs)
     return processed_chunks
@@ -122,12 +126,26 @@ def combine_chunks(chunks: list[np.ndarray]) -> np.ndarray:
     Returns:
         np.ndarray
     """
-    if chunks[0].ndim != 1:
-        output = np.concatenate(chunks, axis=1)
-    else:
-        output = np.concatenate(chunks, axis=0)
-    return output
+    try:
+        if chunks[0].ndim != 1:
+            output = np.concatenate(chunks, axis=1)
+        else:
+            output = np.concatenate(chunks, axis=0)
+        return output
+    except:
+        print("Warning: Chunks cannot be combined.") # if different data type
+        return chunks
 
+def normalize(data: np.ndarray) -> np.ndarray:
+    """Normalize the input data to ensure it lies within the standard range [-1.0, 1.0].
+    
+    Args:
+        data: Input array containing audio data.
+    """
+    if not np.all((data >= -1.0) & (data <= 1.0)):
+        print("Warning: Values outside the digital audio range are clipped.")
+        data = np.clip(data, -1.0, 1.0)
+    return data
 
 def stream_data(
     data: np.ndarray,
@@ -157,6 +175,7 @@ def stream_data(
     Returns:
         np.ndarray
     """
+    data = normalize(data)
     if chunk_size > data.shape[-1]:
         chunk_size = data.shape[-1]
         if verbose == 2:
