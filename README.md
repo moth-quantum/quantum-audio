@@ -76,6 +76,8 @@ This project is derived from research output on Quantum Representations of Audio
   
 - Itaboraí, P. V. (2023) Towards Quantum Computing for Audio and Music Expression. Thesis. University of Plymouth. Available at: https://doi.org/10.24382/5119
 
+See the [NOTICE](NOTICE) file for details.
+
 ### Redevelopment: ```v0.1.0```
 This project has been completely re-developed and is now maintained by <b>[Moth Quantum](https://mothquantum.com)</b>.
 
