@@ -76,7 +76,7 @@ This project is derived from research output on Quantum Representations of Audio
   
 - Itaboraí, P. V. (2023) Towards Quantum Computing for Audio and Music Expression. Thesis. University of Plymouth. Available at: https://doi.org/10.24382/5119
 
-See the [NOTICE](NOTICE) file for details.
+For more details, see the [NOTICE](NOTICE) file.
 
 ### Redevelopment: ```v0.1.0```
 This project has been completely re-developed and is now maintained by <b>[Moth Quantum](https://mothquantum.com)</b>.
@@ -278,7 +278,7 @@ If you use this code or find it useful in your research, please consider citing:
 ## 📜 Copyright
 Copyright 2024 Moth Quantum
 
-Licensed under the Apache License, Version 2.0 (the "License");
+Licensed under the [Apache License](LICENSE), Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
     http://www.apache.org/licenses/LICENSE-2.0
@@ -286,7 +286,9 @@ You may obtain a copy of the License at
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and limitations under the License.
+See the [License](LICENSE) for the specific language governing permissions and limitations under the License.
+
+
 
 ## 📧 Contact 
 If you have any questions or need further assistance, please feel free to contact Moth Quantum at hello@mothquantum.com
