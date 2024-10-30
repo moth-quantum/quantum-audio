@@ -6,6 +6,12 @@
    An open-source Python package for building Quantum Representations of
    Digital Audio using *Qiskit* circuits.
 
+   .. image:: https://github.com/moth-quantum/quantum-audio/blob/main/demos/media/qsm_example.png?raw=true
+      :alt: Preview of a Quantum State Modulation (QSM) circuit.
+      :width: 500px
+
+----
+
 What is Quantum Audio ?
 -----------------------
 
@@ -224,6 +230,8 @@ University of Plymouth, UK, namely:
    Expression. Thesis. University of Plymouth. Available at:
    https://doi.org/10.24382/5119
 
+For more details, see the `NOTICE <https://github.com/moth-quantum/quantum-audio/blob/main/NOTICE>`__ file.
+
 Redevelopment: ``v0.1.0``
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -263,7 +271,10 @@ Citing
 ------
 
 If you use this code or find it useful in your research, please consider
-citing: `DOI <https://www.doi.org>`__
+citing: 
+
+Moth Quantum. (2024). Quantum Audio (v0.1.0). Zenodo. \
+`https://doi.org/10.5281/zenodo.14012135 <https://doi.org/10.5281/zenodo.14012135>`_
 
 --------------
 
@@ -279,7 +290,7 @@ a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an “AS IS” BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
+See the `License <https://github.com/moth-quantum/quantum-audio/blob/main/LICENSE>`__ for the specific language governing permissions and
 limitations under the License.
 
 Contact
