@@ -124,7 +124,7 @@ All additional dependencies required that support the demos provided in the repo
   ```
   pip install "quantumaudio[demos]"
   ```
-It includes the following collection of dependencies also mentioned in the folder ``demos/requirements``:
+It includes the following collection of dependencies, also mentioned in the folder ``demos/requirements``:
 
   - **Digital Audio Dependencies**
     The core package operates with _numpy_ arrays. Dependencies for audio file handling to run audio examples in notebook and scripts in the repository can be separately installed using ```pip install soundfile librosa```
