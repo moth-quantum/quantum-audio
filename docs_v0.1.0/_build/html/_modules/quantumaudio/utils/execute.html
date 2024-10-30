@@ -1,0 +1,244 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>quantumaudio.utils.execute &mdash; Quantum Audio 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Quantum Audio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contents/quantumaudio.html">quantumaudio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contents/quantumaudio.schemes.html">quantumaudio.schemes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contents/quantumaudio.utils.html">quantumaudio.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contents/quantumaudio.tools.html">quantumaudio.tools</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Quantum Audio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../quantumaudio.html">quantumaudio</a></li>
+      <li class="breadcrumb-item active">quantumaudio.utils.execute</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for quantumaudio.utils.execute</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2024 Moth Quantum</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="c1"># ==========================================================================</span>
+
+<span class="kn">import</span> <span class="nn">qiskit_aer</span>
+<span class="kn">from</span> <span class="nn">qiskit.transpiler.preset_passmanagers</span> <span class="kn">import</span> <span class="n">generate_preset_pass_manager</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">import</span> <span class="nn">importlib</span>
+
+<span class="c1"># Optional Import if exists</span>
+<span class="n">_Sampler</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="nb">getattr</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;qiskit_ibm_runtime&quot;</span><span class="p">),</span> <span class="s2">&quot;SamplerV2&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">find_spec</span><span class="p">(</span><span class="s2">&quot;qiskit_ibm_runtime&quot;</span><span class="p">)</span>
+    <span class="k">else</span> <span class="kc">None</span>
+<span class="p">)</span>
+
+<span class="c1"># Default Backend</span>
+<span class="n">_default_backend</span> <span class="o">=</span> <span class="n">qiskit_aer</span><span class="o">.</span><span class="n">AerSimulator</span><span class="p">()</span>
+
+<span class="c1"># ---- Default Execute Function ----</span>
+
+
+<div class="viewcode-block" id="execute">
+<a class="viewcode-back" href="../../../contents/quantumaudio.utils_modules.html#quantumaudio.utils.execute.execute">[docs]</a>
+<span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
+    <span class="n">circuit</span><span class="p">:</span> <span class="s2">&quot;qiskit.QuantumCircuit&quot;</span><span class="p">,</span>
+    <span class="n">shots</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8000</span><span class="p">,</span>
+    <span class="n">backend</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">keep_memory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">optimization_level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Executes a quantum circuit on a given backend and return the results.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        circuit: The quantum circuit to be executed.</span>
+<span class="sd">        backend: The backend on which to run the circuit. If None, the default backend `qiskit_aer.AerSimulator()` is used.</span>
+<span class="sd">        shots: Total number of times the quantum circuit is measured.</span>
+<span class="sd">        keep_memory: Whether to return the memory (quantum state) of each shot.</span>
+<span class="sd">        optimization_level: Optimization level for transpiling the circuit.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Result: The result of the execution, containing the counts and other metadata.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">shots</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Number of shots cannot be 0&quot;</span>
+    <span class="n">backend</span> <span class="o">=</span> <span class="n">_default_backend</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">backend</span> <span class="k">else</span> <span class="n">backend</span>
+
+    <span class="n">transpiler</span> <span class="o">=</span> <span class="n">_load_instance</span><span class="p">(</span>
+        <span class="n">generate_preset_pass_manager</span><span class="p">,</span>
+        <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span>
+        <span class="n">optimization_level</span><span class="o">=</span><span class="n">optimization_level</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">transpiled_circuit</span> <span class="o">=</span> <span class="n">transpiler</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+
+    <span class="n">job</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">transpiled_circuit</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">memory</span><span class="o">=</span><span class="n">keep_memory</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<span class="c1"># ---- Optional Execute Function ----</span>
+
+
+<div class="viewcode-block" id="execute_with_sampler">
+<a class="viewcode-back" href="../../../contents/quantumaudio.utils_modules.html#quantumaudio.utils.execute.execute_with_sampler">[docs]</a>
+<span class="k">def</span> <span class="nf">execute_with_sampler</span><span class="p">(</span>
+    <span class="n">circuit</span><span class="p">:</span> <span class="s2">&quot;qiskit.QuantumCircuit&quot;</span><span class="p">,</span>
+    <span class="n">backend</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">shots</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8000</span><span class="p">,</span>
+    <span class="n">optimization_level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Executes a quantum circuit on a given backend using `Sampler Primitive` and return the results.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        circuit: The quantum circuit to be executed.</span>
+<span class="sd">        backend: The backend on which to run the circuit. If None, the default backend `qiskit_aer.AerSimulator()` is used.</span>
+<span class="sd">        shots: Total number of times the quantum circuit is measured.</span>
+<span class="sd">        optimization_level: Optimization level for transpiling the circuit.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Result: The result of the execution, containing the counts and other metadata.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">shots</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Number of shots cannot be 0&quot;</span>
+    <span class="k">assert</span> <span class="n">_Sampler</span><span class="p">,</span> <span class="s2">&quot;IBM runtime is not installed to use Sampler. It can be installed using `pip install qiskit-ibm-runtime`&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">circuit</span> <span class="o">=</span> <span class="p">[</span><span class="n">circuit</span><span class="p">]</span>
+
+    <span class="n">backend</span> <span class="o">=</span> <span class="n">_default_backend</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">backend</span> <span class="k">else</span> <span class="n">backend</span>
+    <span class="n">sampler</span> <span class="o">=</span> <span class="n">_load_instance</span><span class="p">(</span><span class="n">_Sampler</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+
+    <span class="n">transpiler</span> <span class="o">=</span> <span class="n">_load_instance</span><span class="p">(</span>
+        <span class="n">generate_preset_pass_manager</span><span class="p">,</span>
+        <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span>
+        <span class="n">optimization_level</span><span class="o">=</span><span class="n">optimization_level</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">transpiled_circuit</span> <span class="o">=</span> <span class="n">transpiler</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+
+    <span class="n">job</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">transpiled_circuit</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+
+    <span class="c1"># Manually pass circuit metadata for `decode_result` method to use when no metadata is passed explicity.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s2">&quot;_metadata&quot;</span><span class="p">):</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">_metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">circuit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<span class="c1"># ---- Helper Functions ----</span>
+
+<span class="n">_cache</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="k">def</span> <span class="nf">_load_instance</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load a instance with specified keyword arguments, caching the result to</span>
+<span class="sd">    avoid repeated loading for the same parameters especially during `stream` operation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        class (Type): Can be Sampler or Preset Pass Manager object.</span>
+<span class="sd">        kwargs (dict): Dictionary containing keyword arguments.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The loaded or cached object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cache_key</span> <span class="o">=</span> <span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+    <span class="k">if</span> <span class="n">cache_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_cache</span><span class="p">:</span>
+        <span class="n">_cache</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_cache</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Moth Quantum.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

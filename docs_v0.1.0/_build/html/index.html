@@ -1,0 +1,382 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quantum Audio &mdash; Quantum Audio 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="quantumaudio" href="contents/quantumaudio.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            Quantum Audio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contents/quantumaudio.html">quantumaudio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/quantumaudio.schemes.html">quantumaudio.schemes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/quantumaudio.utils.html">quantumaudio.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/quantumaudio.tools.html">quantumaudio.tools</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Quantum Audio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quantum Audio</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quantum-audio">
+<h1>Quantum Audio<a class="headerlink" href="#quantum-audio" title="Link to this heading"></a></h1>
+<div class="docutils container">
+<p><img alt="Python version" src="https://img.shields.io/badge/python-3.9+-important" /> <img alt="PyPI" src="https://img.shields.io/pypi/v/quantumaudio" /> <img alt="Read the Docs (version)" src="https://img.shields.io/readthedocs/quantumaudio/latest?label=API%20docs" /> <a class="reference external" href="https://github.com/moth-quantum/quantum-audio/blob/main/LICENSE"><img alt="LICENSE" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a> <a class="reference external" href="https://doi.org/"><img alt="DOI" src="https://zenodo.org/badge/DOI/10.1234/zenodo.123456.svg" /></a>
+<a class="reference external" href="https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>An open-source Python package for building Quantum Representations of
+Digital Audio using <em>Qiskit</em> circuits.</p>
+</div>
+<section id="what-is-quantum-audio">
+<h2>What is Quantum Audio ?<a class="headerlink" href="#what-is-quantum-audio" title="Link to this heading"></a></h2>
+<p>Quantum audio refers to the application of principles from quantum mechanics to the creation, processing, and analysis of sound or audio signals. Here, the information is processed using quantum bits, or qubits, instead of classical bits (0s and 1s).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">quantumaudio</span></code> package provides fundamental operations for
+representing audio samples as Quantum States that can be processed on a
+Quantum computer (or a Simulator) and played back.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">quantumaudio</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">audio</span><span class="p">)</span>   <span class="c1">#returns a quantum circuit</span>
+<span class="n">quantumaudio</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span> <span class="c1">#returns audio samples</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Quantum Audio represents Audio in terms of Quantum Circuits and does not require Quantum Memory for storage.</p>
+</div>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<p>To install the Quantum Audio Package, run the
+following command in Terminal or Command Prompt:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install quantumaudio</span>
+</pre></div>
+</div>
+<p>Additional dependencies required for the demos provided in
+the GitHub repository can be installed using <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install &quot;quantumaudio[demos]&quot;</span>
+</pre></div>
+</div>
+<p>This includes Digital Audio Dependencies (<cite>soundfile</cite> and <cite>librosa</cite>) and
+an Interative notebook dependency (<cite>ipywidgets</cite>).</p>
+</section>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>Modulation Schemes are essential methods for encoding Audio signals in
+both Analog (such as <strong>FM</strong>) and Digital (such as <strong>PCM</strong>)
+formats. The same is extended for Quantum Audio. The package contains
+different schemes to encode audio and necessary utilities.</p>
+<p>The following subpackages can be accessed from <code class="docutils literal notranslate"><span class="pre">quantumaudio</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">schemes</span></code> : Quantum Audio Representation Methods</p>
+<ul>
+<li><p><strong>QPAM</strong>: Quantum Probability Amplitude Modulation (Original: <a class="reference external" href="https://doi.org/10.1007/s11128-015-1208-5">Real-ket</a>)</p></li>
+<li><p><strong>SQPAM</strong>: Single-Qubit Probability Amplitude Modulation (Original: <a class="reference external" href="http://dx.doi.org/10.1007/s11128-010-0177-y">FRQI</a>)</p></li>
+<li><p><strong>MSQPAM</strong>: Multi-channel Single-Qubit Probability Amplitude Modulation (Original: <a class="reference external" href="https://doi.org/10.1007/s11128-022-03435-7">PMQA</a>)</p></li>
+<li><p><strong>QSM</strong>: Quantum State Modulation (Original: <a class="reference external" href="https://doi.org/10.1016/j.tcs.2017.12.025">FRQA</a>)</p></li>
+<li><p><strong>MQSM</strong>: Multi-channel Quantum State Modulation (Original: <a class="reference external" href="https://doi.org/10.1007/s11128-019-2317-3">QRMA</a>)</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">utils</span></code> : Common utilary functions for data processing, analysis,
+circuit preparation, etc.</p></li>
+</ul>
+<p>Additionally, <code class="docutils literal notranslate"><span class="pre">tools</span></code> contain extension functions that support basic
+visual analysis and audio processing.</p>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<section id="using-schemes">
+<h3>Using Schemes<a class="headerlink" href="#using-schemes" title="Link to this heading"></a></h3>
+<p>Get started on creating Quantum Audio Representations with just a few
+lines of code.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># An instance of a scheme can be created using:</span>
+<span class="kn">import</span> <span class="nn">quantumaudio</span>
+<span class="n">qpam</span> <span class="o">=</span> <span class="n">quantumaudio</span><span class="o">.</span><span class="n">load_scheme</span><span class="p">(</span><span class="s2">&quot;qpam&quot;</span><span class="p">)</span> <span class="c1"># or directly access from quantumaudio.schemes.QPAM()</span>
+
+<span class="c1"># Define an Input</span>
+<span class="n">original_data</span> <span class="o">=</span> <span class="n">quantumaudio</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">test_signal</span><span class="p">()</span> <span class="c1"># for a random array of samples (range: -1.0 to 1.0)</span>
+
+<span class="c1"># Encoding</span>
+<span class="n">encoded_circuit</span> <span class="o">=</span> <span class="n">qpam</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">original_data</span><span class="p">)</span>
+
+<span class="c1"># ... optionally do some analysis or processing</span>
+
+<span class="c1"># Decoding</span>
+<span class="n">decoded_data</span>  <span class="o">=</span> <span class="n">qpam</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoded_circuit</span><span class="p">,</span><span class="n">shots</span><span class="o">=</span><span class="mi">4000</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="using-functions">
+<h3>Using Functions<a class="headerlink" href="#using-functions" title="Link to this heading"></a></h3>
+<p>The core functions are also directly accessible without declaring a
+Scheme object. (Refer to <a class="reference internal" href="contents/quantumaudio.html#functions"><span class="std std-ref">Documentation</span></a> for all the available
+functions)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">circuit</span> <span class="o">=</span> <span class="n">quantumaudio</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;qpam&quot;</span><span class="p">)</span>
+<span class="n">decoded_data</span> <span class="o">=</span> <span class="n">quantumaudio</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, any remaining arguments can be passed as keywords
+e.g. <code class="docutils literal notranslate"><span class="pre">quantumaudio.encode(data,</span> <span class="pre">scheme=&quot;qsm&quot;,</span> <span class="pre">measure=&quot;False&quot;)</span></code>.</p>
+</section>
+<section id="working-with-digital-audio">
+<h3>Working with Digital Audio<a class="headerlink" href="#working-with-digital-audio" title="Link to this heading"></a></h3>
+<p>For faster processing of longer arrays, the <code class="docutils literal notranslate"><span class="pre">stream</span></code> method is
+preferred.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">quantumaudio</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It wraps the functions provided in the module
+<code class="docutils literal notranslate"><span class="pre">quantumaudio.tools.stream</span></code> that help process large arrays as chunks
+for efficient handling. Examples of its usage can be found in the
+<a class="reference external" href="https://github.com/moth-quantum/quantum-audio/blob/demos/">Demos</a>
+provided in the repository.</p>
+</section>
+<section id="running-on-native-backends">
+<h3>Running on Native Backends<a class="headerlink" href="#running-on-native-backends" title="Link to this heading"></a></h3>
+<p>A Scheme’s <code class="docutils literal notranslate"><span class="pre">decode()</span></code> method uses local
+<a class="reference external" href="https://github.com/Qiskit/qiskit-aer">AerSimulator</a> as the default
+backend. Internally, the function calls <code class="docutils literal notranslate"><span class="pre">quantumaudio.utils.execute</span></code>
+method to perform <code class="docutils literal notranslate"><span class="pre">backend.run()</span></code> method. Any Qiskit compatible
+backend object can be specified by passing the <code class="docutils literal notranslate"><span class="pre">backend=</span></code> parameter to
+the <code class="docutils literal notranslate"><span class="pre">decode()</span></code> function.</p>
+</section>
+<section id="running-on-external-quantum-backends">
+<h3>Running on External Quantum Backends<a class="headerlink" href="#running-on-external-quantum-backends" title="Link to this heading"></a></h3>
+<p>The package allows flexible use of Quantum Hardware from different
+Providers as the execution of circuits can be done independently.
+Depending on the results, there are two ways to decode quantum audio:</p>
+<ul class="simple">
+<li><p><strong>Results Object:</strong> If the result obtained follow the format of
+<a class="reference external" href="https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Result">qiskit.result.Result</a>
+or
+<a class="reference external" href="https://docs.quantum.ibm.com/api/qiskit/qiskit.primitives.PrimitiveResult">qiskit.primitives.PrimitiveResult</a>,</p>
+<ul>
+<li><p>The audio can be decoded with
+<code class="docutils literal notranslate"><span class="pre">scheme.decode_result(result_object)</span></code> method.</p></li>
+<li><p>In this case, relevant metadata information is automatically
+extracted and applied at decoding. It can also be manually passed
+using <code class="docutils literal notranslate"><span class="pre">metadata=</span></code> parameter.</p></li>
+</ul>
+</li>
+<li><p><strong>Counts Dictionary:</strong> If the result is in form of a counts
+dictionary or
+<a class="reference external" href="https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Counts">qiskit.result.Counts</a>
+object,</p>
+<ul>
+<li><p>The audio can be decoded using
+<code class="docutils literal notranslate"><span class="pre">scheme.decode_counts(counts,</span> <span class="pre">metadata)</span></code> method.</p></li>
+<li><p>The metadata dictionary can be accessed from the encoded circuit
+using <code class="docutils literal notranslate"><span class="pre">circuit.metadata</span></code>.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="using-custom-functions">
+<h3>Using Custom Functions<a class="headerlink" href="#using-custom-functions" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">decode</span></code> and <code class="docutils literal notranslate"><span class="pre">stream</span></code> operations can be configured with the
+following custom functions. They require few mandatory arguments
+followed by custom preceding keyword arguments (denoted as
+<code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>).</p>
+<ul class="simple">
+<li><p><strong>Process Function</strong>: The default process function of <code class="docutils literal notranslate"><span class="pre">stream()</span></code> simply encodes and decodes a chunk of data with default parameters. It can be overriden by passing a custom function to the <code class="docutils literal notranslate"><span class="pre">process_function=</span></code> parameter. The mandatory arguments for the custom process function are <code class="docutils literal notranslate"><span class="pre">data=</span></code> and <code class="docutils literal notranslate"><span class="pre">scheme=</span></code>.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">processed_data</span> <span class="o">=</span> <span class="n">process_function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Execute Function</strong>: The default execute function for <code class="docutils literal notranslate"><span class="pre">decode()</span></code>
+can be overriden by passing a custom function to the
+<code class="docutils literal notranslate"><span class="pre">execute_function=</span></code> parameter. The mandatory argument for the
+custom execute function is <code class="docutils literal notranslate"><span class="pre">circuit=</span></code>. (QPAM also expects <code class="docutils literal notranslate"><span class="pre">shots=</span></code> since it’s a metadata)</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">execute_function</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example</strong>: An optional execute function is included in the package
+which uses <a class="reference external" href="https://docs.quantum.ibm.com/api/qiskit-ibm-runtime/qiskit_ibm_runtime.SamplerV2">Sampler
+Primitive</a>:
+<code class="docutils literal notranslate"><span class="pre">quantumaudio.utils.execute_with_sampler</span></code> that can be passed to the
+<code class="docutils literal notranslate"><span class="pre">decode()</span></code> method.</p>
+</section>
+</section>
+<section id="version-information">
+<h2>Version Information<a class="headerlink" href="#version-information" title="Link to this heading"></a></h2>
+<section id="pre-release-original-version-v0-0-2">
+<h3>Pre-release original version: <code class="docutils literal notranslate"><span class="pre">v0.0.2</span></code><a class="headerlink" href="#pre-release-original-version-v0-0-2" title="Link to this heading"></a></h3>
+<p>This project is derived from research output on Quantum Representations
+of Audio, carried by Interdisciplinary Centre for Computer Music
+Research (<a class="reference external" href="https://www.plymouth.ac.uk/research/iccmr">ICCMR</a>),
+University of Plymouth, UK, namely:</p>
+<ul class="simple">
+<li><p>Itaboraí, P.V., Miranda, E.R. (2022). Quantum Representations of
+Sound: From Mechanical Waves to Quantum Circuits. In: Miranda, E.R.
+(eds) Quantum Computer Music. Springer, Cham.
+<a class="reference external" href="https://doi.org/10.1007/978-3-031-13909-3_10">https://doi.org/10.1007/978-3-031-13909-3_10</a></p></li>
+<li><p>Itaboraí, P. V. (2022). Quantumaudio Module (Version 0.0.2) [Computer
+software]. <a class="reference external" href="https://github.com/iccmr-quantum/quantumaudio">https://github.com/iccmr-quantum/quantumaudio</a></p></li>
+<li><p>Itaboraí, P. V. (2023) Towards Quantum Computing for Audio and Music
+Expression. Thesis. University of Plymouth. Available at:
+<a class="reference external" href="https://doi.org/10.24382/5119">https://doi.org/10.24382/5119</a></p></li>
+</ul>
+</section>
+<section id="redevelopment-v0-1-0">
+<h3>Redevelopment: <code class="docutils literal notranslate"><span class="pre">v0.1.0</span></code><a class="headerlink" href="#redevelopment-v0-1-0" title="Link to this heading"></a></h3>
+<p>This project has been completely re-developed and is now maintained by
+<a class="reference external" href="https://mothquantum.com">Moth Quantum</a>.</p>
+<ul class="simple">
+<li><p><strong>New Architecture:</strong></p>
+<ul>
+<li><p>This project has been restructured for better flexibility and
+scalability.</p></li>
+<li><p>Instead of <em>QuantumAudio</em> Instances, the package begins at the
+level of <em>Scheme</em> Instances that perform encoding and decoding
+functions independent of the data.</p></li>
+</ul>
+</li>
+<li><p><strong>Feature Updates:</strong></p>
+<ul>
+<li><p>Introducing 2 Additional Schemes that can encode and decode
+Multi-channel Audio.</p></li>
+<li><p>Supports Faster encoding and decoding of long audio files using
+Batch processing.</p></li>
+</ul>
+</li>
+<li><p><strong>Dependency Change:</strong></p>
+<ul>
+<li><p>Support for <em>Qiskit</em> is updated from <code class="docutils literal notranslate"><span class="pre">v0.22</span></code> to <code class="docutils literal notranslate"><span class="pre">v1.0+</span></code></p></li>
+</ul>
+</li>
+<li><p><strong>Improvements:</strong></p>
+<ul>
+<li><p>Improved organisation of code for Readability and Modularity.</p></li>
+<li><p>Key metadata information is preserved during the encoding
+operation, making the decoding process independent.</p></li>
+</ul>
+</li>
+<li><p><strong>License Change:</strong></p>
+<ul>
+<li><p>The License is updated from <strong>MIT</strong> to <strong>Apache 2.0</strong></p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="citing">
+<h2>Citing<a class="headerlink" href="#citing" title="Link to this heading"></a></h2>
+<p>If you use this code or find it useful in your research, please consider
+citing: <a class="reference external" href="https://www.doi.org">DOI</a></p>
+</section>
+<hr class="docutils" />
+<section id="copyright">
+<h2>Copyright<a class="headerlink" href="#copyright" title="Link to this heading"></a></h2>
+<p>Copyright 2024 Moth Quantum</p>
+<p>Licensed under the Apache License, Version 2.0 (the “License”); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at <a class="reference external" href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an “AS IS” BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p>
+</section>
+<section id="contact">
+<h2>Contact<a class="headerlink" href="#contact" title="Link to this heading"></a></h2>
+<p>If you have any questions or need further assistance, please feel free
+to contact Moth Quantum at <a class="reference external" href="mailto:hello&#37;&#52;&#48;mothquantum&#46;com">hello<span>&#64;</span>mothquantum<span>&#46;</span>com</a></p>
+</section>
+</section>
+<section id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contents/quantumaudio.html">quantumaudio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/quantumaudio.schemes.html">quantumaudio.schemes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/quantumaudio.utils.html">quantumaudio.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/quantumaudio.tools.html">quantumaudio.tools</a></li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="contents/quantumaudio.html" class="btn btn-neutral float-right" title="quantumaudio" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Moth Quantum.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

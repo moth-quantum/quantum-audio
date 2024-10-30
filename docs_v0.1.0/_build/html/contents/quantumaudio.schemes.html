@@ -1,0 +1,376 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>quantumaudio.schemes &mdash; Quantum Audio 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="quantumaudio.schemes.Scheme" href="quantumaudio.schemes_modules.html" />
+    <link rel="prev" title="quantumaudio" href="quantumaudio.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Quantum Audio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Modules</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quantumaudio.html">quantumaudio</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">quantumaudio.schemes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#detailed-steps">Detailed Steps</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#encoding">Encoding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#intermediate">Intermediate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#decoding">Decoding</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#contents">Contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html">quantumaudio.schemes.Scheme</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#module-quantumaudio.schemes.qpam">quantumaudio.schemes.qpam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#module-quantumaudio.schemes.sqpam">quantumaudio.schemes.sqpam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#module-quantumaudio.schemes.qsm">quantumaudio.schemes.qsm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#module-quantumaudio.schemes.mqsm">quantumaudio.schemes.mqsm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#module-quantumaudio.schemes.msqpam">quantumaudio.schemes.msqpam</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quantumaudio.utils.html">quantumaudio.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quantumaudio.tools.html">quantumaudio.tools</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Quantum Audio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">quantumaudio.schemes</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/contents/quantumaudio.schemes.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quantumaudio-schemes">
+<h1>quantumaudio.schemes<a class="headerlink" href="#quantumaudio-schemes" title="Link to this heading"></a></h1>
+<section id="overview">
+<span id="module-quantumaudio.schemes"></span><span id="schemes"></span><h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>A <strong>Scheme</strong> denotes one of the <strong>Quantum Audio Representation Methods</strong>.
+This subpackage provides different schemes. The common information
+for using any scheme is detailed below.</p>
+<section id="basic-usage">
+<h3>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading"></a></h3>
+<p>The core functions of a scheme are encoding and decoding.</p>
+<ul class="simple">
+<li><p><cite>Encoding</cite>: Takes in a digital audio array, performs necessary pre-processing,
+and prepares a quantum circuit. The quantum circuit can be used to create a state
+that represents the original digital audio.</p></li>
+<li><p><cite>Decoding</cite>: Takes in the quantum circuit measurements, performs necessary
+post-processing, and reconstructs the original digital audio.</p></li>
+</ul>
+<p>The simplest form of interaction with a <cite>Scheme</cite> object is to use the
+<code class="docutils literal notranslate"><span class="pre">encode()</span></code> and <code class="docutils literal notranslate"><span class="pre">decode()</span></code> methods, as indicated by the base class
+<a class="reference internal" href="quantumaudio.schemes_modules.html#base-scheme"><span class="std std-ref">quantumaudio.scheme.Scheme</span></a>.</p>
+</section>
+<section id="detailed-steps">
+<h3>Detailed Steps<a class="headerlink" href="#detailed-steps" title="Link to this heading"></a></h3>
+<p>The Encoding and Decoding operations of a scheme can involve several stages
+that can be manually used for research and debugging purposes. The stages
+of schemes implemented in the package are listed below.</p>
+<section id="encoding">
+<h4>Encoding<a class="headerlink" href="#encoding" title="Link to this heading"></a></h4>
+<ul>
+<li><p><strong>Analysis</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><cite>Calculate</cite>: Calculates the necessary number of qubits for each quantum register
+with respect to the data shape, type of scheme, and any user-defined values valid
+for some schemes. (<code class="docutils literal notranslate"><span class="pre">calculate()</span></code>)</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><dl class="simple">
+<dt><strong>Data Pre-Processing</strong></dt><dd><ul class="simple">
+<li><p><cite>Prepare Data</cite>: Prepares the data dimension by padding and reshaping.
+For multi-channel schemes, it also handles the arrangement of samples. (<code class="docutils literal notranslate"><span class="pre">prepare_data()</span></code>)</p></li>
+<li><p><cite>Convert</cite>: Converts the data to values suitable for encoding. (<code class="docutils literal notranslate"><span class="pre">convert()</span></code>)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Circuit Preparation</strong></dt><dd><ul class="simple">
+<li><p><cite>Initialize Circuit</cite>: Initializes the circuit with the calculated
+number of qubits for each quantum register representing a different
+aspect of the audio data (i.e. time, value and channel). (<code class="docutils literal notranslate"><span class="pre">initialize_circuit()</span></code>)</p></li>
+<li><p><cite>Value Setting</cite>: Encodes or sets the converted values to the circuit. (<code class="docutils literal notranslate"><span class="pre">value_setting()</span></code>)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Adding Metadata</strong></dt><dd><ul class="simple">
+<li><p>To keep encode and decode functions independent, key information lost during encoding
+(e.g., original sample length) is preserved as a Python Dictionary. This can be manually attached to
+<cite>Qiskit</cite> circuit’s <code class="docutils literal notranslate"><span class="pre">.metadata</span></code> attribute or passed separately as argument <code class="docutils literal notranslate"><span class="pre">metadata=</span></code> in a decode function.</p></li>
+<li><p>The list of metadata keys essential to any specific scheme can be accessed from the scheme’s <code class="docutils literal notranslate"><span class="pre">.keys</span></code> attribute.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="intermediate">
+<h4>Intermediate<a class="headerlink" href="#intermediate" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>Measure</strong></dt><dd><ul>
+<li><p>Add appropriate classical registers to the encoded circuit for measurement.
+This can be implemented with a scheme’s <code class="docutils literal notranslate"><span class="pre">measure()</span></code> method or simply with
+<cite>Qiskit</cite> circuit’s <code class="docutils literal notranslate"><span class="pre">measure_all()</span></code> attribute.</p></li>
+<li><p>By default, <code class="docutils literal notranslate"><span class="pre">encode()</span></code> method returns measured circuit unless specified <code class="docutils literal notranslate"><span class="pre">measure=False</span></code> when calling it.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Execute</strong></dt><dd><ul>
+<li><p>The measured and encoded circuit can be executed externally with any provider.</p></li>
+<li><p>By default, the <code class="docutils literal notranslate"><span class="pre">decode()</span></code> method executes with IBM’s <cite>AerSimulator</cite> by calling <a class="reference internal" href="quantumaudio.utils_modules.html#execute"><span class="std std-ref">quantumaudio.utils.execute</span></a> method.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="decoding">
+<h4>Decoding<a class="headerlink" href="#decoding" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>Decoding Stages</strong></dt><dd><ol class="arabic simple">
+<li><p><cite>Decode Components</cite>: Extracts required components directly from
+the counts (i.e., a dictionary with the outcome of measurements performed on the quantum circuit).
+(<code class="docutils literal notranslate"><span class="pre">decode_components()</span></code>)</p></li>
+<li><p><cite>Undo Conversion</cite>: Undoes the data conversion done during encoding.
+This can be done using the <code class="docutils literal notranslate"><span class="pre">restore()</span></code> method. (It performs the inverse of <code class="docutils literal notranslate"><span class="pre">convert()</span></code> method)</p></li>
+<li><p><cite>Undo Preparation</cite>: Undoes the data preparation, such as padding, done
+during encoding. This can be done manually using <cite>numpy</cite> slicing and reshape methods.
+For multi-channel schemes, the arrangement of samples is also restored.</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Reconstruct Data</strong></dt><dd><ul>
+<li><p>Takes in a counts dictionary for decoding, combining Decoding Stages 1 and 2. (<code class="docutils literal notranslate"><span class="pre">reconstruct_data()</span></code>)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Decode Counts</strong></dt><dd><ul>
+<li><p>Takes in a counts dictionary for decoding, combining Decoding Stages 1, 2, and 3.
+It requires metadata to restore the original dimensions of data. (<code class="docutils literal notranslate"><span class="pre">decode_counts()</span></code>)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Decode Result</strong></dt><dd><ul>
+<li><p>Takes in a Qiskit <cite>result</cite> object for decoding, combining Decoding Stages 1, 2, and 3.
+It automatically gets additional metadata, such as the original sample length, to undo the padding done at the data preparation stage.
+(<code class="docutils literal notranslate"><span class="pre">decode_result()</span></code>)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Decode</strong></dt><dd><ul>
+<li><p>Takes in a Qiskit <cite>circuit</cite> object for decoding, performs measurement (if needed), and
+default execution, followed by all stages of decoding. (<code class="docutils literal notranslate"><span class="pre">decode()</span></code>)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quantumaudio.schemes_modules.html">quantumaudio.schemes.Scheme</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.base_scheme.Scheme"><code class="docutils literal notranslate"><span class="pre">Scheme</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.base_scheme.Scheme.encode"><code class="docutils literal notranslate"><span class="pre">Scheme.encode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.base_scheme.Scheme.decode"><code class="docutils literal notranslate"><span class="pre">Scheme.decode()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quantumaudio.schemes_modules.html#module-quantumaudio.schemes.qpam">quantumaudio.schemes.qpam</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qpam.QPAM"><code class="docutils literal notranslate"><span class="pre">QPAM</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qpam.QPAM.calculate"><code class="docutils literal notranslate"><span class="pre">QPAM.calculate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qpam.QPAM.prepare_data"><code class="docutils literal notranslate"><span class="pre">QPAM.prepare_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qpam.QPAM.initialize_circuit"><code class="docutils literal notranslate"><span class="pre">QPAM.initialize_circuit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qpam.QPAM.value_setting"><code class="docutils literal notranslate"><span class="pre">QPAM.value_setting()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qpam.QPAM.measure"><code class="docutils literal notranslate"><span class="pre">QPAM.measure()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qpam.QPAM.encode"><code class="docutils literal notranslate"><span class="pre">QPAM.encode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qpam.QPAM.decode_components"><code class="docutils literal notranslate"><span class="pre">QPAM.decode_components()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qpam.QPAM.reconstruct_data"><code class="docutils literal notranslate"><span class="pre">QPAM.reconstruct_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qpam.QPAM.decode_counts"><code class="docutils literal notranslate"><span class="pre">QPAM.decode_counts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qpam.QPAM.decode_result"><code class="docutils literal notranslate"><span class="pre">QPAM.decode_result()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qpam.QPAM.decode"><code class="docutils literal notranslate"><span class="pre">QPAM.decode()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quantumaudio.schemes_modules.html#module-quantumaudio.schemes.sqpam">quantumaudio.schemes.sqpam</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.sqpam.SQPAM"><code class="docutils literal notranslate"><span class="pre">SQPAM</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.sqpam.SQPAM.calculate"><code class="docutils literal notranslate"><span class="pre">SQPAM.calculate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.sqpam.SQPAM.prepare_data"><code class="docutils literal notranslate"><span class="pre">SQPAM.prepare_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.sqpam.SQPAM.initialize_circuit"><code class="docutils literal notranslate"><span class="pre">SQPAM.initialize_circuit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.sqpam.SQPAM.value_setting"><code class="docutils literal notranslate"><span class="pre">SQPAM.value_setting()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.sqpam.SQPAM.measure"><code class="docutils literal notranslate"><span class="pre">SQPAM.measure()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.sqpam.SQPAM.encode"><code class="docutils literal notranslate"><span class="pre">SQPAM.encode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.sqpam.SQPAM.decode_components"><code class="docutils literal notranslate"><span class="pre">SQPAM.decode_components()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.sqpam.SQPAM.reconstruct_data"><code class="docutils literal notranslate"><span class="pre">SQPAM.reconstruct_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.sqpam.SQPAM.decode_counts"><code class="docutils literal notranslate"><span class="pre">SQPAM.decode_counts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.sqpam.SQPAM.decode_result"><code class="docutils literal notranslate"><span class="pre">SQPAM.decode_result()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.sqpam.SQPAM.decode"><code class="docutils literal notranslate"><span class="pre">SQPAM.decode()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quantumaudio.schemes_modules.html#module-quantumaudio.schemes.qsm">quantumaudio.schemes.qsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qsm.QSM"><code class="docutils literal notranslate"><span class="pre">QSM</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qsm.QSM.calculate"><code class="docutils literal notranslate"><span class="pre">QSM.calculate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qsm.QSM.prepare_data"><code class="docutils literal notranslate"><span class="pre">QSM.prepare_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qsm.QSM.initialize_circuit"><code class="docutils literal notranslate"><span class="pre">QSM.initialize_circuit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qsm.QSM.value_setting"><code class="docutils literal notranslate"><span class="pre">QSM.value_setting()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qsm.QSM.measure"><code class="docutils literal notranslate"><span class="pre">QSM.measure()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qsm.QSM.encode"><code class="docutils literal notranslate"><span class="pre">QSM.encode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qsm.QSM.decode_components"><code class="docutils literal notranslate"><span class="pre">QSM.decode_components()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qsm.QSM.reconstruct_data"><code class="docutils literal notranslate"><span class="pre">QSM.reconstruct_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qsm.QSM.decode_counts"><code class="docutils literal notranslate"><span class="pre">QSM.decode_counts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qsm.QSM.decode_result"><code class="docutils literal notranslate"><span class="pre">QSM.decode_result()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.qsm.QSM.decode"><code class="docutils literal notranslate"><span class="pre">QSM.decode()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quantumaudio.schemes_modules.html#module-quantumaudio.schemes.mqsm">quantumaudio.schemes.mqsm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.mqsm.MQSM"><code class="docutils literal notranslate"><span class="pre">MQSM</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.mqsm.MQSM.calculate"><code class="docutils literal notranslate"><span class="pre">MQSM.calculate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.mqsm.MQSM.prepare_data"><code class="docutils literal notranslate"><span class="pre">MQSM.prepare_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.mqsm.MQSM.initialize_circuit"><code class="docutils literal notranslate"><span class="pre">MQSM.initialize_circuit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.mqsm.MQSM.value_setting"><code class="docutils literal notranslate"><span class="pre">MQSM.value_setting()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.mqsm.MQSM.measure"><code class="docutils literal notranslate"><span class="pre">MQSM.measure()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.mqsm.MQSM.encode"><code class="docutils literal notranslate"><span class="pre">MQSM.encode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.mqsm.MQSM.decode_components"><code class="docutils literal notranslate"><span class="pre">MQSM.decode_components()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.mqsm.MQSM.reconstruct_data"><code class="docutils literal notranslate"><span class="pre">MQSM.reconstruct_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.mqsm.MQSM.decode_counts"><code class="docutils literal notranslate"><span class="pre">MQSM.decode_counts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.mqsm.MQSM.decode_result"><code class="docutils literal notranslate"><span class="pre">MQSM.decode_result()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.mqsm.MQSM.decode"><code class="docutils literal notranslate"><span class="pre">MQSM.decode()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quantumaudio.schemes_modules.html#module-quantumaudio.schemes.msqpam">quantumaudio.schemes.msqpam</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.msqpam.MSQPAM"><code class="docutils literal notranslate"><span class="pre">MSQPAM</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.msqpam.MSQPAM.calculate"><code class="docutils literal notranslate"><span class="pre">MSQPAM.calculate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.msqpam.MSQPAM.prepare_data"><code class="docutils literal notranslate"><span class="pre">MSQPAM.prepare_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.msqpam.MSQPAM.initialize_circuit"><code class="docutils literal notranslate"><span class="pre">MSQPAM.initialize_circuit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.msqpam.MSQPAM.value_setting"><code class="docutils literal notranslate"><span class="pre">MSQPAM.value_setting()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.msqpam.MSQPAM.measure"><code class="docutils literal notranslate"><span class="pre">MSQPAM.measure()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.msqpam.MSQPAM.encode"><code class="docutils literal notranslate"><span class="pre">MSQPAM.encode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.msqpam.MSQPAM.decode_components"><code class="docutils literal notranslate"><span class="pre">MSQPAM.decode_components()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.msqpam.MSQPAM.reconstruct_data"><code class="docutils literal notranslate"><span class="pre">MSQPAM.reconstruct_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.msqpam.MSQPAM.decode_counts"><code class="docutils literal notranslate"><span class="pre">MSQPAM.decode_counts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.msqpam.MSQPAM.decode_result"><code class="docutils literal notranslate"><span class="pre">MSQPAM.decode_result()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.schemes_modules.html#quantumaudio.schemes.msqpam.MSQPAM.decode"><code class="docutils literal notranslate"><span class="pre">MSQPAM.decode()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quantumaudio.html" class="btn btn-neutral float-left" title="quantumaudio" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="quantumaudio.schemes_modules.html" class="btn btn-neutral float-right" title="quantumaudio.schemes.Scheme" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Moth Quantum.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

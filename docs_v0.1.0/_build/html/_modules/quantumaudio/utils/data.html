@@ -1,0 +1,321 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>quantumaudio.utils.data &mdash; Quantum Audio 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Quantum Audio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contents/quantumaudio.html">quantumaudio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contents/quantumaudio.schemes.html">quantumaudio.schemes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contents/quantumaudio.utils.html">quantumaudio.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contents/quantumaudio.tools.html">quantumaudio.tools</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Quantum Audio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../quantumaudio.html">quantumaudio</a></li>
+      <li class="breadcrumb-item active">quantumaudio.utils.data</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for quantumaudio.utils.data</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2024 Moth Quantum</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="c1"># ==========================================================================</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+
+<span class="c1"># ======================</span>
+<span class="c1"># Assertions</span>
+<span class="c1"># ======================</span>
+
+
+<div class="viewcode-block" id="is_within_range">
+<a class="viewcode-back" href="../../../contents/quantumaudio.utils_modules.html#quantumaudio.utils.data.is_within_range">[docs]</a>
+<span class="k">def</span> <span class="nf">is_within_range</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">min_val</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">max_val</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks if all elements in the array are within the specified range.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        arr: The input array.</span>
+<span class="sd">        min_val: The minimum value of the range.</span>
+<span class="sd">        max_val: The maximum value of the range.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if all elements are within the range, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">((</span><span class="n">arr</span> <span class="o">&gt;=</span> <span class="n">min_val</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">arr</span> <span class="o">&lt;=</span> <span class="n">max_val</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="validate_data">
+<a class="viewcode-back" href="../../../contents/quantumaudio.utils_modules.html#quantumaudio.utils.data.validate_data">[docs]</a>
+<span class="k">def</span> <span class="nf">validate_data</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ensure the input data is a `numpy` array and that its values</span>
+<span class="sd">    are within the digital audio range: -1.0 to 1.0.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data: Input data array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Input data must be a `numpy` array&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_within_range</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_val</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">max_val</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Data not in the digital audio range (-1.0 to 1.0).&quot;</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ==============</span>
+<span class="c1"># Decoding utils</span>
+<span class="c1"># ==============</span>
+
+
+<div class="viewcode-block" id="split_string">
+<a class="viewcode-back" href="../../../contents/quantumaudio.utils_modules.html#quantumaudio.utils.data.split_string">[docs]</a>
+<span class="k">def</span> <span class="nf">split_string</span><span class="p">(</span><span class="n">input_str</span><span class="p">,</span> <span class="n">lengths</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Splits the input string into segments based on the specified lengths.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        input_str: The string to be split.</span>
+<span class="sd">        lengths: A list of integers representing the lengths of each segment.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of substrings split according to the specified lengths.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_str</span><span class="p">)</span> <span class="o">==</span> <span class="nb">sum</span><span class="p">(</span>
+        <span class="n">lengths</span>
+    <span class="p">),</span> <span class="s2">&quot;Sum of qubits doesn&#39;t match the state length&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">length</span> <span class="ow">in</span> <span class="n">lengths</span><span class="p">:</span>
+        <span class="c1"># Slicing the string and appending to the result list</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">input_str</span><span class="p">[</span><span class="n">start</span> <span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="n">length</span><span class="p">])</span>
+        <span class="n">start</span> <span class="o">+=</span> <span class="n">length</span>
+
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+
+<span class="c1"># ======================</span>
+<span class="c1"># Data processing utils</span>
+<span class="c1"># ======================</span>
+
+
+<div class="viewcode-block" id="apply_index_padding">
+<a class="viewcode-back" href="../../../contents/quantumaudio.utils_modules.html#quantumaudio.utils.data.apply_index_padding">[docs]</a>
+<span class="k">def</span> <span class="nf">apply_index_padding</span><span class="p">(</span>
+    <span class="n">array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">num_index_qubits</span><span class="p">:</span> <span class="nb">int</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Applies zero-padding to 1-D array based on the specified number of index</span>
+<span class="sd">    qubits.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        array: The input array to be padded.</span>
+<span class="sd">        num_index_qubits: The number of qubits to determine the padding length.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The padded array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pad_length</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">num_index_qubits</span><span class="p">)</span> <span class="o">-</span> <span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">pad_length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">padding</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">ndim</span><span class="p">)]</span>
+        <span class="n">padding</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">pad_length</span><span class="p">)</span>
+        <span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;constant&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">array</span></div>
+
+
+
+<div class="viewcode-block" id="apply_padding">
+<a class="viewcode-back" href="../../../contents/quantumaudio.utils_modules.html#quantumaudio.utils.data.apply_padding">[docs]</a>
+<span class="k">def</span> <span class="nf">apply_padding</span><span class="p">(</span><span class="n">array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Applies zero-padding to both dimensions of a 2-D array based on the</span>
+<span class="sd">    specified number of index qubits.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        array: The input array to be padded.</span>
+<span class="sd">        num_qubits: The padding length at each dimension is determined by</span>
+<span class="sd">                              number of channel qubits and number of index qubits</span>
+<span class="sd">                              respectively.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The padded array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">padding</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">array</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">array</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">array_shape</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">array_shape</span><span class="p">)):</span>
+        <span class="n">n_bits</span> <span class="o">=</span> <span class="n">num_qubits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">i</span> <span class="k">else</span> <span class="n">num_qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">pad_length</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n_bits</span><span class="p">)</span> <span class="o">-</span> <span class="n">array_shape</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">pad_length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">padding</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">pad_length</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">padding</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">padding</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">array</span><span class="o">.</span><span class="n">ndim</span><span class="p">:</span>
+        <span class="n">padding</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;constant&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">array</span></div>
+
+
+
+<div class="viewcode-block" id="get_bit_depth">
+<a class="viewcode-back" href="../../../contents/quantumaudio.utils_modules.html#quantumaudio.utils.data.get_bit_depth">[docs]</a>
+<span class="k">def</span> <span class="nf">get_bit_depth</span><span class="p">(</span><span class="n">signal</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Determines the bit depth of a given signal.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        signal: The input signal.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The bit depth of the signal.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">unique_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+    <span class="n">num_levels</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_values</span><span class="p">)</span>
+    <span class="n">bit_depth</span> <span class="o">=</span> <span class="n">get_qubit_count</span><span class="p">(</span><span class="n">num_levels</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">bit_depth</span><span class="p">:</span>
+        <span class="n">bit_depth</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">bit_depth</span></div>
+
+
+
+<div class="viewcode-block" id="get_qubit_count">
+<a class="viewcode-back" href="../../../contents/quantumaudio.utils_modules.html#quantumaudio.utils.data.get_qubit_count">[docs]</a>
+<span class="k">def</span> <span class="nf">get_qubit_count</span><span class="p">(</span><span class="n">data_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the number of qubits required to represent a given data</span>
+<span class="sd">    length.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data_length: The length of the data.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The number of qubits needed to represent the data length.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">num_qubits</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">data_length</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">num_qubits</span></div>
+
+
+
+<div class="viewcode-block" id="interleave_channels">
+<a class="viewcode-back" href="../../../contents/quantumaudio.utils_modules.html#quantumaudio.utils.data.interleave_channels">[docs]</a>
+<span class="k">def</span> <span class="nf">interleave_channels</span><span class="p">(</span><span class="n">array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interleaves the channels of a given array.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        array: The input array with shape (samples, channels).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A 1-dimensional array with interleaved channels.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">(</span><span class="n">array</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="restore_channels">
+<a class="viewcode-back" href="../../../contents/quantumaudio.utils_modules.html#quantumaudio.utils.data.restore_channels">[docs]</a>
+<span class="k">def</span> <span class="nf">restore_channels</span><span class="p">(</span><span class="n">array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Restores the interleaved channels into their original form.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        array: The input array with interleaved channels.</span>
+<span class="sd">        num_channels: The number of channels.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The array with shape (samples, channels).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">::</span><span class="n">num_channels</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_channels</span><span class="p">)])</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Moth Quantum.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

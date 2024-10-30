@@ -1,0 +1,189 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>quantumaudio.utils &mdash; Quantum Audio 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="quantumaudio.utils.circuit" href="quantumaudio.utils_modules.html" />
+    <link rel="prev" title="quantumaudio.schemes.Scheme" href="quantumaudio.schemes_modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Quantum Audio
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Modules</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quantumaudio.html">quantumaudio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quantumaudio.schemes.html">quantumaudio.schemes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">quantumaudio.utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contents">Contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.utils_modules.html">quantumaudio.utils.circuit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.utils_modules.html#module-quantumaudio.utils.convert">quantumaudio.utils.convert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.utils_modules.html#module-quantumaudio.utils.data">quantumaudio.utils.data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio-utils-execute">quantumaudio.utils.execute</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.utils_modules.html#module-quantumaudio.utils.preview">quantumaudio.utils.preview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quantumaudio.utils_modules.html#module-quantumaudio.utils.results">quantumaudio.utils.results</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quantumaudio.tools.html">quantumaudio.tools</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Quantum Audio</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">quantumaudio.utils</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/contents/quantumaudio.utils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quantumaudio-utils">
+<h1>quantumaudio.utils<a class="headerlink" href="#quantumaudio-utils" title="Link to this heading"></a></h1>
+<section id="overview">
+<span id="utils"></span><h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>This subpackage contains the utility modules that support the core operations of schemes.
+The contents of the following modules are directly accessible from the subpackage <cite>quantumaudio.utils</cite>.</p>
+<ul class="simple">
+<li><p><strong>circuit</strong>: Helper functions for quantum audio circuit preparations with <cite>Qiskit</cite>.</p></li>
+<li><p><strong>convert</strong>: Data pre-processing functions required for encoding values into the quantum circuit.</p></li>
+<li><p><strong>data</strong>: Data preparation and calculation functions.</p></li>
+<li><p><strong>execute</strong>: Helper Functions for executing circuits. Uses <cite>AerSimulator</cite> as Default backend.</p></li>
+<li><p><strong>preview</strong>: Functions to draw and print information of a circuit.</p></li>
+<li><p><strong>results</strong>: Common helper functions for obtaining circuit results.</p></li>
+</ul>
+</section>
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quantumaudio.utils_modules.html">quantumaudio.utils.circuit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.circuit.apply_x_at_index"><code class="docutils literal notranslate"><span class="pre">apply_x_at_index()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.circuit.with_indexing"><code class="docutils literal notranslate"><span class="pre">with_indexing()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quantumaudio.utils_modules.html#module-quantumaudio.utils.convert">quantumaudio.utils.convert</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.convert.convert_to_probability_amplitudes"><code class="docutils literal notranslate"><span class="pre">convert_to_probability_amplitudes()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.convert.convert_to_angles"><code class="docutils literal notranslate"><span class="pre">convert_to_angles()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.convert.quantize"><code class="docutils literal notranslate"><span class="pre">quantize()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.convert.convert_from_probability_amplitudes"><code class="docutils literal notranslate"><span class="pre">convert_from_probability_amplitudes()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.convert.convert_from_angles"><code class="docutils literal notranslate"><span class="pre">convert_from_angles()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.convert.de_quantize"><code class="docutils literal notranslate"><span class="pre">de_quantize()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quantumaudio.utils_modules.html#module-quantumaudio.utils.data">quantumaudio.utils.data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.data.is_within_range"><code class="docutils literal notranslate"><span class="pre">is_within_range()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.data.validate_data"><code class="docutils literal notranslate"><span class="pre">validate_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.data.split_string"><code class="docutils literal notranslate"><span class="pre">split_string()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.data.apply_index_padding"><code class="docutils literal notranslate"><span class="pre">apply_index_padding()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.data.apply_padding"><code class="docutils literal notranslate"><span class="pre">apply_padding()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.data.get_bit_depth"><code class="docutils literal notranslate"><span class="pre">get_bit_depth()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.data.get_qubit_count"><code class="docutils literal notranslate"><span class="pre">get_qubit_count()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.data.interleave_channels"><code class="docutils literal notranslate"><span class="pre">interleave_channels()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.data.restore_channels"><code class="docutils literal notranslate"><span class="pre">restore_channels()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio-utils-execute">quantumaudio.utils.execute</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.execute.execute"><code class="docutils literal notranslate"><span class="pre">execute()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.execute.execute_with_sampler"><code class="docutils literal notranslate"><span class="pre">execute_with_sampler()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quantumaudio.utils_modules.html#module-quantumaudio.utils.preview">quantumaudio.utils.preview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.preview.print_num_qubits"><code class="docutils literal notranslate"><span class="pre">print_num_qubits()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.preview.draw_circuit"><code class="docutils literal notranslate"><span class="pre">draw_circuit()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quantumaudio.utils_modules.html#module-quantumaudio.utils.results">quantumaudio.utils.results</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.results.pad_counts"><code class="docutils literal notranslate"><span class="pre">pad_counts()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.results.get_counts"><code class="docutils literal notranslate"><span class="pre">get_counts()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.results.get_metadata"><code class="docutils literal notranslate"><span class="pre">get_metadata()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.results.get_counts_and_metadata"><code class="docutils literal notranslate"><span class="pre">get_counts_and_metadata()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.results.pick_key_from_instance"><code class="docutils literal notranslate"><span class="pre">pick_key_from_instance()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="quantumaudio.utils_modules.html#quantumaudio.utils.results.pick_key"><code class="docutils literal notranslate"><span class="pre">pick_key()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quantumaudio.schemes_modules.html" class="btn btn-neutral float-left" title="quantumaudio.schemes.Scheme" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="quantumaudio.utils_modules.html" class="btn btn-neutral float-right" title="quantumaudio.utils.circuit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Moth Quantum.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
