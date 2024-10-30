@@ -7,7 +7,7 @@
 
 An open-source Python package for building Quantum Representations of Digital Audio using _Qiskit_ circuits.
 
-<img width="600" alt="QSM Example" src="https://github.com/moth-quantum/quantum-audio/blob/main/demos/media/qsm_example.png"><br>
+<img width="600" alt="QSM Example" src="https://github.com/moth-quantum/quantum-audio/blob/main/demos/media/qsm_example.png?raw=true"><br>
 </div>
 
 ## 💿 What is Quantum Audio ?
