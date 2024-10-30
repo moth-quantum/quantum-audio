@@ -43,5 +43,5 @@ Documentation = "https://quantumaudio.readthedocs.io/"
 demos = [
 	"soundfile==0.12.1",
  	"librosa==0.10.2.post1",
-    "ipywidgets"
+    	"ipywidgets"
 ]
