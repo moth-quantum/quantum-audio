@@ -54,4 +54,4 @@ For manually implementing each step of the ```encode()``` operation, please chec
   ```
   The ```scheme.decode()``` function uses local _AerSimulator_ as default backend. It performs ```backend.run()``` method internally. Any backend object compatible with this method can be passed with ```backend=``` parameter. 
   
-  For manually implementing each step of the ```decode()``` operation, please check [Documentation]().
+  For manually implementing each step of the ```decode()``` operation, please check [Documentation](https://quantumaudio.readthedocs.io/).
