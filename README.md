@@ -65,6 +65,8 @@ Additionally, ``tools`` contain extension functions that support basic visual an
 
 > For a quick tour of Quantum Audio, try [Colab](https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd) 🚀
 
+For more details of the package, please refer to the [Documentation](https://quantumaudio.readthedocs.io) site.
+
 ## 🧩 Version Information <a id="version"></a>
 
 ### Pre-release original version: ```v0.0.2```
