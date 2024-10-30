@@ -40,7 +40,7 @@ quantumaudio.decode(circuit) # returns audio samples
 - [Additional Resources](#materials)
 - [Contributing](#contributing)
 - [Future Releases](#future-releases)
-- [Citing](#citing)
+- [Citing](#citation)
 
 ## 🔍 Overview <a id="overview"></a>
 
@@ -272,9 +272,9 @@ For more information on contributing to Code and Documentation, please review [C
 ## 🚩 Future Releases <a id="future-releases"></a>
 We're excited to keep the package updated with features and improvements! In future releases, we plan to introduce other schemes from Quantum Audio Literature along with Base Scheme Class Categories to support a generic structure for further contributions.
 
-## ✅ Citing <a id="citing"></a>
-If you use this code or find it useful in your research, please consider citing: https://doi.org/10.5281/zenodo.14012135
-
+## ✅ Citing <a id="citation"></a>
+If you use this code or find it useful in your research, please consider citing:
+> Moth Quantum. (2024). Quantum Audio (v0.1.0-rc1). Zenodo. https://doi.org/10.5281/zenodo.14012135
 ---
 
 ## 📜 Copyright
