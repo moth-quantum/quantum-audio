@@ -1,0 +1,6 @@
+# Audio Dependencies
+librosa==0.10.2.post1
+soundfile==0.12.1
+
+# Notebook Dependency
+ipywidgets
