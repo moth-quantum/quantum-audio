@@ -133,7 +133,7 @@ It includes the following collection of dependencies, also mentioned in the fold
 > If using your own choice of libraries for digital audio processing, please be aware that Multi-channel Quantum Audio is processed with _Channels First_ data structure. e.g. `(2, N)` for a Stereo Audio of `N` samples.
   
   - **Notebook Dependencies**
-    The [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/demos/demo.ipynb) features interactive elements that require additional dependency. It can be installed using ```pip install ipywidgets```
+    The [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/demos/1_Basics_Walkthrough.ipynb) features interactive elements that require additional dependency. It can be installed using ```pip install ipywidgets```
 
 
 ## 🎛️ Usage <a id="usage"></a>
@@ -161,7 +161,7 @@ decoded_data  = qpam.decode(encoded_circuit,shots=4000)
 > The `encode` function returns a circuit with attached classical measurements by default. In Qiskit, it is not possible to directly modify a circuit after these measurements are added. If you wish to return a circuit without measurements, you can specify `measure=False` while encoding.
 
 ### Using Functions
-The core functions are also directly accessible without declaring a Scheme object. (Refer to [Documentation]() for all the available functions)
+The core functions are also directly accessible without declaring a Scheme object. (Refer to [Documentation](https://quantumaudio.readthedocs.io/) for all the available functions)
 ```python
 circuit = quantumaudio.encode(data, scheme="qpam")
 decoded_data = quantumaudio.decode(circuit)
