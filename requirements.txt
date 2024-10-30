@@ -5,3 +5,4 @@ bitstring
 matplotlib
 pylatexenc
 tqdm
+packaging
