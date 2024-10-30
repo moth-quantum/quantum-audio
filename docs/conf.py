@@ -8,7 +8,6 @@ import sys
 
 sys.path.insert(0, os.path.abspath(".."))
 
-
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
@@ -35,4 +34,3 @@ add_module_names = False
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
-
