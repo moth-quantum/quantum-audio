@@ -273,7 +273,7 @@ For more information on contributing to Code and Documentation, please review [C
 We're excited to keep the package updated with features and improvements! In future releases, we plan to introduce other schemes from Quantum Audio Literature along with Base Scheme Class Categories to support a generic structure for further contributions.
 
 ## ✅ Citing <a id="citing"></a>
-If you use this code or find it useful in your research, please consider citing: [DOI](https://www.doi.org)
+If you use this code or find it useful in your research, please consider citing: [DOI](https://doi.org/10.5281/zenodo.14012135)
 
 ---
 
