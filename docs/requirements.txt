@@ -1,3 +1,11 @@
 nbsphinx>=0.8.11
 nbsphinx-link
 sphinx-rtd-theme
+qiskit
+qiskit_aer==0.13.3
+numpy
+bitstring
+matplotlib
+pylatexenc
+tqdm
+packaging
