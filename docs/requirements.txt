@@ -1,3 +1,4 @@
 nbsphinx>=0.8.11
 nbsphinx-link
 sphinx_rtd_theme
+ipython
