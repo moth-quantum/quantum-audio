@@ -274,7 +274,7 @@ We're excited to keep the package updated with features and improvements! In fut
 
 ## ✅ Citing <a id="citation"></a>
 If you use this code or find it useful in your research, please consider citing:
-> Moth Quantum. (2024). Quantum Audio (v0.1.0-rc1). Zenodo. https://doi.org/10.5281/zenodo.14012135
+> Moth Quantum. (2024). Quantum Audio (v0.1.0). Zenodo. https://doi.org/10.5281/zenodo.14012135
 ---
 
 ## 📜 Copyright
