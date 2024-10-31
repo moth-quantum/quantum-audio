@@ -18,7 +18,7 @@ from typing import Any, Callable, Optional, Union
 import ipywidgets
 import matplotlib.pyplot as plt
 import numpy as np
-from IPython.display import Audio, clear_output, display
+from IPython.display import Audio, clear_output, display, HTML
 
 # ======================
 # Notebook Utils
@@ -85,13 +85,13 @@ def play(
 ) -> None:
     """Display audio from an array of audio data.
 
-    Parameters:
-    array: Array containing audio data.
-    rate: Sampling rate of the audio data (default is 44100).
-    autoplay: Whether to autoplay the audio (default is False).
+    Args:
+        array: Array containing audio data.
+        rate: Sampling rate of the audio data (default is 44100).
+        autoplay: Whether to autoplay the audio (default is False).
 
     Returns:
-    None
+        None
     """
     audio = Audio(data=array, rate=rate, autoplay=autoplay)
     display(audio)
@@ -145,3 +145,23 @@ def tune_audio(
         continuous_update=False,
     )
     return ipywidgets.interact(plot_function, shots=variable_slider)
+
+def compare_audio(path_1, path_2):
+    """
+    Display two audio files side by side in Jupyter Notebook for comparison.
+
+    Args:
+        path_1 (str): Path to the first audio file.
+        path_2 (str): Path to the second audio file.
+
+    Returns:
+        None
+    """
+    audio1 = Audio(path_1)
+    audio2 = Audio(path_2)
+    display(HTML(f"""
+    <div style="display: flex; gap: 20px;">
+        <div>{audio1._repr_html_()}</div>
+        <div>{audio2._repr_html_()}</div>
+    </div>
+    """))
