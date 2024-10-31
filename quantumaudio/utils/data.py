@@ -45,7 +45,9 @@ def validate_data(data: Union[list, tuple, np.ndarray]) -> None:
     if not isinstance(data, np.ndarray):
         raise TypeError("Input data must be a `numpy` array")
     if not is_within_range(data, min_val=-1.0, max_val=1.0):
-        raise ValueError("Data not in the digital audio range (-1.0 to 1.0).")
+        raise ValueError(
+            "Data not in the digital audio range (-1.0 to 1.0). Try using `numpy.clip`."
+        )
 
 
 # ==============
