@@ -294,4 +294,4 @@ See the [License](LICENSE) for the specific language governing permissions and l
 
 
 ## 📧 Contact 
-If you have any questions or need further assistance, please feel free to contact Moth Quantum at hello@mothquantum.com
+If you have any questions or need further assistance, please feel free to contact Moth Quantum at qap.support@mothquantum.com
