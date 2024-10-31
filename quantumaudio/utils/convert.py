@@ -42,7 +42,7 @@ def convert_to_probability_amplitudes(
 
 def convert_to_angles(array: np.ndarray) -> np.ndarray:
     """Converts an array of values to angles.
-    The conversion is done using the formula: 
+    The conversion is done using the formula:
 
     `arcsin(sqrt((x + 1) / 2))`
 

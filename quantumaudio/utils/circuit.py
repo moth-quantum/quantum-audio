@@ -22,6 +22,7 @@ import qiskit
 # Circuit Preparation Utils
 # =========================
 
+
 def apply_x_at_index(qc: qiskit.QuantumCircuit, i: int) -> None:
     """This function is used to encode an index value into control qubits of a circuit.
 
