@@ -297,7 +297,7 @@ Contact
 -------
 
 If you have any questions or need further assistance, please feel free
-to contact Moth Quantum at hello@mothquantum.com 
+to contact Moth Quantum at qap.support@mothquantum.com 
 
 .. |Python version| image:: https://img.shields.io/badge/python-3.9+-important
 .. |PyPI| image:: https://img.shields.io/pypi/v/quantumaudio
