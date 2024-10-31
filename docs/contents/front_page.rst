@@ -297,14 +297,14 @@ Contact
 -------
 
 If you have any questions or need further assistance, please feel free
-to contact Moth Quantum at hello@mothquantum.com
+to contact Moth Quantum at hello@mothquantum.com 
 
 .. |Python version| image:: https://img.shields.io/badge/python-3.9+-important
 .. |PyPI| image:: https://img.shields.io/pypi/v/quantumaudio
 .. |Read the Docs (version)| image:: https://img.shields.io/readthedocs/quantumaudio/latest?label=API%20docs
 .. |LICENSE| image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
    :target: https://github.com/moth-quantum/quantum-audio/blob/main/LICENSE
-.. |DOI| image:: https://zenodo.org/badge/DOI/10.1234/zenodo.123456.svg
-   :target: https://doi.org/
+.. |DOI| image:: https://zenodo.org/badge/DOI/10.5281/zenodo.14012135.svg
+   :target: https://doi.org/10.5281/zenodo.14012135
 .. |Open in Colab| image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd
