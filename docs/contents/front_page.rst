@@ -1,6 +1,3 @@
-Quantum Audio
-=============
-
 .. container::
 
    |Python version| |PyPI| |Read the Docs (version)| |LICENSE| |DOI|

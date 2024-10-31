@@ -1,3 +1,5 @@
+Quantum Audio
+=============
 .. include:: contents/front_page.rst
 
 Documentation
