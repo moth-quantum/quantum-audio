@@ -17,7 +17,7 @@
 necessary utilities.
 """
 
-__version__ = "0.1.0rc1"
+__version__ = "0.1.0"
 
 import importlib
 from importlib.metadata import version
