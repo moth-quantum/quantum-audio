@@ -4,9 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "quantumaudio"
-version = "0.1.0rc1"
+version = "0.1.0"
 authors = [
-    {name = "Moth Quantum", email = "hello@mothquantum.com"},
+    {name = "Moth Quantum and collaborators", email = "qap.support@mothquantum.com"},
 ]
 description = """A Python package for building Quantum Representations of Digital Audio. Developed by Moth Quantum.
 """
