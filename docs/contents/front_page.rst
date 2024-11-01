@@ -1,7 +1,7 @@
 .. container::
 
    |Python version| |PyPI| |Read the Docs (version)| |LICENSE| |DOI|
-   |Open in Colab| |Stack overflow|
+   |Open in Colab|
 
    An open-source Python package for building Quantum Representations of
    Digital Audio using *Qiskit* circuits.
@@ -310,5 +310,3 @@ to contact Moth Quantum at qap.support@mothquantum.com
    :target: https://doi.org/10.5281/zenodo.14012135
 .. |Open in Colab| image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd
-.. |Stack Overflow| image:: https://img.shields.io/badge/stackoverflow-Ask%20questions-blue.svg
-   :target: https://stackoverflow.com/tags/quantumaudio
