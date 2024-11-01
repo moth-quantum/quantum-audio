@@ -273,7 +273,7 @@ Citing
 If you use this code or find it useful in your research, please consider
 citing: 
 
-Moth Quantum. (2024). Quantum Audio (v0.1.0). Zenodo. \
+Moth Quantum and collaborators. (2024). Quantum Audio (v0.1.0). Zenodo. \
 `https://doi.org/10.5281/zenodo.14012135 <https://doi.org/10.5281/zenodo.14012135>`_
 
 --------------
