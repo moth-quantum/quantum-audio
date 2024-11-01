@@ -180,7 +180,7 @@ For faster processing of longer arrays, the `stream` method is preferred.
 ```python
 quantumaudio.stream(data)
 ```
-It wraps the functions provided in the module `quantumaudio.tools.stream` that help process large arrays as chunks for efficient handling. Examples of its usage can be found in the [Demos](https://github.com/moth-quantum/quantum-audio/blob/demos/) provided in the repository.
+It wraps the functions provided in the module `quantumaudio.tools.stream` that help process large arrays as chunks for efficient handling. Examples of its usage can be found in the [Demos](https://github.com/moth-quantum/quantum-audio/tree/main/demos) provided in the repository.
 
 ### Running on Native Backends
 

@@ -136,7 +136,7 @@ preferred.
 It wraps the functions provided in the module
 ``quantumaudio.tools.stream`` that help process large arrays as chunks
 for efficient handling. Examples of its usage can be found in the
-`Demos <https://github.com/moth-quantum/quantum-audio/blob/demos/>`__
+`Demos <https://github.com/moth-quantum/quantum-audio/tree/main/demos>`__
 provided in the repository.
 
 Running on Native Backends
