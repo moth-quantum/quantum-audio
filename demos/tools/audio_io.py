@@ -29,15 +29,15 @@ def read(
 ) -> None:
     """Generate audio chunks from a file.
 
-    Parameters:
-    file_path (str): Path to the audio file.
-    sr (int, optional): Sampling rate (default is 22050).
-    chunk_size (int, optional): Size of each chunk (default is 256).
-    mono (bool, optional): Whether to load audio in mono (default is True).
-    preview (bool, optional): Whether to preview each chunk (default is False).
+    Args:
+        file_path (str): Path to the audio file.
+        sr (int, optional): Sampling rate (default is 22050).
+        chunk_size (int, optional): Size of each chunk (default is 256).
+        mono (bool, optional): Whether to load audio in mono (default is True).
+        preview (bool, optional): Whether to preview each chunk (default is False).
 
     Returns:
-    None
+        None
     """
     y, sr = librosa.load(file_path, sr=sr, mono=mono)
     return y, sr
@@ -51,13 +51,13 @@ def write(
 ) -> None:
     """Export processed audio chunks into a single WAV file.
 
-    Parameters:
-    processed_chunks (list of np.ndarray): List containing arrays of processed audio chunks.
-    sr (int): Sampling rate of the audio data.
-    output_filepath (str, optional): Filepath to save the reconstructed audio.
+    Args:
+        processed_chunks (list of np.ndarray): List containing arrays of processed audio chunks.
+        sr (int): Sampling rate of the audio data.
+        output_filepath (str, optional): Filepath to save the reconstructed audio.
 
     Returns:
-    None
+        None
     """
     data = data.squeeze()
     if data.ndim == 2 and data.shape[0] < data.shape[1]:
