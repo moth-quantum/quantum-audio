@@ -3,7 +3,8 @@
 # Quantum Audio
 
 
-![Python version](https://img.shields.io/badge/python-3.9+-important) [![PyPI](https://img.shields.io/pypi/v/quantumaudio)](https://pypi.org/project/quantumaudio/) [![Read the Docs (version)](https://img.shields.io/readthedocs/quantumaudio/latest?label=API%20docs)](https://quantumaudio.readthedocs.io/en/latest/) [![LICENSE](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/moth-quantum/quantum-audio/blob/main/LICENSE) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14012134.svg)](https://doi.org/10.5281/zenodo.14012134) [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd)
+![Python version](https://img.shields.io/badge/python-3.9+-important) [![PyPI](https://img.shields.io/pypi/v/quantumaudio)](https://pypi.org/project/quantumaudio/) [![Read the Docs (version)](https://img.shields.io/readthedocs/quantumaudio/latest?label=API%20docs)](https://quantumaudio.readthedocs.io/en/latest/) [![LICENSE](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/moth-quantum/quantum-audio/blob/main/LICENSE) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14012134.svg)](https://doi.org/10.5281/zenodo.14012134) [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd) [![Stack Overflow](https://img.shields.io/badge/stackoverflow-Ask%20questions-blue.svg)](
+https://stackoverflow.com/questions/tagged/numpy)
 
 An open-source Python package for building Quantum Representations of Digital Audio using _Qiskit_ circuits.
 
@@ -41,6 +42,7 @@ quantumaudio.decode(circuit) # returns audio samples
 - [Contributing](#contributing)
 - [Future Releases](#future-releases)
 - [Citing](#citation)
+- [Contact](#contact)
 
 ## 🔍 Overview <a id="overview"></a>
 
@@ -277,7 +279,7 @@ We're excited to keep the package updated with features and improvements! In fut
 If you use this code or find it useful in your research, please consider citing:
 > Moth Quantum. (2024). Quantum Audio (v0.1.0). Zenodo. https://doi.org/10.5281/zenodo.14012135
 ---
-## 📧 Contact
+## 📧 Contact <a id="contact"></a>
 
 We're here to help! If you have any questions or need further assistance, please feel free reach out to our team using the support options provided below:
 
