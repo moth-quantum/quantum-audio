@@ -301,7 +301,9 @@ to contact Moth Quantum at qap.support@mothquantum.com
 
 .. |Python version| image:: https://img.shields.io/badge/python-3.9+-important
 .. |PyPI| image:: https://img.shields.io/pypi/v/quantumaudio
+   :target: https://pypi.org/project/quantumaudio/
 .. |Read the Docs (version)| image:: https://img.shields.io/readthedocs/quantumaudio/latest?label=API%20docs
+   :target: https://quantumaudio.readthedocs.io/en/latest/
 .. |LICENSE| image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
    :target: https://github.com/moth-quantum/quantum-audio/blob/main/LICENSE
 .. |DOI| image:: https://zenodo.org/badge/DOI/10.5281/zenodo.14013076.svg
