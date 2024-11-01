@@ -82,7 +82,7 @@ Thank you for considering contributing to our project! To ensure compliance with
 Please follow our [Code of Conduct](CODE_OF_CONDUCT.md) while contributing.
 
 ## Additional Notes
-- **Communication:** If you have any questions or need clarification, feel free to reach out by opening an issue or contacting us via hello@mothquantum.com.
+- **Communication:** If you have any questions or need clarification, feel free to reach out by opening an issue or contacting us via qap.support@mothquantum.com.
 - **Review Process:** Your pull request will be reviewed by the maintainers. Feedback will be provided, and you may need to make additional changes based on that feedback.
 
 Thank you for contributing to our project!
