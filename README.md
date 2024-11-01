@@ -277,6 +277,15 @@ We're excited to keep the package updated with features and improvements! In fut
 If you use this code or find it useful in your research, please consider citing:
 > Moth Quantum. (2024). Quantum Audio (v0.1.0). Zenodo. https://doi.org/10.5281/zenodo.14012135
 ---
+## 📧 Contact
+
+We're here to help! If you have any questions or need further assistance, please feel free reach out to our team using the support options provided below:
+
+- **General Questions**: Ask on [Stack Overflow](https://stackoverflow.com/tags/quantumaudio/) using the `quantumaudio` tag.
+- **Direct Contact**: For private or specific issues, reach us at [qap.support@mothquantum.com](mailto:qap.support@mothquantum.com).
+- **Bugs & Feature Requests**: Please [open an issue](https://github.com/moth-quantum/quantum-audio/issues) on GitHub.
+
+Before posting, check the [Documentation](https://quantumaudio.readthedocs.io), or existing questions in [Stack Overflow](https://stackoverflow.com/tags/quantumaudio/) to see if your question has been answered.
 
 ## 📜 Copyright
 Copyright 2024 Moth Quantum
@@ -290,13 +299,3 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the [License](LICENSE) for the specific language governing permissions and limitations under the License.
-
-## 📧 Contact
-
-We're here to help! If you have any questions or need further assistance, please feel free reach out to our team using the support options provided below:
-
-- **General Questions**: Ask on [Stack Overflow](https://stackoverflow.com/tags/quantumaudio/) using the `quantumaudio` tag.
-- **Direct Contact**: For private or specific issues, reach us at [qap.support@mothquantum.com](mailto:qap.support@mothquantum.com).
-- **Bugs & Feature Requests**: Please [open an issue](https://github.com/moth-quantum/quantum-audio/issues) on GitHub.
-
-Before posting, check the [Documentation](https://quantumaudio.readthedocs.io), or existing questions in [Stack Overflow](https://stackoverflow.com/tags/quantumaudio/) to see if your question has been answered.
