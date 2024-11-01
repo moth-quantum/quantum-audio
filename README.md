@@ -3,7 +3,7 @@
 # Quantum Audio
 
 
-![Python version](https://img.shields.io/badge/python-3.9+-important) [![PyPI](https://img.shields.io/pypi/v/quantumaudio)](https://pypi.org/project/quantumaudio/) [![Read the Docs (version)](https://img.shields.io/readthedocs/quantumaudio/latest?label=API%20docs)](https://quantumaudio.readthedocs.io/en/latest/) [![LICENSE](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/moth-quantum/quantum-audio/blob/main/LICENSE) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14012134.svg)](https://doi.org/10.5281/zenodo.14012134) [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd) [![Stack Overflow](https://img.shields.io/badge/stackoverflow-Ask%20questions-blue.svg)](https://stackoverflow.com/tags/quantumaudio/info)
+![Python version](https://img.shields.io/badge/python-3.9+-important) [![PyPI](https://img.shields.io/pypi/v/quantumaudio)](https://pypi.org/project/quantumaudio/) [![Read the Docs (version)](https://img.shields.io/readthedocs/quantumaudio/latest?label=API%20docs)](https://quantumaudio.readthedocs.io/en/latest/) [![LICENSE](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/moth-quantum/quantum-audio/blob/main/LICENSE) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14012134.svg)](https://doi.org/10.5281/zenodo.14012134) [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd)
 
 An open-source Python package for building Quantum Representations of Digital Audio using _Qiskit_ circuits.
 
@@ -291,7 +291,12 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the [License](LICENSE) for the specific language governing permissions and limitations under the License.
 
+## 📧 Contact
 
+We're here to help! If you have any questions or need further assistance, please feel free reach out to our team using the support options provided below:
 
-## 📧 Contact 
-If you have any questions or need further assistance, please feel free to contact Moth Quantum at qap.support@mothquantum.com
+- **General Questions**: Ask on [Stack Overflow](https://stackoverflow.com/tags/quantumaudio/) using the `quantumaudio` tag.
+- **Direct Contact**: For private or specific issues, reach us at [qap.support@mothquantum.com](mailto:qap.support@mothquantum.com).
+- **Bugs & Feature Requests**: Please [open an issue](https://github.com/moth-quantum/quantum-audio/issues) on GitHub.
+
+Before posting, check the [Documentation](https://quantumaudio.readthedocs.io), or existing questions in [Stack Overflow](https://stackoverflow.com/tags/quantumaudio/) to see if your question has been answered.
