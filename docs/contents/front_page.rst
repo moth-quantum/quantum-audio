@@ -323,7 +323,7 @@ limitations under the License.
    :target: https://quantumaudio.readthedocs.io/en/latest/
 .. |LICENSE| image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
    :target: https://github.com/moth-quantum/quantum-audio/blob/main/LICENSE
-.. |DOI| image:: https://zenodo.org/badge/DOI/10.5281/zenodo.14013076.svg
+.. |DOI| image:: https://zenodo.org/badge/DOI/10.5281/zenodo.14012135.svg
    :target: https://doi.org/10.5281/zenodo.14012135
 .. |Open in Colab| image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd
