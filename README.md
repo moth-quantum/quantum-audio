@@ -3,7 +3,8 @@
 # Quantum Audio
 
 
-![Python version](https://img.shields.io/badge/python-3.9+-important) [![PyPI](https://img.shields.io/pypi/v/quantumaudio)](https://pypi.org/project/quantumaudio/) [![Read the Docs (version)](https://img.shields.io/readthedocs/quantumaudio/latest?label=API%20docs)](https://quantumaudio.readthedocs.io/en/latest/) [![LICENSE](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/moth-quantum/quantum-audio/blob/main/LICENSE) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14012134.svg)](https://doi.org/10.5281/zenodo.14012134) [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd) [![Stack Overflow](https://img.shields.io/badge/stackoverflow-Ask%20questions-blue.svg)](
+![Python version](https://img.shields.io/badge/python-3.9+-important) [![PyPI](https://img.shields.io/pypi/v/quantumaudio)](https://pypi.org/project/quantumaudio/) [![Read the Docs (version)](https://img.shields.io/readthedocs/quantumaudio/latest?label=API%20docs)](https://quantumaudio.readthedocs.io/en/latest/) [![LICENSE](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/moth-quantum/quantum-audio/blob/main/LICENSE) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14012134.svg)](https://doi.org/10.5281/zenodo.14012134) 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd) [![Stack Overflow](https://img.shields.io/badge/stackoverflow-Ask%20questions-blue.svg)](
 https://stackoverflow.com/tags/quantumaudio)
 
 An open-source Python package for building Quantum Representations of Digital Audio using _Qiskit_ circuits.
