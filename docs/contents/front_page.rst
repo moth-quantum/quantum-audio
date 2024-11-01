@@ -278,6 +278,29 @@ Moth Quantum. (2024). Quantum Audio (v0.1.0). Zenodo. \
 
 --------------
 
+
+Contact
+-------
+
+We’re here to help! If you have any questions or need further
+assistance, please feel free reach out to our team using the support
+options provided below:
+
+- **General Questions**: Ask on `Stack
+  Overflow <https://stackoverflow.com/tags/quantumaudio/>`__ using the
+  ``quantumaudio`` tag.
+- **Direct Contact**: For private or specific issues, reach us at
+  qap.support@mothquantum.com.
+- **Bugs & Feature Requests**: Please `open an
+  issue <https://github.com/moth-quantum/quantum-audio/issues>`__ on
+  GitHub.
+
+Before posting, check the
+`Documentation <https://quantumaudio.readthedocs.io>`__, or existing
+questions in `Stack
+Overflow <https://stackoverflow.com/tags/quantumaudio/>`__ to see if
+your question has been answered.
+
 Copyright
 ---------
 
@@ -292,12 +315,6 @@ distributed under the License is distributed on an “AS IS” BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the `License <https://github.com/moth-quantum/quantum-audio/blob/main/LICENSE>`__ for the specific language governing permissions and
 limitations under the License.
-
-Contact
--------
-
-If you have any questions or need further assistance, please feel free
-to contact Moth Quantum at qap.support@mothquantum.com 
 
 .. |Python version| image:: https://img.shields.io/badge/python-3.9+-important
 .. |PyPI| image:: https://img.shields.io/pypi/v/quantumaudio
