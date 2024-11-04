@@ -15,7 +15,7 @@ An open-source Python package for building Quantum Representations of Digital Au
 Quantum audio refers to the application of principles from quantum mechanics to the creation, processing, and analysis of sound or audio signals. 
 
 > Here, the information is processed using <i>quantum bits</i>, or <i>qubits</i>, instead of classical bits (0s and 1s).
-> Unlike classical bits, _qubits_ can exist in multiple states at once, meaning all the audio samples occur simultaneously until the _qubits_ are measured.
+> Unlike classical bits which can only be in one state at a time, _qubits_ can exist in multiple states at once until they are measured.
 
 #### New Paradigm 🎵
 
