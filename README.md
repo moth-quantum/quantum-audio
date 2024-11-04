@@ -67,7 +67,7 @@ Additionally, ``tools`` contain extension functions that support basic visual an
 > For a quick tour of Quantum Audio, try [Colab](https://colab.research.google.com/drive/1qGWhTLWoxnJsR7tINR6MVGDvk56CX2uE?ts=66c70dcd) 🚀
 
 ### Documentation
-For more details of the package, please refer to the [Documentation](https://quantumaudio.readthedocs.io) site.
+For more details of the package and its modules, please refer to the [Documentation](https://quantumaudio.readthedocs.io/en/latest/contents/quantumaudio.html) site.
 
 ## 🧩 Version Information <a id="version"></a>
 
@@ -165,7 +165,7 @@ decoded_data  = qpam.decode(encoded_circuit,shots=4000)
 > The `encode` function returns a circuit with attached classical measurements by default. In Qiskit, it is not possible to directly modify a circuit after these measurements are added. If you wish to return a circuit without measurements, you can specify `measure=False` while encoding.
 
 ### Using Functions
-The core functions are also directly accessible without declaring a Scheme object. (Refer to [Documentation](https://quantumaudio.readthedocs.io/) for all the available functions)
+The core functions are also directly accessible without declaring a Scheme object. (Refer to [Documentation](https://quantumaudio.readthedocs.io/en/latest/contents/quantumaudio.html#top-level-functions) for all the available functions)
 ```python
 circuit = quantumaudio.encode(data, scheme="qpam")
 decoded_data = quantumaudio.decode(circuit)
@@ -286,7 +286,7 @@ We're here to help! If you have any questions or need further assistance, please
 - **Direct Contact**: For private or specific issues, reach us at [qap.support@mothquantum.com](mailto:qap.support@mothquantum.com).
 - **Bugs & Feature Requests**: Please [open an issue](https://github.com/moth-quantum/quantum-audio/issues) on GitHub.
 
-Before posting, check the [Documentation](https://quantumaudio.readthedocs.io), or existing questions in [Stack Overflow](https://stackoverflow.com/tags/quantumaudio/) to see if your question has been answered.
+Before posting, check the [Documentation](https://quantumaudio.readthedocs.io/en/latest/contents/quantumaudio.html), or existing questions in [Stack Overflow](https://stackoverflow.com/tags/quantumaudio/) to see if your question has been answered.
 
 ## 📜 Copyright
 Copyright 2024 Moth Quantum
