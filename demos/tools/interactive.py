@@ -107,6 +107,7 @@ def tune_audio(
     limit: Optional[int] = None,
     sr: int = 22050,
     offset: int = 0,
+    verbose: bool = False,
 ) -> None:
     """Tune audio parameters according to a specified function and scheme.
 
@@ -119,6 +120,7 @@ def tune_audio(
         limit: Limit for tuning, if any (default is None).
         sr: Sampling rate (default is 22050).
         offset: Offset for tuning (default is 0).
+        verbose: Enable to show progress for each step.
 
     Returns:
         ipywidgets.interactive
@@ -129,7 +131,7 @@ def tune_audio(
             chunks=obj[offset:limit],
             scheme=scheme,
             shots=shots,
-            verbose=False,
+            verbose=verbose,
         )
         if y:
             y = np.concatenate(y)
