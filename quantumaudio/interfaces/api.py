@@ -73,7 +73,8 @@ def stream(
     Args:
         data: Data to be streamed.
         scheme: Name of the quantum scheme to use for streaming.
-        **kwargs: Additional keyword arguments passed to the streaming method.
+        **kwargs: Additional keyword arguments passed to the streaming method. 
+                  Refer to :func:`quantumaudio.tools.stream.stream_data` for all arguments.
 
     Returns:
         Processed stream data based on the quantum scheme.
