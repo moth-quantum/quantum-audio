@@ -90,7 +90,11 @@ def get_metadata(results_obj, result_id=0):
         metadata["shots"] = results_obj.data.meas.num_shots
 
     elif isinstance(results_obj, qiskit.result.Result):
-        metadata = results_obj.results[result_id].header.metadata
+        metadata_header = results_obj.results[result_id].header
+        if isinstance(metadata_header, dict) and "metadata" in metadata_header:
+            metadata = metadata_header["metadata"] # to adapt to changes in Qiskit 2.0
+        else:
+            metadata = metadata_header.metadata # in case for backwards compatibility
         metadata["shots"] = results_obj.results[result_id].shots
 
     else:
