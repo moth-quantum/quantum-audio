@@ -25,7 +25,7 @@ classifiers = [
 ]
 dependencies = [
 	"qiskit",
-	"qiskit_aer==0.13.3",
+	"qiskit_aer",
 	"numpy",
 	"bitstring",
 	"matplotlib",
