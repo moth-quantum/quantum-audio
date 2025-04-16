@@ -109,6 +109,8 @@ This project has been completely re-developed and is now maintained by <b>[Moth 
   
   - The License is updated from **MIT** to **Apache 2.0**
 
+> For changes in future versions, refer to [CHANGELOG.md](https://github.com/moth-quantum/quantum-audio/blob/main/CHANGELOG.md).
+
 ### Migration Guide
 If you're transitioning from the previous version, please check the [Migration Guide](https://github.com/moth-quantum/quantum-audio/blob/main/docs/guides/MIGRATION.md) for an overview of the package usability.
 
