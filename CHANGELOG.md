@@ -6,9 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Extended `qiskit` support to `2.0.0`
-  - Adjusted results object as the `header` instance is now changed to a dictionary. (Issue #43)  
-  - Relaxed `qiskit-aer` version to support `qiskit==2.0.0`. (Issue #41)
-- Adjusted internal API usage to align with changes in `some-core-lib@3.0.0`
+  - Adjusted results object as the `header` instance is now changed to a dictionary. (Issue [#43](https://github.com/moth-quantum/quantum-audio/issues/43))  
+  - Relaxed `qiskit-aer` version requirement to support latest `qiskit` version. (Issue [#41](https://github.com/moth-quantum/quantum-audio/issues/41))
 
 ### Notes
 - This release is backward-compatible with previous versions of `qiskit` between `1.1.0` to `2.0.0`.
