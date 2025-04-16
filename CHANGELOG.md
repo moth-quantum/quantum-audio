@@ -11,4 +11,5 @@ All notable changes to this project will be documented in this file.
 
 ### Notes
 - This release is backward-compatible with previous versions of `qiskit` between `1.1.0` to `2.0.0`.
+- This release is not compatible with `qiskit<=1.0.0`
 
