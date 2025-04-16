@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "quantumaudio"
-version = "0.1.0"
+version = "0.2.0"
 authors = [
     {name = "Moth Quantum and collaborators", email = "qap.support@mothquantum.com"},
 ]
