@@ -17,7 +17,7 @@
 necessary utilities.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 import importlib
 from importlib.metadata import version
@@ -25,7 +25,7 @@ from packaging.version import parse
 
 # --------------------------- Qiskit Version Assertion ---------------------------
 
-_minimum_version = "1.0.0"
+_minimum_version = "1.1.0"
 _current_version = version("qiskit")
 
 if parse(_current_version) < parse(_minimum_version):
