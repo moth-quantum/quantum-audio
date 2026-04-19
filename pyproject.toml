@@ -40,6 +40,7 @@ Repository = "https://github.com/moth-quantum/quantum-audio"
 Documentation = "https://quantumaudio.readthedocs.io/"
 
 [project.optional-dependencies]
+cirq = ["cirq-core"]
 demos = [
 	"soundfile==0.12.1",
  	"librosa==0.10.2.post1",

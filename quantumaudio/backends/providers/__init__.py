@@ -24,3 +24,10 @@ if is_available("qiskit"):
     )
 
     registry.register("qiskit", QiskitBackend)
+
+if is_available("cirq"):
+    from quantumaudio.backends.providers.cirq_backend import (
+        CirqBackend,
+    )
+
+    registry.register("cirq", CirqBackend)
