@@ -30,12 +30,28 @@ from quantumaudio.backends.core import (
     registry,
 )
 
+# Trigger auto-registration of installed backends.
+import quantumaudio.backends.providers  # noqa: F401
+
+
+def available_backends() -> list[str]:
+    """Return names of all backends whose dependencies are installed."""
+    return registry.available()
+
+
+def get_backend(name: str = "qiskit") -> Backend:
+    """Instantiate and return a backend by name."""
+    return registry.get(name)
+
+
 __all__ = [
     "Backend",
     "CircuitSpec",
     "GateOp",
     "GateType",
     "UnifiedResult",
+    "available_backends",
+    "get_backend",
     "is_available",
     "registry",
     "require",
