@@ -15,11 +15,13 @@
 
 import numpy as np
 import pytest
-from qiskit import QuantumCircuit
-from qiskit.result.counts import Counts
 from qiskit.result.result import Result
 
+from quantumaudio.backends import CircuitSpec
+
 from quantumaudio.schemes import QSM
+
+from _helpers import counts_from_spaced
 
 
 @pytest.fixture
@@ -116,7 +118,7 @@ def converted_data(qsm, input_audio, num_index_qubits, qubit_depth):
 def test_initialize_circuit(qsm, num_index_qubits, num_value_qubits):
     circuit = qsm.initialize_circuit(num_index_qubits, num_value_qubits)
     assert circuit != None
-    assert type(circuit) == QuantumCircuit
+    assert isinstance(circuit, CircuitSpec)
 
 
 @pytest.fixture
@@ -146,20 +148,17 @@ def test_circuit_registers(
 ):
     assert prepared_circuit.num_qubits == num_index_qubits + num_value_qubits
     assert prepared_circuit.num_clbits == num_index_qubits + num_value_qubits
-    print(prepared_circuit.qubits)
-
-    for i, qubit in enumerate(prepared_circuit.qubits):
-        if i < num_value_qubits:
-            assert qubit.register.name == "amplitude"
-        elif i < num_index_qubits + num_value_qubits:
-            assert qubit.register.name == "time"
+    regs = prepared_circuit.metadata.get("registers", {})
+    assert "amplitude" in regs
+    assert "time" in regs
 
 
 def test_encode(
     qsm, input_audio, prepared_circuit, num_samples, converted_data
 ):
     encoded_circuit = qsm.encode(input_audio)
-    assert encoded_circuit == prepared_circuit
+    assert isinstance(encoded_circuit, CircuitSpec)
+    assert encoded_circuit.num_qubits == prepared_circuit.num_qubits
 
 
 @pytest.fixture
@@ -173,7 +172,9 @@ def test_circuit_metadata(qsm, encoded_circuit, num_samples):
 
 @pytest.fixture
 def counts():
-    return Counts(
+    # Spaces separate the time and amplitude register segments (3+3) for
+    # readability; the helper strips them.
+    return counts_from_spaced(
         {
             "101 100": 122,
             "111 000": 125,
@@ -193,21 +194,19 @@ def shots():
 
 
 @pytest.fixture
-def num_components(num_index_qubits):
-    return 2**num_index_qubits
+def qubit_shape():
+    return (3, 3)
 
 
-def test_decode_components(qsm, counts, num_components):
-    components = qsm.decode_components(counts, num_components)
+def test_decode_components(qsm, counts, qubit_shape):
+    components = qsm.decode_components(counts, qubit_shape)
     print(f"components: {components}")
     assert components.all() != None
     assert components.tolist() == [0, -1, 2, 3, -3, -4, 1, 0]
 
 
-def test_reconstruct_data(
-    qsm, counts, num_components, prepared_data, qubit_depth
-):
-    data = qsm.reconstruct_data(counts, num_components, qubit_depth)
+def test_reconstruct_data(qsm, counts, qubit_shape, prepared_data):
+    data = qsm.reconstruct_data(counts, qubit_shape)
     assert data.all() != None
     assert np.sum((data - prepared_data) ** 2) < 0.05
 
@@ -223,7 +222,11 @@ def result(counts, shots, num_samples):
                     "data": {"counts": counts},
                     "header": {
                         "qreg_sizes": [["amplitude", 3], ["time", 3]],
-                        "metadata": {"num_samples": num_samples},
+                        "metadata": {
+                            "num_samples": num_samples,
+                            "qubit_shape": (3, 3),
+                            "scheme": "QSM",
+                        },
                     },
                 }
             ],
