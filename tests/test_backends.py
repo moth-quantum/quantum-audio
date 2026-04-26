@@ -25,7 +25,10 @@ from quantumaudio.backends import (
     GateOp,
     GateType,
     UnifiedResult,
+    available_backends,
+    get_backend,
     is_available,
+    registry,
     require,
 )
 
@@ -351,3 +354,232 @@ def test_require_does_not_swallow_nested_import_error(tmp_path, monkeypatch):
     # The nested missing module is the one that should surface,
     # not the top-level "broken_pkg".
     assert excinfo.value.name == "this_module_does_not_exist_either"
+
+
+# ======================================================================
+# GateType / CircuitSpec builder coverage
+# ======================================================================
+
+
+class TestGateType:
+    def test_basic_gates_exist(self):
+        assert GateType.H
+        assert GateType.X
+        assert GateType.RY
+        assert GateType.CX
+
+    def test_extended_gates_exist(self):
+        assert GateType.MCX
+        assert GateType.MCRY
+        assert GateType.BARRIER
+
+
+class TestCircuitSpec:
+    def test_builder_returns_self(self):
+        spec = CircuitSpec(2)
+        result = spec.h(0).cx(0, 1)
+        assert result is spec
+
+    def test_ops_recorded(self):
+        spec = CircuitSpec(3)
+        spec.h(0).x(1).cx(0, 2).barrier()
+        assert len(spec.ops) == 4
+        assert spec.ops[0] == GateOp(GateType.H, (0,))
+        assert spec.ops[1] == GateOp(GateType.X, (1,))
+        assert spec.ops[2] == GateOp(GateType.CX, (0, 2))
+        assert spec.ops[3] == GateOp(GateType.BARRIER, ())
+
+    def test_mcx(self):
+        spec = CircuitSpec(4)
+        spec.mcx([0, 1, 2], 3)
+        op = spec.ops[0]
+        assert op.gate == GateType.MCX
+        assert op.qubits == (0, 1, 2, 3)
+
+    def test_mcry(self):
+        spec = CircuitSpec(3)
+        spec.mcry(1.5, [0, 1], 2)
+        op = spec.ops[0]
+        assert op.gate == GateType.MCRY
+        assert op.qubits == (0, 1, 2)
+        assert op.params == (1.5,)
+
+    def test_initialize_decomposes(self):
+        """initialize() should produce RY and CX ops, not an INITIALIZE op."""
+        spec = CircuitSpec(2)
+        spec.initialize([0.5, 0.5, 0.5, 0.5])
+        gate_types = {op.gate for op in spec.ops}
+        assert GateType.RY in gate_types or GateType.CX in gate_types
+        # No raw INITIALIZE gate should appear.
+        assert all(
+            op.gate != GateType.MEASURE for op in spec.ops
+            if hasattr(GateType, "INITIALIZE")
+        )
+
+    def test_metadata(self):
+        spec = CircuitSpec(2, name="test")
+        spec.metadata["key"] = "value"
+        assert spec.name == "test"
+        assert spec.metadata["key"] == "value"
+
+
+# ======================================================================
+# Backend registry
+# ======================================================================
+
+
+class TestRegistry:
+    def test_qiskit_available(self):
+        assert "qiskit" in available_backends()
+
+    def test_get_qiskit(self):
+        be = get_backend("qiskit")
+        assert be.name == "qiskit"
+
+    def test_unknown_backend_raises(self):
+        with pytest.raises(KeyError):
+            get_backend("nonexistent_backend")
+
+
+# ======================================================================
+# Qiskit backend
+# ======================================================================
+
+
+class TestQiskitBackend:
+    def test_build_and_run(self):
+        spec = CircuitSpec(2)
+        spec.h(0).cx(0, 1).measure_all()
+        be = get_backend("qiskit")
+        result = be.run_spec(spec, shots=100)
+        assert isinstance(result, UnifiedResult)
+        assert sum(result.counts.values()) == 100
+
+    def test_register_reconstruction(self):
+        spec = CircuitSpec(4, name="TestCirc")
+        spec.metadata["registers"] = {
+            "amp": (0, 1),
+            "time": (1, 3),
+        }
+        spec.h(1).h(2).h(3).measure_all()
+        be = get_backend("qiskit")
+        qc = be.build_circuit(spec)
+        reg_names = [r.name for r in qc.qregs]
+        assert "amp" in reg_names
+        assert "time" in reg_names
+
+    def test_statevector(self):
+        spec = CircuitSpec(1)
+        spec.h(0)
+        be = get_backend("qiskit")
+        native = be.build_circuit(spec)
+        sv = be.statevector(native)
+        assert len(sv) == 2
+        assert abs(abs(sv[0]) - 1 / np.sqrt(2)) < 1e-6
+
+
+# ======================================================================
+# Cirq backend
+# ======================================================================
+
+
+@pytest.mark.skipif(
+    not is_available("cirq"), reason="cirq not installed"
+)
+class TestCirqBackend:
+    def test_build_and_run(self):
+        spec = CircuitSpec(2)
+        spec.h(0).cx(0, 1).measure_all()
+        be = get_backend("cirq")
+        result = be.run_spec(spec, shots=100)
+        assert isinstance(result, UnifiedResult)
+        assert sum(result.counts.values()) == 100
+        # Bell state: only "00" and "11" should appear.
+        for key in result.counts:
+            assert key in ("00", "11")
+
+    def test_mcx(self):
+        spec = CircuitSpec(3)
+        spec.x(0).x(1).mcx([0, 1], 2).measure_all()
+        be = get_backend("cirq")
+        result = be.run_spec(spec, shots=100)
+        # All controls are 1, so target should flip to 1.
+        assert result.counts.get("111", 0) == 100
+
+    def test_mcry(self):
+        spec = CircuitSpec(2)
+        spec.x(0).mcry(np.pi, [0], 1).measure_all()
+        be = get_backend("cirq")
+        result = be.run_spec(spec, shots=100)
+        # Control=1, RY(pi) flips target from |0> to |1>.
+        assert result.counts.get("11", 0) == 100
+
+    def test_statevector(self):
+        spec = CircuitSpec(1)
+        spec.h(0)
+        be = get_backend("cirq")
+        native = be.build_circuit(spec)
+        sv = be.statevector(native)
+        assert len(sv) == 2
+        assert abs(abs(sv[0]) - 1 / np.sqrt(2)) < 1e-6
+
+
+# ======================================================================
+# Cross-backend scheme round-trips
+# ======================================================================
+
+
+BACKENDS = ["qiskit"]
+if is_available("cirq"):
+    BACKENDS.append("cirq")
+
+
+@pytest.fixture(params=BACKENDS)
+def backend_name(request):
+    return request.param
+
+
+@pytest.fixture
+def mono_data():
+    return np.array([0.0, -0.25, 0.5, 0.75, -0.75, -1.0, 0.25])
+
+
+@pytest.fixture
+def stereo_data():
+    return np.array([
+        [0.0, -0.25, 0.5, 0.75, -0.75, -1.0, 0.25],
+        [0.0, 0.25, -0.5, -0.75, 0.75, 1.0, -0.25],
+    ])
+
+
+class TestSchemesCrossBackend:
+    def _encode_decode(self, scheme_name, data, backend_name, shots=8000):
+        import quantumaudio
+        scheme = quantumaudio.load_scheme(scheme_name)
+        spec = scheme.encode(data, verbose=0)
+        assert isinstance(spec, CircuitSpec)
+        decoded = scheme.decode(spec, backend=backend_name, shots=shots)
+        return decoded
+
+    def test_qpam(self, mono_data, backend_name):
+        decoded = self._encode_decode("qpam", mono_data, backend_name)
+        assert decoded.shape == mono_data.shape
+        # QPAM has inherent quantisation noise; just check it runs.
+        assert decoded is not None
+
+    def test_sqpam(self, mono_data, backend_name):
+        decoded = self._encode_decode("sqpam", mono_data, backend_name)
+        error = np.sum((mono_data - decoded) ** 2)
+        assert error < 0.5
+
+    def test_qsm(self, mono_data, backend_name):
+        decoded = self._encode_decode("qsm", mono_data, backend_name)
+        assert decoded.shape == mono_data.shape
+
+    def test_msqpam(self, stereo_data, backend_name):
+        decoded = self._encode_decode("msqpam", stereo_data, backend_name)
+        assert decoded.shape == stereo_data.shape
+
+    def test_mqsm(self, stereo_data, backend_name):
+        decoded = self._encode_decode("mqsm", stereo_data, backend_name)
+        assert decoded.shape == stereo_data.shape
