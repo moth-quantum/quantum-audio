@@ -479,7 +479,7 @@ class MSQPAM(Scheme):
                 Array of decoded values
         """
         self.measure(circuit)
-        result = utils.execute(circuit=circuit, **kwargs)
+        result = execute_function(circuit=circuit, **kwargs)
         data = self.decode_result(
             result=result,
             metadata=metadata,
