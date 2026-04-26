@@ -18,7 +18,7 @@ from typing import Optional, Union, Tuple
 import numpy as np
 
 from quantumaudio import utils
-from quantumaudio.backends import CircuitSpec
+from quantumaudio.backends import CircuitSpec, get_backend
 from .base_scheme import Scheme
 
 
@@ -363,7 +363,6 @@ class SQPAM(Scheme):
         metadata: Optional[dict] = None,
         inverted: bool = False,
         keep_padding: bool = False,
-        execute_function: Optional[utils.ExecuteFunction] = None,
         backend=None,
         **kwargs,
     ) -> np.ndarray:
@@ -374,37 +373,20 @@ class SQPAM(Scheme):
                 metadata: optionally pass metadata as argument.
                 inverted: retrieves cosine components of the signal.
                 keep_padding: Undo the padding set at Encoding stage if set False.
-                execute_function: Legacy function to execute the circuit for decoding.
                 backend: Backend name to execute on (default: "qiskit").
 
         Return:
                 Array of decoded values.
         """
         self.measure(circuit)
-        if execute_function is not None:
-            # Legacy path: convert CircuitSpec to Qiskit circuit.
-            from quantumaudio.backends import get_backend
-
-            be = get_backend("qiskit")
-            native = be.build_circuit(circuit)
-            result = execute_function(circuit=native, **kwargs)
-            return self.decode_result(
-                result=result,
-                metadata=metadata,
-                inverted=inverted,
-                keep_padding=keep_padding,
-            )
-        else:
-            # New path: use backend.
-            from quantumaudio.backends import get_backend
-
-            be = get_backend(backend or "qiskit")
-            result = be.run_spec(circuit, shots=kwargs.get("shots", 8000))
-            if metadata is None:
-                metadata = circuit.metadata
-            return self.decode_counts(
-                counts=result.counts,
-                metadata=metadata,
-                inverted=inverted,
-                keep_padding=keep_padding,
-            )
+        be = get_backend(backend or "qiskit")
+        result = be.run_spec(circuit, shots=kwargs.get("shots", 8000))
+        if metadata is None:
+            metadata = circuit.metadata
+        data = self.decode_counts(
+            counts=result.counts,
+            metadata=metadata,
+            inverted=inverted,
+            keep_padding=keep_padding,
+        )
+        return data

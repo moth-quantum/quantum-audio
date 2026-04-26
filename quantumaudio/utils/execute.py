@@ -15,26 +15,8 @@
 
 import qiskit_aer
 from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
-from typing import Type, Any, Protocol
+from typing import Type, Any
 import importlib
-
-import qiskit
-
-
-class ExecuteFunction(Protocol):
-    """Callable protocol for circuit execution backends used by scheme decoders.
-
-    An execute function takes a ``circuit`` argument and may accept
-    any number of additional keyword arguments (e.g. ``shots``, ``backend``).
-    It returns a result object compatible with
-    :func:`quantumaudio.utils.results.get_counts` and
-    :func:`quantumaudio.utils.results.get_metadata`.
-    """
-
-    def __call__(
-        self, circuit: qiskit.QuantumCircuit, **kwargs: Any
-    ) -> Any: ...
-
 
 # Optional Import if exists
 _Sampler = (

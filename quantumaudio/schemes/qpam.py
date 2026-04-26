@@ -18,7 +18,7 @@ from typing import Optional, Union, Tuple
 import numpy as np
 
 from quantumaudio import utils
-from quantumaudio.backends import CircuitSpec
+from quantumaudio.backends import CircuitSpec, get_backend
 from .base_scheme import Scheme
 
 
@@ -350,7 +350,6 @@ class QPAM(Scheme):
         shots: Optional[int] = 8000,
         norm: Optional[float] = None,
         keep_padding: bool = False,
-        execute_function: Optional[utils.ExecuteFunction] = None,
         backend=None,
         **kwargs,
     ) -> np.ndarray:
@@ -362,41 +361,22 @@ class QPAM(Scheme):
             shots : Total number of times the quantum circuit is measured.
             norm   : The norm factor used to normalize the decoding in QPAM.
             keep_padding: Undo the padding set at Encoding stage if set to False.
-            execute_function: Legacy function to execute the circuit for decoding.
             backend: Backend name to execute on (default: "qiskit").
 
         Return:
             Array of decoded values.
         """
         self.measure(circuit)
-        if execute_function is not None:
-            # Legacy path: convert CircuitSpec to Qiskit circuit.
-            from quantumaudio.backends import get_backend
-
-            be = get_backend("qiskit")
-            native = be.build_circuit(circuit)
-            kwargs["shots"] = shots
-            result = execute_function(circuit=native, **kwargs)
-            return self.decode_result(
-                result=result,
-                metadata=metadata,
-                shots=shots,
-                norm=norm,
-                keep_padding=keep_padding,
-            )
-        else:
-            # New path: use backend.
-            from quantumaudio.backends import get_backend
-
-            be = get_backend(backend or "qiskit")
-            result = be.run_spec(circuit, shots=shots)
-            if metadata is None:
-                metadata = circuit.metadata
-            metadata["shots"] = shots
-            return self.decode_counts(
-                counts=result.counts,
-                metadata=metadata,
-                shots=shots,
-                norm=norm,
-                keep_padding=keep_padding,
-            )
+        be = get_backend(backend or "qiskit")
+        result = be.run_spec(circuit, shots=shots)
+        if metadata is None:
+            metadata = circuit.metadata
+        metadata["shots"] = shots
+        data = self.decode_counts(
+            counts=result.counts,
+            metadata=metadata,
+            shots=shots,
+            norm=norm,
+            keep_padding=keep_padding,
+        )
+        return data
