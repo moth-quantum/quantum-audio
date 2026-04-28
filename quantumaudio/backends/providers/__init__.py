@@ -31,3 +31,10 @@ if is_available("cirq"):
     )
 
     registry.register("cirq", CirqBackend)
+
+if is_available("pennylane"):
+    from quantumaudio.backends.providers.pennylane_backend import (
+        PennyLaneBackend,
+    )
+
+    registry.register("pennylane", PennyLaneBackend)

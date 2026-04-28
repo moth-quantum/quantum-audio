@@ -191,6 +191,19 @@ A Scheme's ```decode()``` method uses local [_AerSimulator_](https://github.com/
 
 ### Running on External Quantum Backends
 
+For PennyLane-supported hardware (IonQ, Amazon Braket, Rigetti, Quantinuum, IQM, Pasqal, ...), construct `PennyLaneBackend` with the device name, then drive it through `build_circuit` / `run` / `decode_counts`:
+
+```python
+from quantumaudio.backends.providers.pennylane_backend import PennyLaneBackend
+
+be     = PennyLaneBackend(device="ionq.simulator")  # or "ionq.qpu"
+native = be.build_circuit(spec)
+result = be.run(native, shots=1024)
+out    = scheme.decode_counts(result.counts, metadata=spec.metadata)
+```
+
+A single `PennyLaneBackend` reaches every vendor PennyLane has a plugin for; install the corresponding plugin (`pennylane-ionq`, `amazon-braket-pennylane-plugin`, ...) for your target.
+
 The package allows flexible use of Quantum Hardware from different Providers as the execution of circuits can be done independently. Depending on the results, there are two ways to decode quantum audio:
 
 - **Results Object:** If the result obtained follow the format of [qiskit.result.Result](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Result) or [qiskit.primitives.PrimitiveResult](https://docs.quantum.ibm.com/api/qiskit/qiskit.primitives.PrimitiveResult),

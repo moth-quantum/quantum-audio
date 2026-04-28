@@ -525,6 +525,52 @@ class TestCirqBackend:
 
 
 # ======================================================================
+# PennyLane backend
+# ======================================================================
+
+
+@pytest.mark.skipif(
+    not is_available("pennylane"), reason="pennylane not installed"
+)
+class TestPennyLaneBackend:
+    def test_build_and_run(self):
+        spec = CircuitSpec(2)
+        spec.h(0).cx(0, 1).measure_all()
+        be = get_backend("pennylane")
+        result = be.run_spec(spec, shots=100)
+        assert isinstance(result, UnifiedResult)
+        assert sum(result.counts.values()) == 100
+        # Bell state: only "00" and "11" should appear.
+        for key in result.counts:
+            assert key in ("00", "11")
+
+    def test_mcx(self):
+        spec = CircuitSpec(3)
+        spec.x(0).x(1).mcx([0, 1], 2).measure_all()
+        be = get_backend("pennylane")
+        result = be.run_spec(spec, shots=100)
+        # All controls are 1, so target should flip to 1.
+        assert result.counts.get("111", 0) == 100
+
+    def test_mcry(self):
+        spec = CircuitSpec(2)
+        spec.x(0).mcry(np.pi, [0], 1).measure_all()
+        be = get_backend("pennylane")
+        result = be.run_spec(spec, shots=100)
+        # Control=1, RY(pi) flips target from |0> to |1>.
+        assert result.counts.get("11", 0) == 100
+
+    def test_statevector(self):
+        spec = CircuitSpec(1)
+        spec.h(0)
+        be = get_backend("pennylane")
+        native = be.build_circuit(spec)
+        sv = be.statevector(native)
+        assert len(sv) == 2
+        assert abs(abs(sv[0]) - 1 / np.sqrt(2)) < 1e-6
+
+
+# ======================================================================
 # Cross-backend scheme round-trips
 # ======================================================================
 
@@ -532,6 +578,8 @@ class TestCirqBackend:
 BACKENDS = ["qiskit"]
 if is_available("cirq"):
     BACKENDS.append("cirq")
+if is_available("pennylane"):
+    BACKENDS.append("pennylane")
 
 
 @pytest.fixture(params=BACKENDS)
