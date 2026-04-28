@@ -204,6 +204,22 @@ out    = scheme.decode_counts(result.counts, metadata=spec.metadata)
 
 A single `PennyLaneBackend` reaches every vendor PennyLane has a plugin for; install the corresponding plugin (`pennylane-ionq`, `amazon-braket-pennylane-plugin`, ...) for your target.
 
+For CUDA-Q-supported hardware (IonQ, Quantinuum, IQM, Anyon, ORCA, Pasqal, Rigetti, QuEra, Braket, etc.) via NVIDIA's runtime, construct `CudaQBackend` with the target name:
+
+```python
+from quantumaudio.backends.providers.cudaq_backend import CudaQBackend
+
+be     = CudaQBackend(target="ionq", qpu="simulator")  # or qpu="qpu.aria-1"
+native = be.build_circuit(spec)
+result = be.run(native, shots=1024)
+out    = scheme.decode_counts(result.counts, metadata=spec.metadata)
+```
+
+`CudaQBackend` reaches IonQ, Quantinuum, IQM, Anyon, ORCA, Pasqal, Rigetti, QuEra, Braket, etc. via NVIDIA's runtime.
+
+> [!Caution]
+> For vendor targets that default to **real (paid) hardware** when no machine is specified -- IonQ, Anyon, Braket, Infleqtion, OQC, Quantinuum, Scaleway -- `CudaQBackend` refuses to instantiate without an explicit selector kwarg. So `CudaQBackend(target="ionq")` raises; you must pass `qpu="simulator"` (free cloud sim) or `qpu="qpu.aria-1"` (specific QPU). Validate on the cloud simulator first; the audio schemes generate one circuit per `stream()` chunk and per-shot fees add up fast.
+
 The package allows flexible use of Quantum Hardware from different Providers as the execution of circuits can be done independently. Depending on the results, there are two ways to decode quantum audio:
 
 - **Results Object:** If the result obtained follow the format of [qiskit.result.Result](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Result) or [qiskit.primitives.PrimitiveResult](https://docs.quantum.ibm.com/api/qiskit/qiskit.primitives.PrimitiveResult),

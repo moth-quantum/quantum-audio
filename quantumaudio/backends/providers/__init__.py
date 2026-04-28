@@ -38,3 +38,10 @@ if is_available("pennylane"):
     )
 
     registry.register("pennylane", PennyLaneBackend)
+
+if is_available("cudaq"):
+    from quantumaudio.backends.providers.cudaq_backend import (
+        CudaQBackend,
+    )
+
+    registry.register("cudaq", CudaQBackend)
