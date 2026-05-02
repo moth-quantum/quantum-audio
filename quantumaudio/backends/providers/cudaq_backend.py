@@ -28,6 +28,41 @@ from quantumaudio.backends.core.result import UnifiedResult
 from quantumaudio.backends.core.types import GateType
 
 cudaq = require("cudaq", extras_name="cudaq")
+# `cudaq.mlir.ir` is only importable once `cudaq` itself is loaded.
+from cudaq.mlir import ir as _ir  # noqa: E402
+
+
+_NVQPP_PREFIX = "__nvqpp__mlirgen__"
+
+
+def _rename_kernel(kernel, new_name: str) -> None:
+    """Rename a CUDA-Q kernel built by ``make_kernel``.
+
+    The kernel name surfaces as the job name on vendor consoles
+    (e.g. IonQ), but it also keys the MLIR function lookup used at
+    sampling time. Setting ``kernel.name`` alone leaves the underlying
+    MLIR symbol unchanged and breaks compilation, so we update both
+    the Python attributes and the MLIR ``sym_name`` together.
+    """
+    new_func_name = _NVQPP_PREFIX + new_name
+    new_entry_point = new_name + ".PyKernelFakeEntryPoint"
+    kernel.funcOp.attributes["sym_name"] = _ir.StringAttr.get(
+        new_func_name, context=kernel.ctx
+    )
+    kernel.module.operation.attributes["quake.mangled_name_map"] = (
+        _ir.DictAttr.get(
+            {
+                new_func_name: _ir.StringAttr.get(
+                    new_entry_point, context=kernel.ctx
+                )
+            },
+            context=kernel.ctx,
+        )
+    )
+    kernel.uniqName = new_name
+    kernel.name = new_name
+    kernel.funcName = new_func_name
+    kernel.funcNameEntryPoint = new_entry_point
 
 
 # Map GateType to the kernel-builder method name that takes the same
@@ -163,6 +198,17 @@ class CudaQBackend(Backend):
         :meth:`run` and :meth:`statevector`.
         """
         kernel = cudaq.make_kernel()
+        # Override the auto-generated `PythonKernelBuilderInstance..0x...`
+        # name so jobs are identifiable in vendor consoles (e.g. IonQ).
+        # Keep the trailing `..0xHEX` suffix because some CUDA-Q code
+        # paths (e.g. the statevector path) parse the hex id back out
+        # of the name.
+        prefix = (
+            f"quantumaudio-{spec.name.lower()}"
+            if spec.name
+            else "quantumaudio"
+        )
+        _rename_kernel(kernel, f"{prefix}..{hex(id(kernel))}")
         qubits = kernel.qalloc(spec.num_qubits)
         for op in spec.ops:
             _apply_op(kernel, qubits, op)
