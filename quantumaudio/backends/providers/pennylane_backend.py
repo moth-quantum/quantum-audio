@@ -109,6 +109,28 @@ def _kernel_factory(
     return kernel_fn, measured_wires
 
 
+def _maybe_name_remote_job(dev, name: str) -> None:
+    """Inject ``name`` into a PennyLane remote device's per-job dict.
+
+    Plugins like ``pennylane-ionq`` populate ``dev.job`` (a plain dict
+    that is sent verbatim to the vendor REST endpoint) inside
+    ``_submit_job``. The plugin doesn't expose a way to set a job name
+    itself, so we wrap the submit path and add one before the POST.
+    A no-op for local simulators that don't have ``_submit_job``.
+    """
+    inner = getattr(dev, "_device", dev)
+    if not hasattr(inner, "_submit_job"):
+        return
+    original = inner._submit_job
+
+    def wrapped():
+        if isinstance(getattr(inner, "job", None), dict):
+            inner.job.setdefault("name", name)
+        return original()
+
+    inner._submit_job = wrapped
+
+
 class PennyLaneBackend(Backend):
     """PennyLane backend.
 
@@ -134,10 +156,18 @@ class PennyLaneBackend(Backend):
         :meth:`statevector`.
         """
         kernel_fn, measured_wires = _kernel_factory(spec)
+        # Mirror CudaQBackend's naming so remote-job consoles
+        # (e.g. IonQ) show something identifiable.
+        job_name = (
+            f"quantumaudio-{spec.name.lower()}"
+            if spec.name
+            else "quantumaudio"
+        )
         return {
             "kernel_fn": kernel_fn,
             "measured_wires": measured_wires,
             "num_qubits": spec.num_qubits,
+            "job_name": job_name,
             "metadata": {
                 k: v
                 for k, v in spec.metadata.items()
@@ -156,6 +186,7 @@ class PennyLaneBackend(Backend):
         dev = qml.device(
             self._device, wires=n, **self._device_kwargs
         )
+        _maybe_name_remote_job(dev, native_circuit["job_name"])
 
         @qml.qnode(dev)
         def node():
