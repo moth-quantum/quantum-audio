@@ -48,3 +48,6 @@ demos = [
  	"librosa==0.10.2.post1",
     	"ipywidgets"
 ]
+
+[tool.setuptools.packages.find]
+include = ["quantumaudio*"]

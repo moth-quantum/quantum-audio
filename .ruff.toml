@@ -37,4 +37,5 @@ ignore = [
 exclude = [
   "tests/*.py",
   "scripts/*.py",
+  "demos/**",
 ]
