@@ -13,10 +13,14 @@
 # limitations under the License.
 # ==========================================================================
 
+import importlib
+from typing import TYPE_CHECKING, Any, Type
+
 import qiskit_aer
 from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
-from typing import Type, Any
-import importlib
+
+if TYPE_CHECKING:
+    import qiskit
 
 # Optional Import if exists
 _Sampler = (

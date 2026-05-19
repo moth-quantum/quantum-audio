@@ -318,13 +318,12 @@ class MSQPAM(Scheme):
         cosine_amps = np.zeros(num_components)
         sine_amps = np.zeros(num_components)
 
-        for state in counts:
+        for state, value in counts.items():
             index_bits, channel_bits, value_bits = utils.split_string(
                 state, qubit_shape
             )
             index = int(index_bits, 2)
             channel = int(channel_bits, 2)
-            value = counts[state]
             if value_bits == "0":
                 cosine_amps[channel][index] = value
             elif value_bits == "1":

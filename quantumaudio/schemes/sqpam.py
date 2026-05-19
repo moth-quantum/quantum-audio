@@ -259,10 +259,9 @@ class SQPAM(Scheme):
         sine_amps = np.zeros(num_components)
 
         # getting components from counts
-        for state in counts:
+        for state, value in counts.items():
             index_bits, value_bits = utils.split_string(state, qubit_shape)
             index = int(index_bits, 2)
-            value = counts[state]
             if value_bits == "0":
                 cosine_amps[index] = value
             elif value_bits == "1":
