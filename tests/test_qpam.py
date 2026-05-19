@@ -241,3 +241,12 @@ def test_decode(qpam, encoded_circuit, shots, decoded_data):
         assert data is not None
         errors.append(np.sum((data - decoded_data) ** 2))
     assert np.mean(errors) < 0.05
+
+
+def test_decode_use_statevector(qpam, encoded_circuit, input_audio, shots):
+    """With use_statevector=True, decoding is deterministic and free of
+    shot noise, so reconstruction is much tighter than the sampling path."""
+    data1 = qpam.decode(encoded_circuit, shots=shots, use_statevector=True)
+    data2 = qpam.decode(encoded_circuit, shots=shots, use_statevector=True)
+    np.testing.assert_allclose(data1, data2)
+    assert np.sum((data1 - input_audio) ** 2) < 1e-3

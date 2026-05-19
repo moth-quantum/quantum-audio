@@ -102,6 +102,7 @@ class CirqBackend(Backend):
     """Google Cirq simulator backend."""
 
     name = "cirq"
+    _statevector_endian = "big"
 
     def build_circuit(
         self, spec: CircuitSpec
@@ -159,6 +160,7 @@ class CirqBackend(Backend):
     def statevector(self, native_circuit: dict) -> np.ndarray:
         """Return the exact statevector."""
         circuit = native_circuit["circuit"]
+        qubits = native_circuit["qubits"]
 
         # Strip measurement gates for statevector computation.
         clean_ops = [
@@ -169,6 +171,9 @@ class CirqBackend(Backend):
         ]
         clean = cirq.Circuit(clean_ops)
 
+        # Pass qubit_order so the simulator allocates every qubit in the
+        # spec, even ones not touched by any non-measurement gate. Without
+        # this, the resulting statevector is shorter than 2**num_qubits.
         sim = cirq.Simulator()
-        sv_result = sim.simulate(clean)
+        sv_result = sim.simulate(clean, qubit_order=qubits)
         return sv_result.final_state_vector

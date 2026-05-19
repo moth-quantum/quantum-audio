@@ -478,3 +478,15 @@ def test_decode(
 
     print(f"errors: {errors}")
     assert np.mean(errors) < 0.1
+
+
+@pytest.mark.parametrize(
+    "num_channels, encoded_circuit", list(zip(test_num_channels, test_inputs)),
+    indirect=["encoded_circuit"],
+)
+def test_decode_use_statevector(msqpam, encoded_circuit, shots, num_channels):
+    """With use_statevector=True, decoding is deterministic and free of
+    shot noise."""
+    data1 = msqpam.decode(encoded_circuit, shots=shots, use_statevector=True)
+    data2 = msqpam.decode(encoded_circuit, shots=shots, use_statevector=True)
+    np.testing.assert_allclose(data1, data2)

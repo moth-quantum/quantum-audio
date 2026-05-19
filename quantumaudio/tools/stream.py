@@ -67,7 +67,11 @@ def get_chunks(
 
 
 def process(
-    chunk: np.ndarray, scheme: "quantumaudio.schemes.Scheme", backend: Any = None, shots: int = 8000
+    chunk: np.ndarray,
+    scheme: "quantumaudio.schemes.Scheme",
+    backend: Any = None,
+    shots: int = 8000,
+    **kwargs,
 ) -> np.ndarray:
     """Process a chunk of data according to a specified scheme by encoding it and decoding it back.
 
@@ -77,12 +81,17 @@ def process(
         backend: A valid Backend object accepted by the :ref:`execute function <execute>` at `decode`.
                  Defaults to `qiskit_aer.AerSimulator()`.
         shots: Number of shots.
+        **kwargs: Additional keyword arguments forwarded to ``scheme.decode``
+                  (e.g. ``use_statevector=True`` for shot-noise-free decoding).
 
     Returns:
         None
     """
     chunk = scheme.decode(
-        scheme.encode(chunk, verbose=0), backend=backend, shots=shots
+        scheme.encode(chunk, verbose=0),
+        backend=backend,
+        shots=shots,
+        **kwargs,
     )
     return chunk
 

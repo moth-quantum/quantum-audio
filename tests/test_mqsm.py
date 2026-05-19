@@ -433,3 +433,19 @@ def test_decode(
 
     print(f"errors: {errors}")
     assert np.mean(errors) == 0
+
+
+@pytest.mark.parametrize(
+    "counts, num_channels, encoded_circuit", parameters, indirect=True
+)
+def test_decode_use_statevector(
+    mqsm, encoded_circuit, shots, counts, num_samples, num_channels
+):
+    """MQSM encodes exact discrete values, so the statevector path must
+    match the shot-based decode exactly and run-to-run."""
+    result = get_result(counts, shots, num_samples, num_channels)
+    decoded_data = mqsm.decode_result(result)
+    data1 = mqsm.decode(encoded_circuit, shots=shots, use_statevector=True)
+    data2 = mqsm.decode(encoded_circuit, shots=shots, use_statevector=True)
+    np.testing.assert_array_equal(data1, data2)
+    np.testing.assert_array_equal(data1, decoded_data)

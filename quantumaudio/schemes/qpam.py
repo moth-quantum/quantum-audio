@@ -351,6 +351,7 @@ class QPAM(Scheme):
         norm: Optional[float] = None,
         keep_padding: bool = False,
         backend=None,
+        use_statevector: bool = False,
         **kwargs,
     ) -> np.ndarray:
         """Given a CircuitSpec, decodes and returns back the Original Audio Array.
@@ -362,18 +363,26 @@ class QPAM(Scheme):
             norm   : The norm factor used to normalize the decoding in QPAM.
             keep_padding: Undo the padding set at Encoding stage if set to False.
             backend: Backend name to execute on (default: "qiskit").
+            use_statevector: If True, derive counts from the exact
+                statevector instead of sampling. ``shots`` then sets the
+                denominator used to scale the synthetic counts so that
+                downstream decoding is unchanged.
 
         Return:
             Array of decoded values.
         """
         self.measure(circuit)
         be = get_backend(backend or "qiskit")
-        result = be.run_spec(circuit, shots=shots)
+        if use_statevector:
+            native = be.build_circuit(circuit)
+            counts = be.statevector_counts(native, shots=shots)
+        else:
+            counts = be.run_spec(circuit, shots=shots).counts
         if metadata is None:
             metadata = circuit.metadata
         metadata["shots"] = shots
         data = self.decode_counts(
-            counts=result.counts,
+            counts=counts,
             metadata=metadata,
             shots=shots,
             norm=norm,

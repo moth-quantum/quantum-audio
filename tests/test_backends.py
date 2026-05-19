@@ -477,6 +477,25 @@ class TestQiskitBackend:
         assert len(sv) == 2
         assert abs(abs(sv[0]) - 1 / np.sqrt(2)) < 1e-6
 
+    def test_statevector_counts_basis_state(self):
+        # X on q0 of a 2-qubit register: result is |01>.
+        # In Qiskit little-endian counts, that is the key "01".
+        spec = CircuitSpec(2)
+        spec.x(0).measure_all()
+        be = get_backend("qiskit")
+        native = be.build_circuit(spec)
+        counts = be.statevector_counts(native, shots=1000)
+        assert counts == {"01": 1000}
+
+    def test_statevector_counts_no_shot_noise(self):
+        # A Bell state should give exactly 50/50 with no sampling noise.
+        spec = CircuitSpec(2)
+        spec.h(0).cx(0, 1).measure_all()
+        be = get_backend("qiskit")
+        native = be.build_circuit(spec)
+        counts = be.statevector_counts(native, shots=1000)
+        assert counts == {"00": 500, "11": 500}
+
 
 # ======================================================================
 # Cirq backend
@@ -522,6 +541,16 @@ class TestCirqBackend:
         sv = be.statevector(native)
         assert len(sv) == 2
         assert abs(abs(sv[0]) - 1 / np.sqrt(2)) < 1e-6
+
+    def test_statevector_counts_basis_state(self):
+        # X on q0 of a 2-qubit register: must yield key "01" in the
+        # little-endian convention used by run()'s counts.
+        spec = CircuitSpec(2)
+        spec.x(0).measure_all()
+        be = get_backend("cirq")
+        native = be.build_circuit(spec)
+        counts = be.statevector_counts(native, shots=1000)
+        assert counts == {"01": 1000}
 
 
 # ======================================================================
@@ -569,6 +598,16 @@ class TestPennyLaneBackend:
         assert len(sv) == 2
         assert abs(abs(sv[0]) - 1 / np.sqrt(2)) < 1e-6
 
+    def test_statevector_counts_basis_state(self):
+        # X on q0 of a 2-qubit register: must yield key "01" in the
+        # little-endian convention used by run()'s counts.
+        spec = CircuitSpec(2)
+        spec.x(0).measure_all()
+        be = get_backend("pennylane")
+        native = be.build_circuit(spec)
+        counts = be.statevector_counts(native, shots=1000)
+        assert counts == {"01": 1000}
+
 
 # ======================================================================
 # CUDA-Q backend
@@ -614,6 +653,16 @@ class TestCudaQBackend:
         sv = be.statevector(native)
         assert len(sv) == 2
         assert abs(abs(sv[0]) - 1 / np.sqrt(2)) < 1e-6
+
+    def test_statevector_counts_basis_state(self):
+        # X on q0 of a 2-qubit register: must yield key "01" in the
+        # little-endian convention used by run()'s counts.
+        spec = CircuitSpec(2)
+        spec.x(0).measure_all()
+        be = get_backend("cudaq")
+        native = be.build_circuit(spec)
+        counts = be.statevector_counts(native, shots=1000)
+        assert counts == {"01": 1000}
 
     def test_remote_target_requires_explicit_selector(self):
         """Bare target='ionq' would route to billed hardware -- block it."""

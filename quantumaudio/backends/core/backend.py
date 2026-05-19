@@ -31,6 +31,16 @@ class Backend(ABC):
 
     name: str
 
+    # Convention used by ``statevector()`` to index basis states.
+    # ``"little"`` (Qiskit-style): qubit 0 is the least significant bit,
+    # so basis state index ``i`` written as ``format(i, f"0{n}b")`` has
+    # q0 on the right. ``"big"`` (Cirq, PennyLane): qubit 0 is the most
+    # significant bit, so the bitstring must be reversed to match the
+    # counts convention emitted by ``run()``. CUDA-Q is mixed: its
+    # ``get_state()`` is little-endian even though ``sample()`` is
+    # big-endian, so the backend declares ``"little"`` here.
+    _statevector_endian: str = "little"
+
     @abstractmethod
     def build_circuit(self, spec: CircuitSpec) -> Any:
         """Translate a CircuitSpec into the backend's native circuit."""
@@ -51,6 +61,33 @@ class Backend(ABC):
         """Convenience: build and run in one call."""
         native = self.build_circuit(spec)
         return self.run(native, shots)
+
+    def statevector_counts(
+        self, native_circuit: Any, shots: int = 1024
+    ) -> dict[str, int]:
+        """Synthesize a counts dict from exact statevector amplitudes.
+
+        Squares the amplitudes and scales by ``shots`` so downstream
+        decoders that consume counts (the ones built around
+        ``shots``-normalised probability extraction) behave as if the
+        circuit had been sampled, but without shot noise.
+
+        Returns a counts dict keyed in the same little-endian convention
+        as ``run()`` emits.
+        """
+        sv = self.statevector(native_circuit)
+        n_bits = round(np.log2(len(sv)))
+        probs = np.abs(sv) ** 2
+        counts: dict[str, int] = {}
+        for i, p in enumerate(probs):
+            c = round(float(p) * shots)
+            if c == 0:
+                continue
+            key = format(i, f"0{n_bits}b")
+            if self._statevector_endian == "big":
+                key = key[::-1]
+            counts[key] = c
+        return counts
 
 
 class BackendRegistry:

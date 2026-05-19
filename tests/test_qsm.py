@@ -259,3 +259,12 @@ def test_decode(qsm, encoded_circuit, shots, decoded_data):
 
     print(f"errors: {errors}")
     assert np.mean(errors) == 0
+
+
+def test_decode_use_statevector(qsm, encoded_circuit, shots, decoded_data):
+    """QSM encodes exact discrete values, so the statevector path must
+    match the shot-based decode exactly and run-to-run."""
+    data1 = qsm.decode(encoded_circuit, shots=shots, use_statevector=True)
+    data2 = qsm.decode(encoded_circuit, shots=shots, use_statevector=True)
+    np.testing.assert_array_equal(data1, data2)
+    np.testing.assert_array_equal(data1, decoded_data)

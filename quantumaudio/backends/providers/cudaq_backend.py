@@ -176,6 +176,10 @@ class CudaQBackend(Backend):
     """
 
     name = "cudaq"
+    # cudaq.get_state() returns the statevector in little-endian order
+    # (q0 = LSB), even though cudaq.sample() returns counts in big-endian
+    # wire order. The two CUDA-Q APIs use opposite conventions.
+    _statevector_endian = "little"
 
     def __init__(self, target: str = "qpp-cpu", **target_kwargs: Any):
         selector = _REMOTE_TARGETS_REQUIRE_SELECTOR.get(target)

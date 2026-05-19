@@ -258,3 +258,13 @@ def test_decode(sqpam, encoded_circuit, shots, decoded_data):
 
     print(f"errors: {errors}")
     assert np.mean(errors) < 0.1
+
+
+def test_decode_use_statevector(sqpam, encoded_circuit, input_audio, shots):
+    """With use_statevector=True, decoding is deterministic and free of
+    shot noise. Reconstruction error comes only from integer-rounding the
+    synthetic counts at the supplied shot count."""
+    data1 = sqpam.decode(encoded_circuit, shots=shots, use_statevector=True)
+    data2 = sqpam.decode(encoded_circuit, shots=shots, use_statevector=True)
+    np.testing.assert_allclose(data1, data2)
+    assert np.sum((data1 - input_audio) ** 2) < 1e-3

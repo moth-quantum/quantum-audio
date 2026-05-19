@@ -437,6 +437,7 @@ class MQSM(Scheme):
         metadata: Optional[dict] = None,
         keep_padding: Tuple[bool, bool] = (False, False),
         backend=None,
+        use_statevector: bool = False,
         **kwargs,
     ) -> np.ndarray:
         """Given a CircuitSpec, decodes and returns the Original Audio Array.
@@ -446,17 +447,26 @@ class MQSM(Scheme):
                 metadata: optionally pass metadata as argument.
                 keep_padding: Undo the padding set at Encoding stage if set False.
                 backend: Backend name to execute on (default: "qiskit").
+                use_statevector: If True, derive counts from the exact
+                    statevector instead of sampling. The ``shots`` kwarg
+                    (forwarded via ``**kwargs``) then sets the denominator
+                    used to scale the synthetic counts.
 
         Return:
                 Array of decoded values.
         """
         self.measure(circuit)
         be = get_backend(backend or "qiskit")
-        result = be.run_spec(circuit, shots=kwargs.get("shots", 8000))
+        shots = kwargs.get("shots", 8000)
+        if use_statevector:
+            native = be.build_circuit(circuit)
+            counts = be.statevector_counts(native, shots=shots)
+        else:
+            counts = be.run_spec(circuit, shots=shots).counts
         if metadata is None:
             metadata = circuit.metadata
         data = self.decode_counts(
-            counts=result.counts,
+            counts=counts,
             metadata=metadata,
             keep_padding=keep_padding,
         )

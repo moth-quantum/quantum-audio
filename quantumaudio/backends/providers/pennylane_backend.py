@@ -141,6 +141,7 @@ class PennyLaneBackend(Backend):
     """
 
     name = "pennylane"
+    _statevector_endian = "big"
 
     def __init__(
         self, device: str = "default.qubit", **device_kwargs: Any
