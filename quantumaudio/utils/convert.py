@@ -13,6 +13,8 @@
 # limitations under the License.
 # ==========================================================================
 
+import numbers
+
 import numpy as np
 
 # ======================
@@ -58,15 +60,39 @@ def convert_to_angles(array: np.ndarray) -> np.ndarray:
 def quantize(array: np.ndarray, qubit_depth: int) -> np.ndarray:
     """Quantizes the array to a given qubit depth.
 
+    Values outside the representable signed-integer range
+    ``[-2**(qubit_depth - 1), 2**(qubit_depth - 1) - 1]`` are saturated
+    rather than wrapped, mirroring the standard audio-clipping
+    convention. Without this, an input of ``+1.0`` at ``qubit_depth=3``
+    would produce integer ``+4``, which does not fit in a 3-bit signed
+    register and wraps to ``-4`` (decoded ``-1.0``): a sign-flip glitch
+    on every peak sample.
+
     Args:
         array: The input array.
-        qubit_depth: The number of bits to quantize to.
+        qubit_depth: The number of bits to quantize to. Must be an
+            integer >= 1.
 
     Returns:
         The quantized array as integers.
+
+    Raises:
+        ValueError: If ``qubit_depth`` is not an integer >= 1.
     """
-    values = array * (2 ** (qubit_depth - 1))
-    return values.astype(int)
+    if (
+        not isinstance(qubit_depth, numbers.Integral)
+        or isinstance(qubit_depth, bool)
+        or qubit_depth < 1
+    ):
+        raise ValueError(
+            f"qubit_depth must be an integer >= 1, got {qubit_depth!r}."
+        )
+    # Coerce to Python int so the arithmetic below cannot overflow a
+    # narrow NumPy integer dtype (e.g. ``np.uint8``).
+    qubit_depth = int(qubit_depth)
+    scale = 2 ** (qubit_depth - 1)
+    values = array * scale
+    return np.clip(values, -scale, scale - 1).astype(np.int64)
 
 
 def convert_from_probability_amplitudes(

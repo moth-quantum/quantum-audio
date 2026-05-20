@@ -476,3 +476,40 @@ def test_decode(
 
     print(f"errors: {errors}")
     assert np.mean(errors) < 0.1
+
+
+def test_decode_uses_execute_function(msqpam, monkeypatch):
+    # Regression test: `MSQPAM.decode` must invoke the supplied
+    # `execute_function` (rather than the default `utils.execute`) and forward
+    # `**kwargs` to it. The stub's returned `Result` must be the one passed on
+    # to `decode_result`.
+    canned_result = object()
+    sentinel = object()
+    execute_calls = []
+    decode_result_calls = []
+
+    def stub_execute(circuit, **kwargs):
+        execute_calls.append((circuit, kwargs))
+        return canned_result
+
+    def stub_decode_result(result, **kwargs):
+        decode_result_calls.append(result)
+        return sentinel
+
+    monkeypatch.setattr(msqpam, "decode_result", stub_decode_result)
+
+    encoded_circuit = msqpam.encode(test_inputs[0])
+    data = msqpam.decode(
+        encoded_circuit,
+        execute_function=stub_execute,
+        shots=1234,
+        extra_kwarg="forwarded",
+    )
+
+    assert len(execute_calls) == 1
+    received_circuit, received_kwargs = execute_calls[0]
+    assert received_circuit is encoded_circuit
+    assert received_kwargs == {"shots": 1234, "extra_kwarg": "forwarded"}
+
+    assert decode_result_calls == [canned_result]
+    assert data is sentinel
