@@ -15,7 +15,8 @@
 
 from abc import ABC, abstractmethod
 import numpy as np
-import qiskit
+
+from quantumaudio.backends import CircuitSpec
 
 
 class Scheme(ABC):
@@ -29,23 +30,23 @@ class Scheme(ABC):
     """
 
     @abstractmethod
-    def encode(self, data: np.ndarray) -> qiskit.QuantumCircuit:
+    def encode(self, data: np.ndarray) -> CircuitSpec:
         """Encode the input data using the scheme.
 
         Args:
             data: A `numpy` array containing the data to be encoded.
 
         Returns:
-            A `qiskit.QuantumCircuit` representing the encoded data.
+            A `CircuitSpec` representing the encoded data.
         """
         pass
 
     @abstractmethod
-    def decode(self, circuit: qiskit.QuantumCircuit) -> np.ndarray:
+    def decode(self, circuit: CircuitSpec) -> np.ndarray:
         """Decode the quantum circuit using the scheme.
 
         Args:
-            circuit: A `qiskit.QuantumCircuit` that contains the encoded data.
+            circuit: A `CircuitSpec` that contains the encoded data.
 
         Returns:
             A `numpy` array containing the decoded data.
