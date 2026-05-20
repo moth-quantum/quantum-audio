@@ -13,10 +13,14 @@
 # limitations under the License.
 # ==========================================================================
 
+import importlib
+from typing import TYPE_CHECKING, Any, Type
+
 import qiskit_aer
 from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
-from typing import Type, Any
-import importlib
+
+if TYPE_CHECKING:
+    import qiskit
 
 # Optional Import if exists
 _Sampler = (
@@ -37,6 +41,7 @@ def execute(
     backend: Any = None,
     keep_memory: bool = False,
     optimization_level: int = 3,
+    **kwargs: Any,
 ):
     """
     Executes a quantum circuit on a given backend and return the results.
@@ -47,6 +52,9 @@ def execute(
         shots: Total number of times the quantum circuit is measured.
         keep_memory: Whether to return the memory (quantum state) of each shot.
         optimization_level: Optimization level for transpiling the circuit.
+        **kwargs: Accepted for compatibility with the :class:`ExecuteFunction`
+            protocol (additional keyword arguments forwarded by scheme
+            ``decode`` calls); ignored by this implementation.
 
     Returns:
         Result: The result of the execution, containing the counts and other metadata.
@@ -74,6 +82,7 @@ def execute_with_sampler(
     backend: Any = None,
     shots: int = 8000,
     optimization_level: int = 3,
+    **kwargs: Any,
 ):
     """
     Executes a quantum circuit on a given backend using `Sampler Primitive` and return the results.
@@ -83,6 +92,9 @@ def execute_with_sampler(
         backend: The backend on which to run the circuit. If None, the default backend `qiskit_aer.AerSimulator()` is used.
         shots: Total number of times the quantum circuit is measured.
         optimization_level: Optimization level for transpiling the circuit.
+        **kwargs: Accepted for compatibility with the :class:`ExecuteFunction`
+            protocol (additional keyword arguments forwarded by scheme
+            ``decode`` calls); ignored by this implementation.
 
     Returns:
         Result: The result of the execution, containing the counts and other metadata.

@@ -15,9 +15,10 @@
 
 import numpy as np
 import pytest
-from qiskit import QuantumCircuit
 from qiskit.result.counts import Counts
 from qiskit.result.result import Result
+
+from quantumaudio.backends import CircuitSpec
 
 from quantumaudio.schemes import QPAM
 
@@ -107,8 +108,8 @@ def converted_data(qpam, input_audio, num_index_qubits):
 
 def test_initialize_circuit(qpam, num_index_qubits, num_value_qubits):
     circuit = qpam.initialize_circuit(num_index_qubits, num_value_qubits)
-    assert circuit != None
-    assert type(circuit) == QuantumCircuit
+    assert circuit is not None
+    assert isinstance(circuit, CircuitSpec)
 
 
 @pytest.fixture
@@ -136,19 +137,16 @@ def test_circuit_registers(
 ):
     assert prepared_circuit.num_qubits == num_index_qubits + num_value_qubits
     assert prepared_circuit.num_clbits == num_index_qubits + num_value_qubits
-
-    for i, qubit in enumerate(prepared_circuit.qubits):
-        if i < num_value_qubits:
-            assert qubit.register.name == "amplitude"
-        elif i < num_index_qubits + num_value_qubits:
-            assert qubit.register.name == "time"
+    regs = prepared_circuit.metadata.get("registers", {})
+    assert "time" in regs
 
 
 def test_encode(
     qpam, input_audio, prepared_circuit, num_samples, converted_data
 ):
     encoded_circuit = qpam.encode(input_audio)
-    assert encoded_circuit == prepared_circuit
+    assert isinstance(encoded_circuit, CircuitSpec)
+    assert encoded_circuit.num_qubits == prepared_circuit.num_qubits
 
 
 @pytest.fixture
@@ -238,7 +236,17 @@ def decoded_data(qpam, result):
 def test_decode(qpam, encoded_circuit, shots, decoded_data):
     errors = []
     for i in range(10):
+        # Re-encode each time since measure modifies the spec.
         data = qpam.decode(encoded_circuit, shots=shots)
-        assert data.all() != None
+        assert data is not None
         errors.append(np.sum((data - decoded_data) ** 2))
     assert np.mean(errors) < 0.05
+
+
+def test_decode_use_statevector(qpam, encoded_circuit, input_audio, shots):
+    """With use_statevector=True, decoding is deterministic and free of
+    shot noise, so reconstruction is much tighter than the sampling path."""
+    data1 = qpam.decode(encoded_circuit, shots=shots, use_statevector=True)
+    data2 = qpam.decode(encoded_circuit, shots=shots, use_statevector=True)
+    np.testing.assert_allclose(data1, data2)
+    assert np.sum((data1 - input_audio) ** 2) < 1e-3

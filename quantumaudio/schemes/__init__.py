@@ -136,4 +136,4 @@ def __dir__():
     return __all__
 
 
-__all__ = ["QPAM", "SQPAM", "QSM", "MSQPAM", "MQSM", "Scheme"]
+__all__ = ["MQSM", "MSQPAM", "QPAM", "QSM", "SQPAM", "Scheme"]

@@ -13,10 +13,13 @@
 # limitations under the License.
 # ==========================================================================
 
-from typing import Any, Callable, Union
+from typing import TYPE_CHECKING, Any, Callable, Union
 
 import numpy as np
 from tqdm import tqdm
+
+if TYPE_CHECKING:
+    import quantumaudio
 
 # ======================
 # Buffering Functions
@@ -64,7 +67,11 @@ def get_chunks(
 
 
 def process(
-    chunk: np.ndarray, scheme: "quantumaudio.schemes.Scheme", backend: Any = None, shots: int = 8000
+    chunk: np.ndarray,
+    scheme: "quantumaudio.schemes.Scheme",
+    backend: Any = None,
+    shots: int = 8000,
+    **kwargs,
 ) -> np.ndarray:
     """Process a chunk of data according to a specified scheme by encoding it and decoding it back.
 
@@ -74,12 +81,17 @@ def process(
         backend: A valid Backend object accepted by the :ref:`execute function <execute>` at `decode`.
                  Defaults to `qiskit_aer.AerSimulator()`.
         shots: Number of shots.
+        **kwargs: Additional keyword arguments forwarded to ``scheme.decode``
+                  (e.g. ``use_statevector=True`` for shot-noise-free decoding).
 
     Returns:
         None
     """
     chunk = scheme.decode(
-        scheme.encode(chunk, verbose=0), backend=backend, shots=shots
+        scheme.encode(chunk, verbose=0),
+        backend=backend,
+        shots=shots,
+        **kwargs,
     )
     return chunk
 
@@ -132,13 +144,13 @@ def combine_chunks(chunks: list[np.ndarray]) -> np.ndarray:
         else:
             output = np.concatenate(chunks, axis=0)
         return output
-    except:
-        print("Warning: Chunks cannot be combined.") # if different data type
+    except Exception:
+        print("Warning: Chunks cannot be combined.")  # if different data type
         return chunks
 
 def normalize(data: np.ndarray) -> np.ndarray:
     """Normalize the input data to ensure it lies within the standard range [-1.0, 1.0].
-    
+
     Args:
         data: Input array containing audio data.
     """

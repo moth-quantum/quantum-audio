@@ -13,12 +13,12 @@
 # limitations under the License.
 # ==========================================================================
 
-from typing import Optional, Union, Callable, Any, Tuple
+from typing import Optional, Union, Tuple
 
 import numpy as np
-import qiskit
 
 from quantumaudio import utils
+from quantumaudio.backends import CircuitSpec, get_backend
 from .base_scheme import Scheme
 
 
@@ -27,8 +27,8 @@ class QPAM(Scheme):
 
     QPAM class implements encoding and decoding of Digital Audio as
     Quantum Probability Amplitudes. It's the simplest of Schemes and
-    uses Qiskit circuit's `initialize` method to set the Quantum States
-    based on provided values. The values are normalized before encoding
+    uses state initialisation to set the Quantum States based on
+    provided values. The values are normalized before encoding
     using the `convert` method.
     """
 
@@ -135,7 +135,7 @@ class QPAM(Scheme):
 
     def initialize_circuit(
         self, num_index_qubits: int, num_value_qubits: int
-    ) -> qiskit.QuantumCircuit:
+    ) -> CircuitSpec:
         """Initializes the circuit with Index and Value Registers.
 
         Args:
@@ -143,39 +143,44 @@ class QPAM(Scheme):
             num_value_qubits: Number of qubits used to encode the sample values.
 
         Returns:
-            Qiskit Circuit with the registers
+            CircuitSpec with the appropriate number of qubits.
         """
-        index_register = qiskit.QuantumRegister(
-            num_index_qubits, self.labels[0]
+        total = num_value_qubits + num_index_qubits
+        spec = CircuitSpec(
+            num_qubits=total, name=self.__class__.__name__
         )
-        value_register = qiskit.QuantumRegister(
-            num_value_qubits, self.labels[1]
-        )
-        # Arranging Registers from Top to Bottom
-        circuit = qiskit.QuantumCircuit(
-            value_register, index_register, name=self.__class__.__name__
-        )
-        return circuit
+        self._value_range = (0, num_value_qubits)
+        self._index_range = (num_value_qubits, num_index_qubits)
+        if num_value_qubits > 0:
+            spec.metadata["registers"] = {
+                self.labels[1]: self._value_range,
+                self.labels[0]: self._index_range,
+            }
+        else:
+            spec.metadata["registers"] = {
+                self.labels[0]: self._index_range,
+            }
+        return spec
 
     def value_setting(
-        self, circuit: qiskit.QuantumCircuit, values: np.ndarray
+        self, circuit: CircuitSpec, values: np.ndarray
     ) -> None:
         """Encodes the prepared, converted values to the initialised circuit.
 
         Args:
-            circuit: Initialized Qiskit Circuit
-            values: Array of probability amplitudes to encode
+            circuit: Initialized CircuitSpec.
+            values: Array of probability amplitudes to encode.
         """
-        circuit.initialize(values)
+        circuit.initialize(list(values))
 
-    def measure(self, circuit: qiskit.QuantumCircuit) -> None:
-        """Adds classical measurements to all qubits of the Quantum Circuit if
+    def measure(self, circuit: CircuitSpec) -> None:
+        """Adds classical measurements to all qubits of the circuit if
         the circuit is not already measured.
 
         Args:
-            circuit: Encoded Qiskit Circuit
+            circuit: Encoded CircuitSpec.
         """
-        if not circuit.cregs:
+        if circuit.num_clbits == 0:
             circuit.measure_all()
 
     # ----- Default Encode Function -----
@@ -185,8 +190,8 @@ class QPAM(Scheme):
         data: np.ndarray,
         measure: bool = True,
         verbose: Union[int, bool] = 1,
-    ) -> qiskit.QuantumCircuit:
-        """Given audio data, prepares a Qiskit Circuit representing it.
+    ) -> CircuitSpec:
+        """Given audio data, prepares a CircuitSpec representing it.
 
         Args:
             data: Array representing Digital Audio Samples
@@ -197,7 +202,7 @@ class QPAM(Scheme):
               - >2: Displays the encoded circuit.
 
         Returns:
-            A Qiskit Circuit representing the Digital Audio
+            A CircuitSpec representing the Digital Audio.
         """
         utils.validate_data(data)
 
@@ -213,11 +218,11 @@ class QPAM(Scheme):
         # encode values
         self.value_setting(circuit=circuit, values=values)
         # additional information for decoding
-        circuit.metadata = {
+        circuit.metadata.update({
             "num_samples": num_samples,
             "norm_factor": norm,
             "scheme": circuit.name,
-        }
+        })
         if measure:
             self.measure(circuit)
         if verbose == 2:
@@ -227,7 +232,7 @@ class QPAM(Scheme):
     # ------------------- Decoding Helpers ---------------------------
 
     def decode_components(
-        self, counts: Union[dict, qiskit.result.Counts]
+        self, counts: dict
     ) -> np.ndarray:
         """The first stage of decoding is extracting required components from
         counts.
@@ -244,7 +249,7 @@ class QPAM(Scheme):
 
     def reconstruct_data(
         self,
-        counts: Union[dict, qiskit.result.Counts],
+        counts: dict,
         shots: int,
         norm: float,
     ) -> np.ndarray:
@@ -258,7 +263,7 @@ class QPAM(Scheme):
             norm  : the norm factor used to normalize the decoding in QPAM.
 
         Return:
-            Array of restored values
+            Array of restored values.
         """
         probabilities = self.decode_components(counts)
         data = self.restore(probabilities, norm, shots)
@@ -266,24 +271,24 @@ class QPAM(Scheme):
 
     def decode_counts(
         self,
-        counts: Union[dict, qiskit.result.Counts],
+        counts: dict,
         metadata: dict,
         shots: Optional[int] = 4000,
         norm: Optional[float] = None,
         keep_padding: bool = False,
     ) -> np.ndarray:
-        """Given a Qiskit counts object or Dictionary, Extract components and restore the
+        """Given a counts dictionary, extract components and restore the
         conversion did at encoding stage.
 
         Args:
-            counts: a qiskit Counts object or Dictionary obtained from a job result.
+            counts: a counts dictionary obtained from a job result.
             metadata: metadata required for decoding.
             shots : total number of times the quantum circuit is measured.
             norm  : Override the norm factor used to normalize the decoding.
             keep_padding: Undos the padding set at Encoding stage if set to False.
 
         Return:
-            Array of restored values with original dimensions
+            Array of restored values with original dimensions.
         """
         shots = metadata.get("shots", shots)
         norm = norm if norm else metadata["norm_factor"]
@@ -304,17 +309,17 @@ class QPAM(Scheme):
 
     def decode_result(
         self,
-        result: qiskit.result.Result,
+        result,
         metadata: Optional[dict] = None,
         shots: Optional[int] = 8000,
         norm: Optional[float] = None,
         keep_padding: bool = False,
     ) -> np.ndarray:
-        """Given a Qiskit Result object, Extract components and restore the
+        """Given a result object, extract components and restore the
         conversion did at encoding stage.
 
         Args:
-            result: a qiskit Result object that contains counts along
+            result: a result object that contains counts along
                     with metadata that was held by the original circuit.
             metadata: optionally pass metadata as argument.
             shots : total number of times the quantum circuit is measured.
@@ -322,7 +327,7 @@ class QPAM(Scheme):
             keep_padding: Undos the padding set at Encoding stage if set to False.
 
         Return:
-            Array of restored values with original dimensions
+            Array of restored values with original dimensions.
         """
         counts = utils.get_counts(result)
         metadata = utils.get_metadata(result) if not metadata else metadata
@@ -340,38 +345,44 @@ class QPAM(Scheme):
 
     def decode(
         self,
-        circuit: qiskit.QuantumCircuit,
+        circuit: CircuitSpec,
         metadata: Optional[dict] = None,
         shots: Optional[int] = 8000,
         norm: Optional[float] = None,
         keep_padding: bool = False,
-        execute_function: Callable[
-            [qiskit.QuantumCircuit, dict], Any
-        ] = utils.execute,
+        backend=None,
+        use_statevector: bool = False,
         **kwargs,
     ) -> np.ndarray:
-        """Given a qiskit circuit, decodes and returns back the Original Audio Array.
+        """Given a CircuitSpec, decodes and returns back the Original Audio Array.
 
         Args:
-            circuit: A Qiskit Circuit representing the Digital Audio.
+            circuit: A CircuitSpec representing the Digital Audio.
             metadata: optionally pass metadata as argument.
             shots : Total number of times the quantum circuit is measured.
             norm   : The norm factor used to normalize the decoding in QPAM.
             keep_padding: Undo the padding set at Encoding stage if set to False.
-            execute_function: Function to execute the circuit for decoding.
-
-              - Defaults to :ref:`utils.execute <execute>` which accepts any additional `**kwargs`.
-              - The keyword argument **shots** (int) is a metadata for QPAM decoding and accepted 
-                by `execute_function`. (Defaults to **8000**)
+            backend: Backend name to execute on (default: "qiskit").
+            use_statevector: If True, derive counts from the exact
+                statevector instead of sampling. ``shots`` then sets the
+                denominator used to scale the synthetic counts so that
+                downstream decoding is unchanged.
 
         Return:
-            Array of decoded values
+            Array of decoded values.
         """
         self.measure(circuit)
-        kwargs["shots"] = shots
-        result = execute_function(circuit=circuit, **kwargs)
-        data = self.decode_result(
-            result=result,
+        be = get_backend(backend or "qiskit")
+        if use_statevector:
+            native = be.build_circuit(circuit)
+            counts = be.statevector_counts(native, shots=shots)
+        else:
+            counts = be.run_spec(circuit, shots=shots).counts
+        if metadata is None:
+            metadata = circuit.metadata
+        metadata["shots"] = shots
+        data = self.decode_counts(
+            counts=counts,
             metadata=metadata,
             shots=shots,
             norm=norm,

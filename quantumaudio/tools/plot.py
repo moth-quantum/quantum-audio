@@ -89,7 +89,7 @@ def plot(
     x_axis = np.arange(0, num_samples)
 
     if num_channels > 1:
-        fig, axs = plt.subplots(num_channels, 1, figsize=figsize)
+        _, axs = plt.subplots(num_channels, 1, figsize=figsize)
         for i, y_axis in enumerate(samples):
             for c in range(num_channels):
                 axs[c].plot(
@@ -107,9 +107,8 @@ def plot(
 
     else:
         plt.figure(figsize=figsize)
-        for i, y_axis in enumerate(samples):
-            if isinstance(y_axis, np.ndarray):
-                y_axis = y_axis.squeeze()
+        for i, raw_y in enumerate(samples):
+            y_axis = raw_y.squeeze() if isinstance(raw_y, np.ndarray) else raw_y
             plt.plot(x_axis, y_axis, label=None if not label else label[i])
             plt.xlabel("Index")
             plt.ylabel("Values")
