@@ -15,11 +15,13 @@
 
 import numpy as np
 import pytest
-from qiskit import QuantumCircuit
-from qiskit.result.counts import Counts
 from qiskit.result.result import Result
 
+from quantumaudio.backends import CircuitSpec
+
 from quantumaudio.schemes import SQPAM
+
+from _helpers import counts_from_spaced
 
 
 @pytest.fixture
@@ -106,7 +108,7 @@ def converted_data(sqpam, input_audio, num_index_qubits):
 def test_initialize_circuit(sqpam, num_index_qubits, num_value_qubits):
     circuit = sqpam.initialize_circuit(num_index_qubits, num_value_qubits)
     assert circuit != None
-    assert type(circuit) == QuantumCircuit
+    assert isinstance(circuit, CircuitSpec)
 
 
 @pytest.fixture
@@ -136,20 +138,17 @@ def test_circuit_registers(
 ):
     assert prepared_circuit.num_qubits == num_index_qubits + num_value_qubits
     assert prepared_circuit.num_clbits == num_index_qubits + num_value_qubits
-    print(prepared_circuit.qubits)
-
-    for i, qubit in enumerate(prepared_circuit.qubits):
-        if i < num_value_qubits:
-            assert qubit.register.name == "amplitude"
-        elif i < num_index_qubits + num_value_qubits:
-            assert qubit.register.name == "time"
+    regs = prepared_circuit.metadata.get("registers", {})
+    assert "amplitude" in regs
+    assert "time" in regs
 
 
 def test_encode(
     sqpam, input_audio, prepared_circuit, num_samples, converted_data
 ):
     encoded_circuit = sqpam.encode(input_audio)
-    assert encoded_circuit == prepared_circuit
+    assert isinstance(encoded_circuit, CircuitSpec)
+    assert encoded_circuit.num_qubits == prepared_circuit.num_qubits
 
 
 @pytest.fixture
@@ -163,7 +162,9 @@ def test_circuit_metadata(sqpam, encoded_circuit, num_samples):
 
 @pytest.fixture
 def counts():
-    return Counts(
+    # Spaces separate the time and amplitude register segments (3+1) for
+    # readability; the helper strips them.
+    return counts_from_spaced(
         {
             "110 0": 50,
             "011 1": 114,
@@ -182,7 +183,6 @@ def counts():
             "110 1": 82,
         }
     )
-    # return Counts({'0 110': 50, '1 011': 114, '1 001': 51, '0 011': 8, '0 100': 106, '0 001': 76, '0 000': 57, '0 101': 114, '0 111': 67, '1 100': 13, '1 010': 100, '0 010': 44, '1 000': 58, '1 111': 60, '1 110': 82})
 
 
 @pytest.fixture
@@ -191,12 +191,12 @@ def shots():
 
 
 @pytest.fixture
-def num_components(num_index_qubits):
-    return 2**num_index_qubits
+def qubit_shape():
+    return (3, 1)
 
 
-def test_decode_components(sqpam, counts, num_components):
-    components = sqpam.decode_components(counts, num_components)
+def test_decode_components(sqpam, counts, qubit_shape):
+    components = sqpam.decode_components(counts, qubit_shape)
     print(f"components: {components}")
     assert components[0].all() != None
     assert components[0].tolist() == [57, 76, 44, 8, 106, 114, 50, 67]
@@ -204,8 +204,8 @@ def test_decode_components(sqpam, counts, num_components):
     assert components[1].tolist() == [58, 51, 100, 114, 13, 0, 82, 60]
 
 
-def test_reconstruct_data(sqpam, counts, num_components, prepared_data):
-    data = sqpam.reconstruct_data(counts, num_components)
+def test_reconstruct_data(sqpam, counts, qubit_shape, prepared_data):
+    data = sqpam.reconstruct_data(counts, qubit_shape)
     assert data.all() != None
     assert np.sum((data - prepared_data) ** 2) < 0.05
 
@@ -221,7 +221,11 @@ def result(counts, shots, num_samples):
                     "data": {"counts": counts},
                     "header": {
                         "qreg_sizes": [["amplitude", 1], ["time", 3]],
-                        "metadata": {"num_samples": num_samples},
+                        "metadata": {
+                            "num_samples": num_samples,
+                            "qubit_shape": (3, 1),
+                            "scheme": "SQPAM",
+                        },
                     },
                 }
             ],

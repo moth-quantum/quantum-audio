@@ -187,11 +187,49 @@ It wraps the functions provided in the module `quantumaudio.tools.stream` that h
 
 ### Running on Native Backends
 
-A Scheme's ```decode()``` method uses local [_AerSimulator_](https://github.com/Qiskit/qiskit-aer) as the default backend. Internally, the function calls `utils.execute()` method that performs ```backend.run()```. Any such backend object compatible with Qiskit can be passed to the ```backend=``` parameter of the `decode()` function. To configure this further or to use primitives, please refer to custom [execute functions](#custom_functions).
+A Scheme's `decode()` method runs the circuit through one of the framework-agnostic backends registered in `quantumaudio.backends`. Each is auto-registered if its underlying library is installed, all default to a local simulator, and the choice is selected by name on `decode(spec, backend="...")`:
+
+| `backend=` | Library / extras | Local default | Install |
+|---|---|---|---|
+| `"qiskit"` (default) | `qiskit`, `qiskit_aer` | `AerSimulator()` | included |
+| `"cirq"` | `cirq-core` | `cirq.Simulator()` | `pip install "quantumaudio[cirq]"` |
+| `"pennylane"` | `pennylane` | `default.qubit` | `pip install "quantumaudio[pennylane]"` |
+| `"cudaq"` | `cudaq` | `qpp-cpu` (CPU statevector) | `pip install "quantumaudio[cudaq]"` |
+
+```python
+spec = scheme.encode(audio)
+out  = scheme.decode(spec, backend="cudaq", shots=8000)
+```
+
+`scheme.decode(..., backend="<name>")` always runs **locally**. Reaching the cloud requires constructing a backend instance directly with a vendor device/target name, see below.
 
 ### Running on External Quantum Backends
 
-The package allows flexible use of Quantum Hardware from different Providers as the execution of circuits can be done independently. Depending on the results, there are two ways to decode quantum audio:
+To submit to vendor hardware (or a vendor-hosted cloud simulator), construct the relevant backend yourself with the device/target name as a constructor argument, then drive it through `build_circuit` / `run` / `decode_counts` (`decode(backend=...)` only accepts registered names, not instances):
+
+```python
+import os
+os.environ["IONQ_API_KEY"] = "..."
+
+# PennyLane plugin route -- IonQ cloud simulator (free):
+from quantumaudio.backends.providers.pennylane_backend import PennyLaneBackend
+be = PennyLaneBackend(device="ionq.simulator")             # or "ionq.qpu"
+
+# CUDA-Q route -- IonQ via NVIDIA's runtime:
+from quantumaudio.backends.providers.cudaq_backend import CudaQBackend
+be = CudaQBackend(target="ionq", qpu="simulator")          # or qpu="qpu.aria-1"
+
+native = be.build_circuit(spec)
+result = be.run(native, shots=1024)
+out    = scheme.decode_counts(result.counts, metadata=spec.metadata)
+```
+
+A single `PennyLaneBackend` reaches every vendor PennyLane has a plugin for (IonQ, Braket, Rigetti, Quantinuum, IQM, Pasqal, ...); install the corresponding plugin (`pennylane-ionq`, `amazon-braket-pennylane-plugin`, ...) for your target. `CudaQBackend` reaches IonQ, Quantinuum, IQM, Anyon, ORCA, Pasqal, Rigetti, QuEra, Braket, etc. via NVIDIA's runtime.
+
+> [!Caution]
+> For vendor targets that default to **real (paid) hardware** when no machine is specified -- IonQ, Anyon, Braket, Infleqtion, OQC, Quantinuum, Scaleway -- `CudaQBackend` refuses to instantiate without an explicit selector kwarg. So `CudaQBackend(target="ionq")` raises; you must pass `qpu="simulator"` (free cloud sim) or `qpu="qpu.aria-1"` (specific QPU). Validate on the cloud simulator first; the audio schemes generate one circuit per `stream()` chunk and per-shot fees add up fast.
+
+You can also skip the high-level backend entirely and submit through the vendor's own SDK, then feed the result back into the scheme:
 
 - **Results Object:** If the result obtained follow the format of [qiskit.result.Result](https://docs.quantum.ibm.com/api/qiskit/qiskit.result.Result) or [qiskit.primitives.PrimitiveResult](https://docs.quantum.ibm.com/api/qiskit/qiskit.primitives.PrimitiveResult),
   - The audio can be decoded with ```scheme.decode_result(result_object)``` method.
@@ -220,19 +258,16 @@ The _QPAM_ scheme's encoding only preserves **num_samples** (_int_) and the norm
 > The essential keys required for decoding with any scheme can be checked from the scheme's `.keys` attribute.
 
 ### Using Custom Functions <a id="custom_functions"></a>
-The `decode` and `stream` operations can be configured with the following custom functions. They require few mandatory arguments followed by custom preceding keyword arguments (denoted as `**kwargs`).
+The `stream` operation can be configured with a custom process function:
 - **Process Function**:
 The default process function of `stream()` simply encodes and decodes a chunk of data with default parameters. It can be overriden by passing a custom function to the `process_function=` parameter. The mandatory arguments for the custom process function are `data=` and `scheme=`.
 ```python
 processed_data = process_function(data, scheme, **kwargs)
 ```
-- **Execute Function** :
-The default execute function for `decode()` can be overriden by passing a custom function to the `execute_function=` parameter. The mandatory argument for the custom execute function is `circuit=`. (QPAM also expects `shots=` since it's a metadata)
-```python
-result = execute_function(circuit, **kwargs)
-``` 
-**Example**: An optional execute function is included in the package which uses [Sampler Primitive](https://docs.quantum.ibm.com/api/qiskit-ibm-runtime/qiskit_ibm_runtime.SamplerV2): `quantumaudio.utils.execute_with_sampler` that can be passed to the `decode()` method. It requires the dependency `pip install qiskit-ibm-runtime`. <br>
- 
+
+To use an alternative circuit-execution path (a different framework, a different vendor, or a custom orchestration layer), register a `Backend` subclass via `quantumaudio.backends.registry` and select it by name from `decode(backend=...)`, or follow the explicit `build_circuit` / `run` / `decode_counts` pattern shown in the [External Quantum Backends](#running-on-external-quantum-backends) section above.
+
+
 ## 📘 Additional Resources <a id="materials"></a>
 ### Notebook Examples
 For examples of circuit preparation, signal reconstruction, and interactive demonstrations, please check the [Demo Notebook](https://github.com/moth-quantum/quantum-audio/blob/main/demos/1_Basics_Walkthrough.ipynb). It combines the core package with additional functions from the `demos/tools` folder to go through Visual and Digital Audio examples.

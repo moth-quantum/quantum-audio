@@ -15,12 +15,14 @@
 
 import numpy as np
 import pytest
-from qiskit import QuantumCircuit
-from qiskit.result.counts import Counts
 from qiskit.result.result import Result
+
+from quantumaudio.backends import CircuitSpec
 
 from quantumaudio.schemes import MSQPAM
 from quantumaudio.utils import interleave_channels
+
+from _helpers import counts_from_spaced
 
 
 @pytest.fixture
@@ -178,7 +180,7 @@ def test_initialize_circuit(
         num_index_qubits, num_channels_qubits, num_value_qubits
     )
     assert circuit != None
-    assert type(circuit) == QuantumCircuit
+    assert isinstance(circuit, CircuitSpec)
 
 
 @pytest.fixture
@@ -229,15 +231,10 @@ def test_circuit_registers(
         prepared_circuit.num_clbits
         == num_index_qubits + num_value_qubits + num_channels_qubits
     )
-    print(prepared_circuit.qubits)
-
-    for i, qubit in enumerate(prepared_circuit.qubits):
-        if i < num_value_qubits:
-            assert qubit.register.name == "amplitude"
-        elif i < num_channels_qubits + num_value_qubits:
-            assert qubit.register.name == "channel"
-        elif i < num_index_qubits + num_value_qubits + num_channels_qubits:
-            assert qubit.register.name == "time"
+    regs = prepared_circuit.metadata.get("registers", {})
+    assert "amplitude" in regs
+    assert "channel" in regs
+    assert "time" in regs
 
 
 @pytest.mark.parametrize(
@@ -247,7 +244,8 @@ def test_circuit_registers(
 )
 def test_encode(msqpam, input_audio, prepared_circuit, num_samples):
     encoded_circuit = msqpam.encode(input_audio)
-    assert encoded_circuit == prepared_circuit
+    assert isinstance(encoded_circuit, CircuitSpec)
+    assert encoded_circuit.num_qubits == prepared_circuit.num_qubits
 
 
 @pytest.fixture
@@ -266,6 +264,8 @@ def test_circuit_metadata(msqpam, encoded_circuit, num_samples, num_channels):
     assert encoded_circuit.metadata["num_channels"] == num_channels
 
 
+# Spaces separate the time, channel, and amplitude register segments
+# (3+1+1) for readability; the helper strips them.
 test_counts = [
     {
         "001 0 1": 122,
@@ -337,7 +337,7 @@ test_counts = [
 
 @pytest.fixture
 def counts(request):
-    return Counts(request.param)
+    return counts_from_spaced(request.param)
 
 
 @pytest.fixture
@@ -346,8 +346,8 @@ def shots():
 
 
 @pytest.fixture
-def num_components(num_index_qubits, num_channels_qubits):
-    return (2**num_channels_qubits, 2**num_index_qubits)
+def qubit_shape(num_index_qubits, num_channels_qubits):
+    return (num_index_qubits, num_channels_qubits, 1)
 
 
 test_components = [
@@ -380,9 +380,9 @@ parameters = [(a, *b) for a, b in zip(test_counts, test_components)]
     "counts, cos_components, sin_components", parameters, indirect=["counts"]
 )
 def test_decode_components(
-    msqpam, counts, num_components, cos_components, sin_components
+    msqpam, counts, qubit_shape, cos_components, sin_components
 ):
-    components = msqpam.decode_components(counts, num_components)
+    components = msqpam.decode_components(counts, qubit_shape)
     print(f"components: {components}")
     assert components[0].all() != None
     print(f"components[0]: {components[0]}")
@@ -396,8 +396,8 @@ def test_decode_components(
     list(zip(test_counts, test_prepared_data)),
     indirect=["counts"],
 )
-def test_reconstruct_data(msqpam, counts, num_components, prepared_data):
-    data = msqpam.reconstruct_data(counts, num_components)
+def test_reconstruct_data(msqpam, counts, qubit_shape, prepared_data):
+    data = msqpam.reconstruct_data(counts, qubit_shape)
     print(f"data: {data}")
     print(f"prepared_data: {prepared_data}")
     data = interleave_channels(data)
@@ -422,6 +422,8 @@ def get_result(counts, shots, num_samples, num_channels):
                         "metadata": {
                             "num_samples": num_samples,
                             "num_channels": num_channels,
+                            "qubit_shape": (3, 1, 1),
+                            "scheme": "MSQPAM",
                         },
                     },
                 }

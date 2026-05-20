@@ -17,11 +17,16 @@
 without explicitly instantiating a Scheme class. They are made directly accessible from `quantumaudio`.
 """
 
+from typing import TYPE_CHECKING, Optional, Union
+
 import quantumaudio
 from quantumaudio import load_scheme
-from quantumaudio.utils import pick_key
 from quantumaudio.tools import stream_data
-from typing import Union, Optional
+from quantumaudio.utils import pick_key
+
+if TYPE_CHECKING:
+    import numpy as np
+    import qiskit
 
 # ------------------- Core Functions ---------------------------
 
@@ -41,7 +46,8 @@ def encode(
     Returns:
         Qiskit circuit encoding the data.
     """
-    if not scheme: scheme = _auto_pick_scheme(data)
+    if not scheme:
+        scheme = _auto_pick_scheme(data)
     scheme_kwargs, kwargs = _split_kwargs(kwargs)
     return _load_scheme(scheme, **scheme_kwargs).encode(data, **kwargs)
 
@@ -73,13 +79,14 @@ def stream(
     Args:
         data: Data to be streamed.
         scheme: Name of the quantum scheme to use for streaming.
-        **kwargs: Additional keyword arguments passed to the streaming method. 
+        **kwargs: Additional keyword arguments passed to the streaming method.
                   Refer to :func:`quantumaudio.tools.stream.stream_data` for all arguments.
 
     Returns:
         Processed stream data based on the quantum scheme.
     """
-    if not scheme: scheme = _auto_pick_scheme(data)
+    if not scheme:
+        scheme = _auto_pick_scheme(data)
     scheme_kwargs, kwargs = _split_kwargs(kwargs)
     scheme = _load_scheme(scheme, **scheme_kwargs)
     return stream_data(data=data, scheme=scheme, **kwargs)
@@ -100,7 +107,8 @@ def calculate(
         scheme: Name of the encoding scheme or a scheme object to use. Defaults to "qpam".
         **kwargs: Additional keyword arguments passed to the scheme class.
     """
-    if not scheme: scheme = _auto_pick_scheme(data)
+    if not scheme:
+        scheme = _auto_pick_scheme(data)
     _load_scheme(scheme, **kwargs).calculate(data)
 
 
