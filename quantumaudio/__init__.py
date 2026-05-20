@@ -117,6 +117,7 @@ __all__ = [
     "schemes",
     "utils",
     "tools",
+    "backends",
     "load_scheme",
     "encode",
     "decode",
