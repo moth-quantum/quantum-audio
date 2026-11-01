@@ -66,7 +66,9 @@ def quantize(array: np.ndarray, qubit_depth: int) -> np.ndarray:
         The quantized array as integers.
     """
     values = array * (2 ** (qubit_depth - 1))
-    return values.astype(int)
+    # Signed qubit_depth-bit range; +1.0 otherwise wraps to -1.0 on decode.
+    limit = 2 ** (qubit_depth - 1)
+    return np.clip(values, -limit, limit - 1).astype(int)
 
 
 def convert_from_probability_amplitudes(
