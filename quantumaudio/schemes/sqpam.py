@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==========================================================================
 
-from typing import Optional, Union, Callable, Any, Tuple
+from typing import Optional, Union, Tuple
 
 import numpy as np
 import qiskit
@@ -378,9 +378,7 @@ class SQPAM(Scheme):
         metadata: Optional[dict] = None,
         inverted: bool = False,
         keep_padding: bool = False,
-        execute_function: Callable[
-            [qiskit.QuantumCircuit, dict], Any
-        ] = utils.execute,
+        execute_function: utils.ExecuteFunction = utils.execute,
         **kwargs,
     ) -> np.ndarray:
         """Given a qiskit circuit, decodes and returns back the Original Audio Array.

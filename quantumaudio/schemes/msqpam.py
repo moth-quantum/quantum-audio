@@ -13,7 +13,7 @@
 # limitations under the License.
 # ==========================================================================
 
-from typing import Optional, Union, Callable, Any, Tuple
+from typing import Optional, Union, Tuple
 
 import numpy as np
 import qiskit
@@ -370,7 +370,7 @@ class MSQPAM(Scheme):
         counts: Union[dict, qiskit.result.Counts],
         metadata: dict,
         inverted: bool = False,
-        keep_padding: Tuple[int, int] = (False, False),
+        keep_padding: Tuple[bool, bool] = (False, False),
     ) -> np.ndarray:
         """Given a Qiskit counts object or Dictionary, Extract components and restore the
         conversion did at encoding stage.
@@ -420,7 +420,7 @@ class MSQPAM(Scheme):
         result: qiskit.result.Result,
         metadata: Optional[dict] = None,
         inverted: bool = False,
-        keep_padding: Tuple[int, int] = (False, False),
+        keep_padding: Tuple[bool, bool] = (False, False),
     ) -> np.ndarray:
         """Given a result object. Extract components and restore the conversion
         did in the encoding stage.
@@ -455,10 +455,8 @@ class MSQPAM(Scheme):
         circuit: qiskit.QuantumCircuit,
         metadata: Optional[dict] = None,
         inverted: bool = False,
-        keep_padding: Tuple[int, int] = (False, False),
-        execute_function: Callable[
-            [qiskit.QuantumCircuit, dict], Any
-        ] = utils.execute,
+        keep_padding: Tuple[bool, bool] = (False, False),
+        execute_function: utils.ExecuteFunction = utils.execute,
         **kwargs,
     ) -> np.ndarray:
         """Given a qiskit circuit, decodes and returns the Original Audio Array.
