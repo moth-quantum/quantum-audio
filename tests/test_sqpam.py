@@ -140,9 +140,9 @@ def test_circuit_registers(
 
     for i, qubit in enumerate(prepared_circuit.qubits):
         if i < num_value_qubits:
-            assert qubit.register.name == "amplitude"
+            assert prepared_circuit.find_bit(qubit).registers[0][0].name == "amplitude"
         elif i < num_index_qubits + num_value_qubits:
-            assert qubit.register.name == "time"
+            assert prepared_circuit.find_bit(qubit).registers[0][0].name == "time"
 
 
 def test_encode(
@@ -165,24 +165,24 @@ def test_circuit_metadata(sqpam, encoded_circuit, num_samples):
 def counts():
     return Counts(
         {
-            "110 0": 50,
-            "011 1": 114,
-            "001 1": 51,
-            "011 0": 8,
-            "100 0": 106,
-            "001 0": 76,
-            "000 0": 57,
-            "101 0": 114,
-            "111 0": 67,
-            "100 1": 13,
-            "010 1": 100,
-            "010 0": 44,
-            "000 1": 58,
-            "111 1": 60,
-            "110 1": 82,
+            "1100": 50,
+            "0111": 114,
+            "0011": 51,
+            "0110": 8,
+            "1000": 106,
+            "0010": 76,
+            "0000": 57,
+            "1010": 114,
+            "1110": 67,
+            "1001": 13,
+            "0101": 100,
+            "0100": 44,
+            "0001": 58,
+            "1111": 60,
+            "1101": 82,
         }
     )
-    # return Counts({'0 110': 50, '1 011': 114, '1 001': 51, '0 011': 8, '0 100': 106, '0 001': 76, '0 000': 57, '0 101': 114, '0 111': 67, '1 100': 13, '1 010': 100, '0 010': 44, '1 000': 58, '1 111': 60, '1 110': 82})
+    # return Counts({'0110': 50, '1011': 114, '1001': 51, '0011': 8, '0100': 106, '0001': 76, '0000': 57, '0101': 114, '0111': 67, '1100': 13, '1010': 100, '0010': 44, '1000': 58, '1111': 60, '1110': 82})
 
 
 @pytest.fixture
@@ -191,12 +191,12 @@ def shots():
 
 
 @pytest.fixture
-def num_components(num_index_qubits):
-    return 2**num_index_qubits
+def qubit_shape(num_index_qubits, num_value_qubits):
+    return (num_index_qubits, num_value_qubits)
 
 
-def test_decode_components(sqpam, counts, num_components):
-    components = sqpam.decode_components(counts, num_components)
+def test_decode_components(sqpam, counts, qubit_shape):
+    components = sqpam.decode_components(counts, qubit_shape)
     print(f"components: {components}")
     assert components[0].all() != None
     assert components[0].tolist() == [57, 76, 44, 8, 106, 114, 50, 67]
@@ -204,14 +204,14 @@ def test_decode_components(sqpam, counts, num_components):
     assert components[1].tolist() == [58, 51, 100, 114, 13, 0, 82, 60]
 
 
-def test_reconstruct_data(sqpam, counts, num_components, prepared_data):
-    data = sqpam.reconstruct_data(counts, num_components)
+def test_reconstruct_data(sqpam, counts, qubit_shape, prepared_data):
+    data = sqpam.reconstruct_data(counts, qubit_shape)
     assert data.all() != None
     assert np.sum((data - prepared_data) ** 2) < 0.05
 
 
 @pytest.fixture
-def result(counts, shots, num_samples):
+def result(counts, shots, num_samples, qubit_shape):
     return Result.from_dict(
         {
             "results": [
@@ -221,7 +221,11 @@ def result(counts, shots, num_samples):
                     "data": {"counts": counts},
                     "header": {
                         "qreg_sizes": [["amplitude", 1], ["time", 3]],
-                        "metadata": {"num_samples": num_samples},
+                        "metadata": {
+                            "num_samples": num_samples,
+                            "qubit_shape": qubit_shape,
+                            "scheme": "SQPAM",
+                        },
                     },
                 }
             ],

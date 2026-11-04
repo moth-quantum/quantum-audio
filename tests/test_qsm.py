@@ -150,9 +150,9 @@ def test_circuit_registers(
 
     for i, qubit in enumerate(prepared_circuit.qubits):
         if i < num_value_qubits:
-            assert qubit.register.name == "amplitude"
+            assert prepared_circuit.find_bit(qubit).registers[0][0].name == "amplitude"
         elif i < num_index_qubits + num_value_qubits:
-            assert qubit.register.name == "time"
+            assert prepared_circuit.find_bit(qubit).registers[0][0].name == "time"
 
 
 def test_encode(
@@ -175,14 +175,14 @@ def test_circuit_metadata(qsm, encoded_circuit, num_samples):
 def counts():
     return Counts(
         {
-            "101 100": 122,
-            "111 000": 125,
-            "011 011": 125,
-            "110 001": 134,
-            "010 010": 132,
-            "001 111": 110,
-            "100 101": 132,
-            "000 000": 120,
+            "101100": 122,
+            "111000": 125,
+            "011011": 125,
+            "110001": 134,
+            "010010": 132,
+            "001111": 110,
+            "100101": 132,
+            "000000": 120,
         }
     )
 
@@ -193,27 +193,27 @@ def shots():
 
 
 @pytest.fixture
-def num_components(num_index_qubits):
-    return 2**num_index_qubits
+def qubit_shape(num_index_qubits, num_value_qubits):
+    return (num_index_qubits, num_value_qubits)
 
 
-def test_decode_components(qsm, counts, num_components):
-    components = qsm.decode_components(counts, num_components)
+def test_decode_components(qsm, counts, qubit_shape):
+    components = qsm.decode_components(counts, qubit_shape)
     print(f"components: {components}")
     assert components.all() != None
     assert components.tolist() == [0, -1, 2, 3, -3, -4, 1, 0]
 
 
 def test_reconstruct_data(
-    qsm, counts, num_components, prepared_data, qubit_depth
+    qsm, counts, qubit_shape, prepared_data
 ):
-    data = qsm.reconstruct_data(counts, num_components, qubit_depth)
+    data = qsm.reconstruct_data(counts, qubit_shape)
     assert data.all() != None
     assert np.sum((data - prepared_data) ** 2) < 0.05
 
 
 @pytest.fixture
-def result(counts, shots, num_samples):
+def result(counts, shots, num_samples, qubit_shape):
     return Result.from_dict(
         {
             "results": [
@@ -223,7 +223,11 @@ def result(counts, shots, num_samples):
                     "data": {"counts": counts},
                     "header": {
                         "qreg_sizes": [["amplitude", 3], ["time", 3]],
-                        "metadata": {"num_samples": num_samples},
+                        "metadata": {
+                            "num_samples": num_samples,
+                            "qubit_shape": qubit_shape,
+                            "scheme": "QSM",
+                        },
                     },
                 }
             ],
