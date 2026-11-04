@@ -139,9 +139,9 @@ def test_circuit_registers(
 
     for i, qubit in enumerate(prepared_circuit.qubits):
         if i < num_value_qubits:
-            assert qubit.register.name == "amplitude"
+            assert prepared_circuit.find_bit(qubit).registers[0][0].name == "amplitude"
         elif i < num_index_qubits + num_value_qubits:
-            assert qubit.register.name == "time"
+            assert prepared_circuit.find_bit(qubit).registers[0][0].name == "time"
 
 
 def test_encode(

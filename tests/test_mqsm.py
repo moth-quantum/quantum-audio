@@ -235,11 +235,11 @@ def test_circuit_registers(
 
     for i, qubit in enumerate(prepared_circuit.qubits):
         if i < num_value_qubits:
-            assert qubit.register.name == "amplitude"
+            assert prepared_circuit.find_bit(qubit).registers[0][0].name == "amplitude"
         elif i < num_channels_qubits + num_value_qubits:
-            assert qubit.register.name == "channel"
+            assert prepared_circuit.find_bit(qubit).registers[0][0].name == "channel"
         elif i < num_index_qubits + num_value_qubits + num_channels_qubits:
-            assert qubit.register.name == "time"
+            assert prepared_circuit.find_bit(qubit).registers[0][0].name == "time"
 
 
 @pytest.mark.parametrize(
@@ -270,40 +270,40 @@ def test_circuit_metadata(mqsm, encoded_circuit, num_samples, num_channels):
 
 test_counts = [
     {
-        "001 1 000": 290,
-        "011 1 000": 311,
-        "110 1 000": 315,
-        "000 0 000": 306,
-        "001 0 111": 317,
-        "010 0 010": 313,
-        "101 0 100": 334,
-        "111 0 000": 278,
-        "110 0 001": 318,
-        "111 1 000": 314,
-        "100 1 000": 350,
-        "000 1 000": 330,
-        "011 0 011": 319,
-        "010 1 000": 315,
-        "100 0 101": 305,
-        "101 1 000": 285,
+        "0011000": 290,
+        "0111000": 311,
+        "1101000": 315,
+        "0000000": 306,
+        "0010111": 317,
+        "0100010": 313,
+        "1010100": 334,
+        "1110000": 278,
+        "1100001": 318,
+        "1111000": 314,
+        "1001000": 350,
+        "0001000": 330,
+        "0110011": 319,
+        "0101000": 315,
+        "1000101": 305,
+        "1011000": 285,
     },
     {
-        "000 0 000": 241,
-        "111 1 000": 257,
-        "001 0 111": 249,
-        "010 0 010": 253,
-        "110 1 111": 236,
-        "101 1 011": 255,
-        "001 1 001": 253,
-        "100 1 011": 258,
-        "101 0 100": 266,
-        "010 1 110": 281,
-        "011 0 011": 252,
-        "000 1 000": 247,
-        "111 0 000": 222,
-        "110 0 001": 237,
-        "011 1 101": 265,
-        "100 0 101": 228,
+        "0000000": 241,
+        "1111000": 257,
+        "0010111": 249,
+        "0100010": 253,
+        "1101111": 236,
+        "1011011": 255,
+        "0011001": 253,
+        "1001011": 258,
+        "1010100": 266,
+        "0101110": 281,
+        "0110011": 252,
+        "0001000": 247,
+        "1110000": 222,
+        "1100001": 237,
+        "0111101": 265,
+        "1000101": 228,
     },
 ]
 
@@ -319,8 +319,8 @@ def shots():
 
 
 @pytest.fixture
-def num_components(num_index_qubits, num_channels_qubits):
-    return (2**num_channels_qubits, 2**num_index_qubits)
+def qubit_shape(num_index_qubits, num_channels_qubits, num_value_qubits):
+    return (num_index_qubits, num_channels_qubits, num_value_qubits)
 
 
 test_components = [
@@ -334,8 +334,8 @@ parameters = list(zip(test_counts, test_components))
 @pytest.mark.parametrize(
     "counts, exp_components", parameters, indirect=["counts"]
 )
-def test_decode_components(mqsm, counts, num_components, exp_components):
-    components = mqsm.decode_components(counts, num_components)
+def test_decode_components(mqsm, counts, qubit_shape, exp_components):
+    components = mqsm.decode_components(counts, qubit_shape)
     print(f"components: {components}")
     assert components.all() != None
     assert components.tolist() == exp_components
@@ -347,9 +347,9 @@ def test_decode_components(mqsm, counts, num_components, exp_components):
     indirect=["counts"],
 )
 def test_reconstruct_data(
-    mqsm, counts, num_components, prepared_data, qubit_depth
+    mqsm, counts, qubit_shape, prepared_data
 ):
-    data = mqsm.reconstruct_data(counts, num_components, qubit_depth)
+    data = mqsm.reconstruct_data(counts, qubit_shape)
     print(f"data: {data}")
     print(f"prepared_data: {prepared_data}")
     data = interleave_channels(data)
@@ -357,7 +357,7 @@ def test_reconstruct_data(
     assert np.sum((data - prepared_data) ** 2) < 0.05
 
 
-def get_result(counts, shots, num_samples, num_channels):
+def get_result(counts, shots, num_samples, num_channels, qubit_shape):
     return Result.from_dict(
         {
             "results": [
@@ -374,6 +374,8 @@ def get_result(counts, shots, num_samples, num_channels):
                         "metadata": {
                             "num_samples": num_samples,
                             "num_channels": num_channels,
+                            "qubit_shape": qubit_shape,
+                            "scheme": "MQSM",
                         },
                     },
                 }
@@ -396,12 +398,12 @@ parameters = list(zip(test_counts, test_num_channels, test_inputs))
     indirect=["counts", "num_channels"],
 )
 def test_decode_result(
-    mqsm, counts, shots, num_samples, num_channels, input_audio, qubit_depth
+    mqsm, counts, shots, num_samples, num_channels, qubit_shape, input_audio, qubit_depth
 ):
-    result = get_result(counts, shots, num_samples, num_channels)
+    result = get_result(counts, shots, num_samples, num_channels, qubit_shape)
     data = mqsm.decode_result(result)
     assert data.all() != None
-    assert np.sum((data / (2 ** (qubit_depth - 1)) - input_audio) ** 2) == 0
+    assert np.sum((data - input_audio) ** 2) == 0
 
 
 @pytest.fixture
@@ -422,11 +424,11 @@ def test_decode(
     counts,
     num_samples,
     num_channels,
+    qubit_shape,
     qubit_depth,
 ):
-    result = get_result(counts, shots, num_samples, num_channels)
+    result = get_result(counts, shots, num_samples, num_channels, qubit_shape)
     decoded_data = mqsm.decode_result(result)
-    decoded_data = decoded_data / (2 ** (qubit_depth - 1))
     errors = []
     for i in range(10):
         data = mqsm.decode(encoded_circuit, shots=shots)
